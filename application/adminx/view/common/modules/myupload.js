@@ -1,0 +1,2 @@
+/** layuiAdmin.std-v1.2.1 LPPL License By http://www.layui.com/admin/ */
+ ;layui.define(["upload"],function(e){var l=layui.$,a=layui.upload,r={single:function(e){a.render({elem:e.elem,url:e.url,acceptMime:e.mime,exts:e.exts,size:e.size,before:function(e){layer.load(2)},done:function(a){return layer.closeAll(),1!=a.code?layer.msg(a.msg):(l(e.tag+"_src").attr("src",a.data.url),void l(e.tag).val(a.data.url))},error:function(){}})}};e("myupload",r)});

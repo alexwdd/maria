@@ -1,0 +1,100 @@
+<div class="layui-card">
+    <div class="layui-card-header">【{$list.name}】的体检报告，医院【{$list.title}】，日期【{$list.date}】</div>
+    <div class="layui-card-body">
+        <button type="button" class="layui-btn layui-btn-normal addBtn" url="{:url('report/addItem','reportID='.$list['id'])}" topWidth="600px" topHeight="80%" topTitle="增加分类">增加分类</button>
+    </div>
+</div>
+
+{volist name="list.item" id="vo"}
+<div class="layui-card">
+    <div class="layui-card-header">
+        {$vo.name}
+        <span style="float: right;">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs delBtn" url="{:url('report/delItem')}" data-id="{$vo.id}">删除分类</button>
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs addBtn" url="{:url('report/addInfo','reportID='.$list['id'].'&itemID='.$vo['id'].'&memberID='.$list['memberID'])}" topWidth="600px" topHeight="80%" topTitle="添加项目">添加项目</button>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <table class="layui-table">
+            <colgroup>
+            <col width="150">
+            <col width="200">
+            <col width="200">
+            <col>
+            <col width="70">        
+            </colgroup>
+            <thead>
+            <tr>
+                <th>检查项目</th>
+                <th>检查结果</th>
+                <th>是否异常</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr> 
+            </thead>
+            <tbody>
+                {volist name="vo.info" id="f"}
+                <tr>
+                <td>{$f.name}</td>
+                <td>{$f.value}</td>
+                <td>{eq name="f.abnormal" value="1"}<span style="color: #f00">异常</span>{else/}正常{/eq}</td>
+                <td>{$f.remark}</td>
+                <td><button type="button" class="layui-btn layui-btn-danger layui-btn-xs delBtn"  url="{:url('report/delInfo')}" data-id="{$f.id}">删除</button></td>
+                </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+{/volist}
+
+<script>
+layui.config({
+    base: '{:RES}/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index','admin'], function() {    
+    var $ = layui.$,admin=layui.admin;
+    $(".addBtn").click(function(){
+        var url = $(this).attr('url'); 
+        var refresh = 1;
+        top.layer.open({
+            type: 2,
+            title: $(this).attr('topTitle'),
+            content: url,
+            maxmin: true,
+            area: [$(this).attr('topWidth'), $(this).attr('topHeight')],
+            btn: ['确定'],
+            yes: function(index, layero) {
+                //点击确认触发 iframe 内容中的按钮提交
+                var submit = layero.find('iframe').contents().find("#lay-common-submit");
+                submit.click();
+            },
+            cancel:function(){
+                refresh = 0;
+            },
+            end:function(){
+                if(refresh==1) {
+                    window.location.reload();
+                }
+            }
+        });
+    });
+    $(".delBtn").click(function(){
+        var url = $(this).attr('url'); 
+        var id = $(this).attr('data-id'); 
+        top.layer.confirm("删除后不可恢复，确定吗", function(index) {
+            //执行 Ajax 后重载
+            admin.req({
+                url: url,
+                data: {id:id},
+                method:'post',
+                done: function(res) {
+                    top.layer.closeAll();
+                    window.location.reload();
+                }
+            });
+        });
+    })
+})
+</script>
