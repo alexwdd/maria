@@ -120,7 +120,7 @@ class Article extends Admin
         $status  = input('status');
 
         unset($map);
-        if($path!='' && $path!=0){
+        if($path!=''){
             $map['path'] = array('like', $path.'%');
         }
         if($keyword!=''){

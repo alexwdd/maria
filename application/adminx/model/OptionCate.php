@@ -1,6 +1,5 @@
 <?php
 namespace app\adminx\model;
-use think\Session;
 
 class OptionCate extends Admin
 {
@@ -37,7 +36,7 @@ class OptionCate extends Admin
 
         $map['id'] = array('gt',0);
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.pageNum',1);
+        $pageNum = input('post.page',1);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {

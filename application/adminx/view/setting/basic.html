@@ -27,7 +27,7 @@
                 <label class="layui-form-label">LOGO</label>
                 <div class="layui-inline">
                     <img class="thumb" id="logo_src" src="{eq name="config.logo" value=""}{:RES}/image/image.jpg{else/}{$config.logo}{/eq}" />
-                    <input type="hidden" name="logo" id="logo" />   
+                    <input type="hidden" name="logo" id="logo" value="{$config.logo}"/>    
                 </div>
                 <div class="layui-inline">
                     <button type="button" class="layui-btn" id="upload-single">上传图片</button>

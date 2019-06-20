@@ -28,7 +28,7 @@ class OptionItem extends Admin
     }
 
     //获取列表
-    public function getList(){
+    public function getList($map){
         $total = $this->count();
         $pageSize = input('post.pageSize',20);
 
@@ -37,7 +37,7 @@ class OptionItem extends Admin
 
         $map['id'] = array('gt',0);
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.pageNum',1);
+        $pageNum = input('post.page',1);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {
@@ -81,6 +81,7 @@ class OptionItem extends Admin
         if(!$validate->check($data)) {
             return info($validate->getError());
         }
+        $data['pinyin'] = getfirstchar($data['name']);
         $this->allowField(true)->save($data);
         if($this->id > 0){
             return info('操作成功',1);
@@ -95,6 +96,9 @@ class OptionItem extends Admin
         if(!$validate->check($data)) {
             return info($validate->getError());
         }    
+        if ($data['pinyin']=='') {
+            $data['pinyin'] = getfirstchar($data['name']);
+        }
         $this->allowField(true)->save($data,['id'=>$data['id']]);
         if($this->id > 0){
             return info('操作成功',1);
