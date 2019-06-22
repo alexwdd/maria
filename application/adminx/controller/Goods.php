@@ -63,7 +63,7 @@ class Goods extends Admin
             return view();
         }
     }
-    
+
     #删除
     public function del()
     {
@@ -73,7 +73,6 @@ class Goods extends Admin
         } else {
             // 删除此商品
             db("Goods")->whereIn('id', $id)->delete(); //商品表
-            db("GoodsIndex")->whereIn('goodsID', $id)->delete(); //商品规格
             db("GoodsAttr")->whereIn('goodsID', $id)->delete(); //商品属性
             $this->success("操作成功");
         }
