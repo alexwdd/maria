@@ -34,7 +34,22 @@
         <div class="layui-input-block">
             <input type="text" name="url" lay-verify="_url" value="{$list.url}" class="layui-input" placeholder="选填">
         </div>
-    </div>      
+    </div>  
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">缩略图</label>
+        <div class="layui-inline">
+            <img class="thumb" id="picname_src" src="{eq name="list.picname" value=""}{:RES}/image/image.jpg{else/}{$list.picname}{/eq}" />
+            <input type="hidden" name="picname" id="picname" value="{$list.picname}" />
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn" id="upload-single">上传图片</button>
+            <input type="button" value="删除" class="layui-btn layui-btn-small" onclick="delImage('picname')"/>
+        </div>
+        <div class="layui-inline">
+            <input type="checkbox" lay-skin="primary" name="exp" id="exp" value="1" title="以正文第一张为缩略图">
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">属性</label>

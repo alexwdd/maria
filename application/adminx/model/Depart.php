@@ -31,14 +31,14 @@ class Depart extends Admin
     //获取列表
     public function getList(){
         $total = $this->count();
-        $pageSize = input('post.pageSize',20);
+        $pageSize = input('post.page',20);
 
         $field = input('post.field','id');
         $order = input('post.order','desc');
 
         $map['id'] = array('gt',0);
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.pageNum',1);
+        $pageNum = input('post.limit',1);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {

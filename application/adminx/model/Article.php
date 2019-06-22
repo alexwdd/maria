@@ -57,7 +57,7 @@ class Article extends Admin
     public function setIntrAttr()
     {        
         $intr = input('post.intr');
-        $content = $this->cutstr_html($_POST['content'],150);        
+        $content = $this->cutstr_html($_POST['content'],100);        
         if ($intr=='') {
             return $content;
         }else{
@@ -71,20 +71,17 @@ class Article extends Admin
     }
 
     public function setPicnameAttr()
-    {
-        $content = $_POST['content'];   
-        preg_match_all("/src=\"?(.*?)\"/", $content, $match);
-        if ($match[1]){
-            if (count($match[1])>=3) {
-                $img1 = getThumb($match[1][0],180,120);
-                $img2 = getThumb($match[1][1],180,120);
-                $img3 = getThumb($match[1][2],180,120);
-                return $img1.','.$img2.','.$img3;
+    {        
+        if(input('post.exp')==1){       
+            $content = $_POST['content'];   
+            preg_match_all("/src=\"?(.*?)\"/", $content, $match);
+            if ($match[1]) {
+                return $match[1][0];
             }else{
-                return getThumb($match[1][0],180,120);
-            }
+                return input('post.picname');
+            }            
         }else{
-            return '';
+            return input('post.picname');
         }
     }
 

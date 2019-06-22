@@ -53,16 +53,16 @@ function createNonceStr($length = 16) {
 
 //图片生成缩略图
 function getThumb($path, $width, $height) {
-    if(file_exists("..".$path) && !empty($path)){
+    if(file_exists(".".$path) && !empty($path)){
         $fileArr = pathinfo($path); 
         $dirname = $fileArr['dirname']; 
         $filename = $fileArr['filename']; 
         $extension = $fileArr['extension']; 
         if ($width > 0 && $height > 0) { 
             $image_thumb =$dirname . "/" . $filename . "_" . $width . "_" .$height. "." . $extension; 
-            if (!file_exists("..".$image_thumb)) { 
-                $image = \think\Image::open("..".$path);
-                $image->thumb($width, $height,3)->save("..".$image_thumb);
+            if (!file_exists(".".$image_thumb)) { 
+                $image = \think\Image::open(".".$path);
+                $image->thumb($width, $height,3)->save(".".$image_thumb);
             } 
             $image_rs = $image_thumb; 
         } else { 

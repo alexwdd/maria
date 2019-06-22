@@ -30,7 +30,7 @@ class OptionItem extends Admin
     //获取列表
     public function getList($map){
         $total = $this->count();
-        $pageSize = input('post.pageSize',20);
+        $pageSize = input('post.page',20);
 
         $field = input('post.field','id');
         $order = input('post.order','desc');

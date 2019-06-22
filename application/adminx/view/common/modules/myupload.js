@@ -1,2 +1,67 @@
-/** layuiAdmin.std-v1.2.1 LPPL License By http://www.layui.com/admin/ */
- ;layui.define(["upload"],function(e){var l=layui.$,a=layui.upload,r={single:function(e){a.render({elem:e.elem,url:e.url,acceptMime:e.mime,exts:e.exts,size:e.size,before:function(e){layer.load(2)},done:function(a){return layer.closeAll(),1!=a.code?layer.msg(a.msg):(l(e.tag+"_src").attr("src",a.data.url),void l(e.tag).val(a.data.url))},error:function(){}})}};e("myupload",r)});
+/**
+ @Name：layuiAdmin 内容系统
+ @Author：star1029
+ @Site：http://www.layui.com/admin/
+ @License：LPPL
+ */
+layui.define(['upload'], function(exports) {
+    var $ = layui.$,
+        upload = layui.upload;
+    var myupload = {
+        //单图上传
+        single:function(opt){            
+            upload.render({
+                elem: opt.elem,
+                url: opt.url,
+                acceptMime:opt.mime,
+                exts:opt.exts,
+                size:opt.size,
+                before: function(obj) {
+                    layer.load(2); //上传loading
+                },
+                done: function(res) {
+                    layer.closeAll(); //关闭loading
+                    //如果上传失败
+                    if (res.code != 1) {
+                        return layer.msg(res.msg);
+                    }
+                    //上传成功
+                    $(opt.tag+'_src').attr('src', res.data.url);
+                    $(opt.tag).val(res.data.url);
+                },
+                error: function() {
+                }
+            });
+        },
+
+        mult:function(opt){
+        	upload.render({
+	        	elem: opt.elem,
+	            url: opt.url,
+	            acceptMime:opt.mime,
+	            exts:opt.exts,
+	            size:opt.size,
+	            before: function(obj) {
+	                layer.load(2); //上传loading
+	            },
+	            done: function(res) {
+	                layer.closeAll(); //关闭loading
+	                //如果上传失败
+	                if (res.code != 1) {
+	                    return layer.msg(res.msg);
+	                }
+
+	                //上传成功后，返回文件路径
+					_html = '<li><a href="'+res.data.url+'" target="_blank"><img src="'+res.data.url+'" /></a><input type="hidden" name="image[]" value="'+res.data.url+'" /><i class="layui-icon" onclick="removeLi(this)">&#x1006;</i></li>';
+					thisBtn = this.item;
+					console.log(thisBtn);
+					thisBtn.before(_html);
+	            },
+	            error: function() {
+	            }
+	        });
+        }
+    }
+
+    exports('myupload', myupload)
+});

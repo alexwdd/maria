@@ -1,44 +1,78 @@
 <?php
 namespace app\adminx\model;
-use think\Session;
 
-class Junxian extends Admin
+class Goods extends Admin
 {
-    protected $auto = ['updateTime','cid','path'];
+    protected $auto = ['updateTime','cid','path','cid1','path1','image'];
     protected $insert = ['createTime'];  
 
-    public function setUpdateTimeAttr()
-    {
+    public function setUpdateTimeAttr(){
         return time();
     }
-
-    public function setCreateTimeAttr()
-    {
+    public function setCreateTimeAttr(){
         return time();
-    }  
-   
-    public function getCreateTimeAttr($value)
-    {
+    }
+    public function setCidAttr(){
+        $class = explode(',', input('post.cid'));
+        return $class[0];
+    }
+    public function setPathAttr(){        
+        $class = explode(',', input('post.cid'));
+        return $class[1];
+    }
+    public function setCid1Attr(){
+        if (input('post.cid1')!='') {
+            $class = explode(',', input('post.cid1'));
+            return $class[0];
+        }else{
+            return 0;
+        }        
+    }
+    public function setPath1Attr(){   
+        if (input('post.cid1')!='') {
+            $class = explode(',', input('post.cid1'));
+            return $class[1];
+        }else{
+            return '';
+        }
+    }
+    public function setImageAttr(){       
+        $image = input('post.image/a');
+        if ($image) {
+            return implode(",", input('post.image/a'));
+        }        
+    }
+    public function getServerAttr($value){       
+        return explode(",", $value);
+    }
+    public function getCreateTimeAttr($value){
         return date("Y-m-d H:i:s",$value);
     }
-
-    public function getUpdateTimeAttr($value)
-    {
+    public function getUpdateTimeAttr($value){
         return date("Y-m-d H:i:s",$value);
     }
 
     //获取列表
     public function getList(){
-        $total = $this->count();
-        $pageSize = input('post.pageSize',20);
-
         $field = input('post.field','id');
         $order = input('post.order','desc');
+        $path = input('path');
+        $keyword  = input('keyword');
 
-        $map['id'] = array('gt',0);
+        if($path!=''){
+            $map['path'] = array('like', $path.'%');
+        }
+        if($keyword!=''){
+            $map['name|short|keyword'] = array('like', '%'.$keyword.'%');
+        }
+
+        $total = $this->where($map)->count();
+        $pageSize = input('post.limit',20);
+
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.pageNum',1);
+        $pageNum = input('post.page',1);
         $firstRow = $pageSize*($pageNum-1); 
+
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {
             $list = collection($list)->toArray();
@@ -67,6 +101,13 @@ class Junxian extends Admin
     //添加更新数据
     public function saveData( $data )
     {
+        $server = input('post.server/a');
+        if ($server) {
+            $data['server'] = implode(",", input('post.server/a'));
+        }else{
+            $data['server'] = '';
+        }   
+
         if( isset( $data['id']) && !empty($data['id'])) {
             $result = $this->edit( $data );
         } else {
@@ -77,13 +118,14 @@ class Junxian extends Admin
     //添加
     public function add(array $data = [])
     {
-        $validate = validate('Junxian');
+        $validate = validate('Goods');
         if(!$validate->check($data)) {
             return info($validate->getError());
         }
         $this->allowField(true)->save($data);
         if($this->id > 0){
-            return info('操作成功',1);
+            $data['id'] = $this->id;
+            return info('操作成功',1,'',$data);
         }else{
             return info('操作失败',0);
         }
@@ -91,18 +133,19 @@ class Junxian extends Admin
     //更新
     public function edit(array $data = [])
     {
-        $validate = validate('Junxian');
+        $validate = validate('Goods');
         if(!$validate->check($data)) {
             return info($validate->getError());
         }    
         $this->allowField(true)->save($data,['id'=>$data['id']]);
         if($this->id > 0){
-            return info('操作成功',1);
+            return info('操作成功',1,'',$data);
         }else{
             return info('操作失败',0);
         }
     }
 
+    //删除
     public function del($id){
         return $this->destroy($id);
     }

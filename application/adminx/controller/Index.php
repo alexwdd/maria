@@ -10,29 +10,7 @@ class Index extends Admin {
     }
 
     public function console(){
-    	$info = array(
-            '操作系统'=>PHP_OS,
-            '运行环境'=>$_SERVER["SERVER_SOFTWARE"],
-            '主机名'=>$_SERVER['SERVER_NAME'],
-            'WEB服务端口'=>$_SERVER['SERVER_PORT'],
-            'ThinkPHP版本'=>THINK_VERSION,
-            '上传附件限制'=>ini_get('upload_max_filesize'),
-            '执行时间限制'=>ini_get('max_execution_time').'秒',
-            '服务器时间'=>date("Y年n月j日 H:i:s"),
-            '北京时间'=>gmdate("Y年n月j日 H:i:s",time()+8*3600),
-            '服务器域名/IP'=>$_SERVER['SERVER_NAME'].' [ '.gethostbyname($_SERVER['SERVER_NAME']).' ]',
-            '用户的IP地址'=>$_SERVER['REMOTE_ADDR'],
-        );
-        $this->assign("info",$info);  
 
-        $member = db("Member")->count();    
-        $article = db("Article")->count();    
-        $report = db("Report")->count();    
-        $comment = db("ArticleComment")->count();
-        $this->assign('member',$member);
-        $this->assign('article',$article);
-        $this->assign('report',$report);
-        $this->assign('comment',$comment);     
         return view();
     }
 

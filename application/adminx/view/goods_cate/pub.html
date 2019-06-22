@@ -73,10 +73,11 @@
     </div>
 
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('category/pub')}">
+        <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('goodsCate/pub')}">
     </div>
 
     <input type="hidden" name="id" value="{$list['id']}" />
+    <input type="hidden" name="model" value="{$model}">
 </div>
 <script>
 layui.config({

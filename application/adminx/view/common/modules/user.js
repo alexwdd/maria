@@ -1,2 +1,47 @@
-/** layuiAdmin.std-v1.2.1 LPPL License By http://www.layui.com/admin/ */
- ;layui.define("form",function(e){var i=layui.$,t=(layui.layer,layui.laytpl,layui.setter,layui.view,layui.admin,layui.form),a=i("body");t.verify({nickname:function(e,i){return new RegExp("^[a-zA-Z0-9_一-龥\\s·]+$").test(e)?/(^\_)|(\__)|(\_+$)/.test(e)?"用户名首尾不能出现下划线'_'":/^\d+\d+\d$/.test(e)?"用户名不能全为数字":void 0:"用户名不能有特殊字符"},pass:[/^[\S]{6,12}$/,"密码必须6到12位，且不能出现空格"]}),a.on("click","#lay-get-vercode",function(){var e=i(this);this.src=e.attr("url")+"?t="+(new Date).getTime()}),e("user",{})});
+/**
+ @Name：layuiAdmin 用户登入和注册等
+ @Author：贤心
+ @Site：http://www.layui.com/admin/
+ @License: LPPL
+*/
+layui.define('form', function(exports) {
+    var $ = layui.$,
+        layer = layui.layer,
+        laytpl = layui.laytpl,
+        setter = layui.setter,
+        view = layui.view,
+        admin = layui.admin,
+        form = layui.form;
+
+    var $body = $('body');
+
+    //自定义验证
+    form.verify({
+        nickname: function(value, item) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                    return '用户名不能有特殊字符';
+                }
+                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if (/^\d+\d+\d$/.test(value)) {
+                    return '用户名不能全为数字';
+                }
+            }
+            //我们既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            ,
+        pass: [
+            /^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'
+        ]
+    });
+
+    //更换图形验证码
+    $body.on('click', '#lay-get-vercode', function() {
+        var othis = $(this);
+        this.src = othis.attr('url')+'?t=' + new Date().getTime()
+    });
+
+    //对外暴露的接口
+    exports('user', {});
+});

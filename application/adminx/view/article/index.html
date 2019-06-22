@@ -57,6 +57,7 @@
         <div class="fsDatagridCols">
             <p checkbox="true"/>    
             <p field="title" title="标题" width="40%"/>       
+            <p title="图片" width="60" templet="#imageTpl"/>  
             <p field="cate" title="分类" width="100"/>    
             <p field="editer" title="作者" width="80"/>   
             <p field="hit" title="浏览量" width="80"/>     
@@ -66,6 +67,14 @@
             <p field="updateTime" title="更新日期" width="180" sort="true"/>
             <p fixed="right" align="left" toolbar="#barDemo" title="操作" width="140"/>
         </div>
+            
+        <script type="text/html" id="imageTpl">
+            {{# if(d.picname == ''){ }}
+            -
+            {{# }else{ }}
+            <a href="{{d.picname}}" target="_blank"><i class="layui-icon">&#xe64a;</i></a>
+            {{# } }}                
+        </script>
 
         <script type="text/html" id="flagTpl">
             {{# if(d.flash == 1){ }}
