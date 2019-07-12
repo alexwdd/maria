@@ -30,7 +30,7 @@ class OptionItem extends Admin
     //获取列表
     public function getList($map){
         $total = $this->count();
-        $pageSize = input('post.page',20);
+        $pageSize = input('post.pageSize',20);
 
         $field = input('post.field','id');
         $order = input('post.order','desc');
@@ -81,6 +81,12 @@ class OptionItem extends Admin
         if(!$validate->check($data)) {
             return info($validate->getError());
         }
+
+        $oldData=db("OptionItem")->where(["cate"=>$data['cate'],"value"=>$data['value']])->find();
+        if($oldData){
+            return info('输入值重复',0);
+        }
+
         $data['pinyin'] = getfirstchar($data['name']);
         $this->allowField(true)->save($data);
         if($this->id > 0){
@@ -96,9 +102,17 @@ class OptionItem extends Admin
         if(!$validate->check($data)) {
             return info($validate->getError());
         }    
+
+        $oldData=db("OptionItem")->where(["cate"=>$data['cate'],"value"=>$data['value']])->find();
+        if($oldData && $oldData['id']!=$data['id']){
+            return info('输入值重复',0);
+        }
+
         if ($data['pinyin']=='') {
             $data['pinyin'] = getfirstchar($data['name']);
         }
+        
+
         $this->allowField(true)->save($data,['id'=>$data['id']]);
         if($this->id > 0){
             return info('操作成功',1);
