@@ -19,15 +19,16 @@ class UserLog extends Admin
 
     public function getList($userid=null)
     {
-        if ($userid!='' && is_numeric($userid)) {
-            $map['uid'] = $userid;
-        }  
-        $total = $this->count();
-        $pageSize = input('post.page',20);
+        $pageNum = input('post.page',1);
+        $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
         $order = input('post.order','desc');
+
+        if ($userid!='' && is_numeric($userid)) {
+            $map['uid'] = $userid;
+        }
+        $total = $this->where($map)->count();        
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.limit',1);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {

@@ -1,54 +1,38 @@
 <?php
 namespace app\adminx\model;
-use think\Request;
+use think\Session;
 
-class Member extends Admin
-{
+class ModelSpec extends Admin
+{  
     public function getCreateTimeAttr($value)
     {
         return date("Y-m-d H:i:s",$value);
     }
 
-    public function getActiveTimeAttr($value)
-    {
-        if ($value==0) {
-            return '<span style="color:#f00">未激活</span>';
-        }else{
-            return date("Y-m-d H:i:s",$value);
-        }        
-    }
-    
     //获取列表
-    public function getList(){
+    public function getList(){        
         $pageNum = input('post.page',1);
         $pageSize = input('post.limit',config('page.size'));
+
         $field = input('post.field','id');
         $order = input('post.order','desc');
         $keyword = input('post.keyword');
-        $depart  = input('post.depart');
-        $junxian  = input('post.junxian');
-        $disable  = input('post.disable');
 
+        if ($keyword!='') {
+            $map['name'] = array('like','%'.$keyword.'%');
+        }
         $map['id'] = array('gt',0);
-        if($keyword!=''){
-            $map['name|mobile'] = $keyword;
-        }
-        if($disable!=''){
-            $map['disable'] = $disable;
-        }
-        if($junxian!=''){
-            $map['junxian'] = $junxian;
-        }
-        if($depart!=''){
-            $map['depart'] = $depart;
-        }
-
         $total = $this->where($map)->count();
         $pages = ceil($total/$pageSize);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {
             $list = collection($list)->toArray();
+            foreach ($list as $key => $value) {
+                $item = db('ModelSpecItem')->where(array('specID'=>$value['id']))->column('item');
+                $item = implode(",", $item);
+                $list[$key]['item'] = $item;
+            }
         }
         $result = array(
             'code'=>0,
@@ -58,7 +42,7 @@ class Member extends Admin
             "pages"=>$pageSize,
             "count"=>$total
         );
-        return $result;       
+        return $result;
     }
 
     //获取单条
@@ -74,9 +58,14 @@ class Member extends Admin
     //添加更新数据
     public function saveData( $data )
     {
+        $validate = validate('ModelSpec');
+        if(!$validate->check($data)) {
+            return info($validate->getError());
+        }
+
         if( isset( $data['id']) && !empty($data['id'])) {
             $result = $this->edit( $data );
-        } else {
+        } else {            
             $result = $this->add( $data );
         }
         return $result;
@@ -85,43 +74,41 @@ class Member extends Admin
     //添加
     public function add(array $data = [])
     {
-        $validate = validate('Member');
-        if(!$validate->scene('add')->check($data)) {
-            return array('code'=>0,'msg'=>$validate->getError());
-        }
-        $request= Request::instance(); 
-        $data['password'] = md5($data['password']);
-        $data['createTime'] = time();
-        $data['createIP'] = $request->ip();
         $this->allowField(true)->save($data);
         if($this->id > 0){ 
-            return array('code'=>1,'msg'=>'操作成功');
+            $itemData = [];
+            $itemArr = explode("\n", trim($data['values']));
+            for ($i=0; $i <count($itemArr) ; $i++) {
+                if ($itemArr[$i]!='') {
+                    array_push($itemData, ['specID'=>$this->id,'item'=>$itemArr[$i]]);
+                }                
+            }
+            db('ModelSpecItem')->insertAll($itemData);
+            return info('操作成功',1);
         }else{
-            return array('code'=>0,'msg'=>'操作失败');
+            return info('操作失败',0);
         }
     }
-
     //更新
     public function edit(array $data = [])
-    {  
-        $validate = validate('Member');
-        if(!$validate->scene('edit')->check($data)) {
-            return array('code'=>0,'msg'=>$validate->getError());
-        }
-        if ($data['password']!='') {
-            $data['password'] = md5($data['password']);
-        }else{
-            unset($data['password']);
-        }
+    {
         $this->allowField(true)->save($data,['id'=>$data['id']]);
         if($this->id > 0){
-            return array('code'=>1,'msg'=>'操作成功');
-        }else{
-            return array('code'=>0,'msg'=>'操作失败');
+            $itemData = [];
+            $itemArr = explode("\n", trim($data['values']));
+            for ($i=0; $i <count($itemArr) ; $i++) {
+                if ($itemArr[$i]!='') {
+                    array_push($itemData, ['specID'=>$this->id,'item'=>$itemArr[$i]]);
+                }                
+            }
+            db('ModelSpecItem')->where(array('specID'=>$data['id']))->delete();
+            db('ModelSpecItem')->insertAll($itemData);
+            return info('操作成功',1);
+        }else{            
+            return info('操作失败',0);
         }
-    }
+    }   
 
-    //删除
     public function del($id){
         return $this->destroy($id);
     }

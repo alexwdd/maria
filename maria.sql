@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-22 17:28:07
+Date: 2019-07-13 15:58:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -940,6 +940,50 @@ INSERT INTO `pm_goods_cate` VALUES ('2', '1', 'A2', '', '50', '0-1-2-', '', '', 
 INSERT INTO `pm_goods_cate` VALUES ('3', '2', '方法', '', '50', '0-1-2-3-', '', '', '0', '', '', '1561185766', '1561185888');
 
 -- ----------------------------
+-- Table structure for `pm_goods_model`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_goods_model`;
+CREATE TABLE `pm_goods_model` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `createTime` int(11) NOT NULL,
+  `updateTime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_goods_model
+-- ----------------------------
+INSERT INTO `pm_goods_model` VALUES ('1', '鞋子', '1562989209', '1562989209');
+
+-- ----------------------------
+-- Table structure for `pm_goods_spec_price`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_goods_spec_price`;
+CREATE TABLE `pm_goods_spec_price` (
+  `item_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '规格商品id',
+  `goods_id` int(11) DEFAULT '0' COMMENT '商品id',
+  `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '规格键名',
+  `key_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '规格键名中文',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '价格',
+  `price1` decimal(10,2) DEFAULT NULL,
+  `store_count` int(11) unsigned DEFAULT '10' COMMENT '库存数量',
+  `bar_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '商品条形码',
+  `weight` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '重量',
+  `isBaoyou` tinyint(4) DEFAULT NULL COMMENT '0不包邮 1包邮',
+  `fencheng` decimal(6,2) NOT NULL,
+  `spec_img` varchar(255) DEFAULT NULL COMMENT '规格商品主图',
+  `prom_id` int(10) DEFAULT '0' COMMENT '活动id',
+  `prom_type` tinyint(2) DEFAULT '0' COMMENT '参加活动类型',
+  PRIMARY KEY (`item_id`),
+  KEY `key` (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_goods_spec_price
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `pm_link`
 -- ----------------------------
 DROP TABLE IF EXISTS `pm_link`;
@@ -1068,6 +1112,50 @@ CREATE TABLE `pm_message` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `pm_model_spec`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_model_spec`;
+CREATE TABLE `pm_model_spec` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '规格表',
+  `mID` int(11) DEFAULT '0' COMMENT '规格类型',
+  `name` varchar(55) DEFAULT NULL COMMENT '规格名称',
+  `sort` int(11) DEFAULT '50' COMMENT '排序',
+  `values` varchar(500) DEFAULT NULL,
+  `search_index` tinyint(1) DEFAULT '1' COMMENT '是否需要检索：1是，0否',
+  `createTime` int(11) NOT NULL,
+  `updateTime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_model_spec
+-- ----------------------------
+INSERT INTO `pm_model_spec` VALUES ('1', '1', '颜色', '50', '红色\n蓝色\n白色', '1', '0', '0');
+INSERT INTO `pm_model_spec` VALUES ('2', '1', '尺码', '50', '35码\n40码\n42码\n43码', '1', '0', '0');
+
+-- ----------------------------
+-- Table structure for `pm_model_spec_item`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_model_spec_item`;
+CREATE TABLE `pm_model_spec_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '规格项id',
+  `specID` int(11) DEFAULT NULL COMMENT '规格id',
+  `item` varchar(54) DEFAULT NULL COMMENT '规格项',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_model_spec_item
+-- ----------------------------
+INSERT INTO `pm_model_spec_item` VALUES ('1', '2', '35码');
+INSERT INTO `pm_model_spec_item` VALUES ('2', '2', '40码');
+INSERT INTO `pm_model_spec_item` VALUES ('3', '2', '42码');
+INSERT INTO `pm_model_spec_item` VALUES ('4', '2', '43码');
+INSERT INTO `pm_model_spec_item` VALUES ('5', '1', '红色');
+INSERT INTO `pm_model_spec_item` VALUES ('6', '1', '蓝色');
+INSERT INTO `pm_model_spec_item` VALUES ('7', '1', '白色');
+
+-- ----------------------------
 -- Table structure for `pm_node`
 -- ----------------------------
 DROP TABLE IF EXISTS `pm_node`;
@@ -1088,7 +1176,7 @@ CREATE TABLE `pm_node` (
   KEY `pid` (`pid`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_node
@@ -1164,6 +1252,14 @@ INSERT INTO `pm_node` VALUES ('68', '列表', 'message/index', '1', '', '67', '3
 INSERT INTO `pm_node` VALUES ('69', '贴心服务', 'server', '1', '', '65', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('70', '商品分类', 'GoodsCate', '1', '', '65', '2', '', '0', '30', '1');
 INSERT INTO `pm_node` VALUES ('71', '物流管理', 'wuliu', '1', '', '65', '2', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('72', '促销活动', '', '1', '', '0', '1', 'layui-icon-star', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('73', '财务管理', '', '1', '', '0', '1', 'layui-icon-dollar', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('74', '优惠券', 'coupon', '1', '', '72', '2', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('75', '今日抢购', 'flash', '1', '', '72', '2', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('76', '团购', 'tuan', '1', '', '72', '2', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('77', '商品模型', 'goodsModel', '1', '', '65', '2', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('78', '模型列表', 'goodsModel/index', '1', '', '77', '3', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('79', '参数规格', 'goodsModel/spec', '1', '', '77', '3', '', '0', '50', '1');
 
 -- ----------------------------
 -- Table structure for `pm_onepage`

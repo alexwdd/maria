@@ -50,11 +50,8 @@ class Goods extends Admin
             $server = db("Server")->order("sort asc")->select();
             $this->assign('server', $server);
 
-            $attr = db("GoodsAttribute")->field('id,name,values')->order("sort asc")->select();
-            foreach ($attr as $key => $value) {
-                $attr[$key]['item'] = explode("\n", $value['values']);
-            }
-            $this->assign('attr', $attr);
+            $model = db("GoodsModel")->field('id,name')->select();
+            $this->assign('model', $model);
 
             $wuliu = db("Wuliu")->order("sort asc")->select();
             $this->assign('wuliu', $wuliu);
@@ -78,7 +75,7 @@ class Goods extends Admin
         }
     }
 
-    public function getSpec(){
+    /*public function getSpec(){
         $wuliu = db("Wuliu")->order("sort asc")->select();
         $this->assign("wuliu",$wuliu);
 
@@ -99,9 +96,101 @@ class Goods extends Admin
         if (request()->isPost()) {
             db("GoodsIndex")->where('id',input('post.id'))->delete();
         }
+    }*/
+
+    public function ajaxGetSpecSelect(){
+        $goods_id = input('get.goods_id/d') ? input('get.goods_id/d') : 0;        
+        $spec_type = input('get.spec_type/d') ? input('get.spec_type/d') : 0;        
+        $specList = db('ModelSpec')->where("mID = ".$spec_type)->order('sort asc')->select();
+        foreach($specList as $k => $v){
+            $specList[$k]['spec_item'] = db('ModelSpecItem')->field('id,item')->where("specID = ".$v['id'])->select(); // 获取规格项  
+        }                
+        
+        $items_id = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column("GROUP_CONCAT(`key` SEPARATOR '_') AS items_id");
+        $items_ids = explode('_', $items_id[0]);
+        $this->assign('items_ids',$items_ids);
+        $this->assign('specList',$specList);
+        return $this->fetch();        
     }
 
-    public function saveGoodsAttr($data)
+    public function ajaxGetSpecInput(){
+        $goods_id = input('goods_id/d') ? input('goods_id/d') : 0;
+        $defPrice = input('price/f') ? input('price/f') : 0;
+        $str = $this->getSpecInput($goods_id ,input('post.spec_arr/a',[[]]),$defPrice);
+        exit($str);   
+    }
+
+    public function getSpecInput($goods_id, $spec_arr, $defPrice)
+    {      
+        // 排序
+        foreach ($spec_arr as $k => $v)
+        {
+            $spec_arr_sort[$k] = count($v);
+        }
+        asort($spec_arr_sort);        
+        foreach ($spec_arr_sort as $key =>$val)
+        {
+            $spec_arr2[$key] = $spec_arr[$key];
+        }     
+        
+        $clo_name = array_keys($spec_arr2);         
+        $spec_arr2 = combineDika($spec_arr2); //  获取 规格的 笛卡尔积                 
+                   
+        $spec = db('ModelSpec')->column('id,name'); // 规格表
+        $specItem = db('ModelSpecItem')->column('id,item,specID');//规格项
+        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,price1,store_count,bar_code,weight,isBaoyou,fencheng');//规格项                          
+        $str = "<table class='layui-table' lay-size='sm' id='spec_input_tab'>";
+        $str .="<thead><tr>";       
+        // 显示第一行的数据
+        foreach ($clo_name as $k => $v) 
+        {
+            $str .=" <td>{$spec[$v]}</td>";
+        }    
+        $str .="<td>价格</td>
+               <td>店主价格</td>
+               <td>库存</td>
+               <td>重量(kg)</td>
+               <td>包邮</td>
+               <td>佣金</td>
+             </tr></thead>";
+        // 显示第二行开始 
+        foreach ($spec_arr2 as $k => $v) 
+        {
+            $str .="<tr>";
+            $item_key_name = array();
+            foreach($v as $k2 => $v2)
+            {
+                $str .="<td>{$specItem[$v2]['item']}</td>";
+                $item_key_name[$v2] = $spec[$specItem[$v2]['specID']].':'.$specItem[$v2]['item'];
+            }   
+            ksort($item_key_name);            
+            $item_key = implode('_', array_keys($item_key_name));
+            $item_name = implode(' ', $item_key_name);
+            
+            $keyGoodsSpecPrice[$item_key]['price'] ? false : $keyGoodsSpecPrice[$item_key]['price'] = $defPrice; // 价格默认为商品价格
+            $keyGoodsSpecPrice[$item_key]['store_count'] ? false : $keyGoodsSpecPrice[$item_key]['store_count'] = 0; //库存默认为0
+
+            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][price]' value='{$keyGoodsSpecPrice[$item_key][price]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
+            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][price1]' value='{$keyGoodsSpecPrice[$item_key][price1]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
+            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][store_count]' value='{$keyGoodsSpecPrice[$item_key][store_count]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/></td>";            
+            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][weight]' value='{$keyGoodsSpecPrice[$item_key][weight]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/><input type='hidden' name='item[$item_key][key_name]' value='$item_name' /></td>";
+            $str .="<td><select name='item[$item_key][isBaoyou]' class='layui-input spec-ipt'><option value='0' ";
+            if ($keyGoodsSpecPrice[$item_key][isBaoyou]==0) {
+              $str .= "selected";
+            }
+            $str .= ">否</option><option value='1' ";
+            if ($keyGoodsSpecPrice[$item_key][isBaoyou]==1) {
+              $str .= "selected";
+            }
+            $str .= ">是</option></select></td>";
+            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][fencheng]' value='{$keyGoodsSpecPrice[$item_key][fencheng]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/><input type='hidden' name='item[$item_key][key_name]' value='$item_name' /></td>";  
+            $str .="</tr>";
+        }
+        $str .= "</table>";
+        return $str;   
+    }
+
+    /*public function saveGoodsAttr($data)
     {
         $db = db('GoodsAttr');
         //清除原来的属性
@@ -120,7 +209,7 @@ class Goods extends Admin
             }
         }
         $db->insertAll($attr_data);
-    }
+    }*/
 
     public function import(){
         if (request()->isPost()) {

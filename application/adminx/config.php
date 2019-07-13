@@ -1,5 +1,8 @@
 <?php
 return [ 
+    'page' => [
+        'size' => 20,//默认每页记录数
+    ],
 
     //模板布局
     'template' => [

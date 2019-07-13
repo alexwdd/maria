@@ -133,7 +133,7 @@
                 <div class="layui-form-item"> 
                     <label class="layui-form-label">价格</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="price" lay-verify="required" autocomplete="off" class="layui-input" />
+                        <input type="text" name="price" id="price" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>
 
                     <label class="layui-form-label">会员价</label>
@@ -254,27 +254,20 @@
 
             <!--参数规格-->
             <div class="layui-tab-item">
-                <div class="layui-row">
-                    {volist name="attr" id="vo"}    
-                    <div class="layui-col-md3">
-                        <label class="layui-form-label">{$vo.name}</label>
-                        <div class="layui-input-inline">
-                            <select name="attr_{$vo.id}[]">
-                                <option value="">无</option>
-                                {volist name="vo.item" id="f"}
-                                <option value="{$f}">{$f}</option>
-                                {/volist}
-                            </select>
-                        </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品模型</label>
+                    <div class="layui-input-inline">
+                        <select name="mID" lay-filter="goodsModel">
+                            <option value="">无</option>
+                            {volist name="model" id="vo"}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
                     </div>
-                    {/volist}
                 </div>
-
-                <div class="layui-row" style="margin-top: 10px">
-                    <div class="layui-col-md12">                        
-                        <textarea name="extends" class="layui-textarea">{$list.extends}</textarea>
-                        <p>扩展参数，一行代表一个可选项</p>                    
-                    </div>
+               
+                <div class="layui-row">
+                    <div class="layui-col-md12" id="ajax_spec_data" style="padding-right:20px"></div>
                 </div>
             </div>
 
@@ -299,9 +292,10 @@ layui.config({
     base: '{:RES}/' //静态资源所在路径
 }).extend({
     index: 'lib/index' //主入口模块
-}).use(['index','myupload','tinymce','table'], function() {    
+}).use(['index','myupload','form','tinymce','table'], function() {    
     var $ = layui.$,
         table = layui.table,
+        form = layui.form,
         myupload = layui.myupload,
         tinyConfig = layui.tinymce,
         goods = [];
@@ -328,7 +322,107 @@ layui.config({
         ext:'jpg|png|gif|jpeg',
         mime:'image/*',
         size:5120
-    });     
+    });
+
+    //删除文件
+    $("body").on("click",".del-img-btn",function(){
+        let data = {path:$(this).attr("data-url")};
+        $.post("{:url('admin/delFile')}",data);
+        $(this).parent().remove();
+    });
+
+    //参数规格start
+    form.on('select(goodsModel)', function(data){
+        var goods_id = '{$list.id}';
+        var spec_type = data.value;
+        $.ajax({
+            type: 'GET',
+            data: {
+                goods_id: goods_id,
+                spec_type: spec_type
+            },
+            url: "{:url('Goods/ajaxGetSpecSelect')}",
+            success: function(data) {
+                $("#ajax_spec_data").html(data);
+                form.render();  
+                ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
+            }
+        });
+        $("#ajax_spec_data").on("click", "button", function() {
+            if ($(this).hasClass("layui-btn-primary")){
+                $(this).removeClass("layui-btn-primary");
+            }else{
+                $(this).addClass("layui-btn-primary");
+            }
+            ajaxGetSpecInput();
+        })
+    });
+    function ajaxGetSpecInput(){
+        var spec_arr = {};// 用户选择的规格数组        
+        // 选中了哪些属性    
+        $("#specBox button").each(function(){
+            if(!$(this).hasClass('layui-btn-primary')){
+                var spec_id = $(this).attr('data-spec_id');
+                var item_id = $(this).attr('data-item_id');
+                if(!spec_arr.hasOwnProperty(spec_id))
+                    spec_arr[spec_id] = [];
+                spec_arr[spec_id].push(item_id);
+                //console.log(spec_arr);
+            }       
+        });
+        ajaxGetSpecInput2(spec_arr); // 显示下面的输入框    
+    }
+
+    function ajaxGetSpecInput2(spec_arr){
+        var goods_id = $("input[name='goods_id']").val();
+        var price = $("#price").val();
+        $.ajax({
+            type:'POST',
+            data:{spec_arr:spec_arr,goods_id:goods_id,price:price},
+            url:"{:url('Goods/ajaxGetSpecInput')}",
+            success:function(data){ 
+               $("#goods_spec_table2").html('').append(data);
+               hbdyg();  // 合并单元格       
+               form.render();      
+            }
+        });
+        
+    }
+
+    // 合并单元格
+    function hbdyg() {
+        var tab = document.getElementById("spec_input_tab"); //要合并的tableID
+        var maxCol = 2, val, count, start;  //maxCol：合并单元格作用到多少列  
+        if (tab != null) {
+            for (var col = maxCol - 1; col >= 0; col--) {
+                count = 1;
+                val = "";
+                for (var i = 0; i < tab.rows.length; i++) {
+                    if (val == tab.rows[i].cells[col].innerHTML) {
+                        count++;
+                    } else {
+                        if (count > 1) { //合并
+                            start = i - count;
+                            tab.rows[start].cells[col].rowSpan = count;
+                            for (var j = start + 1; j < i; j++) {
+                                tab.rows[j].cells[col].style.display = "none";
+                            }
+                            count = 1;
+                        }
+                        val = tab.rows[i].cells[col].innerHTML;
+                    }
+                }
+                if (count > 1) { //合并，最后几行相同的情况下
+                    start = i - count;
+                    tab.rows[start].cells[col].rowSpan = count;
+                    for (var j = start + 1; j < i; j++) {
+                        tab.rows[j].cells[col].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+    //参数规格end
 
     //监听行单击事件（单击事件为：rowDouble）
     table.on('row(goodsTable)', function(obj){

@@ -27,16 +27,16 @@ class OptionCate extends Admin
     }
 
     //获取列表
-    public function getList(){
-        $total = $this->count();
-        $pageSize = input('post.pageSize',20);
-
+    public function getList(){        
+        $pageNum = input('post.page',1);
+        $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
         $order = input('post.order','desc');
 
         $map['id'] = array('gt',0);
+
+        $total = $this->where($map)->count();
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.page',1);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {

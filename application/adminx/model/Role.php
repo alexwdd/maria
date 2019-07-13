@@ -19,13 +19,14 @@ class Role extends Model
     }
 
 	public function getList()
-	{
-		$total = $this->count();
-        $pageSize = input('post.page',20);
+	{		
+        $pageNum = input('post.page',1);
+        $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
         $order = input('post.order','desc');
+
+        $total = $this->count();
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.limit',1);
         $firstRow = $pageSize*($pageNum-1); 
         $list = $this->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {

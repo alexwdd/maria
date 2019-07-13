@@ -27,17 +27,16 @@ class Onepage extends Admin{
     }
 
     //获取列表
-    public function getList(){
-        $total = $this->count();
-        $pageSize = input('post.page',20);
-
+    public function getList(){        
+        $pageNum = input('post.page',1);
+        $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
         $order = input('post.order','desc');
 
-        $pages = ceil($total/$pageSize);
-        $pageNum = input('post.limit',1);
-        $firstRow = $pageSize*($pageNum-1); 
 
+        $total = $this->count();
+        $pages = ceil($total/$pageSize);
+        $firstRow = $pageSize*($pageNum-1); 
         $list = $this->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         $result = array(
             'code'=>0,

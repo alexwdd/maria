@@ -68,4 +68,13 @@ class Admin extends Base {
                 'results'=>$results
             ));
     }
+
+    public function delFile(){
+        if(request()->isPost()){
+            $path = input('post.path');
+            if($path!=''){
+                unlink('.'.$path);
+            }
+        }
+    }
 }

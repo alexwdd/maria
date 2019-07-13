@@ -54,6 +54,8 @@ class Goods extends Admin
 
     //获取列表
     public function getList(){
+        $pageNum = input('post.page',1);
+        $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
         $order = input('post.order','desc');
         $path = input('path');
@@ -67,10 +69,7 @@ class Goods extends Admin
         }
 
         $total = $this->where($map)->count();
-        $pageSize = input('post.limit',20);
-
         $pages = ceil($total/$pageSize);
-        $pageNum = input('post.page',1);
         $firstRow = $pageSize*($pageNum-1); 
 
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
