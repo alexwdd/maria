@@ -148,4 +148,54 @@ class Goods extends Admin
     public function del($id){
         return $this->destroy($id);
     }
+
+    /**
+     * 后置操作方法
+     * 自定义的一个函数 用于数据保存后做的相应处理操作, 使用时手动调用
+     * @param int $goods_id 商品id
+     */
+    public function afterSave($goods_id)
+    {         
+        // 商品规格价钱处理
+        $goods_item = input('item/a');
+        $eidt_goods_id = input('goods_id',0);
+        $specStock = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,store_count');
+        if ($goods_item) {
+            $keyArr = '';//规格key数组
+            foreach ($goods_item as $k => $v) {
+                $keyArr .= $k.',';
+                // 批量添加数据
+                $v['price'] = trim($v['price']);
+                $store_count = $v['store_count'] = trim($v['store_count']); // 记录商品总库存
+                $v['weight'] = trim($v['weight']);
+                $v['isBaoyou'] = trim($v['isBaoyou']);
+                $data = ['goods_id' => $goods_id, 'key' => $k, 'key_name' => $v['key_name'], 'price' => $v['price'], 'store_count' => $v['store_count'], 'weight' => $v['weight'],'isBaoyou' => $v['isBaoyou'],];
+                
+                if ($item_img) {
+                    $spec_key_arr = explode('_', $k);
+                    foreach ($item_img as $key => $val) {
+                        if (in_array($key, $spec_key_arr)) {
+                            $data['spec_img'] = $val;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!empty($specStock[$k])) {
+                    db('GoodsSpecPrice')->where(['goods_id' => $goods_id, 'key' => $k])->update($data);
+                } else {
+                    db('GoodsSpecPrice')->insert($data);
+                }
+                
+                if(!empty($specStock[$k]) && $v['store_count'] != $specStock[$k] && $eidt_goods_id>0){
+                    $stock = $v['store_count'] - $specStock[$k];
+                }else{
+                    $stock = $v['store_count'];
+                }
+            }
+            if($keyArr){
+                db('GoodsSpecPrice')->where('goods_id',$goods_id)->whereNotIn('key',$keyArr)->delete();
+            }
+        }
+    }
 }

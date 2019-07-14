@@ -30,7 +30,17 @@ class Goods extends Admin
     public function pub() {
         if(request()->isPost()){
             $data = input('post.');
-            return model('Goods')->saveData( $data );
+            $goods = model('Goods');
+            $result = $goods->saveData( $data );
+            if ($result['code']==1) {
+                if($data['id']!=''){
+                    $goods_id = $data['id'];
+                }else{
+                    $goods_id = $goods->getLastInsID();
+                }                
+                $goods->afterSave($goods_id);
+            }
+            return $result;
         }else{
             $cate = model("GoodsCate")->getCate();
             foreach ($cate as $key => $value) {
@@ -45,7 +55,12 @@ class Goods extends Admin
                 if (!$list) {
                     $this->error('信息不存在');
                 }
+            }else{
+                $list['show'] = 1;
             }
+
+            $brand = db("Brand")->order("py asc , sort asc")->select();
+            $this->assign('brand', $brand);
 
             $server = db("Server")->order("sort asc")->select();
             $this->assign('server', $server);
@@ -55,6 +70,9 @@ class Goods extends Admin
 
             $wuliu = db("Wuliu")->order("sort asc")->select();
             $this->assign('wuliu', $wuliu);
+
+            $this->assign('tag',config('GOODS_TAG'));
+            $this->assign('type',config('BAOGUO_TYPE'));
 
             $this->assign('list', $list);
             return view();
@@ -70,7 +88,7 @@ class Goods extends Admin
         } else {
             // 删除此商品
             db("Goods")->whereIn('id', $id)->delete(); //商品表
-            db("GoodsAttr")->whereIn('goodsID', $id)->delete(); //商品属性
+            db("GoodsSpecPrice")->whereIn('goods_id', $id)->delete(); //商品属性
             $this->success("操作成功");
         }
     }
@@ -151,7 +169,6 @@ class Goods extends Admin
                <td>库存</td>
                <td>重量(kg)</td>
                <td>包邮</td>
-               <td>佣金</td>
              </tr></thead>";
         // 显示第二行开始 
         foreach ($spec_arr2 as $k => $v) 
@@ -183,7 +200,6 @@ class Goods extends Admin
               $str .= "selected";
             }
             $str .= ">是</option></select></td>";
-            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][fencheng]' value='{$keyGoodsSpecPrice[$item_key][fencheng]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/><input type='hidden' name='item[$item_key][key_name]' value='$item_name' /></td>";  
             $str .="</tr>";
         }
         $str .= "</table>";

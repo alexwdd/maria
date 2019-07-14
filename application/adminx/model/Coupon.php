@@ -2,9 +2,9 @@
 namespace app\adminx\model;
 use think\Session;
 
-class Depart extends Admin
+class Coupon extends Admin
 {
-    protected $auto = ['updateTime','cid','path'];
+    protected $auto = ['updateTime'];
     protected $insert = ['createTime'];  
 
     public function setUpdateTimeAttr()
@@ -46,6 +46,7 @@ class Depart extends Admin
         if($list) {
             $list = collection($list)->toArray();
         }
+        
         $result = array(
             'code'=>0,
             'data'=>$list,
@@ -70,6 +71,14 @@ class Depart extends Admin
     //添加更新数据
     public function saveData( $data )
     {
+        if ($data['full'] == 0) {
+            $data['desc'] = '立减'.$data['dec'].'元';
+        }else{
+            $data['desc'] = '满'.$data['full'].'元立减'.$data['dec'].'元';
+        }
+        if($data['goodsID']!=''){
+            $data['goodsID'] = str_replace("，",",",$data['goodsID']);
+        }
         if( isset( $data['id']) && !empty($data['id'])) {
             $result = $this->edit( $data );
         } else {
@@ -77,10 +86,11 @@ class Depart extends Admin
         }
         return $result;
     }
+
     //添加
     public function add(array $data = [])
     {
-        $validate = validate('Depart');
+        $validate = validate('Coupon');
         if(!$validate->check($data)) {
             return info($validate->getError());
         }
@@ -91,10 +101,11 @@ class Depart extends Admin
             return info('操作失败',0);
         }
     }
+
     //更新
     public function edit(array $data = [])
     {
-        $validate = validate('Depart');
+        $validate = validate('Coupon');
         if(!$validate->check($data)) {
             return info($validate->getError());
         }    
