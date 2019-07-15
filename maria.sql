@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-14 23:53:41
+Date: 2019-07-15 17:15:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -366,6 +366,7 @@ CREATE TABLE `pm_goods` (
   `typeID` int(11) NOT NULL COMMENT '商品类型ID 1奶粉2保健品3护肤品',
   `modelID` int(11) NOT NULL COMMENT '模型的ID',
   `brandID` int(11) NOT NULL COMMENT '品牌ID',
+  `linkIds` varchar(500) DEFAULT NULL,
   `name` varchar(200) NOT NULL,
   `en` varchar(200) NOT NULL,
   `short` varchar(100) NOT NULL,
@@ -382,12 +383,9 @@ CREATE TABLE `pm_goods` (
   `price` decimal(10,2) NOT NULL,
   `weight` decimal(10,2) NOT NULL,
   `wuliuWeight` decimal(10,2) NOT NULL,
-  `linkIds` varchar(500) DEFAULT NULL,
   `server` varchar(200) NOT NULL,
   `sellNumber` int(11) NOT NULL,
-  `gst` tinyint(4) NOT NULL,
   `stock` int(11) NOT NULL,
-  `stock1` int(11) NOT NULL,
   `number` int(11) NOT NULL,
   `wuliu` varchar(100) NOT NULL,
   `tag` tinyint(4) NOT NULL,
@@ -398,11 +396,13 @@ CREATE TABLE `pm_goods` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods
 -- ----------------------------
+INSERT INTO `pm_goods` VALUES ('1', '3', '0-1-2-3-', '3', '0-1-2-3-', '3', '1', '9', '', 'test', '111', '1', '1', '', '', '11', '', null, '<p>123123123aaa</p>', '0', '', '22.00', '111.00', '22.00', '1.00', '', '0', '0', '0', '', '0', '0', '0', '1', '50', '1563172824', '1563174941');
+INSERT INTO `pm_goods` VALUES ('2', '2', '0-1-2-', '0', '', '5', '0', '9', '1', 'aaaa', '222', 'aaa', '', '', '', '', '', null, '', '0', '', '20.00', '15.00', '1.00', '2.00', '', '0', '0', '0', '', '0', '0', '0', '1', '50', '1563175489', '1563175887');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -462,17 +462,22 @@ CREATE TABLE `pm_goods_spec_price` (
   `store_count` int(11) unsigned DEFAULT '10' COMMENT '库存数量',
   `bar_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '商品条形码',
   `weight` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '重量',
-  `isBaoyou` tinyint(4) DEFAULT NULL COMMENT '0不包邮 1包邮',
   `spec_img` varchar(255) DEFAULT NULL COMMENT '规格商品主图',
   `prom_id` int(10) DEFAULT '0' COMMENT '活动id',
   `prom_type` tinyint(2) DEFAULT '0' COMMENT '参加活动类型',
   PRIMARY KEY (`item_id`),
   KEY `key` (`key`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods_spec_price
 -- ----------------------------
+INSERT INTO `pm_goods_spec_price` VALUES ('1', '1', '2_6', '尺码:40码 颜色:蓝色', '11.00', '999', '', '113', null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('2', '1', '4_6', '尺码:43码 颜色:蓝色', '12.00', '999', '', '223', null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('3', '1', '2_6', '尺码:40码 颜色:蓝色', '11.00', '999', '', '113', null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('4', '1', '4_6', '尺码:43码 颜色:蓝色', '12.00', '999', '', '223', null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('5', '1', '1_6', '尺码:35码 颜色:蓝色', '111.00', '0', '', '', null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('6', '1', '3_6', '尺码:42码 颜色:蓝色', '111.00', '0', '', '', null, '0', '0');
 
 -- ----------------------------
 -- Table structure for `pm_link`

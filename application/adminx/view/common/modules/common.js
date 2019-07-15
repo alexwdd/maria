@@ -300,6 +300,7 @@ layui.define(['form','table','laydate'],function(exports) {
             limit: 20,
             limits: [10, 20, 30 , 50 , 100]
         });
+        form.render();
     });
 
     //表格工具条监听

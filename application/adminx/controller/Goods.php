@@ -9,9 +9,13 @@ class Goods extends Admin
         if (request()->isPost()) {
             $result       = model('Goods')->getList();
             $cateArr      = db('GoodsCate')->column('id,name');
-            foreach ($result['data']['list'] as $key => $value) {
+            $brandArr      = db('Brand')->column('id,name');
+            foreach ($result['data'] as $key => $value) {
                 if (isset($cateArr[$value['cid']])) {
-                    $result['data']['list'][$key]['cate'] = $cateArr[$value['cid']];
+                    $result['data'][$key]['cate'] = $cateArr[$value['cid']];
+                }
+                if (isset($brandArr[$value['brandID']])) {
+                    $result['data'][$key]['brand'] = $brandArr[$value['brandID']];
                 }
             }
             echo json_encode($result);
@@ -49,12 +53,17 @@ class Goods extends Admin
             }
             $this->assign('cate', $cate);
 
+            $linkGoods = [];
             $id = input('get.id');
             if ($id!='' || is_numeric($id)) {
                 $list = model('Goods')->find($id);
                 if (!$list) {
                     $this->error('信息不存在');
                 }
+                if($list['linkIds']!=''){
+                    $ids = explode(",",$list['linkIds']);
+                    $linkGoods = db('Goods')->where('id','in',$ids)->select();                    
+                }                
             }else{
                 $list['show'] = 1;
             }
@@ -75,6 +84,7 @@ class Goods extends Admin
             $this->assign('type',config('BAOGUO_TYPE'));
 
             $this->assign('list', $list);
+            $this->assign('linkGoods',json_encode($linkGoods));
             return view();
         }
     }
@@ -156,7 +166,7 @@ class Goods extends Admin
                    
         $spec = db('ModelSpec')->column('id,name'); // 规格表
         $specItem = db('ModelSpecItem')->column('id,item,specID');//规格项
-        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,price1,store_count,bar_code,weight,isBaoyou,fencheng');//规格项                          
+        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,store_count,bar_code,weight');//规格项                          
         $str = "<table class='layui-table' lay-size='sm' id='spec_input_tab'>";
         $str .="<thead><tr>";       
         // 显示第一行的数据
@@ -165,10 +175,8 @@ class Goods extends Admin
             $str .=" <td>{$spec[$v]}</td>";
         }    
         $str .="<td>价格</td>
-               <td>店主价格</td>
                <td>库存</td>
                <td>重量(kg)</td>
-               <td>包邮</td>
              </tr></thead>";
         // 显示第二行开始 
         foreach ($spec_arr2 as $k => $v) 
@@ -188,18 +196,8 @@ class Goods extends Admin
             $keyGoodsSpecPrice[$item_key]['store_count'] ? false : $keyGoodsSpecPrice[$item_key]['store_count'] = 0; //库存默认为0
 
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][price]' value='{$keyGoodsSpecPrice[$item_key][price]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
-            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][price1]' value='{$keyGoodsSpecPrice[$item_key][price1]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][store_count]' value='{$keyGoodsSpecPrice[$item_key][store_count]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/></td>";            
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][weight]' value='{$keyGoodsSpecPrice[$item_key][weight]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/><input type='hidden' name='item[$item_key][key_name]' value='$item_name' /></td>";
-            $str .="<td><select name='item[$item_key][isBaoyou]' class='layui-input spec-ipt'><option value='0' ";
-            if ($keyGoodsSpecPrice[$item_key][isBaoyou]==0) {
-              $str .= "selected";
-            }
-            $str .= ">否</option><option value='1' ";
-            if ($keyGoodsSpecPrice[$item_key][isBaoyou]==1) {
-              $str .= "selected";
-            }
-            $str .= ">是</option></select></td>";
             $str .="</tr>";
         }
         $str .= "</table>";

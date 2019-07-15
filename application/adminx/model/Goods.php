@@ -60,12 +60,16 @@ class Goods extends Admin
         $order = input('post.order','desc');
         $path = input('path');
         $keyword  = input('keyword');
+        $goods_id  = input('goods_id');
 
         if($path!=''){
             $map['path'] = array('like', $path.'%');
         }
         if($keyword!=''){
             $map['name|short|keyword'] = array('like', '%'.$keyword.'%');
+        }
+        if($goods_id!=''){
+            $map['id'] = array('neq',$goods_id);
         }
 
         $total = $this->where($map)->count();
@@ -168,9 +172,14 @@ class Goods extends Admin
                 $v['price'] = trim($v['price']);
                 $store_count = $v['store_count'] = trim($v['store_count']); // 记录商品总库存
                 $v['weight'] = trim($v['weight']);
-                $v['isBaoyou'] = trim($v['isBaoyou']);
-                $data = ['goods_id' => $goods_id, 'key' => $k, 'key_name' => $v['key_name'], 'price' => $v['price'], 'store_count' => $v['store_count'], 'weight' => $v['weight'],'isBaoyou' => $v['isBaoyou'],];
-                
+                $data = [
+                    'goods_id' => $goods_id,
+                    'key' => $k,
+                    'key_name' => $v['key_name'],
+                    'price' => $v['price'],
+                    'store_count' => $v['store_count'],
+                    'weight' => $v['weight']
+                ];                
                 if ($item_img) {
                     $spec_key_arr = explode('_', $k);
                     foreach ($item_img as $key => $val) {
