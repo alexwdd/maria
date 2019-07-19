@@ -63,7 +63,13 @@ class Goods extends Admin
                 if($list['linkIds']!=''){
                     $ids = explode(",",$list['linkIds']);
                     $linkGoods = db('Goods')->where('id','in',$ids)->select();                    
-                }                
+                }
+                if ($list['image']) {
+                    $image = explode(",", $list['image']);
+                } else {
+                    $image = [];
+                }
+                $this->assign('image', $image);
             }else{
                 $list['show'] = 1;
             }
