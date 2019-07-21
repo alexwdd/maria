@@ -71,7 +71,8 @@ class Goods extends Admin
         if($goods_id!=''){
             $map['id'] = array('neq',$goods_id);
         }
-
+        $map['fid'] = 0;
+        
         $total = $this->where($map)->count();
         $pages = ceil($total/$pageSize);
         $firstRow = $pageSize*($pageNum-1); 
@@ -158,8 +159,7 @@ class Goods extends Admin
      * 自定义的一个函数 用于数据保存后做的相应处理操作, 使用时手动调用
      * @param int $goods_id 商品id
      */
-    public function afterSave($goods_id)
-    {         
+    public function afterSave($goods_id){         
         // 商品规格价钱处理
         $goods_item = input('item/a');
         $eidt_goods_id = input('goods_id',0);
@@ -206,5 +206,31 @@ class Goods extends Admin
                 db('GoodsSpecPrice')->where('goods_id',$goods_id)->whereNotIn('key',$keyArr)->delete();
             }
         }
+
+        //处理套餐
+        $base = db('Goods')->where('id',$goods_id)->find();
+        if($base){
+            unset($base['id']);
+            $pack_id = input("post.pack_id/a");
+            $pack_name = input("post.pack_name/a");
+            $pack_price = input("post.pack_price/a");
+            $pack_number = input("post.pack_number/a");
+            $pack_data = [];
+            for ($i=0; $i <count($pack_name) ; $i++) { 
+                if($pack_name[$i]!=''){  
+                    $temp = $base;
+                    $temp['fid'] = $goods_id;
+                    $temp['name'] = $pack_name[$i];
+                    $temp['price'] = $pack_price[$i];
+                    $temp['number'] = $pack_number[$i];
+                    array_push($pack_data,$temp);
+                    if (!empty($pack_id[$i])) {
+                        db('Goods')->where(['fid' => $goods_id, 'id' => $pack_id[$i]])->update($temp);
+                    } else {
+                        db('Goods')->insert($temp);
+                    }
+                }
+            }
+        }         
     }
 }

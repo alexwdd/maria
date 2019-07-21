@@ -4,9 +4,9 @@
         <ul class="layui-tab-title">
             <li class="layui-this">通用信息</li>
             <li>商品相册</li>
-            <li id="goodsTab">关联商品</li>
+            <li>套餐</li>
             <li>参数规格</li>
-            <li>贴心服务</li>
+            <li id="goodsTab">关联商品</li> 
         </ul>
         <div class="layui-tab-content">
             <!--基本信息-->
@@ -125,13 +125,13 @@
                         <input type="radio" name="show" value="0" title="隐藏" {php}if($list['show']==0) echo 'checked';{/php}>
                     </div>
 
-                    <label class="layui-form-label">首页展示</label>
+                    <label class="layui-form-label">推荐</label>
                     <div class="layui-input-inline">
                         <input type="radio" name="comm" value="1" title="是" {php}if($list['comm']==1) echo 'checked';{/php}>
                         <input type="radio" name="comm" value="0" title="否" {php}if($list['comm']==0) echo 'checked';{/php}>
                     </div>
 
-                    <label class="layui-form-label">限库存</label>
+                    <label class="layui-form-label">清仓</label>
                     <div class="layui-input-inline">
                         <input type="radio" name="empty" value="1" title="是" {php}if($list['empty']==1) echo 'checked';{/php}>
                         <input type="radio" name="empty" value="0" title="否" {php}if($list['empty']==0) echo 'checked';{/php}>
@@ -185,16 +185,6 @@
                         <input type="text" name="number" id="number" value="{$list.number}" class="layui-input">
                     </div>
 
-                    <label class="layui-form-label">包邮</label>
-                    <div class="layui-input-inline">
-                        <select name="wuliu" default="{$list.wuliu}">
-                            <option value="">无</option>
-                            {volist name="wuliu" id="vo"}
-                            <option value="{$vo.name}">{$vo.name}</option>
-                            {/volist}
-                        </select>
-                    </div>
-
                     <label class="layui-form-label">水印</label>
                     <div class="layui-input-inline">
                         <select name="tag" id="tag" default="{$list.tag}">
@@ -223,7 +213,48 @@
                     <a href="javascript:;" class="insert-btn" id="upload-mult">+</a> 
                 </div>              
             </div>
+            
+            <!--套餐-->
+            <div class="layui-tab-item">                
+                <table class="layui-table">        
+                    <tbody id="packBox">
+                        <tr>
+                            <td><b>名称</b></td>
+                            <td style="width: 80px"><b>价格</b></td>
+                            <td style="width: 80px"><b>单品数量</b></td>
+                            <td style="width: 60px"><a href="javascript:void(0)" class="layui-btn layui-btn-normal layui-btn-xs" id="addBtn">添加</a></td>
+                        </tr>
+                        {volist name="pack" id="vo"}
+                        <tr>                        
+                        <td><input type="hidden" name="pack_id[]" value="{$vo.id}"><input type="text" name="pack_name[]" value="{$vo.name}" lay-verify="required" class="layui-input"></td> 
+                        <td><input type="text" name="pack_price[]" value="{$vo.price}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
+                        <td><input type="text" name="pack_number[]" value="{$vo.number}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td> 
+                        <td><a href="javascript:void(0)" onclick="delSpec(this)" data-id="{$vo.id}" class="layui-btn layui-btn-primary layui-btn-xs"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
 
+            <!--参数规格-->
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品模型</label>
+                    <div class="layui-input-inline">
+                        <select name="modelID" id="modelID" default="{$list.modelID}" lay-filter="goodsModel">
+                            <option value="">无</option>
+                            {volist name="model" id="vo"}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+               
+                <div class="layui-row">
+                    <div class="layui-col-md12" id="ajax_spec_data" style="padding-right:20px"></div>
+                </div>
+            </div>
+            
             <!--关联商品-->
             <div class="layui-tab-item">
                 <div class="layui-row layui-col-space5">
@@ -247,33 +278,7 @@
                     </div>
                 </div>
             </div>
-      
-
-            <!--参数规格-->
-            <div class="layui-tab-item">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">商品模型</label>
-                    <div class="layui-input-inline">
-                        <select name="modelID" id="modelID" default="{$list.modelID}" lay-filter="goodsModel">
-                            <option value="">无</option>
-                            {volist name="model" id="vo"}
-                            <option value="{$vo.id}">{$vo.name}</option>
-                            {/volist}
-                        </select>
-                    </div>
-                </div>
-               
-                <div class="layui-row">
-                    <div class="layui-col-md12" id="ajax_spec_data" style="padding-right:20px"></div>
-                </div>
-            </div>
-
-            <!--贴心服务-->
-            <div class="layui-tab-item">                
-                {volist name="server" id="vo"}          
-                <p style="padding: 10px 0"><input type="checkbox" name="server[]" lay-skin="primary" title="{$vo.name}" value="{$vo.id}"></p>
-                {/volist}
-            </div>
+            
         </div>
     </div>
 
@@ -290,6 +295,7 @@ layui.config({
 }).extend({
     index: 'lib/index' //主入口模块
 }).use(['index','myupload','form','tinymce','table'], function() {    
+    var flag = {$flag};
     var $ = layui.$,
         table = layui.table,
         form = layui.form,
@@ -299,6 +305,10 @@ layui.config({
 
     $("html").css({"background":"#fff"});
     tinymce.init(tinyConfig);
+
+    if(flag == 1){
+        layer.alert("友情提示：该商品正在抢购活动中，修改价格会引起数据紊乱");
+    }
 
     $("#lay-common-submit").click(function(){
         $("#container").val(tinyMCE.activeEditor.getContent());
@@ -327,6 +337,21 @@ layui.config({
         $.post("{:url('admin/delFile')}",data);
         $(this).parent().remove();
     });
+
+    //商品套餐
+    $("#addBtn").click(function(){
+        $.get('{:url('goods/getPack')}',function(res){
+            $("#packBox").append(res);
+            form.render();
+        })
+    })
+
+    function delPack(obj){
+        id = $(obj).attr("data-id");    
+        $(obj).parent().parent().remove();
+        $.post('{:url('goods/delPack')}',{'id':id});
+    }
+    //套餐end
 
     //参数规格start
     form.on('select(goodsModel)', function(data){

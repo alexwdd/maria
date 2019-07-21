@@ -19,14 +19,35 @@
             <p field="price" title="价格" width="80"/>
             <p field="weight" title="重量" width="80"/>
             <p field="stock" title="库存" width="100"/>
-            <p field="empty" title="限库存" width="90" dict="goodsComm"/>
-            <p field="comm" title="首页展示" width="90" dict="goodsComm"/>
-            <p field="show" title="状态" width="60" dict="goodsShow"/>
-            <p fixed="right" align="center" toolbar="#barDemo" title="操作" width="80"/>
+            <p title="清仓" width="90" templet="#qingchang"/>
+            <p title="推荐" width="90" templet="#goodsComm"/>
+            <p field="show" title="状态" width="60" templet="#goodsShow"/>
+            <p fixed="right" align="center" toolbar="#barDemo" title="操作" width="120"/>
         </div>
+
+        <script type="text/html" id="goodsComm">
+        {{# if(d.comm==1){ }}
+        <i class="layui-icon layui-icon-ok"></i>
+        {{# } }}
+        </script>
+
+        <script type="text/html" id="qingchang">
+        {{# if(d.empty==1){ }}
+        <i class="layui-icon layui-icon-ok"></i>
+        {{# } }}
+        </script>
+
+        <script type="text/html" id="goodsShow">
+        {{# if(d.comm==0){ }}
+        显示
+        {{# }else{ }}
+        <span style="color: #f00">隐藏</span>
+        {{# } }}
+        </script>
 
         <script type="text/html" id="barDemo">        
             <a class="layui-btn layui-btn-xs" lay-event="edit" url="{:url('Goods/pub')}?id={{d.id}}" topWidth="80%" topHeight="80%" topTitle="编辑" data-tableId="lay-common-table">编辑</a>
+            <a class="layui-btn layui-btn-xs" lay-event="edit" url="{:url('flash/pub')}?id={{d.id}}" topWidth="80%" topHeight="80%" topTitle="添加到抢购" data-tableId="lay-common-table">抢购</a>
         </script>
     </div>
 </div>

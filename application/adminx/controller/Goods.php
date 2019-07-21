@@ -70,28 +70,52 @@ class Goods extends Admin
                     $image = [];
                 }
                 $this->assign('image', $image);
+
+                //套餐
+                $pack = db("Goods")->where('fid',$id)->select();
+                $this->assign('pack',$pack);
+
+                //是否在抢购中
+                unset($map);
+                $map['endDate'] = array('gt',time());
+                $map['goodsID'] = $list['id'];
+                $res = db("Flash")->where($map)->find();
+                if ($res) {
+                    $flag = 1;
+                }else{
+                    $flag = 0;
+                }
             }else{
                 $list['show'] = 1;
+                $flag = 0;
             }
+            $this->assign('flag', $flag);
 
             $brand = db("Brand")->order("py asc , sort asc")->select();
             $this->assign('brand', $brand);
 
-            $server = db("Server")->order("sort asc")->select();
-            $this->assign('server', $server);
-
             $model = db("GoodsModel")->field('id,name')->select();
             $this->assign('model', $model);
-
-            $wuliu = db("Wuliu")->order("sort asc")->select();
-            $this->assign('wuliu', $wuliu);
 
             $this->assign('tag',config('GOODS_TAG'));
             $this->assign('type',config('BAOGUO_TYPE'));
 
             $this->assign('list', $list);
             $this->assign('linkGoods',json_encode($linkGoods));
+
             return view();
+        }
+    }
+
+    public function getPack(){
+        $res = $this->fetch();        
+        echo $res;
+    }
+
+    public function delPack()
+    {
+        if (request()->isPost()) {
+            db("Goods")->where('id',input('post.id'))->delete();
         }
     }
 
