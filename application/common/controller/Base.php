@@ -39,7 +39,7 @@ class Base extends Controller {
     }
 
     //返回商品的价格，套餐，规格型号
-    public function getGoodsDetail($goods,$flash){
+    public function getGoodsDetail($goods,$flashArr){
         //判断是套餐的ID还是商品的ID
         if($goods['fid']>0){
             $fid = $goods['fid'];
@@ -54,7 +54,7 @@ class Base extends Controller {
         $spec  = db('GoodsSpecPrice')->where("goods_id", $fid)->column("key,key_name,price,item_id");  
 
         //是否今日抢购
-        if($flash = $this->checkInFlash($fid,$flash)){
+        if($flash = $this->checkInFlash($fid,$flashArr)){
             $sellNumber = $this->getFlashNumber($goods['goodsID']);
             $per = ($sellNumber/$flash['number'])*100;
             $per = 100;
@@ -89,8 +89,47 @@ class Base extends Controller {
         }else{
             $goods['isFlash'] = 0;
         }
-
         return ['goods'=>$goods,'pack'=>$pack,'spec'=>$spec];
+    }
+
+    public function getGoodsPrice($goods,$specID,$flashArr){
+        //判断是套餐的ID还是商品的ID
+        if($goods['fid']>0){
+            $fid = $goods['fid'];
+        }else{
+            $fid = $goods['id'];
+        }
+        $flash = $this->checkInFlash($fid,$flashArr);//判断是否在今日抢购中
+        $spec = [];
+        if($goods['fid']==0){
+            if($specID>0){//有规格选项
+                $spec = db("GoodsSpecPrice")->field('key_name,price')->where('id',$specID)->find();
+                if($flash){
+                    $flash['spec'] = unserialize($flash['spec']);
+                    foreach ($flash['spec'] as $k => $val) {
+                        if($val['item_id'] == $specID){
+                            $price = $value['price'];
+                        }
+                    }
+                }else{
+                    $price = $spec['price'];
+                }                        
+            }else{
+                if($flash){
+                    $price = $flash['price'];
+                }else{
+                    $price = $goods['price'];
+                }                        
+            }
+        }else{//是套餐
+            if($flash){
+                $price = $flash['price'];
+            }else{
+                $price = $goods['price'];
+            }                   
+        } 
+
+        return ['price'=>$price,'spec'=>$spec];
     }
 
     public function https_post($url,$data = null){

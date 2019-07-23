@@ -7,8 +7,20 @@ class Cart extends Auth {
     public function lists(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
+            $config = tpCache('member');
             $map['memberID'] = $this->user['id'];
             $list = db('Cart')->where($map)->select();
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+
+                $list[$key]['name'] = $goods['name'];
+                $list[$key]['picname'] = getRealUrl($goods['picname']);
+                $list[$key]['price'] = $result['price'];               
+                $list[$key]['spec'] = $result['spec'];
+                $list[$key]['total'] = $result['price'] * $value['number'];
+                $list[$key]['rmb'] = number_format($config['huilv']*$list[$key]['total'],1); 
+            }
             returnJson(1,'success',['cart'=>$list]);
         }
     }

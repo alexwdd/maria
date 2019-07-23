@@ -306,4 +306,12 @@ return [
         array("id"=>19,"name"=>"x20包邮"),
         array("id"=>20,"name"=>"买一赠一"),
     ),
+
+    //财务类型
+    'moneyType' => array( 
+        1 => array('name'=>'签到积分'),
+        2 => array('name'=>'购物积分'),
+        3 => array('name'=>'充值'),
+        4 => array('name'=>'返利'),
+    ),
 ];

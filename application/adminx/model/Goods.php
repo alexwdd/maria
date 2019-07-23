@@ -105,13 +105,10 @@ class Goods extends Admin
     //添加更新数据
     public function saveData( $data )
     {
-        $server = input('post.server/a');
-        if ($server) {
-            $data['server'] = implode(",", input('post.server/a'));
-        }else{
-            $data['server'] = '';
-        }   
-
+        $server = input('post.minPrice');
+        if ($data['minPrice']=='') {
+            $data['minPrice'] = $data['price'];
+        }
         if( isset( $data['id']) && !empty($data['id'])) {
             $result = $this->edit( $data );
         } else {
@@ -164,12 +161,16 @@ class Goods extends Admin
         $goods_item = input('item/a');
         $eidt_goods_id = input('goods_id',0);
         $specStock = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,store_count');
-        if ($goods_item) {
+        if ($goods_item) {      
             $keyArr = '';//规格key数组
             foreach ($goods_item as $k => $v) {
                 $keyArr .= $k.',';
                 // 批量添加数据
                 $v['price'] = trim($v['price']);
+                $v['minPrice'] = trim($v['minPrice']);
+                if($v['minPrice']=='' || $v['minPrice']==0){
+                    $v['minPrice'] = $v['price'];
+                } 
                 $store_count = $v['store_count'] = trim($v['store_count']); // 记录商品总库存
                 $v['weight'] = trim($v['weight']);
                 $data = [
@@ -177,6 +178,7 @@ class Goods extends Admin
                     'key' => $k,
                     'key_name' => $v['key_name'],
                     'price' => $v['price'],
+                    'minPrice' => $v['minPrice'],
                     'store_count' => $v['store_count'],
                     'weight' => $v['weight']
                 ];                
@@ -188,8 +190,7 @@ class Goods extends Admin
                             break;
                         }
                     }
-                }
-                
+                }         
                 if (!empty($specStock[$k])) {
                     db('GoodsSpecPrice')->where(['goods_id' => $goods_id, 'key' => $k])->update($data);
                 } else {
@@ -214,6 +215,7 @@ class Goods extends Admin
             $pack_id = input("post.pack_id/a");
             $pack_name = input("post.pack_name/a");
             $pack_price = input("post.pack_price/a");
+            $pack_minPrice = input("post.pack_minPrice/a");
             $pack_number = input("post.pack_number/a");
             $pack_data = [];
             for ($i=0; $i <count($pack_name) ; $i++) { 
@@ -222,6 +224,11 @@ class Goods extends Admin
                     $temp['fid'] = $goods_id;
                     $temp['name'] = $pack_name[$i];
                     $temp['price'] = $pack_price[$i];
+                    if($pack_minPrice[$i]==''){
+                        $temp['minPrice'] = $pack_price[$i];
+                    }else{
+                        $temp['minPrice'] = $pack_minPrice[$i];
+                    }                    
                     $temp['number'] = $pack_number[$i];
                     array_push($pack_data,$temp);
                     if (!empty($pack_id[$i])) {
