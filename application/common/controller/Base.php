@@ -58,6 +58,7 @@ class Base extends Controller {
             $sellNumber = $this->getFlashNumber($goods['goodsID']);
             $per = ($sellNumber/$flash['number'])*100;
             $per = 100;
+            
             if($per>100){
                 $per = 100;
             }
