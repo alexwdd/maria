@@ -99,18 +99,19 @@ class Flash extends Admin
     {
         $spec = [];
         foreach ($data['spec_id'] as $key => $value) {
-            array_push($spec,['specID'=>$value[$key],'name'=>$data['spec_name'][$key],'price'=>$data['spec_price'][$key]]);
+            array_push($spec,['specID'=>$value,'name'=>$data['spec_name'][$key],'price'=>$data['spec_price'][$key]]);
         }
         $data['spec'] = serialize($spec);
+
         $pack = [];
         foreach ($data['pack_id'] as $key => $value) {
-            array_push($pack,['packID'=>$value[$key],'name'=>$data['pack_name'][$key],'price'=>$data['pack_price'][$key]]);
+            array_push($pack,['packID'=>$value,'name'=>$data['pack_name'][$key],'price'=>$data['pack_price'][$key]]);
         }
         $data['pack'] = serialize($pack);
 
         $date = explode(" - ", $data['date']);
         $data['startDate'] = strtotime($date[0]);
-        $data['endDate']  = strtotime($date[1]);
+        $data['endDate']  = strtotime($date[1])+86399;
 
         $data['goodsName'] = db("Goods")->where('id',$data['goodsID'])->value("name");
 

@@ -81,9 +81,11 @@ class OptionItem extends Admin
             return info($validate->getError());
         }
 
-        $oldData=db("OptionItem")->where(["cate"=>$data['cate'],"value"=>$data['value']])->find();
-        if($oldData){
-            return info('输入值重复',0);
+        if($data['value']!=''){
+            $oldData=db("OptionItem")->where(["cate"=>$data['cate'],"value"=>$data['value']])->find();
+            if($oldData){
+                return info('输入值重复',0);
+            }
         }
 
         $data['pinyin'] = getfirstchar($data['name']);
@@ -102,9 +104,11 @@ class OptionItem extends Admin
             return info($validate->getError());
         }    
 
-        $oldData=db("OptionItem")->where(["cate"=>$data['cate'],"value"=>$data['value']])->find();
-        if($oldData && $oldData['id']!=$data['id']){
-            return info('输入值重复',0);
+        if($data['value']!=''){
+            $oldData=db("OptionItem")->where(["cate"=>$data['cate'],"value"=>$data['value']])->find();
+            if($oldData && $oldData['id']!=$data['id']){
+                return info('输入值重复',0);
+            }
         }
 
         if ($data['pinyin']=='') {

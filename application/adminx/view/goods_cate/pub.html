@@ -66,11 +66,19 @@
     </div>
 
     <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">推荐</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="comm" value="1" title="是" {php}if($list['comm']==1) echo 'checked';{/php}>
+            <input type="radio" name="comm" value="0" title="否" {php}if($list['comm']==0) echo 'checked';{/php}>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">排序</label>
         <div class="layui-input-inline">
             <input type="text" name="sort" class="layui-input" value="{$list['sort']|default=50}" placeholder="必填" lay-verify="number">
         </div>
-    </div>
+    </div>    
 
     <div class="layui-form-item layui-hide">
         <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('goodsCate/pub')}">

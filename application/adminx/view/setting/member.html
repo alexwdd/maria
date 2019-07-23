@@ -10,6 +10,21 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label">会员注册</label>
+                <div class="layui-input-block">             
+                    <input type="radio" name="isReg" value="1" title="开启" <?php if($config['isReg']==='1')echo 'checked'; ?>>   
+                    <input type="radio" name="isReg" value="0" title="关闭" <?php if($config['isReg']==='0')echo 'checked'; ?>>           
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">搜索热词</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="hotkey" value="{$config.hotkey}" class="layui-input">
+                </div>  
+            </div>
+
+            <div class="layui-form-item">
                 <label class="layui-form-label">每日签到</label>
                 <div class="layui-input-inline">
                     <input type="number" name="sign" value="{$config.sign}" lay-verify="required" class="layui-input">

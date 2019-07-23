@@ -2,7 +2,8 @@
 namespace app\api\controller;
 
 class Account extends Auth {
-
+    
+    //个人信息
     public function userinfo(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}

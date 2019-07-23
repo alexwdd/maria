@@ -12,7 +12,68 @@ class Login extends Common {
         }
     }
 
-    public function index(){        
+    public function wechat(){        
+        if (request()->isPost()) {            
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $config = tpCache('member');
+
+            if ($config['isReg'] == 0) {
+                returnJson(0,'注册暂未开放！');
+            }    
+
+            $data['openid'] = input('post.openid');
+            $data['nickname'] = input('post.nickname');
+            $data['headimg'] = input('post.headimg');
+
+            if($data['openid']==''){
+                returnJson(0,'缺少openid');
+            }
+            if($data['nickname']==''){
+                returnJson(0,'缺少昵称');
+            }
+            if($data['headimg']==''){
+                returnJson(0,'缺少头像');
+            }
+
+            $user = db("Member")->field('id,nickname,headimg,openid')->where('openid',$data['openid'])->find();
+            if($user){
+                $request= Request::instance();
+                $log = array(
+                    'memberID' => $user['id'],
+                    'account' => $data['openid'],
+                    'loginTime' => time(),
+                    'loginIP' => $request->ip()
+                );
+                db('LoginLog')->insert($log);
+
+                //生成token
+                $str = md5(uniqid(md5(microtime(true)),true)); 
+                $token = sha1($str);
+                $userData = array(
+                    'token' => $token,
+                    'token_out' => time()+3600*config('TOKEN_HOUR')
+                );
+                $r = db('Member')->where(array("openid" => $data['openid']))->update($userData);
+                if($r){
+                    $user['token'] = $token;
+                    returnJson(1,'success',$user);
+                }else{
+                    returnJson(0,'登录失败');
+                }                
+            }else{
+                $result = model('Member')->wechat($data);
+                if ($result['code']==1) { 
+                    $user = db("Member")->field('nickname,headimg,token')->where('id',$result['msg'])->find();
+                    returnJson(1,'success',$user);
+                }else{
+                    returnJson(0,$result['msg']);
+                }
+            }
+        }
+    }
+
+
+    public function mobile(){        
         if (request()->isPost()) {
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
@@ -54,7 +115,7 @@ class Login extends Common {
                 $token = sha1($str);
                 $userData = array(
                     'token' => $token,
-                    'token_out' => time()+2592000
+                    'token_out' => time()+3600*config('TOKEN_HOUR')
                 );
                 $r = $user->where(array("mobile" => $mobile))->update($userData);
                 if ($r) {
@@ -65,15 +126,6 @@ class Login extends Common {
             } else {
                 returnJson(0,'账号不存在！');
             }
-        }
-    }
-
-    public function getData(){
-        if (request()->isPost()) {            
-            if(!checkFormDate()){returnJson(0,'ERROR');}
-            $depart = db("Depart")->order('sort asc,id asc')->column("name");
-            $junxian = db("Junxian")->order('sort asc,id asc')->column("name");
-            returnJson(1,config("SUCCESS_RETURN"),array('depart'=>$depart,'junxian'=>$junxian));
         }
     }
 

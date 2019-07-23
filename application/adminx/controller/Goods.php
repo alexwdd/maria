@@ -127,10 +127,52 @@ class Goods extends Admin
             $this->error('请选择要删除的数据');
         } else {
             // 删除此商品
+            db("Goods")->whereIn('fid', $id)->delete(); //套餐表
             db("Goods")->whereIn('id', $id)->delete(); //商品表
             db("GoodsSpecPrice")->whereIn('goods_id', $id)->delete(); //商品属性
             $this->success("操作成功");
         }
+    }
+
+    //商品推送
+    public function push(){
+        if (request()->isPost()) {
+            $id=input('post.id');
+            $cateID=input('post.cateID');
+            $id = explode("-", $id);
+            if($id==''){
+                $this->error('您没有选择任何信息！');
+            }else{
+                foreach ($id as $v) {
+                    $db = db('GoodsPush');
+                    $where['goodsID'] = $v;
+                    $where['cateID'] = $cateID;
+                    $res = $db->where($where)->find();
+                    if($res){
+                        $db->where($where)->update('updateTime',time());
+                    }else{
+                        $goodsName = db("Goods")->where('id',$v)->value('name');
+                        $data = [
+                            'goodsID'=>$v,
+                            'goodsName'=>$goodsName,
+                            'cateID'=>$cateID,
+                            'updateTime'=>time()
+                        ];
+                        $db->insert($data);
+                    }                    
+                }
+                $url = "reload";
+                $this->success('操作成功');
+            }
+        }else{
+            $id=input('get.id');
+            $this->assign('id',$id);
+            unset($map);
+            $map['cate']=1;
+            $cate = db('OptionItem')->field("id,name,value")->where($map)->order('value asc')->select();
+            $this->assign('cate', $cate);
+            return view();
+        }       
     }
 
     /*public function getSpec(){
