@@ -160,10 +160,10 @@ class Goods extends Admin
         // 商品规格价钱处理
         $goods_item = input('item/a');
         $eidt_goods_id = input('goods_id',0);
-        $specStock = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,store_count');
-        if ($goods_item) {      
+        $specStock = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name');
+        if ($goods_item) {            
             $keyArr = '';//规格key数组
-            foreach ($goods_item as $k => $v) {
+            foreach ($goods_item as $k => $v) {           
                 $keyArr .= $k.',';
                 // 批量添加数据
                 $v['price'] = trim($v['price']);
@@ -195,12 +195,6 @@ class Goods extends Admin
                     db('GoodsSpecPrice')->where(['goods_id' => $goods_id, 'key' => $k])->update($data);
                 } else {
                     db('GoodsSpecPrice')->insert($data);
-                }
-                
-                if(!empty($specStock[$k]) && $v['store_count'] != $specStock[$k] && $eidt_goods_id>0){
-                    $stock = $v['store_count'] - $specStock[$k];
-                }else{
-                    $stock = $v['store_count'];
                 }
             }
             if($keyArr){

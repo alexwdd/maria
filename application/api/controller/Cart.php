@@ -131,4 +131,14 @@ class Cart extends Auth {
             returnJson(1,'success',['number'=>$count]);
         }       
     }
+
+    public function package(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $list = db("Cart")->where('memberID',$this->user['id'])->select();
+            if (!$list) {
+                returnJson(0,'购物车中没有商品');
+            }
+        } 
+    }
 }

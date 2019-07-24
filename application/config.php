@@ -312,6 +312,7 @@ return [
         1 => array('name'=>'签到积分'),
         2 => array('name'=>'购物积分'),
         3 => array('name'=>'充值'),
-        4 => array('name'=>'返利'),
+        4 => array('name'=>'基金'),
+        5 => array('name'=>'返利'),
     ),
 ];
