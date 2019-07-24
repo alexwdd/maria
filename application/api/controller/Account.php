@@ -46,8 +46,7 @@ class Account extends Auth {
     public function fav(){
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
-            $config = tpCache("member");
-            $page = input('post.page/d',1);
+             $page = input('post.page/d',1);
             $pagesize = input('post.pagesize',10);
 
             $firstRow = $pagesize*($page-1); 
@@ -68,7 +67,7 @@ class Account extends Auth {
                 $goods = db('Goods')->field('name,picname,price,marketPrice')->where($map)->find();
                 if($goods){
                     $goods['picname'] = getRealUrl($goods['picname']);
-                    $goods['rmb'] = $goods['price']*$config['huilv'];
+                    $goods['rmb'] = $goods['price']*$this->rate;
                 }else{
                     $goods = [];
                 }                
@@ -237,6 +236,94 @@ class Account extends Auth {
             $fileUrl = $this->base64ToImg($path,$fileName,$image);
             $fileUrl = getUserFace($fileUrl);
             returnJson(1,'success',['face'=>$fileUrl]);
+        }
+    }
+
+    //我的优惠券
+    public function coupon(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $type = input('param.type');
+            $page = input('post.page/d',1);
+            $pagesize = input('post.pagesize',10);
+            $firstRow = $pagesize*($page-1); 
+
+            if($type==1){//位使用
+                $map['status'] = 0;
+                $map['endTime'] = array('gt',time());
+            }elseif($type==2){//已使用
+                $map['status'] = 1;
+            }elseif($type==3){//已失效
+                $map['status'] = 0;
+                $map['endTime'] = array('lt',time());
+            }
+            $map['memberID'] = $this->user['id'];
+            $obj = db('CouponLog');
+            $count = $obj->where($map)->count();
+            $totalPage = ceil($count/$pagesize);
+            if ($page < $totalPage) {
+                $next = 1;
+            }else{
+                $next = 0;
+            }
+            $list = $obj->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            foreach ($list as $key => $value) {
+                if($value['useTime']>0){
+                    $list[$key]['useTime'] = date("Y-m-d H:i:s",$value['useTime']);
+                }
+                $list[$key]['endTime'] = date("Y-m-d H:i:s",$value['endTime']);
+                $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
+                $info = db('Coupon')->field('name,desc,full,dec,goodsID')->where('id',$value['couponID'])->find();
+                if($info['goodsID']!=''){
+                    $ids = explode(",",$info['goodsID']);
+                    unset($map);
+                    $map['id'] = array('in',$ids);
+                    $map['show'] = 1;
+                    $goods = db("Goods")->field('id as goodsID,name')->where($map)->select();
+                    $info['goods'] = $goods;
+                }
+                $list[$key]['info'] = $info;
+            }
+            returnJson(1,'success',['next'=>$next,'data'=>$list]);
+        }
+    }
+
+    //领取优惠券
+    public function doCoupon(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $couponID = input('post.couponID');
+            if ($couponID=='' || !is_numeric($couponID)) {
+                returnJson(0,'参数错误');
+            }
+            $map['status'] = 1;
+            $map['id'] = $couponID;
+            $list = db('Coupon')->where($map)->find();
+            if(!$list){
+                returnJson(0,'优惠券不存在');
+            }
+
+            $count = db("CouponLog")->where('couponID',$couponID)->count();
+            if($count>=$list['number']){
+                returnJson(0,'每人最多领取'.$list['number'].'张');
+            }
+
+            $data = [
+                'memberID'=>$this->user['id'],
+                'couponID'=>$couponID,
+                'status'=>0,
+                'useTime'=>0,
+                'endTime'=>time()+86400*$list['day'],
+                'createTime'=>time(),
+            ];
+            $res = db("CouponLog")->insert($data);
+            if ($res) {
+                returnJson(1,'success');
+            }else{
+                returnJson(0,'领取失败');
+            }
         }
     }
 }

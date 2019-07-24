@@ -29,7 +29,7 @@ class Index extends Common
                     $goods = db("Goods")->field('id,name,picname,price,marketPrice')->where('id',$goodsID)->find();
                     if ($goods) {
                         $goods['picname'] = getRealUrl($goods['picname']);
-                        $goods['rmb'] = $goods['price']*$config['huilv'];
+                        $goods['rmb'] = $goods['price']*$this->rate;
                         $push[$key]['goods'] = $goods;
                     }                    
                 }                
@@ -39,7 +39,7 @@ class Index extends Common
             $commend = db("Goods")->field('id,name,picname,price,marketPrice')->where('comm',1)->order('sort asc,id desc')->limit(20)->select();
             foreach ($commend as $key => $value) {
                 $commend[$key]['picname'] = getRealUrl($value['picname']);
-                $commend[$key]['rmb'] = $value['price']*$config['huilv'];
+                $commend[$key]['rmb'] = $value['price']*$this->rate;
             }
 
             //今日抢购
@@ -56,7 +56,7 @@ class Index extends Common
                 $flash[$key]['name'] = $goods['name'];
                 $flash[$key]['picname'] = getRealUrl($goods['picname']);
                 $flash[$key]['marketPrice'] = $goods['marketPrice'];
-                $flash[$key]['rmb'] = $value['price']*$config['huilv'];
+                $flash[$key]['rmb'] = $value['price']*$this->rate;
             }                        
             
             returnJson(1,'success',[
@@ -65,7 +65,7 @@ class Index extends Common
                 'push'=>$push,
                 'commend'=>$commend,
                 'flash'=>$flash,
-            	'rate'=>$config['huilv'],
+            	'rate'=>$this->rate,
             	'hotkey'=>$config['hotkey'],
             ]);
         }

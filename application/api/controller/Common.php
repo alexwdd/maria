@@ -7,10 +7,13 @@ class Common extends Base {
 
 	public $user;
 	public $flash;
+    public $rate;
 
     public function _initialize(){
     	header('Access-Control-Allow-Origin:*');
         parent::_initialize();
+
+        $this->rate = $this->getRate();
 
         //检查token
         $token = input('post.token');

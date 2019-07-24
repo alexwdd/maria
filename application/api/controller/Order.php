@@ -60,9 +60,10 @@ class Order extends Auth {
 
             $data['senderID'] = input('post.senderID');
             $data['addressID'] = input('post.addressID');
+            $data['couponID'] = input('post.couponID');
             $data['memberID'] = $this->user['id'];
             
-            $res = model('Order')->saveData( $data );
+            $res = model('Order')->add( $data );
             if ($res['code']==1) {  
                 returnJson(1,'success'); 
             }else{

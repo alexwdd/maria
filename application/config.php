@@ -255,6 +255,12 @@ return [
     //token有效期，小时
     'TOKEN_HOUR'=>24*30,
 
+    //澳邮
+    'aue'=>['MemberId'=>'2818','Password'=>'AGSags28182818'],
+
+    //omi支付
+    'omipay' => ['mchID'=>'501039','key'=>'547e766b244a4e7eb24fee84a1e28fd2'],
+
     //包裹类型
     /*
     max 一个包裹最多几个

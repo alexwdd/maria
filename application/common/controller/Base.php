@@ -133,6 +133,7 @@ class Base extends Controller {
         return ['price'=>$price,'spec'=>$spec];
     }
 
+    //获取包裹
     public function getYunfeiJson($cart,$province=null){
         foreach ($cart as $key => $value) {
             $goods = db('Goods')->where('id',$value['goodsID'])->find(); 
@@ -170,13 +171,29 @@ class Base extends Controller {
         return $data;
     }
 
-    //判断是否在偏远地区
-    private function inExtendArea($province){        
-        if (in_array($province,$this->extendArea)) {
-            return true;
+    //当前汇率
+    public function getRate(){
+        if (cache("rate")) {
+            return cache("rate");
         }else{
-            return false;
-        }
+            require_once EXTEND_PATH.'omipay/OmiPayApi.php';
+            require_once EXTEND_PATH.'omipay/OmiPayData.php';
+            $domain = 'AU';
+            // 设置'CN'为访问国内的节点 ,设置为'AU'为访问香港的节点
+            $input = new \OmiPayExchangeRate();
+            $input -> setMerchantNo(config('omipay.mchID'));
+            $input -> setSercretKey(config('omipay.key'));
+            $input -> setPlatform("设置查询平台'WECHATPAY/ALIPAY'");
+            $omipay = new \OmiPayApi();
+            $res = $omipay->exchangeRate($input,$domain);
+            if ($res['success']) {
+                $rate = number_format($res['rate'],4);
+            }else{
+                $rate = 0;
+            }
+            cache("rate",$rate,3600);
+            return $rate;
+        }        
     }
 
     public function https_post($url,$data = null){

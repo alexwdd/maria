@@ -35,7 +35,7 @@ class Goods extends Common {
             $list = $obj->field('id,name,picname,price,marketPrice')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
-                $list[$key]['rmb'] = $value['price']*$config['huilv'];
+                $list[$key]['rmb'] = $value['price']*$this->rate;
             }
             returnJson(1,'success',['next'=>$next,'data'=>$list]);
         }
@@ -44,7 +44,6 @@ class Goods extends Common {
     public function flash(){
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
-            $config = tpCache('member');
 
             $type = input('post.type',1);
             $cid = input('post.cid');
@@ -87,7 +86,7 @@ class Goods extends Common {
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
                 $list[$key]['marketPrice'] = $goods['marketPrice'];
                 $list[$key]['name'] = $goods['name'];
-                $list[$key]['rmb'] = $value['price']*$config['huilv'];
+                $list[$key]['rmb'] = $value['price']*$this->rate;
 
                 unset($list[$key]['spec']);
                 unset($list[$key]['pack']);
@@ -100,7 +99,6 @@ class Goods extends Common {
     public function detail(){
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
-            $config = tpCache('member');
             $goodsID = input('post.goodsID');
             if ($goodsID=='' || !is_numeric($goodsID)) {
                 returnJson(0,'参数错误');
@@ -131,7 +129,7 @@ class Goods extends Common {
             $spec = $result['spec'];
             $pack = $result['pack'];
 
-            $list['rmb'] = number_format($config['huilv']*$list['price'],1);  
+            $list['rmb'] = number_format($this->rate*$list['price'],1);  
             $list['content'] = htmlspecialchars_decode($list['content']); 
 
             returnJson(0,'success',['goods'=>$list,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
