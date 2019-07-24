@@ -7,7 +7,6 @@ class Cart extends Auth {
     public function lists(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
-            $config = tpCache('member');
             $map['memberID'] = $this->user['id'];
             $list = db('Cart')->where($map)->select();
             foreach ($list as $key => $value) {
@@ -19,7 +18,7 @@ class Cart extends Auth {
                 $list[$key]['price'] = $result['price'];               
                 $list[$key]['spec'] = $result['spec'];
                 $list[$key]['total'] = $result['price'] * $value['number'];
-                $list[$key]['rmb'] = number_format($config['huilv']*$list[$key]['total'],1); 
+                $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
             }
             returnJson(1,'success',['cart'=>$list]);
         }
