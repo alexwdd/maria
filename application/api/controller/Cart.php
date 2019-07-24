@@ -135,10 +135,12 @@ class Cart extends Auth {
     public function package(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
-            $list = db("Cart")->where('memberID',$this->user['id'])->select();
+            $list = db("Cart")->where('memberID',$this->user['id'])->order('typeID asc,trueNumber desc')->select();
             if (!$list) {
                 returnJson(0,'购物车中没有商品');
             }
+            $result = $this->getYunfeiJson($list);
+            returnJson(1,'success',$result);
         } 
     }
 }

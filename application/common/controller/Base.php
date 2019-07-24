@@ -92,6 +92,7 @@ class Base extends Controller {
         return ['goods'=>$goods,'pack'=>$pack,'spec'=>$spec];
     }
 
+    //获取商品价格
     public function getGoodsPrice($goods,$specID,$flashArr){
         //判断是套餐的ID还是商品的ID
         if($goods['fid']>0){
@@ -130,6 +131,52 @@ class Base extends Controller {
         } 
 
         return ['price'=>$price,'spec'=>$spec];
+    }
+
+    public function getYunfeiJson($cart,$province=null){
+        foreach ($cart as $key => $value) {
+            $goods = db('Goods')->where('id',$value['goodsID'])->find(); 
+            $cart[$key]['name'] = $goods['name'];
+            $cart[$key]['short'] = $goods['short'];
+            $cart[$key]['wuliuWeight'] = $goods['wuliuWeight'];            
+            $cart[$key]['weight'] = $goods['weight'];            
+            $cart[$key]['price'] = $goods['price'];            
+            $cart[$key]['singleNumber'] = $goods['number'];             
+        } 
+
+        $cart = new \cart\Zhongyou($cart,$kuaidi,$province,$user);
+        $baoguoArr = $cart->getBaoguo();
+           
+        $totalWeight = 0;
+        $totalWuliuWeight = 0;
+        $totalPrice = 0;
+        $totalExtend = 0;
+        $totalInprice = 0;
+        foreach ($baoguoArr as $key => $value) {
+            $totalWeight += $value['totalWeight'];
+            $totalWuliuWeight += $value['totalWuliuWeight'];
+            $totalPrice += $value['yunfei'];
+            $totalExtend += $value['extend'];
+            $totalInprice += $value['inprice'];
+        }
+        $data = [
+            'totalWeight'=>fix_number_precision($totalWeight,2),
+            'totalWuliuWeight'=>fix_number_precision($totalWuliuWeight,2),
+            'totalPrice'=>fix_number_precision($totalPrice,2),
+            'totalExtend'=>fix_number_precision($totalExtend,2),
+            'totalInprice'=>fix_number_precision($totalInprice,2),
+            'baoguo'=>$baoguoArr
+        ];     
+        return $data;
+    }
+
+    //判断是否在偏远地区
+    private function inExtendArea($province){        
+        if (in_array($province,$this->extendArea)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function https_post($url,$data = null){

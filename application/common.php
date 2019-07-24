@@ -69,6 +69,52 @@ function returnJson($code,$msg,$data=null){
     die;
 }
 
+function fix_number_precision($data, $precision = 2)
+{
+    if(is_array($data)){
+        foreach ($data as $key => $value) {
+            $data[$key] = fix_number_precision($value, $precision);
+        }
+        return $data;
+    }
+
+    if(is_numeric($data)){
+        $precision = is_float($data) ? $precision : 0;
+        return number_format($data, $precision, '.', '');
+    }
+    return $data;
+}
+
+//获取中邮快递名称
+function getBrandName($type){
+    if ($type==1 || $type==2 || $type==3) {
+        return '澳邮';
+    }
+    if ($type==5) {
+        return '中邮';
+    }
+    if (in_array($type,[12,13,14])) {
+        $config = tpCache('kuaidi');
+        return $config['kuaidi'.$type];
+    }
+    return '中环';
+}
+
+//物流单价
+function getDanjia($type){
+    $config = tpCache("kuaidi");
+    if ($type==1 || $type==2 || $type==3) {//澳邮
+        return ['price'=>$config['price1'],'inprice'=>$config['inprice1'],'otherPrice'=>$config['otherPrice1']];
+    }
+    if ($type==5) {//中邮
+        return ['price'=>$config['price2'],'inprice'=>$config['inprice2'],'otherPrice'=>$config['otherPrice2']];
+    }
+    if (in_array($type,[12,13,14])) {
+        return ['price'=>$config['price'.$type],'inprice'=>$config['inprice'.$type],'otherPrice'=>$config['otherPrice'.$type]];
+    }
+    return ['price'=>$config['price3'],'inprice'=>$config['inprice3'],'otherPrice'=>$config['otherPrice3']];//中环
+}
+
 function getGoodsEmpty($goods){
     if ($goods['stock']<=0) {
         return 1;
