@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-25 00:47:50
+Date: 2019-07-25 17:14:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -367,6 +367,7 @@ CREATE TABLE `pm_coupon` (
   `number` int(11) NOT NULL,
   `day` int(11) NOT NULL,
   `goodsID` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `intr` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `updateTime` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -375,7 +376,7 @@ CREATE TABLE `pm_coupon` (
 -- ----------------------------
 -- Records of pm_coupon
 -- ----------------------------
-INSERT INTO `pm_coupon` VALUES ('3', '新手券', '立减50元', '1', '0', '50', '1', '1', '30', '4,7', '1563102923', '1551964995');
+INSERT INTO `pm_coupon` VALUES ('3', '新手券', '立减50元', '1', '0', '50', '1', '1', '30', '4,7', '使用说明啊啊啊', '1564037908', '1551964995');
 
 -- ----------------------------
 -- Table structure for `pm_coupon_log`
@@ -384,18 +385,21 @@ DROP TABLE IF EXISTS `pm_coupon_log`;
 CREATE TABLE `pm_coupon_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `memberID` int(11) DEFAULT NULL,
+  `nickname` varchar(200) DEFAULT NULL,
   `couponID` int(11) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT NULL,
+  `code` varchar(10) DEFAULT NULL COMMENT '编号',
+  `status` tinyint(4) DEFAULT NULL COMMENT '0未使用 1已使用',
   `useTime` int(11) DEFAULT NULL,
   `endTime` int(11) DEFAULT NULL,
   `createTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_coupon_log
 -- ----------------------------
-INSERT INTO `pm_coupon_log` VALUES ('1', '2', '3', '0', '0', '1566576909', '1563984909');
+INSERT INTO `pm_coupon_log` VALUES ('12', '2', '张小黑', '3', '1322228216', '0', '0', '1566634788', '1564041383');
+INSERT INTO `pm_coupon_log` VALUES ('13', '0', '', '3', '1338509194', '0', '0', '1566634823', '1564041383');
 
 -- ----------------------------
 -- Table structure for `pm_fav`
@@ -718,7 +722,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566578845', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566638063', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`

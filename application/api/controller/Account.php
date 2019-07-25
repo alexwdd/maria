@@ -274,7 +274,7 @@ class Account extends Auth {
                 }
                 $list[$key]['endTime'] = date("Y-m-d H:i:s",$value['endTime']);
                 $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
-                $info = db('Coupon')->field('name,desc,full,dec,goodsID')->where('id',$value['couponID'])->find();
+                $info = db('Coupon')->field('name,desc,full,dec,goodsID,intr')->where('id',$value['couponID'])->find();
                 if($info['goodsID']!=''){
                     $ids = explode(",",$info['goodsID']);
                     unset($map);
@@ -295,35 +295,73 @@ class Account extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $couponID = input('post.couponID');
-            if ($couponID=='' || !is_numeric($couponID)) {
-                returnJson(0,'参数错误');
-            }
-            $map['status'] = 1;
-            $map['id'] = $couponID;
-            $list = db('Coupon')->where($map)->find();
-            if(!$list){
-                returnJson(0,'优惠券不存在');
-            }
+            $code = input('post.code');
 
-            $count = db("CouponLog")->where('couponID',$couponID)->count();
-            if($count>=$list['number']){
-                returnJson(0,'每人最多领取'.$list['number'].'张');
-            }
+            if ($couponID!='' || is_numeric($couponID)) {
+                $map['status'] = 1;
+                $map['id'] = $couponID;
+                $list = db('Coupon')->where($map)->find();
+                if(!$list){
+                    returnJson(0,'优惠券不存在');
+                }
 
-            $data = [
-                'memberID'=>$this->user['id'],
-                'couponID'=>$couponID,
-                'status'=>0,
-                'useTime'=>0,
-                'endTime'=>time()+86400*$list['day'],
-                'createTime'=>time(),
-            ];
-            $res = db("CouponLog")->insert($data);
-            if ($res) {
-                returnJson(1,'success');
+                $where['couponID'] = $couponID;
+                $where['memberID'] = $this->user['id'];
+                $count = db("CouponLog")->where($where)->count();
+                if($count>=$list['number']){
+                    returnJson(0,$list['name'].'每人最多领取'.$list['number'].'张');
+                }
+
+                $data = [
+                    'memberID'=>$this->user['id'],
+                    'nickname'=>$this->user['nickname'],
+                    'couponID'=>$couponID,
+                    'code'=>$this->getCouponNo(),
+                    'status'=>0,
+                    'useTime'=>0,
+                    'endTime'=>time()+86400*$list['day'],
+                    'createTime'=>time(),
+                ];
+                $res = db("CouponLog")->insert($data);
+                if ($res) {
+                    returnJson(1,'success');
+                }else{
+                    returnJson(0,'领取失败');
+                }
+            }elseif($code!=''){
+                $map['code'] = $code;
+                $map['memberID'] = 0;
+                $list = db("CouponLog")->where($map)->find();
+                if (!$list) {
+                    returnJson(0,'无效的优惠券码');
+                }
+
+                $coupon = db("Coupon")->where('id',$list['couponID'])->find();
+                if (!$coupon) {
+                    returnJson(0,'优惠券码已失效');
+                }
+
+                $where['couponID'] = $coupon['id'];
+                $where['memberID'] = $this->user['id'];
+                $count = db("CouponLog")->where($where)->count();
+                if($count>=$coupon['number']){
+                    returnJson(0,$coupon['name'].'每人最多领取'.$coupon['number'].'张');
+                }
+
+                $data = [
+                    'memberID'=>$this->user['id'],
+                    'nickname'=>$this->user['nickname'],
+                    'endTime'=>time()+86400*$coupon['day']
+                ];
+                $res = db("CouponLog")->where($map)->update($data);
+                if ($res) {
+                    returnJson(1,'success');
+                }else{
+                    returnJson(0,'领取失败');
+                }
             }else{
                 returnJson(0,'领取失败');
-            }
+            }       
         }
     }
 }

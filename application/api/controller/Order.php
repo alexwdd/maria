@@ -60,8 +60,25 @@ class Order extends Auth {
 
             $data['senderID'] = input('post.senderID');
             $data['addressID'] = input('post.addressID');
-            $data['couponID'] = input('post.couponID');
+            $couponID = input('post.couponID');
             $data['memberID'] = $this->user['id'];
+
+            if ($couponID!="" && is_numeric($couponID)) {
+                $map['id'] = $couponID;
+                $map['useTime'] = 0;
+                $map['memberID'] = $this->user['id'];
+                $map['endTime'] = array('gt',time());
+                $coupon = db("CouponLog")->where($map)->find();
+                if(!$coupon){
+                    returnJson(0,'无效的优惠券');
+                }
+                
+                if(!$this->checkCoupon($coupon,$list)){
+                    returnJson(0,'该优惠券不满足使用条件');
+                }
+                $data['couponID'] = $couponID;
+            }
+            die;
             
             $res = model('Order')->add( $data );
             if ($res['code']==1) {  

@@ -171,6 +171,17 @@ class Base extends Controller {
         return $data;
     }
 
+    //生成随机优惠券码
+    public function getCouponNo(){
+        $randNum = rand(1000000000, 9999999999);
+        $map['code'] = $randNum;
+        $count = db("CouponLog")->where($map)->count();
+        if ($count>0) {
+            return $this->getOrderNo();
+        }
+        return $randNum;
+    }
+
     //当前汇率
     public function getRate(){
         if (cache("rate")) {
@@ -194,6 +205,28 @@ class Base extends Controller {
             cache("rate",$rate,3600);
             return $rate;
         }        
+    }
+
+    //获取购物车信息
+    public function getCartInfo($cart){
+        $total = 0;
+        foreach ($cart as $key => $value) {
+            $goods = db('Goods')->where('id='.$value['goodsID'])->find();
+            if($value['specID']>0){
+                $spec = db("GoodsSpecPrice")->where('id',$value['specID'])->find();
+                $goods['price'] = $spec['price'];
+            }
+            //贴心服务需要计算商品个数，所以要乘套餐里边商品的数量
+            $total  += $goods['price'] * $value['number'];
+            //$weight += $goods['weight'] * $value['trueNumber'];
+        }
+        $number = count($cart);
+        return array('number'=>$number,'total'=>$total); 
+    }
+
+    //检查优惠券是否可用
+    public function checkCoupon($coupon,$cart){
+        
     }
 
     public function https_post($url,$data = null){
