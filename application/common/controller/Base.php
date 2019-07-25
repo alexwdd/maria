@@ -226,7 +226,20 @@ class Base extends Controller {
 
     //检查优惠券是否可用
     public function checkCoupon($coupon,$cart){
-        
+        $cartInfo = $this->getCartInfo($cart);
+        if($cartInfo['total'] < $coupon['full']){
+            return false;
+        }
+        if($coupon['goodsID']!=''){
+            $goodsIds = explode(",", $coupon['goodsID']);
+            foreach ($cart as $key => $value) {
+                if(in_array($value['goodsID'],$goodsIds)){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 
     public function https_post($url,$data = null){

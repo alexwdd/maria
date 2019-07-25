@@ -72,14 +72,18 @@ class Order extends Auth {
                 if(!$coupon){
                     returnJson(0,'无效的优惠券');
                 }
-                
+                $couponInfo = db("Coupon")->where('id',$coupon['couponID'])->find();
+                if(!$couponInfo){
+                    returnJson(0,'无效的优惠券');
+                }
+                $coupon['full'] = $couponInfo['full'];
+                $coupon['dec'] = $couponInfo['dec'];
+                $coupon['goodsID'] = $couponInfo['goodsID'];
                 if(!$this->checkCoupon($coupon,$list)){
                     returnJson(0,'该优惠券不满足使用条件');
                 }
                 $data['couponID'] = $couponID;
-            }
-            die;
-            
+            }           
             $res = model('Order')->add( $data );
             if ($res['code']==1) {  
                 returnJson(1,'success'); 

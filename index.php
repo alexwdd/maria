@@ -4,4 +4,4 @@ if(version_compare(PHP_VERSION,'5.4.0','<'))  die('require PHP > 5.4.0 !');
 define('APP_PATH', __DIR__ . '/application/');
 define('RUNTIME_PATH','./runtime/');
 // 加载框架引导文件
-require __DIR__ . './_core/start.php';
+require __DIR__ . '/_core/start.php';
