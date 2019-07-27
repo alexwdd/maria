@@ -104,33 +104,39 @@ class Base extends Controller {
         $spec = [];
         if($goods['fid']==0){
             if($specID>0){//有规格选项
-                $spec = db("GoodsSpecPrice")->field('key_name,price')->where('id',$specID)->find();
-                if($flash){
+                $spec = db("GoodsSpecPrice")->field('key_name,price,minPrice')->where('id',$specID)->find();
+                if($flash){ //今日抢购
                     $flash['spec'] = unserialize($flash['spec']);
                     foreach ($flash['spec'] as $k => $val) {
                         if($val['item_id'] == $specID){
                             $price = $value['price'];
+                            $minPrice = $value['price'];
                         }
                     }
                 }else{
                     $price = $spec['price'];
+                    $minPrice = $spec['minPrice'];
                 }                        
             }else{
                 if($flash){
                     $price = $flash['price'];
+                    $minPrice = $flash['price'];
                 }else{
                     $price = $goods['price'];
+                    $minPrice = $goods['minPrice'];
                 }                        
             }
         }else{//是套餐
             if($flash){
                 $price = $flash['price'];
+                $minPrice = $flash['price'];
             }else{
                 $price = $goods['price'];
+                $minPrice = $goods['minPrice'];
             }                   
         } 
 
-        return ['price'=>$price,'spec'=>$spec];
+        return ['price'=>$price,'minPrice'=>$minPrice,'spec'=>$spec];
     }
 
     //获取包裹
@@ -240,6 +246,21 @@ class Base extends Controller {
             return false;
         }
         return true;
+    }
+
+    //检查订单是否可以砍价
+    public function checkCut($cart){
+        foreach ($cart as $key => $value) {
+            $goods = db("Goods")->where('id',$value['goodsID'])->find();
+            $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+
+            $list[$key]['name'] = $goods['name'];
+            $list[$key]['picname'] = getRealUrl($goods['picname']);
+            $list[$key]['price'] = $result['price'];               
+            $list[$key]['spec'] = $result['spec'];
+            $list[$key]['total'] = $result['price'] * $value['number'];
+            $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
+        }
     }
 
     public function https_post($url,$data = null){

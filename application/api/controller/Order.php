@@ -52,12 +52,23 @@ class Order extends Auth {
     public function pub(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
+            $config = tpCache("member");
 
             $list = db("Cart")->where('memberID',$this->user['id'])->select();
             if (!$list) {
                 returnJson(0,'购物车中没有商品');
             }
 
+            $goodsMoney = 0;
+            $minGoodsMoney = 0;
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+
+                $goodsMoney += $result['price'];
+                $minGoodsMoney += $result['minPrice'];
+            }
+            
             $data['senderID'] = input('post.senderID');
             $data['addressID'] = input('post.addressID');
             $couponID = input('post.couponID');
@@ -83,7 +94,20 @@ class Order extends Auth {
                     returnJson(0,'该优惠券不满足使用条件');
                 }
                 $data['couponID'] = $couponID;
-            }           
+                $data['isCut'] = 0;
+            }else{
+                if($config['isCut']==0){
+                    $data['isCut'] = 0;
+                }else{
+                    if($goodsMoney > $minGoodsMoney){
+                        $data['isCut'] = 1;
+                    }else{
+                        $data['isCut'] = 0;
+                    }
+                }
+            }
+            dump($data);die;
+
             $res = model('Order')->add( $data );
             if ($res['code']==1) {  
                 returnJson(1,'success'); 

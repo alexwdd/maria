@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-25 17:14:52
+Date: 2019-07-27 17:34:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -264,7 +264,7 @@ CREATE TABLE `pm_config` (
   `inc_type` varchar(64) DEFAULT NULL COMMENT '配置分组',
   `desc` varchar(50) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_config
@@ -326,7 +326,7 @@ INSERT INTO `pm_config` VALUES ('98', 'max', '2.00', 'member', null);
 INSERT INTO `pm_config` VALUES ('99', 'hour', '24', 'member', null);
 INSERT INTO `pm_config` VALUES ('100', 'shareMax', '20', 'member', null);
 INSERT INTO `pm_config` VALUES ('101', 'isReg', '1', 'member', null);
-INSERT INTO `pm_config` VALUES ('102', 'hotkey', '', 'member', null);
+INSERT INTO `pm_config` VALUES ('102', 'hotkey', '补水面膜', 'member', null);
 INSERT INTO `pm_config` VALUES ('103', 'kuaidi12', '红酒专邮', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('104', 'price12', '0', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('105', 'inprice12', '0', 'kuaidi', null);
@@ -351,6 +351,8 @@ INSERT INTO `pm_config` VALUES ('123', 'otherPrice2', '2', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('124', 'price3', '6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('125', 'inprice3', '5.6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('126', 'otherPrice3', '2', 'kuaidi', null);
+INSERT INTO `pm_config` VALUES ('127', 'flashTime', '8:00-12:59', 'member', null);
+INSERT INTO `pm_config` VALUES ('128', 'isCut', '1', 'member', null);
 
 -- ----------------------------
 -- Table structure for `pm_coupon`
@@ -555,6 +557,7 @@ CREATE TABLE `pm_goods_cate` (
   `url` varchar(200) NOT NULL,
   `num` int(11) NOT NULL,
   `comm` tinyint(4) NOT NULL,
+  `comm1` tinyint(4) NOT NULL,
   `keyword` text NOT NULL,
   `description` text NOT NULL,
   `createTime` int(10) NOT NULL,
@@ -565,9 +568,9 @@ CREATE TABLE `pm_goods_cate` (
 -- ----------------------------
 -- Records of pm_goods_cate
 -- ----------------------------
-INSERT INTO `pm_goods_cate` VALUES ('1', '0', '奶粉', '', '50', '0-1-', '', '', '0', '1', '', '', '1561185748', '1563769278');
-INSERT INTO `pm_goods_cate` VALUES ('2', '1', 'A2', '', '50', '0-1-2-', '', '', '0', '0', '', '', '1561185758', '1561185758');
-INSERT INTO `pm_goods_cate` VALUES ('3', '2', '方法', '', '50', '0-1-2-3-', '', '', '0', '0', '', '', '1561185766', '1561185888');
+INSERT INTO `pm_goods_cate` VALUES ('1', '0', '奶粉', '', '50', '0-1-', '', '', '0', '1', '1', '', '', '1561185748', '1564195829');
+INSERT INTO `pm_goods_cate` VALUES ('2', '1', 'A2', '', '50', '0-1-2-', '', '', '0', '0', '0', '', '', '1561185758', '1561185758');
+INSERT INTO `pm_goods_cate` VALUES ('3', '2', '方法', '', '50', '0-1-2-3-', '', '', '0', '0', '0', '', '', '1561185766', '1561185888');
 
 -- ----------------------------
 -- Table structure for `pm_goods_model`
@@ -722,7 +725,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566638063', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566810771', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -958,6 +961,7 @@ CREATE TABLE `pm_option_item` (
   `value` varchar(100) NOT NULL,
   `sort` int(11) NOT NULL,
   `pinyin` varchar(4) NOT NULL,
+  `ext` varchar(100) NOT NULL,
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -966,12 +970,12 @@ CREATE TABLE `pm_option_item` (
 -- ----------------------------
 -- Records of pm_option_item
 -- ----------------------------
-INSERT INTO `pm_option_item` VALUES ('1', '1', '每日精品', '', '3', '50', 'M', '1563769911', '1563771185');
-INSERT INTO `pm_option_item` VALUES ('2', '1', '国内现货', '', '2', '50', 'G', '1563770010', '1563771181');
-INSERT INTO `pm_option_item` VALUES ('3', '1', '特惠推荐', '', '1', '50', 'T', '1563770054', '1563771177');
-INSERT INTO `pm_option_item` VALUES ('4', '2', '美白', '', '', '50', 'M', '1563898010', '1563898010');
-INSERT INTO `pm_option_item` VALUES ('5', '2', '降压', '', '', '50', 'J', '1563898053', '1563898053');
-INSERT INTO `pm_option_item` VALUES ('6', '2', '改善贫血', '', '', '50', 'G', '1563898075', '1563898075');
+INSERT INTO `pm_option_item` VALUES ('1', '1', '每日精品', '', '3', '50', 'M', '', '1563769911', '1563771185');
+INSERT INTO `pm_option_item` VALUES ('2', '1', '国内现货', '', '2', '50', 'G', '', '1563770010', '1563771181');
+INSERT INTO `pm_option_item` VALUES ('3', '1', '特惠推荐', '', '1', '50', 'T', '11111', '1563770054', '1564131115');
+INSERT INTO `pm_option_item` VALUES ('4', '2', '美白', '', '', '50', 'M', '', '1563898010', '1563898010');
+INSERT INTO `pm_option_item` VALUES ('5', '2', '降压', '', '', '50', 'J', '', '1563898053', '1563898053');
+INSERT INTO `pm_option_item` VALUES ('6', '2', '改善贫血', '', '', '50', 'G', '', '1563898075', '1563898075');
 
 -- ----------------------------
 -- Table structure for `pm_order`
@@ -980,23 +984,36 @@ DROP TABLE IF EXISTS `pm_order`;
 CREATE TABLE `pm_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `memberID` int(11) NOT NULL,
+  `couponID` int(11) NOT NULL COMMENT '优惠券ID',
   `order_no` varchar(50) NOT NULL,
-  `totalMoney` decimal(8,2) NOT NULL COMMENT '订单总金额(商品金额+快递费)',
+  `total` decimal(8,2) NOT NULL COMMENT '订单总金额(商品金额+快递费-优惠金额)',
+  `goodsMoney` decimal(8,2) NOT NULL COMMENT '商品总金额',
+  `isCut` tinyint(4) NOT NULL COMMENT '0不予许砍价 1可以砍价',
+  `minGoodsMoney` decimal(8,2) NOT NULL COMMENT '商品最小金额',
   `discount` varchar(10) DEFAULT NULL COMMENT '优惠金额',
-  `money` decimal(8,2) NOT NULL COMMENT '应支付的总金额(订单总金额-优惠金额)',
+  `money` decimal(8,2) NOT NULL COMMENT '在线支付金额',
   `wallet` decimal(8,2) NOT NULL COMMENT '余额支付金额',
-  `inprice` decimal(8,2) NOT NULL COMMENT '商品总成本',
+  `inprice` decimal(8,2) NOT NULL COMMENT '总成本',
   `payment` decimal(8,2) NOT NULL COMMENT '运费总金额',
-  `wuliuInprice` decimal(8,2) NOT NULL COMMENT '运费成本',
+  `addressID` int(11) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `sn` varchar(30) DEFAULT NULL,
+  `front` varchar(200) DEFAULT NULL,
+  `back` varchar(200) DEFAULT NULL,
+  `province` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `area` varchar(50) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `sender` varchar(20) DEFAULT NULL,
+  `senderMobile` varchar(30) DEFAULT NULL,
+  `intr` varchar(300) DEFAULT NULL,
   `remark` varchar(300) DEFAULT NULL,
-  `cardID` int(11) NOT NULL,
-  `image` varchar(200) NOT NULL,
   `print` tinyint(4) NOT NULL COMMENT '0未打印 1已打印',
   `payType` tinyint(11) NOT NULL COMMENT '1omi支付 2余额支付',
   `payStatus` tinyint(11) NOT NULL COMMENT '0未支付 1已支付',
   `status` tinyint(4) NOT NULL COMMENT '0待支付 1待配货 2配货中 3已发货 99交易关闭',
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
-  `sendTime` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)

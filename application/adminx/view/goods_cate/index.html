@@ -11,6 +11,7 @@
                 <col width="300">
                 <col width="100">                
                 <col width="100">                
+                <col width="100">                
                 <col width="100">            
             </colgroup>
             <thead>
@@ -19,7 +20,8 @@
                 <th>名称</th>
                 <th>链接</th>
                 <th>排序</th>
-                <th>推荐</th>
+                <th>顶部推荐</th>
+                <th>底部推荐</th>
                 <th>操作</th>
             </tr> 
             </thead>
@@ -31,6 +33,7 @@
                     <td>{$vo.url}</td>
                     <td>{$vo.sort}</td>
                     <td>{eq name="vo.comm" value="1"}<i class="layui-icon layui-icon-ok"></i>{/eq}</td>
+                    <td>{eq name="vo.comm1" value="1"}<i class="layui-icon layui-icon-ok"></i>{/eq}</td>
                     <td class="layui-form"><select lay-filter="cate-action" data-id="{$vo.id}" data-fid="{$vo.fid}">
                         <option value="">操作</option>
                         <option value="add">添加子栏目</option>

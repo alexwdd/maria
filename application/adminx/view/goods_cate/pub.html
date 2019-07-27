@@ -66,10 +66,15 @@
     </div>
 
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">推荐</label>
+        <label class="layui-form-label">顶部推荐</label>
         <div class="layui-input-inline">
             <input type="radio" name="comm" value="1" title="是" {php}if($list['comm']==1) echo 'checked';{/php}>
             <input type="radio" name="comm" value="0" title="否" {php}if($list['comm']==0) echo 'checked';{/php}>
+        </div>
+        <label class="layui-form-label">底部推荐</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="comm1" value="1" title="是" {php}if($list['comm1']==1) echo 'checked';{/php}>
+            <input type="radio" name="comm1" value="0" title="否" {php}if($list['comm1']==0) echo 'checked';{/php}>
         </div>
     </div>
 

@@ -21,7 +21,7 @@ class Index extends Common
             	$cate[$key]['picname'] = getRealUrl($value['picname']);
             }
 
-            $push = db('OptionItem')->field('value,name')->where('cate',1)->select();
+            $push = db('OptionItem')->field('value,name,ext')->where('cate',1)->select();
             foreach ($push as $key => $value) {
                 $push[$key]['goods'] = [];
                 $goodsID = db('GoodsPush')->where('cateID',$value['value'])->order('updateTime desc')->value('goodsID');
@@ -42,6 +42,10 @@ class Index extends Common
                 $commend[$key]['rmb'] = $value['price']*$this->rate;
             }
 
+            unset($map);
+            $map['comm1'] = 1;
+            $bottomCate = db("GoodsCate")->field('id,name,path')->where($map)->select();
+   
             //今日抢购
             $flash = [];
             foreach ($this->flash as $key => $value) {
@@ -57,14 +61,18 @@ class Index extends Common
                 $flash[$key]['picname'] = getRealUrl($goods['picname']);
                 $flash[$key]['marketPrice'] = $goods['marketPrice'];
                 $flash[$key]['rmb'] = $value['price']*$this->rate;
-            }                        
+            }
+
+            $flashTime = checkFlashTime($config['flashTime']);
             
             returnJson(1,'success',[
             	'ad'=>$ad,
             	'category'=>$cate,
+                'bottomCate'=>$bottomCate,
                 'push'=>$push,
                 'commend'=>$commend,
                 'flash'=>$flash,
+                'flashTime'=>$flashTime,
             	'rate'=>$this->rate,
             	'hotkey'=>$config['hotkey'],
             ]);

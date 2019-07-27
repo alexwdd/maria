@@ -85,6 +85,21 @@ function fix_number_precision($data, $precision = 2)
     return $data;
 }
 
+//获取抢购时间
+function checkFlashTime($time){
+    $time = explode("-",$time);
+    $start = strtotime(date($time[0]));
+    $end = strtotime(date($time[1]));
+    if (time()>$start && time()<$end) {
+        return $end - time();
+    }else{
+        if(time()>$start){
+            $start += 86400;
+        }
+        return time()-$start;
+    }
+}
+
 //获取中邮快递名称
 function getBrandName($type){
     if ($type==1 || $type==2 || $type==3) {

@@ -15,13 +15,21 @@
                     <input type="radio" name="isReg" value="1" title="开启" <?php if($config['isReg']==='1')echo 'checked'; ?>>   
                     <input type="radio" name="isReg" value="0" title="关闭" <?php if($config['isReg']==='0')echo 'checked'; ?>>           
                 </div>
-            </div>
+            </div>            
 
             <div class="layui-form-item">
                 <label class="layui-form-label">搜索热词</label>
                 <div class="layui-input-inline">
                     <input type="text" name="hotkey" value="{$config.hotkey}" class="layui-input">
                 </div>  
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">抢购时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="flashTime" value="{$config.flashTime}" class="layui-input">
+                </div>  
+                <div class="layui-form-mid layui-word-aux">24小时制，如8:00-12:00</div>
             </div>
 
             <div class="layui-form-item">
@@ -122,6 +130,14 @@
                     <input type="text" name="back5" value="{$config.back5}" lay-verify="required" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">%</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">砍价</label>
+                <div class="layui-input-block">             
+                    <input type="radio" name="isCut" value="1" title="开启" <?php if($config['isCut']==='1')echo 'checked'; ?>>   
+                    <input type="radio" name="isCut" value="0" title="关闭" <?php if($config['isCut']==='0')echo 'checked'; ?>>           
+                </div>
             </div>
 
             <div class="layui-form-item">
