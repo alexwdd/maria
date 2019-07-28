@@ -76,6 +76,8 @@ class Goods extends Common {
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
+            $config = tpCache('member');
+
             $type = input('post.type',1);
             $cid = input('post.cid');
             $keyword = input('param.keyword');
@@ -123,7 +125,9 @@ class Goods extends Common {
                 unset($list[$key]['pack']);
                 unset($list[$key]['number']);
             }
-            returnJson(1,'success',['next'=>$next,'data'=>$list]);
+
+            $flashTime = checkFlashTime($config['flashTime']);
+            returnJson(1,'success',['next'=>$next,'data'=>$list,'flashTime'=>$flashTime]);
         }
     }
 

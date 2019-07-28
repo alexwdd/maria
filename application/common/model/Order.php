@@ -13,6 +13,8 @@ class Order extends Model
         $data['createTime'] = time();
         $data['updateTime'] = time();
         $data['status'] = 0;
+        $data['payType'] = 0;
+        $data['payStatus'] = 0;
         $this->allowField(true)->save($data);
         if($this->id > 0){ 
             return array('code'=>1,'msg'=>$this->id);

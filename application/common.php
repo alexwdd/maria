@@ -85,6 +85,30 @@ function fix_number_precision($data, $precision = 2)
     return $data;
 }
 
+//获取订单状态
+function getOrderStatus($v){
+    switch ($v) {
+        case 0:
+            return '待付款';
+            break;
+        case 1:
+            return '待配货';
+            break;
+        case 2:
+            return '配货中';
+            break;
+        case 3:
+            return '已发货';
+            break;
+        case 99:
+            return '交易关闭';
+            break;
+        default:
+            # code...
+            break;
+    }
+}
+
 //获取抢购时间
 function checkFlashTime($time){
     $time = explode("-",$time);
@@ -206,6 +230,11 @@ function createNonceStr($length = 16) {
         $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
     }
     return $str;
+}
+
+function getStoreOrderNo($fix='') {
+    $randNum = rand(10000000, 99999999);
+    return $randNum;die;
 }
 
 //图片生成缩略图

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-27 17:34:15
+Date: 2019-07-28 14:57:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -75,11 +75,12 @@ CREATE TABLE `pm_address` (
   `sn` varchar(50) NOT NULL,
   `def` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_address
 -- ----------------------------
+INSERT INTO `pm_address` VALUES ('1', '2', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', ' ', ' ', ' ', '0');
 
 -- ----------------------------
 -- Table structure for `pm_article`
@@ -219,12 +220,11 @@ CREATE TABLE `pm_cart` (
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   `typeID` int(11) NOT NULL COMMENT '包裹类型',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_cart
 -- ----------------------------
-INSERT INTO `pm_cart` VALUES ('3', '2', '4', '0', '4', '4', '1');
 
 -- ----------------------------
 -- Table structure for `pm_category`
@@ -326,7 +326,7 @@ INSERT INTO `pm_config` VALUES ('98', 'max', '2.00', 'member', null);
 INSERT INTO `pm_config` VALUES ('99', 'hour', '24', 'member', null);
 INSERT INTO `pm_config` VALUES ('100', 'shareMax', '20', 'member', null);
 INSERT INTO `pm_config` VALUES ('101', 'isReg', '1', 'member', null);
-INSERT INTO `pm_config` VALUES ('102', 'hotkey', '补水面膜', 'member', null);
+INSERT INTO `pm_config` VALUES ('102', 'hotkey', '', 'member', null);
 INSERT INTO `pm_config` VALUES ('103', 'kuaidi12', '红酒专邮', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('104', 'price12', '0', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('105', 'inprice12', '0', 'kuaidi', null);
@@ -351,7 +351,7 @@ INSERT INTO `pm_config` VALUES ('123', 'otherPrice2', '2', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('124', 'price3', '6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('125', 'inprice3', '5.6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('126', 'otherPrice3', '2', 'kuaidi', null);
-INSERT INTO `pm_config` VALUES ('127', 'flashTime', '8:00-12:59', 'member', null);
+INSERT INTO `pm_config` VALUES ('127', 'flashTime', '8:00-12:00', 'member', null);
 INSERT INTO `pm_config` VALUES ('128', 'isCut', '1', 'member', null);
 
 -- ----------------------------
@@ -400,7 +400,7 @@ CREATE TABLE `pm_coupon_log` (
 -- ----------------------------
 -- Records of pm_coupon_log
 -- ----------------------------
-INSERT INTO `pm_coupon_log` VALUES ('12', '2', '张小黑', '3', '1322228216', '0', '0', '1566634788', '1564041383');
+INSERT INTO `pm_coupon_log` VALUES ('12', '2', '张小黑', '3', '1322228216', '1', '1564238748', '1566634788', '1564041383');
 INSERT INTO `pm_coupon_log` VALUES ('13', '0', '', '3', '1338509194', '0', '0', '1566634823', '1564041383');
 
 -- ----------------------------
@@ -480,13 +480,13 @@ CREATE TABLE `pm_flash` (
   `number` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_flash
 -- ----------------------------
 INSERT INTO `pm_flash` VALUES ('3', '7', '某某奶粉', '9', 'a:0:{}', 'a:0:{}', '1562342400', '1564848000', '999', '1563709506');
-INSERT INTO `pm_flash` VALUES ('6', '4', '测试商品', '30', 'a:12:{i:0;a:3:{s:6:\"specID\";s:1:\"4\";s:4:\"name\";s:26:\"尺码:35码 颜色:白色\";s:5:\"price\";s:2:\"30\";}i:1;a:3:{s:6:\"specID\";s:1:\"3\";s:4:\"name\";s:26:\"尺码:35码 颜色:蓝色\";s:5:\"price\";s:2:\"30\";}i:2;a:3:{s:6:\"specID\";s:1:\"5\";s:4:\"name\";s:26:\"尺码:42码 颜色:蓝色\";s:5:\"price\";s:2:\"30\";}i:3;a:3:{s:6:\"specID\";s:1:\"6\";s:4:\"name\";s:26:\"尺码:42码 颜色:白色\";s:5:\"price\";s:2:\"30\";}i:4;a:3:{s:6:\"specID\";s:1:\"7\";s:4:\"name\";s:26:\"尺码:35码 颜色:蓝色\";s:5:\"price\";s:2:\"30\";}i:5;a:3:{s:6:\"specID\";s:1:\"8\";s:4:\"name\";s:26:\"尺码:35码 颜色:白色\";s:5:\"price\";s:2:\"30\";}i:6;a:3:{s:6:\"specID\";s:1:\"9\";s:4:\"name\";s:26:\"尺码:42码 颜色:蓝色\";s:5:\"price\";s:2:\"30\";}i:7;a:3:{s:6:\"specID\";s:2:\"10\";s:4:\"name\";s:26:\"尺码:42码 颜色:白色\";s:5:\"price\";s:2:\"30\";}i:8;a:3:{s:6:\"specID\";s:2:\"11\";s:4:\"name\";s:26:\"尺码:35码 颜色:蓝色\";s:5:\"price\";s:2:\"30\";}i:9;a:3:{s:6:\"specID\";s:2:\"12\";s:4:\"name\";s:26:\"尺码:35码 颜色:白色\";s:5:\"price\";s:2:\"30\";}i:10;a:3:{s:6:\"specID\";s:2:\"13\";s:4:\"name\";s:26:\"尺码:42码 颜色:蓝色\";s:5:\"price\";s:2:\"30\";}i:11;a:3:{s:6:\"specID\";s:2:\"14\";s:4:\"name\";s:26:\"尺码:42码 颜色:白色\";s:5:\"price\";s:2:\"30\";}}', 'a:2:{i:0;a:3:{s:6:\"packID\";s:1:\"5\";s:4:\"name\";s:12:\"三罐套餐\";s:5:\"price\";s:3:\"230\";}i:1;a:3:{s:6:\"packID\";s:1:\"6\";s:4:\"name\";s:12:\"六罐套餐\";s:5:\"price\";s:3:\"450\";}}', '1563811200', '1564588799', '999', '1563860124');
+INSERT INTO `pm_flash` VALUES ('7', '4', '测试商品', '38', 'a:4:{i:0;a:3:{s:6:\"specID\";s:1:\"1\";s:4:\"name\";s:26:\"尺码:35码 颜色:蓝色\";s:5:\"price\";s:2:\"38\";}i:1;a:3:{s:6:\"specID\";s:1:\"2\";s:4:\"name\";s:26:\"尺码:35码 颜色:白色\";s:5:\"price\";s:2:\"38\";}i:2;a:3:{s:6:\"specID\";s:1:\"3\";s:4:\"name\";s:26:\"尺码:42码 颜色:蓝色\";s:5:\"price\";s:2:\"38\";}i:3;a:3:{s:6:\"specID\";s:1:\"4\";s:4:\"name\";s:26:\"尺码:42码 颜色:白色\";s:5:\"price\";s:2:\"38\";}}', 'a:2:{i:0;a:3:{s:6:\"packID\";s:1:\"5\";s:4:\"name\";s:12:\"三罐套餐\";s:5:\"price\";s:3:\"220\";}i:1;a:3:{s:6:\"packID\";s:1:\"6\";s:4:\"name\";s:12:\"六罐套餐\";s:5:\"price\";s:3:\"450\";}}', '1564070400', '1564588799', '999', '1564237301');
 
 -- ----------------------------
 -- Table structure for `pm_goods`
@@ -513,6 +513,7 @@ CREATE TABLE `pm_goods` (
   `content` text NOT NULL,
   `max` int(11) NOT NULL,
   `endDate` varchar(50) NOT NULL,
+  `point` int(11) NOT NULL,
   `inprice` decimal(10,2) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `marketPrice` decimal(10,2) NOT NULL,
@@ -536,11 +537,11 @@ CREATE TABLE `pm_goods` (
 -- ----------------------------
 -- Records of pm_goods
 -- ----------------------------
-INSERT INTO `pm_goods` VALUES ('4', '0', '2', '0-1-2-', '0', '', '1', '1', '12', '测试商品', '111', '22', '11', '', '', '', null, '', '0', '', '28.00', '39.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '1', '0', '0', '0', '1', '50', '1563702780', '1563938687');
-INSERT INTO `pm_goods` VALUES ('5', '4', '2', '0-1-2-', '0', '', '1', '1', '12', '三罐套餐', '111', '22', '11', '', '', '', null, '', '0', '', '28.00', '250.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '3', '0', '0', '0', '1', '50', '1563702780', '1563938687');
-INSERT INTO `pm_goods` VALUES ('6', '4', '2', '0-1-2-', '0', '', '1', '1', '12', '六罐套餐', '111', '22', '11', '', '', '', null, '', '0', '', '28.00', '480.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '6', '0', '0', '0', '1', '50', '1563702780', '1563938687');
-INSERT INTO `pm_goods` VALUES ('7', '0', '2', '0-1-2-', '0', '', '1', '0', '12', '某某奶粉', '121212', '11', '11', '', '', '', null, '', '0', '1', '11.00', '11.00', '0.00', '11.00', '11.00', '1.00', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563703331', '1563899568');
-INSERT INTO `pm_goods` VALUES ('8', '0', '2', '0-1-2-', '0', '', '3', '1', '5', '11111111', '22222222', '1', '2', '', '', '', null, '', '0', '', '1.00', '1.00', '1.00', '1.00', '1.00', '1.00', '', '1', '999', '1', '0', '0', '0', '1', '50', '1563938779', '1563938811');
+INSERT INTO `pm_goods` VALUES ('4', '0', '2', '0-1-2-', '0', '', '1', '1', '12', '测试商品', '111', '22', '11', '', '', '', null, '', '0', '', '43', '28.00', '43.00', '48.00', '40.00', '0.50', '0.80', '', '0', '999', '1', '0', '0', '0', '1', '50', '1563702780', '1564293065');
+INSERT INTO `pm_goods` VALUES ('5', '4', '2', '0-1-2-', '0', '', '1', '1', '12', '三罐套餐', '111', '22', '11', '', '', '', null, '', '0', '', '43', '28.00', '250.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '3', '0', '0', '0', '1', '50', '1563702780', '1564293065');
+INSERT INTO `pm_goods` VALUES ('6', '4', '2', '0-1-2-', '0', '', '1', '1', '12', '六罐套餐', '111', '22', '11', '', '', '', null, '', '0', '', '43', '28.00', '480.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '6', '0', '0', '0', '1', '50', '1563702780', '1564293065');
+INSERT INTO `pm_goods` VALUES ('7', '0', '2', '0-1-2-', '0', '', '1', '0', '12', '某某奶粉', '121212', '11', '11', '', '', '', null, '', '0', '1', '11', '11.00', '11.00', '0.00', '11.00', '11.00', '1.00', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563703331', '1564293076');
+INSERT INTO `pm_goods` VALUES ('8', '0', '2', '0-1-2-', '0', '', '3', '1', '5', '普通商品不在抢购', '22222222', '1', '2', '', '', '', null, '', '0', '', '25', '13.00', '25.00', '30.00', '20.00', '1.00', '1.00', '', '1', '999', '1', '0', '0', '0', '1', '50', '1563938779', '1564292936');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -633,10 +634,10 @@ CREATE TABLE `pm_goods_spec_price` (
 -- ----------------------------
 -- Records of pm_goods_spec_price
 -- ----------------------------
-INSERT INTO `pm_goods_spec_price` VALUES ('1', '4', '1_6', '尺码:35码 颜色:蓝色', '39.00', '38.00', '0', '', '0.8', null, null, '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('2', '4', '1_7', '尺码:35码 颜色:白色', '39.00', '39.00', '0', '', '0.8', null, null, '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('3', '4', '3_6', '尺码:42码 颜色:蓝色', '39.00', '39.00', '0', '', '0.8', null, null, '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('4', '4', '3_7', '尺码:42码 颜色:白色', '39.00', '39.00', '0', '', '0.8', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('1', '4', '1_6', '尺码:35码 颜色:蓝色', '43.00', '40.00', '0', '', '0.8', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('2', '4', '1_7', '尺码:35码 颜色:白色', '43.00', '40.00', '0', '', '0.8', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('3', '4', '3_6', '尺码:42码 颜色:蓝色', '43.00', '40.00', '0', '', '0.8', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('4', '4', '3_7', '尺码:42码 颜色:白色', '43.00', '40.00', '0', '', '0.8', null, null, '0', '0');
 INSERT INTO `pm_goods_spec_price` VALUES ('9', '8', '2_6', '尺码:40码 颜色:蓝色', '1.00', '1.00', '0', '', '', null, null, '0', '0');
 INSERT INTO `pm_goods_spec_price` VALUES ('10', '8', '2_7', '尺码:40码 颜色:白色', '1.00', '1.00', '0', '', '', null, null, '0', '0');
 
@@ -725,7 +726,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566810771', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566888581', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -990,6 +991,8 @@ CREATE TABLE `pm_order` (
   `goodsMoney` decimal(8,2) NOT NULL COMMENT '商品总金额',
   `isCut` tinyint(4) NOT NULL COMMENT '0不予许砍价 1可以砍价',
   `minGoodsMoney` decimal(8,2) NOT NULL COMMENT '商品最小金额',
+  `fund` decimal(8,2) NOT NULL COMMENT '获得多少返利基金',
+  `point` int(11) NOT NULL COMMENT '获得多少积分',
   `discount` varchar(10) DEFAULT NULL COMMENT '优惠金额',
   `money` decimal(8,2) NOT NULL COMMENT '在线支付金额',
   `wallet` decimal(8,2) NOT NULL COMMENT '余额支付金额',
@@ -997,16 +1000,16 @@ CREATE TABLE `pm_order` (
   `payment` decimal(8,2) NOT NULL COMMENT '运费总金额',
   `addressID` int(11) DEFAULT NULL,
   `name` varchar(20) DEFAULT NULL,
-  `mobile` varchar(20) DEFAULT NULL,
+  `tel` varchar(20) DEFAULT NULL,
   `sn` varchar(30) DEFAULT NULL,
   `front` varchar(200) DEFAULT NULL,
   `back` varchar(200) DEFAULT NULL,
   `province` varchar(50) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
-  `area` varchar(50) DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
+  `county` varchar(50) DEFAULT NULL,
+  `addressDetail` varchar(100) DEFAULT NULL,
   `sender` varchar(20) DEFAULT NULL,
-  `senderMobile` varchar(30) DEFAULT NULL,
+  `senderTel` varchar(30) DEFAULT NULL,
   `intr` varchar(300) DEFAULT NULL,
   `remark` varchar(300) DEFAULT NULL,
   `print` tinyint(4) NOT NULL COMMENT '0未打印 1已打印',
@@ -1017,11 +1020,21 @@ CREATE TABLE `pm_order` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order
 -- ----------------------------
+INSERT INTO `pm_order` VALUES ('10', '2', '0', '61880187', '38.00', '38.00', '0', '38.00', '0.00', '0', '0', '0.00', '0.00', '28.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564241334', '1564241334');
+INSERT INTO `pm_order` VALUES ('9', '2', '0', '59086914', '38.00', '38.00', '0', '38.00', '0.00', '0', '0', '0.00', '0.00', '28.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564241302', '1564241302');
+INSERT INTO `pm_order` VALUES ('3', '2', '12', '95476379', '0.00', '38.00', '0', '38.00', '0.00', '0', '50', '0.00', '0.00', '336.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564238180', '1564238180');
+INSERT INTO `pm_order` VALUES ('4', '2', '12', '33175659', '0.00', '38.00', '0', '38.00', '0.00', '0', '50', '0.00', '0.00', '336.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564238578', '1564238578');
+INSERT INTO `pm_order` VALUES ('5', '2', '12', '41615905', '0.00', '38.00', '0', '38.00', '0.00', '0', '50', '0.00', '0.00', '336.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564238748', '1564238748');
+INSERT INTO `pm_order` VALUES ('6', '2', '0', '26446533', '38.00', '38.00', '0', '38.00', '0.00', '0', '0', '0.00', '0.00', '28.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564239019', '1564239019');
+INSERT INTO `pm_order` VALUES ('7', '2', '0', '30953674', '25.00', '25.00', '0', '20.00', '0.00', '0', '0', '0.00', '0.00', '13.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564239172', '1564239172');
+INSERT INTO `pm_order` VALUES ('8', '2', '0', '33606872', '25.00', '25.00', '1', '20.00', '0.00', '0', '0', '0.00', '0.00', '13.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564239358', '1564239358');
+INSERT INTO `pm_order` VALUES ('11', '2', '0', '72440795', '38.00', '38.00', '0', '38.00', '0.00', '0', '0', '0.00', '0.00', '28.00', '0.00', '1', '赵勇', '18500000000', ' ', ' ', ' ', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564241589', '1564241589');
+INSERT INTO `pm_order` VALUES ('12', '2', '0', '57765808', '38.00', '38.00', '0', '38.00', '0.00', '0', '0', '0.00', '0.00', '28.00', '0.00', '1', '赵勇', '18500000000', '', '', '', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '红色的', null, '0', '0', '0', '0', '0', '1564241674', '1564241674');
 
 -- ----------------------------
 -- Table structure for `pm_order_baoguo`
@@ -1030,7 +1043,6 @@ DROP TABLE IF EXISTS `pm_order_baoguo`;
 CREATE TABLE `pm_order_baoguo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `orderID` int(11) NOT NULL COMMENT '用户订单号',
-  `personID` int(11) NOT NULL,
   `memberID` int(11) NOT NULL,
   `order_no` varchar(50) NOT NULL COMMENT '商家订单号',
   `type` tinyint(4) NOT NULL COMMENT '1，2奶粉类 7鞋子，剩余其他类',
@@ -1042,15 +1054,13 @@ CREATE TABLE `pm_order_baoguo` (
   `eimg` varchar(1000) NOT NULL,
   `image` text NOT NULL,
   `name` varchar(20) NOT NULL,
-  `mobile` varchar(50) NOT NULL,
+  `tel` varchar(50) NOT NULL,
   `province` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
-  `area` varchar(50) NOT NULL,
-  `address` varchar(200) NOT NULL,
+  `county` varchar(50) NOT NULL,
+  `addressDetail` varchar(200) NOT NULL,
   `sender` varchar(50) NOT NULL,
-  `senderMobile` varchar(50) NOT NULL,
-  `sign` varchar(30) DEFAULT NULL COMMENT '货物签名',
-  `serverIds` varchar(30) NOT NULL,
+  `senderTel` varchar(50) NOT NULL,
   `status` tinyint(1) unsigned zerofill NOT NULL COMMENT '0未支付 1已支付',
   `snStatus` tinyint(4) NOT NULL COMMENT '身份证0未上传，1已上传',
   `flag` tinyint(4) NOT NULL COMMENT '0未导出 1已导出',
@@ -1060,11 +1070,60 @@ CREATE TABLE `pm_order_baoguo` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_baoguo
 -- ----------------------------
+INSERT INTO `pm_order_baoguo` VALUES ('5', '3', '2', '95476379', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238180', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('6', '3', '2', '95476379', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238180', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('7', '3', '2', '95476379', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238180', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('8', '3', '2', '95476379', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238180', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('9', '4', '2', '33175659', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238578', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('10', '4', '2', '33175659', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238578', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('11', '4', '2', '33175659', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238578', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('12', '4', '2', '33175659', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238578', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('13', '5', '2', '41615905', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238748', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('14', '5', '2', '41615905', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238748', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('15', '5', '2', '41615905', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238748', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('16', '5', '2', '41615905', '1', '13.50', '8.75', '2.50', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564238748', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('17', '6', '2', '26446533', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564239019', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('18', '7', '2', '30953674', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564239172', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('19', '8', '2', '33606872', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564239358', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('20', '9', '2', '59086914', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564241302', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('21', '10', '2', '61880187', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564241334', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('22', '11', '2', '72440795', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564241589', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('23', '12', '2', '57765808', '1', '6.00', '3.50', '1.00', '澳邮', '', '', '', '赵勇', '18500000000', '河南省', '开封市', '鼓楼区', '中山路374号', '张三', '13500000000', '0', '0', '0', '0', '0', '0', '1564241674', '0');
+
+-- ----------------------------
+-- Table structure for `pm_order_cart`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_order_cart`;
+CREATE TABLE `pm_order_cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `memberID` int(11) NOT NULL,
+  `orderID` int(11) NOT NULL,
+  `goodsID` int(11) NOT NULL,
+  `specID` int(11) NOT NULL COMMENT '商品规格',
+  `name` varchar(200) NOT NULL,
+  `picname` varchar(200) NOT NULL,
+  `spec` varchar(200) NOT NULL,
+  `price` decimal(8,2) NOT NULL,
+  `number` int(11) NOT NULL,
+  `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_order_cart
+-- ----------------------------
+INSERT INTO `pm_order_cart` VALUES ('1', '2', '5', '4', '1', '', '', '', '0.00', '12', '12');
+INSERT INTO `pm_order_cart` VALUES ('2', '2', '6', '4', '1', '', '', '', '0.00', '1', '1');
+INSERT INTO `pm_order_cart` VALUES ('3', '2', '7', '8', '0', '', '', '', '0.00', '1', '1');
+INSERT INTO `pm_order_cart` VALUES ('4', '2', '8', '8', '0', '', '', '', '0.00', '1', '1');
+INSERT INTO `pm_order_cart` VALUES ('5', '2', '10', '4', '1', '', '', '尺码:35码 颜色:蓝色', '38.00', '1', '1');
+INSERT INTO `pm_order_cart` VALUES ('6', '2', '11', '4', '1', '', '', '尺码:35码 颜色:蓝色', '38.00', '1', '1');
+INSERT INTO `pm_order_cart` VALUES ('7', '2', '12', '4', '1', '测试商品', '', '尺码:35码 颜色:蓝色', '38.00', '1', '1');
 
 -- ----------------------------
 -- Table structure for `pm_order_detail`
@@ -1073,66 +1132,34 @@ DROP TABLE IF EXISTS `pm_order_detail`;
 CREATE TABLE `pm_order_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `orderID` int(11) NOT NULL,
-  `personID` int(11) NOT NULL,
   `memberID` int(11) NOT NULL,
   `baoguoID` int(50) NOT NULL,
   `goodsID` int(11) NOT NULL,
-  `itemID` int(11) NOT NULL,
+  `specID` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
   `short` varchar(200) NOT NULL,
-  `number` int(11) NOT NULL COMMENT '商品数量，并非实际单品的数量',
-  `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如套餐就显示3，单品就显示1',
+  `number` int(11) NOT NULL COMMENT '单品的数量',
   `price` decimal(8,2) NOT NULL,
-  `server` varchar(100) DEFAULT '',
   `del` tinyint(4) DEFAULT NULL COMMENT '0正常 1临时订单（多人模式）',
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
-  `extends` varchar(100) DEFAULT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_detail
 -- ----------------------------
-
--- ----------------------------
--- Table structure for `pm_order_person`
--- ----------------------------
-DROP TABLE IF EXISTS `pm_order_person`;
-CREATE TABLE `pm_order_person` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `memberID` int(11) NOT NULL,
-  `orderID` int(11) NOT NULL,
-  `addressID` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `mobile` varchar(50) NOT NULL,
-  `province` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `area` varchar(50) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  `sender` varchar(20) NOT NULL,
-  `senderMobile` varchar(50) NOT NULL,
-  `sign` varchar(20) DEFAULT NULL COMMENT '货物签名',
-  `intr` varchar(500) DEFAULT NULL,
-  `remark` varchar(500) NOT NULL,
-  `front` varchar(255) NOT NULL,
-  `back` varchar(255) NOT NULL,
-  `sn` varchar(50) NOT NULL,
-  `kid` tinyint(4) NOT NULL COMMENT '快递ID',
-  `payment` decimal(10,2) NOT NULL COMMENT '运费',
-  `wuliuInprice` decimal(8,2) NOT NULL,
-  `status` tinyint(4) NOT NULL COMMENT '0未支付 1已支付',
-  `del` tinyint(4) NOT NULL COMMENT '0正常 1临时订单（多人模式）',
-  `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
-  `sendTime` int(11) NOT NULL,
-  `createTime` int(11) NOT NULL,
-  `updateTime` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of pm_order_person
--- ----------------------------
+INSERT INTO `pm_order_detail` VALUES ('13', '5', '2', '13', '4', '1', '测试商品', '22', '3', '38.00', '0', '0', '1564238748');
+INSERT INTO `pm_order_detail` VALUES ('14', '5', '2', '14', '4', '1', '测试商品', '22', '3', '38.00', '0', '0', '1564238748');
+INSERT INTO `pm_order_detail` VALUES ('15', '5', '2', '15', '4', '1', '测试商品', '22', '3', '38.00', '0', '0', '1564238748');
+INSERT INTO `pm_order_detail` VALUES ('16', '5', '2', '16', '4', '1', '测试商品', '22', '3', '38.00', '0', '0', '1564238748');
+INSERT INTO `pm_order_detail` VALUES ('17', '6', '2', '17', '4', '1', '测试商品', '22', '1', '38.00', '0', '0', '1564239019');
+INSERT INTO `pm_order_detail` VALUES ('18', '7', '2', '18', '8', '0', '普通商品不在抢购', '1', '1', '25.00', '0', '0', '1564239172');
+INSERT INTO `pm_order_detail` VALUES ('19', '8', '2', '19', '8', '0', '普通商品不在抢购', '1', '1', '25.00', '0', '0', '1564239358');
+INSERT INTO `pm_order_detail` VALUES ('20', '9', '2', '20', '4', '1', '测试商品', '22', '1', '38.00', '0', '0', '1564241302');
+INSERT INTO `pm_order_detail` VALUES ('21', '10', '2', '21', '4', '1', '测试商品', '22', '1', '38.00', '0', '0', '1564241334');
+INSERT INTO `pm_order_detail` VALUES ('22', '11', '2', '22', '4', '1', '测试商品', '22', '1', '38.00', '0', '0', '1564241589');
+INSERT INTO `pm_order_detail` VALUES ('23', '12', '2', '23', '4', '1', '测试商品', '22', '1', '38.00', '0', '0', '1564241674');
 
 -- ----------------------------
 -- Table structure for `pm_role`
@@ -1182,11 +1209,12 @@ CREATE TABLE `pm_sender` (
   `name` varchar(20) NOT NULL,
   `tel` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_sender
 -- ----------------------------
+INSERT INTO `pm_sender` VALUES ('1', '2', '张三', '13500000000');
 
 -- ----------------------------
 -- Table structure for `pm_server`

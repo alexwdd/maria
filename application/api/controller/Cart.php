@@ -52,7 +52,7 @@ class Cart extends Auth {
             }
 
             if ($specID>0) {
-                $spec = db("Goods")->where(['goods_id'=>$goodsID,'item_id'=>$specID])->find();
+                $spec = db("GoodsSpecPrice")->where(['goods_id'=>$goodsID,'item_id'=>$specID])->find();
                 if (!$spec) {
                     returnJson(0,'商品规格错误');
                 }
@@ -71,6 +71,7 @@ class Cart extends Auth {
                 if ($list) {
                     $number = $list['number']+$number;
                     $data['number'] = $number;
+                    $data['specID'] = $specID;
                     $data['trueNumber'] = $number*$goods['number'];
                     $db->where($map)->update($data);
                 }else{

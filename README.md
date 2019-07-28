@@ -10,4 +10,4 @@
 	getRate			当前汇率
 	getCartInfo		获取购物车商品的信息，总金额
 	checkCoupon		检查优惠券是否可用
-	checkCut		检查订单能否砍价
+	getOrderNo		获取随机订单号

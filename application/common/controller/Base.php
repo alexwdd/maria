@@ -99,18 +99,19 @@ class Base extends Controller {
             $fid = $goods['fid'];
         }else{
             $fid = $goods['id'];
-        }
+        }  
         $flash = $this->checkInFlash($fid,$flashArr);//判断是否在今日抢购中
         $spec = [];
         if($goods['fid']==0){
             if($specID>0){//有规格选项
-                $spec = db("GoodsSpecPrice")->field('key_name,price,minPrice')->where('id',$specID)->find();
-                if($flash){ //今日抢购
-                    $flash['spec'] = unserialize($flash['spec']);
+                $spec = db("GoodsSpecPrice")->field('key_name,price,minPrice')->where('item_id',$specID)->find(); 
+                if($flash){ //今日抢购      
+                    $flash['spec'] = unserialize($flash['spec']); 
                     foreach ($flash['spec'] as $k => $val) {
-                        if($val['item_id'] == $specID){
-                            $price = $value['price'];
-                            $minPrice = $value['price'];
+                        if($val['specID'] == $specID){
+                            $price = $val['price'];
+                            $minPrice = $val['price'];
+                            break;
                         }
                     }
                 }else{
@@ -146,8 +147,7 @@ class Base extends Controller {
             $cart[$key]['name'] = $goods['name'];
             $cart[$key]['short'] = $goods['short'];
             $cart[$key]['wuliuWeight'] = $goods['wuliuWeight'];            
-            $cart[$key]['weight'] = $goods['weight'];            
-            $cart[$key]['price'] = $goods['price'];            
+            $cart[$key]['weight'] = $goods['weight'];
             $cart[$key]['singleNumber'] = $goods['number'];             
         } 
 
@@ -219,7 +219,7 @@ class Base extends Controller {
         foreach ($cart as $key => $value) {
             $goods = db('Goods')->where('id='.$value['goodsID'])->find();
             if($value['specID']>0){
-                $spec = db("GoodsSpecPrice")->where('id',$value['specID'])->find();
+                $spec = db("GoodsSpecPrice")->where('item_id',$value['specID'])->find();
                 $goods['price'] = $spec['price'];
             }
             //贴心服务需要计算商品个数，所以要乘套餐里边商品的数量
@@ -248,19 +248,15 @@ class Base extends Controller {
         return true;
     }
 
-    //检查订单是否可以砍价
-    public function checkCut($cart){
-        foreach ($cart as $key => $value) {
-            $goods = db("Goods")->where('id',$value['goodsID'])->find();
-            $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
-
-            $list[$key]['name'] = $goods['name'];
-            $list[$key]['picname'] = getRealUrl($goods['picname']);
-            $list[$key]['price'] = $result['price'];               
-            $list[$key]['spec'] = $result['spec'];
-            $list[$key]['total'] = $result['price'] * $value['number'];
-            $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
+    //获取随机订单号
+    public function getOrderNo(){
+        $order_no = getStoreOrderNo();
+        $map['order_no'] = $order_no;
+        $count = db("Order")->where($map)->count();
+        if ($count>0) {
+            return $this->getOrderNo();
         }
+        return $order_no;
     }
 
     public function https_post($url,$data = null){
