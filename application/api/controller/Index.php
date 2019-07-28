@@ -26,7 +26,7 @@ class Index extends Common
                 $push[$key]['goods'] = [];
                 $goodsID = db('GoodsPush')->where('cateID',$value['value'])->order('updateTime desc')->value('goodsID');
                 if ($goodsID) {
-                    $goods = db("Goods")->field('id,name,picname,price,marketPrice')->where('id',$goodsID)->find();
+                    $goods = db("Goods")->field('id,name,picname,price,marketPrice,say')->where('id',$goodsID)->find();
                     if ($goods) {
                         $goods['picname'] = getRealUrl($goods['picname']);
                         $goods['rmb'] = $goods['price']*$this->rate;
@@ -36,7 +36,7 @@ class Index extends Common
             }
 
             //推荐
-            $commend = db("Goods")->field('id,name,picname,price,marketPrice')->where('comm',1)->order('sort asc,id desc')->limit(20)->select();
+            $commend = db("Goods")->field('id,name,picname,say,price,marketPrice')->where('comm',1)->order('sort asc,id desc')->limit(20)->select();
             foreach ($commend as $key => $value) {
                 $commend[$key]['picname'] = getRealUrl($value['picname']);
                 $commend[$key]['rmb'] = $value['price']*$this->rate;
@@ -56,7 +56,7 @@ class Index extends Common
             foreach ($flash as $key => $value) {
                 unset($flash[$key]['spec']);
                 unset($flash[$key]['pack']);
-                $goods = db("Goods")->field('id,name,picname,price,marketPrice')->where('id',$value['goodsID'])->find();
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice')->where('id',$value['goodsID'])->find();
                 $flash[$key]['name'] = $goods['name'];
                 $flash[$key]['picname'] = getRealUrl($goods['picname']);
                 $flash[$key]['marketPrice'] = $goods['marketPrice'];

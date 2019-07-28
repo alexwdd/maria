@@ -63,7 +63,7 @@ class Goods extends Common {
                 $next = 0;
             }
 
-            $list = $obj->field('id,name,picname,price,marketPrice')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            $list = $obj->field('id,name,picname,price,say,marketPrice')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
                 $list[$key]['rmb'] = $value['price']*$this->rate;
@@ -112,13 +112,14 @@ class Goods extends Common {
             }
             $list = $obj->field('goodsID,goodsName,price,spec,pack,number')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {                
-                $goods = db("Goods")->field('id,name,picname,price,marketPrice')->where('id',$value['goodsID'])->find();             
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice')->where('id',$value['goodsID'])->find();             
                 $sellNumber = $this->getFlashNumber($value['goodsID']);
 
                 $list[$key]['per'] = ($sellNumber/$value['number'])*100;
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
                 $list[$key]['marketPrice'] = $goods['marketPrice'];
                 $list[$key]['name'] = $goods['name'];
+                $list[$key]['say'] = $goods['say'];
                 $list[$key]['rmb'] = $value['price']*$this->rate;
 
                 unset($list[$key]['spec']);
