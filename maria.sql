@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-28 14:57:58
+Date: 2019-07-30 08:27:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -50,12 +50,13 @@ CREATE TABLE `pm_ad` (
   `createTime` int(10) NOT NULL,
   `updateTime` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_ad
 -- ----------------------------
-INSERT INTO `pm_ad` VALUES ('1', '1', '0-1-', '11', '/uploads/images/20190722/c22a332d54e89b386bb5e3101ddfe730.png', '111', '50', '1563768353', '1563768353');
+INSERT INTO `pm_ad` VALUES ('1', '1', '0-1-', '第一张', '/uploads/images/20190729/7099e8ad060f6de569e7388135795498.jpg', '111', '50', '1563768353', '1564396749');
+INSERT INTO `pm_ad` VALUES ('2', '1', '0-1-', '第二张', '/uploads/images/20190729/b94bf010c24cf7f294c715de6a893159.jpg', '22', '50', '1564396946', '1564396946');
 
 -- ----------------------------
 -- Table structure for `pm_address`
@@ -264,7 +265,7 @@ CREATE TABLE `pm_config` (
   `inc_type` varchar(64) DEFAULT NULL COMMENT '配置分组',
   `desc` varchar(50) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_config
@@ -273,7 +274,7 @@ INSERT INTO `pm_config` VALUES ('1', 'name', '玛利亚商城', 'basic', '');
 INSERT INTO `pm_config` VALUES ('2', 'logo', '', 'basic', '');
 INSERT INTO `pm_config` VALUES ('3', 'isClose', '0', 'basic', '');
 INSERT INTO `pm_config` VALUES ('4', 'closeInfo', '系统维护中', 'basic', '');
-INSERT INTO `pm_config` VALUES ('5', 'domain', 'http://127.0.0.1', 'basic', '');
+INSERT INTO `pm_config` VALUES ('5', 'domain', 'http://127.0.0.10', 'basic', '');
 INSERT INTO `pm_config` VALUES ('6', 'copyright', '玛利亚商城', 'basic', '');
 INSERT INTO `pm_config` VALUES ('7', 'email', '#', 'basic', '');
 INSERT INTO `pm_config` VALUES ('8', 'weixin', '#', 'basic', '');
@@ -326,7 +327,7 @@ INSERT INTO `pm_config` VALUES ('98', 'max', '2.00', 'member', null);
 INSERT INTO `pm_config` VALUES ('99', 'hour', '24', 'member', null);
 INSERT INTO `pm_config` VALUES ('100', 'shareMax', '20', 'member', null);
 INSERT INTO `pm_config` VALUES ('101', 'isReg', '1', 'member', null);
-INSERT INTO `pm_config` VALUES ('102', 'hotkey', '', 'member', null);
+INSERT INTO `pm_config` VALUES ('102', 'hotkey', '保湿面膜', 'member', null);
 INSERT INTO `pm_config` VALUES ('103', 'kuaidi12', '红酒专邮', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('104', 'price12', '0', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('105', 'inprice12', '0', 'kuaidi', null);
@@ -353,6 +354,7 @@ INSERT INTO `pm_config` VALUES ('125', 'inprice3', '5.6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('126', 'otherPrice3', '2', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('127', 'flashTime', '8:00-12:00', 'member', null);
 INSERT INTO `pm_config` VALUES ('128', 'isCut', '1', 'member', null);
+INSERT INTO `pm_config` VALUES ('129', 'file', '', 'basic', null);
 
 -- ----------------------------
 -- Table structure for `pm_coupon`
@@ -537,11 +539,11 @@ CREATE TABLE `pm_goods` (
 -- ----------------------------
 -- Records of pm_goods
 -- ----------------------------
-INSERT INTO `pm_goods` VALUES ('4', '0', '2', '0-1-2-', '0', '', '1', '1', '12', '测试商品', '111', '22', '11', '', '', '', null, '', '0', '', '43', '28.00', '43.00', '48.00', '40.00', '0.50', '0.80', '', '0', '999', '1', '0', '0', '0', '1', '50', '1563702780', '1564293065');
-INSERT INTO `pm_goods` VALUES ('5', '4', '2', '0-1-2-', '0', '', '1', '1', '12', '三罐套餐', '111', '22', '11', '', '', '', null, '', '0', '', '43', '28.00', '250.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '3', '0', '0', '0', '1', '50', '1563702780', '1564293065');
-INSERT INTO `pm_goods` VALUES ('6', '4', '2', '0-1-2-', '0', '', '1', '1', '12', '六罐套餐', '111', '22', '11', '', '', '', null, '', '0', '', '43', '28.00', '480.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '6', '0', '0', '0', '1', '50', '1563702780', '1564293065');
-INSERT INTO `pm_goods` VALUES ('7', '0', '2', '0-1-2-', '0', '', '1', '0', '12', '某某奶粉', '121212', '11', '11', '', '', '', null, '', '0', '1', '11', '11.00', '11.00', '0.00', '11.00', '11.00', '1.00', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563703331', '1564293076');
-INSERT INTO `pm_goods` VALUES ('8', '0', '2', '0-1-2-', '0', '', '3', '1', '5', '普通商品不在抢购', '22222222', '1', '2', '', '', '', null, '', '0', '', '25', '13.00', '25.00', '30.00', '20.00', '1.00', '1.00', '', '1', '999', '1', '0', '0', '0', '1', '50', '1563938779', '1564292936');
+INSERT INTO `pm_goods` VALUES ('4', '0', '4', '0-4-', '0', '', '1', '1', '12', 'Pouch 欧式可折 叠便携式宝宝', '111', '22', '11', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '43.00', '48.00', '40.00', '0.50', '0.80', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563702780', '1564401153');
+INSERT INTO `pm_goods` VALUES ('5', '4', '4', '0-4-', '0', '', '1', '1', '12', '三罐套餐', '111', '22', '11', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '250.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '3', '0', '0', '1', '1', '50', '1563702780', '1564401153');
+INSERT INTO `pm_goods` VALUES ('6', '4', '4', '0-4-', '0', '', '1', '1', '12', '六罐套餐', '111', '22', '11', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '480.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '6', '0', '0', '1', '1', '50', '1563702780', '1564401153');
+INSERT INTO `pm_goods` VALUES ('7', '0', '1', '0-1-', '0', '', '1', '0', '12', 'A2 孕妇奶粉 19年10月', '121212', '11', '11', '', '', '/uploads/images/20190729/d1096a6c45a72f4b13b8a11dac802c40.jpg', null, '', '0', '1', '11', '11.00', '11.00', '25.00', '11.00', '11.00', '1.00', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563703331', '1564401138');
+INSERT INTO `pm_goods` VALUES ('8', '0', '5', '0-5-', '0', '', '3', '1', '5', 'Maltesers 麦丽素大包装 桶装 465g 19年9月到期', '22222222', '1', '2', '', '', '/uploads/images/20190729/b657647d091f7d6efac7abcaeab5fdba.jpg', null, '', '0', '', '25', '13.00', '25.00', '30.00', '20.00', '1.00', '1.00', '', '1', '999', '1', '0', '0', '1', '1', '50', '1563938779', '1564401146');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -564,14 +566,14 @@ CREATE TABLE `pm_goods_cate` (
   `createTime` int(10) NOT NULL,
   `updateTime` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods_cate
 -- ----------------------------
-INSERT INTO `pm_goods_cate` VALUES ('1', '0', '奶粉', '', '50', '0-1-', '', '', '0', '1', '1', '', '', '1561185748', '1564195829');
-INSERT INTO `pm_goods_cate` VALUES ('2', '1', 'A2', '', '50', '0-1-2-', '', '', '0', '0', '0', '', '', '1561185758', '1561185758');
-INSERT INTO `pm_goods_cate` VALUES ('3', '2', '方法', '', '50', '0-1-2-3-', '', '', '0', '0', '0', '', '', '1561185766', '1561185888');
+INSERT INTO `pm_goods_cate` VALUES ('1', '0', '奶粉专区', '', '50', '0-1-', '/uploads/images/20190729/f4ff35ba5ed9aa29fa01d04c115d3e1c.png', '', '0', '1', '1', '', '', '1561185748', '1564396237');
+INSERT INTO `pm_goods_cate` VALUES ('4', '0', '营养保健', '', '50', '0-4-', '/uploads/images/20190729/6941954628b328ff9ea2d79d76a0d4d1.png', '', '0', '1', '1', '', '', '1564396261', '1564396270');
+INSERT INTO `pm_goods_cate` VALUES ('5', '0', '芊体瘦身', '', '50', '0-5-', '/uploads/images/20190729/46f5f58c7b7237c1156ca463563d370f.png', '', '0', '1', '1', '', '', '1564396295', '1564396295');
 
 -- ----------------------------
 -- Table structure for `pm_goods_model`
@@ -971,9 +973,9 @@ CREATE TABLE `pm_option_item` (
 -- ----------------------------
 -- Records of pm_option_item
 -- ----------------------------
-INSERT INTO `pm_option_item` VALUES ('1', '1', '每日精品', '', '3', '50', 'M', '', '1563769911', '1563771185');
-INSERT INTO `pm_option_item` VALUES ('2', '1', '国内现货', '', '2', '50', 'G', '', '1563770010', '1563771181');
-INSERT INTO `pm_option_item` VALUES ('3', '1', '特惠推荐', '', '1', '50', 'T', '11111', '1563770054', '1564131115');
+INSERT INTO `pm_option_item` VALUES ('1', '1', '每日精品', '', '3', '50', 'M', '大家都在买', '1563769911', '1564399974');
+INSERT INTO `pm_option_item` VALUES ('2', '1', '国内现货', '', '2', '50', 'G', '大家都在买', '1563770010', '1564399970');
+INSERT INTO `pm_option_item` VALUES ('3', '1', '特惠推荐', '', '1', '50', 'T', '大家都在买', '1563770054', '1564399965');
 INSERT INTO `pm_option_item` VALUES ('4', '2', '美白', '', '', '50', 'M', '', '1563898010', '1563898010');
 INSERT INTO `pm_option_item` VALUES ('5', '2', '降压', '', '', '50', 'J', '', '1563898053', '1563898053');
 INSERT INTO `pm_option_item` VALUES ('6', '2', '改善贫血', '', '', '50', 'G', '', '1563898075', '1563898075');

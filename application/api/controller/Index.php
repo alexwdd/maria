@@ -11,13 +11,15 @@ class Index extends Common
 
             $ad = db("Ad")->field('name,picname,url')->where('cid',1)->select();
             foreach ($ad as $key => $value) {
+                $value['picname'] = getThumb($value["picname"],1000,480);
             	$ad[$key]['picname'] = getRealUrl($value['picname']);
             }
 
             $map['fid'] = 0;
             $map['comm'] = 1;
-            $cate = db("GoodsCate")->field('id,name,path,picname')->where($map)->select();
+            $cate = db("GoodsCate")->field('id,name,path,picname')->where($map)->order('sort asc')->select();
             foreach ($cate as $key => $value) {
+                $value['picname'] = getThumb($value["picname"],200,200);
             	$cate[$key]['picname'] = getRealUrl($value['picname']);
             }
 
@@ -28,6 +30,7 @@ class Index extends Common
                 if ($goodsID) {
                     $goods = db("Goods")->field('id,name,picname,price,marketPrice,say')->where('id',$goodsID)->find();
                     if ($goods) {
+                        $goods['picname'] = getThumb($goods["picname"],400,400);
                         $goods['picname'] = getRealUrl($goods['picname']);
                         $goods['rmb'] = $goods['price']*$this->rate;
                         $push[$key]['goods'] = $goods;
@@ -38,13 +41,14 @@ class Index extends Common
             //推荐
             $commend = db("Goods")->field('id,name,picname,say,price,marketPrice')->where('comm',1)->order('sort asc,id desc')->limit(20)->select();
             foreach ($commend as $key => $value) {
+                $value['picname'] = getThumb($value["picname"],400,400);
                 $commend[$key]['picname'] = getRealUrl($value['picname']);
                 $commend[$key]['rmb'] = $value['price']*$this->rate;
             }
 
             unset($map);
             $map['comm1'] = 1;
-            $bottomCate = db("GoodsCate")->field('id,name,path')->where($map)->select();
+            $bottomCate = db("GoodsCate")->field('id,name,path')->where($map)->order('sort asc')->select();
    
             //今日抢购
             $flash = [];
