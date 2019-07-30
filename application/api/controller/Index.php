@@ -32,18 +32,18 @@ class Index extends Common
                     if ($goods) {
                         $goods['picname'] = getThumb($goods["picname"],400,400);
                         $goods['picname'] = getRealUrl($goods['picname']);
-                        $goods['rmb'] = $goods['price']*$this->rate;
+                        $goods['rmb'] = round($goods['price']*$this->rate,2);
                         $push[$key]['goods'] = $goods;
                     }                    
                 }                
             }
 
             //推荐
-            $commend = db("Goods")->field('id,name,picname,say,price,marketPrice')->where('comm',1)->order('sort asc,id desc')->limit(20)->select();
+            $commend = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where('comm',1)->order('sort asc,id desc')->limit(20)->select();
             foreach ($commend as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],400,400);
                 $commend[$key]['picname'] = getRealUrl($value['picname']);
-                $commend[$key]['rmb'] = $value['price']*$this->rate;
+                $commend[$key]['rmb'] = round($value['price']*$this->rate,2);
             }
 
             unset($map);
@@ -64,7 +64,7 @@ class Index extends Common
                 $flash[$key]['name'] = $goods['name'];
                 $flash[$key]['picname'] = getRealUrl($goods['picname']);
                 $flash[$key]['marketPrice'] = $goods['marketPrice'];
-                $flash[$key]['rmb'] = $value['price']*$this->rate;
+                $flash[$key]['rmb'] = round($value['price']*$this->rate,2);
             }
 
             $flashTime = checkFlashTime($config['flashTime']);

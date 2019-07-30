@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-30 08:27:24
+Date: 2019-07-31 00:47:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -472,6 +472,7 @@ INSERT INTO `pm_finance` VALUES ('1', '2', '1', '2', '2', '10.00', '07-23签到�
 DROP TABLE IF EXISTS `pm_flash`;
 CREATE TABLE `pm_flash` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` int(11) NOT NULL,
   `goodsID` int(11) NOT NULL,
   `goodsName` varchar(200) NOT NULL,
   `price` varchar(50) NOT NULL,
@@ -482,13 +483,13 @@ CREATE TABLE `pm_flash` (
   `number` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_flash
 -- ----------------------------
-INSERT INTO `pm_flash` VALUES ('3', '7', '某某奶粉', '9', 'a:0:{}', 'a:0:{}', '1562342400', '1564848000', '999', '1563709506');
-INSERT INTO `pm_flash` VALUES ('7', '4', '测试商品', '38', 'a:4:{i:0;a:3:{s:6:\"specID\";s:1:\"1\";s:4:\"name\";s:26:\"尺码:35码 颜色:蓝色\";s:5:\"price\";s:2:\"38\";}i:1;a:3:{s:6:\"specID\";s:1:\"2\";s:4:\"name\";s:26:\"尺码:35码 颜色:白色\";s:5:\"price\";s:2:\"38\";}i:2;a:3:{s:6:\"specID\";s:1:\"3\";s:4:\"name\";s:26:\"尺码:42码 颜色:蓝色\";s:5:\"price\";s:2:\"38\";}i:3;a:3:{s:6:\"specID\";s:1:\"4\";s:4:\"name\";s:26:\"尺码:42码 颜色:白色\";s:5:\"price\";s:2:\"38\";}}', 'a:2:{i:0;a:3:{s:6:\"packID\";s:1:\"5\";s:4:\"name\";s:12:\"三罐套餐\";s:5:\"price\";s:3:\"220\";}i:1;a:3:{s:6:\"packID\";s:1:\"6\";s:4:\"name\";s:12:\"六罐套餐\";s:5:\"price\";s:3:\"450\";}}', '1564070400', '1564588799', '999', '1564237301');
+INSERT INTO `pm_flash` VALUES ('1', '4', '4', 'Pouch 欧式可折 叠便携式宝宝', '40', 'a:4:{i:0;a:3:{s:6:\"specID\";s:1:\"1\";s:4:\"name\";s:26:\"尺码:35码 颜色:蓝色\";s:5:\"price\";s:2:\"40\";}i:1;a:3:{s:6:\"specID\";s:1:\"2\";s:4:\"name\";s:26:\"尺码:35码 颜色:白色\";s:5:\"price\";s:2:\"40\";}i:2;a:3:{s:6:\"specID\";s:1:\"3\";s:4:\"name\";s:26:\"尺码:42码 颜色:蓝色\";s:5:\"price\";s:2:\"40\";}i:3;a:3:{s:6:\"specID\";s:1:\"4\";s:4:\"name\";s:26:\"尺码:42码 颜色:白色\";s:5:\"price\";s:2:\"40\";}}', 'a:2:{i:0;a:3:{s:6:\"packID\";s:1:\"5\";s:4:\"name\";s:12:\"三罐套餐\";s:5:\"price\";s:3:\"230\";}i:1;a:3:{s:6:\"packID\";s:1:\"6\";s:4:\"name\";s:12:\"六罐套餐\";s:5:\"price\";s:3:\"450\";}}', '1564416000', '1564847999', '999', '1564499502');
+INSERT INTO `pm_flash` VALUES ('2', '1', '7', 'A2 孕妇奶粉 19年10月', '9', 'a:0:{}', 'a:0:{}', '1564156800', '1564847999', '999', '1564499523');
 
 -- ----------------------------
 -- Table structure for `pm_goods`
@@ -519,7 +520,7 @@ CREATE TABLE `pm_goods` (
   `inprice` decimal(10,2) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `marketPrice` decimal(10,2) NOT NULL,
-  `minPrice` decimal(10,2) NOT NULL,
+  `cutPrice` decimal(10,2) NOT NULL,
   `weight` decimal(10,2) NOT NULL,
   `wuliuWeight` decimal(10,2) NOT NULL,
   `linkIds` varchar(500) DEFAULT NULL,
@@ -529,7 +530,10 @@ CREATE TABLE `pm_goods` (
   `tag` tinyint(4) NOT NULL,
   `empty` tinyint(4) NOT NULL COMMENT '是否清仓',
   `comm` tinyint(4) NOT NULL COMMENT '是否推荐',
+  `flash` tinyint(4) DEFAULT NULL,
+  `tehui` tinyint(4) DEFAULT NULL,
   `show` tinyint(11) NOT NULL COMMENT '是否显示',
+  `baoyou` tinyint(4) DEFAULT NULL,
   `sort` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
@@ -539,11 +543,11 @@ CREATE TABLE `pm_goods` (
 -- ----------------------------
 -- Records of pm_goods
 -- ----------------------------
-INSERT INTO `pm_goods` VALUES ('4', '0', '4', '0-4-', '0', '', '1', '1', '12', 'Pouch 欧式可折 叠便携式宝宝', '111', '22', '11', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '43.00', '48.00', '40.00', '0.50', '0.80', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563702780', '1564401153');
-INSERT INTO `pm_goods` VALUES ('5', '4', '4', '0-4-', '0', '', '1', '1', '12', '三罐套餐', '111', '22', '11', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '250.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '3', '0', '0', '1', '1', '50', '1563702780', '1564401153');
-INSERT INTO `pm_goods` VALUES ('6', '4', '4', '0-4-', '0', '', '1', '1', '12', '六罐套餐', '111', '22', '11', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '480.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '6', '0', '0', '1', '1', '50', '1563702780', '1564401153');
-INSERT INTO `pm_goods` VALUES ('7', '0', '1', '0-1-', '0', '', '1', '0', '12', 'A2 孕妇奶粉 19年10月', '121212', '11', '11', '', '', '/uploads/images/20190729/d1096a6c45a72f4b13b8a11dac802c40.jpg', null, '', '0', '1', '11', '11.00', '11.00', '25.00', '11.00', '11.00', '1.00', '', '0', '999', '1', '0', '0', '1', '1', '50', '1563703331', '1564401138');
-INSERT INTO `pm_goods` VALUES ('8', '0', '5', '0-5-', '0', '', '3', '1', '5', 'Maltesers 麦丽素大包装 桶装 465g 19年9月到期', '22222222', '1', '2', '', '', '/uploads/images/20190729/b657647d091f7d6efac7abcaeab5fdba.jpg', null, '', '0', '', '25', '13.00', '25.00', '30.00', '20.00', '1.00', '1.00', '', '1', '999', '1', '0', '0', '1', '1', '50', '1563938779', '1564401146');
+INSERT INTO `pm_goods` VALUES ('4', '0', '4', '0-4-', '0', '', '1', '1', '12', 'Pouch 欧式可折 叠便携式宝宝', '111', '22', '皮肤急救法宝，强力补水', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '43.00', '48.00', '40.00', '0.50', '0.80', '', '0', '999', '1', '0', '0', '1', null, null, '1', null, '50', '1563702780', '1564499602');
+INSERT INTO `pm_goods` VALUES ('5', '4', '4', '0-4-', '0', '', '1', '1', '12', '三罐套餐', '111', '22', '皮肤急救法宝，强力补水', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '250.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '3', '0', '0', '1', null, null, '1', null, '50', '1563702780', '1564499602');
+INSERT INTO `pm_goods` VALUES ('6', '4', '4', '0-4-', '0', '', '1', '1', '12', '六罐套餐', '111', '22', '皮肤急救法宝，强力补水', '', '', '/uploads/images/20190729/40605970eb0d17fe74b6a7b204ac8276.jpg', null, '', '0', '', '43', '28.00', '480.00', '48.00', '37.00', '0.50', '0.80', '', '0', '999', '6', '0', '0', '1', null, null, '1', null, '50', '1563702780', '1564499602');
+INSERT INTO `pm_goods` VALUES ('7', '0', '1', '0-1-', '0', '', '1', '0', '12', 'A2 孕妇奶粉 19年10月', '121212', '11', '皮肤急救法宝，强力补水', '', '', '/uploads/images/20190729/d1096a6c45a72f4b13b8a11dac802c40.jpg', null, '', '0', '1', '11', '11.00', '11.00', '25.00', '11.00', '11.00', '1.00', '', '0', '999', '1', '0', '0', '1', null, null, '1', null, '50', '1563703331', '1564499623');
+INSERT INTO `pm_goods` VALUES ('8', '0', '5', '0-5-', '0', '', '3', '1', '5', 'Maltesers 麦丽素大包装 桶装 465g 19年9月到期', '22222222', '1', '皮肤急救法宝，强力补水', '', '', '/uploads/images/20190729/b657647d091f7d6efac7abcaeab5fdba.jpg', null, '', '0', '', '25', '13.00', '25.00', '30.00', '20.00', '1.00', '1.00', '', '1', '999', '1', '0', '1', '1', '0', '0', '1', '1', '50', '1563938779', '1564502957');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -621,7 +625,7 @@ CREATE TABLE `pm_goods_spec_price` (
   `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '规格键名',
   `key_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '规格键名中文',
   `price` decimal(10,2) DEFAULT NULL COMMENT '价格',
-  `minPrice` decimal(10,2) DEFAULT NULL,
+  `cutPrice` decimal(10,2) DEFAULT NULL,
   `store_count` int(11) unsigned DEFAULT '10' COMMENT '库存数量',
   `bar_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '商品条形码',
   `weight` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '重量',
@@ -728,7 +732,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1566888581', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1567095428', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`

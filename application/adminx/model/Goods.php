@@ -3,7 +3,7 @@ namespace app\adminx\model;
 
 class Goods extends Admin
 {
-    protected $auto = ['updateTime','cid','path','cid1','path1','image'];
+    protected $auto = ['updateTime','cid','path','cid1','path1','image','flash','comm','empty','tehui','baoyou'];
     protected $insert = ['createTime'];  
 
     public function setUpdateTimeAttr(){
@@ -42,14 +42,26 @@ class Goods extends Admin
             return implode(",", input('post.image/a'));
         }        
     }
-    public function getServerAttr($value){       
-        return explode(",", $value);
-    }
     public function getCreateTimeAttr($value){
         return date("Y-m-d H:i:s",$value);
     }
     public function getUpdateTimeAttr($value){
         return date("Y-m-d H:i:s",$value);
+    }
+    public function setFlashAttr(){        
+        if(input('post.flash')==''){return 0;}else{return 1;}
+    }
+    public function setCommAttr(){        
+        if(input('post.comm')==''){return 0;}else{return 1;}
+    }
+    public function setEmptyAttr(){        
+        if(input('post.empty')==''){return 0;}else{return 1;}
+    }
+    public function setBaoyouAttr(){        
+        if(input('post.baoyou')==''){return 0;}else{return 1;}
+    }
+    public function setTehuiAttr(){        
+        if(input('post.tehui')==''){return 0;}else{return 1;}
     }
 
     //获取列表
@@ -105,10 +117,6 @@ class Goods extends Admin
     //添加更新数据
     public function saveData( $data )
     {
-        $server = input('post.minPrice');
-        if ($data['minPrice']=='') {
-            $data['minPrice'] = $data['price'];
-        }
         if( isset( $data['id']) && !empty($data['id'])) {
             $result = $this->edit( $data );
         } else {
@@ -167,10 +175,7 @@ class Goods extends Admin
                 $keyArr .= $k.',';
                 // 批量添加数据
                 $v['price'] = trim($v['price']);
-                $v['minPrice'] = trim($v['minPrice']);
-                if($v['minPrice']=='' || $v['minPrice']==0){
-                    $v['minPrice'] = $v['price'];
-                } 
+                $v['cutPrice'] = trim($v['cutPrice']);
                 $store_count = $v['store_count'] = trim($v['store_count']); // 记录商品总库存
                 $v['weight'] = trim($v['weight']);
                 $data = [
@@ -178,7 +183,7 @@ class Goods extends Admin
                     'key' => $k,
                     'key_name' => $v['key_name'],
                     'price' => $v['price'],
-                    'minPrice' => $v['minPrice'],
+                    'cutPrice' => $v['cutPrice'],
                     'store_count' => $v['store_count'],
                     'weight' => $v['weight']
                 ];                
@@ -209,7 +214,7 @@ class Goods extends Admin
             $pack_id = input("post.pack_id/a");
             $pack_name = input("post.pack_name/a");
             $pack_price = input("post.pack_price/a");
-            $pack_minPrice = input("post.pack_minPrice/a");
+            $pack_cutPrice = input("post.pack_cutPrice/a");
             $pack_number = input("post.pack_number/a");
             $pack_data = [];
             for ($i=0; $i <count($pack_name) ; $i++) { 
@@ -217,12 +222,8 @@ class Goods extends Admin
                     $temp = $base;
                     $temp['fid'] = $goods_id;
                     $temp['name'] = $pack_name[$i];
-                    $temp['price'] = $pack_price[$i];
-                    if($pack_minPrice[$i]==''){
-                        $temp['minPrice'] = $pack_price[$i];
-                    }else{
-                        $temp['minPrice'] = $pack_minPrice[$i];
-                    }                    
+                    $temp['price'] = $pack_price[$i];       
+                    $temp['cutPrice'] = $pack_cutPrice[$i];                
                     $temp['number'] = $pack_number[$i];
                     array_push($pack_data,$temp);
                     if (!empty($pack_id[$i])) {

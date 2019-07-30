@@ -10,7 +10,6 @@ class Index extends Admin {
     }
 
     public function console(){
-
         return view();
     }
 

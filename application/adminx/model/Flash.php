@@ -113,24 +113,12 @@ class Flash extends Admin
         $data['startDate'] = strtotime($date[0]);
         $data['endDate']  = strtotime($date[1])+86399;
 
-        $data['goodsName'] = db("Goods")->where('id',$data['goodsID'])->value("name");
+        $goods = db("Goods")->where('id',$data['goodsID'])->find();
+        $temp = explode("-",$goods['path']);
+        $data['cid'] = $temp[1];
+        $data['goodsName'] = $goods['name'];
 
         $this->allowField(true)->save($data);
-        if($this->id > 0){
-            return info('操作成功',1);
-        }else{
-            return info('操作失败',0);
-        }
-    }
-
-    //更新
-    public function edit(array $data = [])
-    {
-        $validate = validate('Coupon');
-        if(!$validate->check($data)) {
-            return info($validate->getError());
-        }    
-        $this->allowField(true)->save($data,['id'=>$data['id']]);
         if($this->id > 0){
             return info('操作成功',1);
         }else{

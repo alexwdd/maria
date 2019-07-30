@@ -40,10 +40,14 @@ class Goods extends Common {
             $path = input('post.path');
             $cid = input('post.cid');
             $keyword = input('param.keyword');
+            $comm = input('param.comm');
             $page = input('post.page/d',1);
             $pagesize = input('post.pagesize',10);
             $firstRow = $pagesize*($page-1); 
 
+            if($comm!=''){
+                $map['comm'] = $comm;
+            }
             if($cid!=''){
                 $map['cid|cid1'] = $cid;
             }
@@ -63,7 +67,7 @@ class Goods extends Common {
                 $next = 0;
             }
 
-            $list = $obj->field('id,name,picname,price,say,marketPrice')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            $list = $obj->field('id,name,picname,price,say,comm,marketPrice')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
                 $list[$key]['rmb'] = $value['price']*$this->rate;
@@ -91,6 +95,9 @@ class Goods extends Common {
             if(!in_array($type,[1,2])){
                 returnJson(0,'type参数错误');
             }
+            if($cid!=''){
+                $map['cid'] = $cid;
+            }
 
             $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y')); 
             $endToday=mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1;
@@ -111,15 +118,25 @@ class Goods extends Common {
                 $next = 0;
             }
             $list = $obj->field('goodsID,goodsName,price,spec,pack,number')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            if($list){
+                $cateID = $obj->where($map)->group('cid')->column("cid");
+                $where['id'] = array('in',$cateID);
+                $cate = db('GoodsCate')->field('id,path,name')->where($where)->select();
+            }
+            
             foreach ($list as $key => $value) {                
-                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice')->where('id',$value['goodsID'])->find();             
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();             
                 $sellNumber = $this->getFlashNumber($value['goodsID']);
 
                 $list[$key]['per'] = ($sellNumber/$value['number'])*100;
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
                 $list[$key]['marketPrice'] = $goods['marketPrice'];
-                $list[$key]['name'] = $goods['name'];
                 $list[$key]['say'] = $goods['say'];
+                $list[$key]['comm'] = $goods['comm'];
+                $list[$key]['empty'] = $goods['empty'];
+                $list[$key]['tehui'] = $goods['tehui'];
+                $list[$key]['flash'] = $goods['flash'];
+                $list[$key]['baoyou'] = $goods['baoyou'];
                 $list[$key]['rmb'] = $value['price']*$this->rate;
 
                 unset($list[$key]['spec']);
@@ -128,7 +145,7 @@ class Goods extends Common {
             }
 
             $flashTime = checkFlashTime($config['flashTime']);
-            returnJson(1,'success',['next'=>$next,'data'=>$list,'flashTime'=>$flashTime]);
+            returnJson(1,'success',['next'=>$next,'data'=>$list,'flashTime'=>$flashTime,'cate'=>$cate]);
         }
     }
 

@@ -108,7 +108,7 @@ class Order extends Auth {
 
 
             $goodsMoney = 0;
-            $minGoodsMoney = 0;
+            $cutMoney = 0;
             $inprice = 0;
             $point = 0;
             foreach ($list as $key => $value) {
@@ -123,7 +123,7 @@ class Order extends Auth {
                     $list[$key]['spec'] = '';
                 }
                 $goodsMoney += $result['price'];
-                $minGoodsMoney += $result['minPrice'];
+                $cutMoney += $result['cutPrice'];
                 $inprice += $goods['inprice'] * $value['trueNumber'];
                 $point += $goods['point'] * $value['trueNumber'];
             }    
@@ -173,7 +173,7 @@ class Order extends Auth {
                 if($config['isCut']==0){
                     $data['isCut'] = 0;
                 }else{
-                    if($goodsMoney > $minGoodsMoney){
+                    if($cutMoney > 0){
                         $data['isCut'] = 1;
                     }else{
                         $data['isCut'] = 0;
@@ -195,7 +195,7 @@ class Order extends Auth {
             }
             $data['total'] = $total;
             $data['goodsMoney'] = $goodsMoney;
-            $data['minGoodsMoney'] = $minGoodsMoney;
+            $data['minGoodsMoney'] = $goodsMoney - $cutMoney;
             $data['inprice'] = $inprice;
             $data['order_no'] = $order_no;
             $data['addressID'] = $addressID;

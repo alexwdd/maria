@@ -119,22 +119,21 @@
                 </div>
 
                 <div class="layui-form-item">
+                    <label class="layui-form-label">标签</label>
+                    <div class="layui-input-block">  
+                        <input type="checkbox" name="comm" value="1" lay-skin="primary" title="推荐" {php}if($list['comm']=='1')echo 'checked';{/php}>
+                        <input type="checkbox" name="baoyou" value="1" lay-skin="primary" title="包邮" {php}if($list['baoyou']=='1')echo 'checked';{/php}>
+                        <input type="checkbox" name="empty" value="1" lay-skin="primary" title="清仓" {php}if($list['empty']=='1')echo 'checked';{/php}>
+                        <input type="checkbox" name="flash" value="1" lay-skin="primary" title="抢购" {php}if($list['flash']=='1')echo 'checked';{/php}>
+                        <input type="checkbox" name="tehui" value="1" lay-skin="primary" title="特惠" {php}if($list['tehui']=='1')echo 'checked';{/php}>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
                     <label class="layui-form-label">状态</label>
                     <div class="layui-input-inline">
                         <input type="radio" name="show" value="1" title="显示" {php}if($list['show']==1) echo 'checked';{/php}>
                         <input type="radio" name="show" value="0" title="隐藏" {php}if($list['show']==0) echo 'checked';{/php}>
-                    </div>
-
-                    <label class="layui-form-label">推荐</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="comm" value="1" title="是" {php}if($list['comm']==1) echo 'checked';{/php}>
-                        <input type="radio" name="comm" value="0" title="否" {php}if($list['comm']==0) echo 'checked';{/php}>
-                    </div>
-
-                    <label class="layui-form-label">清仓</label>
-                    <div class="layui-input-inline">
-                        <input type="radio" name="empty" value="1" title="是" {php}if($list['empty']==1) echo 'checked';{/php}>
-                        <input type="radio" name="empty" value="0" title="否" {php}if($list['empty']==0) echo 'checked';{/php}>
                     </div>
                 </div>      
 
@@ -146,7 +145,7 @@
 
                     <label class="layui-form-label">砍价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="minPrice" id="minPrice" value="{$list.minPrice}" autocomplete="off" class="layui-input" placeholder="不允许砍价请留空"/>
+                        <input type="text" name="cutPrice" id="cutPrice" value="{$list.cutPrice|default=0}" autocomplete="off" class="layui-input" placeholder="0不允许砍价" lay-verify="required"/>
                     </div>
 
                     <label class="layui-form-label">积分</label>
@@ -246,7 +245,7 @@
                         <tr>                        
                         <td><input type="hidden" name="pack_id[]" value="{$vo.id}"><input type="text" name="pack_name[]" value="{$vo.name}" lay-verify="required" class="layui-input"></td> 
                         <td><input type="text" name="pack_price[]" value="{$vo.price}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
-                        <td><input type="text" name="pack_minPrice[]" value="{$vo.minPrice}" placeholder="不砍价留空" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
+                        <td><input type="text" name="pack_cutPrice[]" value="{$vo.cutPrice}" lay-verify="required" placeholder="0不允许砍价" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
                         <td><input type="text" name="pack_number[]" value="{$vo.number}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td> 
                         <td><a href="javascript:void(0)" onclick="delSpec(this)" data-id="{$vo.id}" class="layui-btn layui-btn-primary layui-btn-xs"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
                         </tr>

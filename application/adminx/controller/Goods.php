@@ -238,7 +238,7 @@ class Goods extends Admin
                    
         $spec = db('ModelSpec')->column('id,name'); // 规格表
         $specItem = db('ModelSpecItem')->column('id,item,specID');//规格项
-        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,minPrice,store_count,bar_code,weight');//规格项                          
+        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,cutPrice,store_count,bar_code,weight');//规格项                          
         $str = "<table class='layui-table' lay-size='sm' id='spec_input_tab'>";
         $str .="<thead><tr>";       
         // 显示第一行的数据
@@ -269,7 +269,7 @@ class Goods extends Admin
             $keyGoodsSpecPrice[$item_key]['store_count'] ? false : $keyGoodsSpecPrice[$item_key]['store_count'] = 0; //库存默认为0
 
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][price]' value='{$keyGoodsSpecPrice[$item_key][price]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
-            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][minPrice]' value='{$keyGoodsSpecPrice[$item_key][minPrice]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
+            $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][cutPrice]' value='{$keyGoodsSpecPrice[$item_key][cutPrice]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][store_count]' value='{$keyGoodsSpecPrice[$item_key][store_count]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/></td>";            
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][weight]' value='{$keyGoodsSpecPrice[$item_key][weight]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/><input type='hidden' name='item[$item_key][key_name]' value='$item_name' /></td>";
             $str .="</tr>";
