@@ -30,7 +30,8 @@ class Goods extends Common {
                 $brand[$key]['logo'] = getRealUrl($value['logo']);
             }*/
 
-            returnJson(1,'success',['category'=>$list]);
+            $config = tpCache("member");
+            returnJson(1,'success',['category'=>$list,'hotkey'=>$config['hotkey']]);
         }
     }
 
@@ -168,7 +169,7 @@ class Goods extends Common {
             }
             $list = $obj->field('goodsID')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             if($list){
-                $cateID = $obj->where($map)->group('cid')->column("cid");
+                $cateID = $obj->where($map)->group('cid')->column("cid");    
                 $where['id'] = array('in',$cateID);
                 $cate = db('GoodsCate')->field('id,path,name')->where($where)->select();
             }
@@ -177,6 +178,7 @@ class Goods extends Common {
                 $goods = db("Goods")->field('id,name,picname,price,say,price,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();  
 
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
+                $list[$key]['goodsName'] = $goods['name'];
                 $list[$key]['price'] = $goods['price'];
                 $list[$key]['marketPrice'] = $goods['marketPrice'];
                 $list[$key]['say'] = $goods['say'];
@@ -243,7 +245,7 @@ class Goods extends Common {
                 $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();             
                 $sellNumber = $this->getFlashNumber($value['goodsID']);
 
-                $list[$key]['per'] = ($sellNumber/$value['number'])*100;
+                $list[$key]['per'] = floor(($sellNumber/$value['number'])*100);
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
                 $list[$key]['marketPrice'] = $goods['marketPrice'];
                 $list[$key]['say'] = $goods['say'];
@@ -252,7 +254,7 @@ class Goods extends Common {
                 $list[$key]['tehui'] = $goods['tehui'];
                 $list[$key]['flash'] = $goods['flash'];
                 $list[$key]['baoyou'] = $goods['baoyou'];
-                $list[$key]['rmb'] = $value['price']*$this->rate;
+                $list[$key]['rmb'] = round($value['price']*$this->rate,2);
 
                 unset($list[$key]['spec']);
                 unset($list[$key]['pack']);
