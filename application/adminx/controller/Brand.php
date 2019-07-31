@@ -7,6 +7,13 @@ class Brand extends Admin {
 	public function index() {
 		if (request()->isPost()) {
 			$result = model('Brand')->getList();
+			$map['cate']=4;	
+            $cateArr = db('OptionItem')->where($map)->column('id,name');
+            foreach ($result['data'] as $key => $value) {
+                if (isset($cateArr[$value['cid']])) {
+                    $result['data'][$key]['cate'] = $cateArr[$value['cid']];
+                }                
+            }
 			echo json_encode($result);
     	}else{
 	    	return view();
@@ -27,6 +34,10 @@ class Brand extends Admin {
 				}
 			}
 			$this->assign('list', $list);
+
+			$map['cate']=4;
+            $cate = db('OptionItem')->field("id,name")->where($map)->order('value asc')->select();
+            $this->assign('cate', $cate);
 			return view();
 		}
 	}

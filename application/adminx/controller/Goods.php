@@ -151,11 +151,13 @@ class Goods extends Admin
                     if($res){
                         $db->where($where)->update('updateTime',time());
                     }else{
-                        $goodsName = db("Goods")->where('id',$v)->value('name');
+                        $goods = db("Goods")->where('id',$v)->find();
+                        $temp = explode("-",$goods['path']);
                         $data = [
                             'goodsID'=>$v,
-                            'goodsName'=>$goodsName,
+                            'goodsName'=>$goods['name'],
                             'cateID'=>$cateID,
+                            'cid'=>$temp[1],
                             'updateTime'=>time()
                         ];
                         $db->insert($data);

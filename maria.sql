@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-07-31 00:47:44
+Date: 2019-07-31 16:51:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -202,11 +202,11 @@ INSERT INTO `pm_brand` VALUES ('55', '0', '奥斯特林', '/uploads/images/20190
 INSERT INTO `pm_brand` VALUES ('56', '0', '康迪克', '/uploads/images/20190220/f11c7ba1afc61149e2e69e17eb8ad8ae.jpg', '', '', '50', '0', '0', 'K', '1547432782', '1552272064');
 INSERT INTO `pm_brand` VALUES ('57', '0', 'Oral-B', '/uploads/images/20190220/ee299e065b30f2b668e0008e14eb208f.jpg', '', '', '50', '0', '0', 'O', '1547432908', '1552272073');
 INSERT INTO `pm_brand` VALUES ('58', '0', 'Jellycat', '/uploads/images/20190220/d83139d5eceddb8e575d32b7b1ce3ebf.jpg', '', '', '19', '1', '1', 'J', '1550234263', '1552271050');
-INSERT INTO `pm_brand` VALUES ('61', '0', 'OLI羊奶粉', '/uploads/images/20190319/106176e8899bf343759f76f422020fba.jpg', '', '', '50', '0', '0', 'O', '1552970449', '1552970570');
+INSERT INTO `pm_brand` VALUES ('61', '8', 'OLI羊奶粉', '/uploads/images/20190319/106176e8899bf343759f76f422020fba.jpg', '', '', '50', '0', '0', 'O', '1552970449', '1564557069');
 INSERT INTO `pm_brand` VALUES ('59', '0', 'GM', '/uploads/images/20190311/3ccc54b6fe08ab8c88c17da70e99365b.jpg', '', '', '11', '1', '1', 'G', '1552271717', '1552271717');
 INSERT INTO `pm_brand` VALUES ('60', '0', 'Femfresh', '/uploads/images/20190311/79122cf49ef11dd15116a931d87b694c.jpg', '', '', '13', '1', '1', 'F', '1552271764', '1552271764');
-INSERT INTO `pm_brand` VALUES ('62', '0', 'Bubs贝儿羊奶粉', '/uploads/images/20190411/c58f9269a6c67e89d144339e312efa39.jpeg', '', '', '50', '0', '0', 'B', '1554945914', '1554945914');
-INSERT INTO `pm_brand` VALUES ('63', '0', 'Diploma学生奶粉', '/uploads/images/20190411/5df7828a3cf65205d6f0b9de88885be7.jpg', '', '', '50', '0', '0', 'D', '1554947900', '1554947991');
+INSERT INTO `pm_brand` VALUES ('62', '7', 'Bubs贝儿羊奶粉', '/uploads/images/20190411/c58f9269a6c67e89d144339e312efa39.jpeg', '', '', '50', '0', '0', 'B', '1554945914', '1564557063');
+INSERT INTO `pm_brand` VALUES ('63', '7', 'Diploma学生奶粉', '/uploads/images/20190411/5df7828a3cf65205d6f0b9de88885be7.jpg', '', '', '50', '0', '0', 'D', '1554947900', '1564557045');
 
 -- ----------------------------
 -- Table structure for `pm_cart`
@@ -602,18 +602,20 @@ INSERT INTO `pm_goods_model` VALUES ('1', '鞋子', '1562989209', '1562989209');
 DROP TABLE IF EXISTS `pm_goods_push`;
 CREATE TABLE `pm_goods_push` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` int(11) NOT NULL,
   `cateID` int(11) NOT NULL,
   `goodsID` int(11) NOT NULL,
   `goodsName` varchar(200) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods_push
 -- ----------------------------
-INSERT INTO `pm_goods_push` VALUES ('3', '1', '4', '测试商品', '1563771843');
-INSERT INTO `pm_goods_push` VALUES ('4', '2', '7', '某某奶粉', '1563771870');
+INSERT INTO `pm_goods_push` VALUES ('5', '5', '1', '8', 'Maltesers 麦丽素大包装 桶装 465g 19年9月到期', '1564540080');
+INSERT INTO `pm_goods_push` VALUES ('6', '4', '2', '4', 'Pouch 欧式可折 叠便携式宝宝', '1564540087');
+INSERT INTO `pm_goods_push` VALUES ('7', '1', '2', '7', 'A2 孕妇奶粉 19年10月', '1564540093');
 
 -- ----------------------------
 -- Table structure for `pm_goods_spec_price`
@@ -732,7 +734,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1567095428', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1567150547', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -947,7 +949,7 @@ CREATE TABLE `pm_option_cate` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_option_cate
@@ -955,6 +957,7 @@ CREATE TABLE `pm_option_cate` (
 INSERT INTO `pm_option_cate` VALUES ('1', '商品推送', '', '50', '1563769874', '1563769874');
 INSERT INTO `pm_option_cate` VALUES ('2', '产品功效', '', '50', '1563897789', '1563897789');
 INSERT INTO `pm_option_cate` VALUES ('3', '商品标签', '', '50', '1563898269', '1563898269');
+INSERT INTO `pm_option_cate` VALUES ('4', '品牌分类', '', '50', '1564556579', '1564556579');
 
 -- ----------------------------
 -- Table structure for `pm_option_item`
@@ -972,17 +975,19 @@ CREATE TABLE `pm_option_item` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_option_item
 -- ----------------------------
-INSERT INTO `pm_option_item` VALUES ('1', '1', '每日精品', '', '3', '50', 'M', '大家都在买', '1563769911', '1564399974');
+INSERT INTO `pm_option_item` VALUES ('1', '1', '每日精选', '', '1', '50', 'M', '大家都在买', '1563769911', '1564538982');
 INSERT INTO `pm_option_item` VALUES ('2', '1', '国内现货', '', '2', '50', 'G', '大家都在买', '1563770010', '1564399970');
-INSERT INTO `pm_option_item` VALUES ('3', '1', '特惠推荐', '', '1', '50', 'T', '大家都在买', '1563770054', '1564399965');
+INSERT INTO `pm_option_item` VALUES ('3', '1', '特惠推荐', '', '3', '50', 'T', '大家都在买', '1563770054', '1564538977');
 INSERT INTO `pm_option_item` VALUES ('4', '2', '美白', '', '', '50', 'M', '', '1563898010', '1563898010');
 INSERT INTO `pm_option_item` VALUES ('5', '2', '降压', '', '', '50', 'J', '', '1563898053', '1563898053');
 INSERT INTO `pm_option_item` VALUES ('6', '2', '改善贫血', '', '', '50', 'G', '', '1563898075', '1563898075');
+INSERT INTO `pm_option_item` VALUES ('7', '4', '美容彩妆', '', '', '50', 'M', '', '1564556603', '1564556603');
+INSERT INTO `pm_option_item` VALUES ('8', '4', '个人洗护', '', '', '50', 'G', '', '1564556611', '1564556611');
 
 -- ----------------------------
 -- Table structure for `pm_order`

@@ -256,7 +256,7 @@ function getThumb($path, $width, $height) {
         } 
         return $image_rs;
     }else{
-        return false;
+        return '';
     } 
 }
 
