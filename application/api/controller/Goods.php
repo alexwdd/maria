@@ -108,6 +108,7 @@ class Goods extends Common {
             }
             if($cid!=''){
                 $map['cid|cid1'] = $cid;
+                $cate = db("GoodsCate")->field('id,path,name')->where('id',$cid)->find();
             }
             if($path!=''){
                 $map['path|path1'] = array('like',$path.'%');
@@ -130,7 +131,7 @@ class Goods extends Common {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
                 $list[$key]['rmb'] = $value['price']*$this->rate;
             }
-            returnJson(1,'success',['next'=>$next,'data'=>$list]);
+            returnJson(1,'success',['cate'=>$cate,'next'=>$next,'data'=>$list]);
         }
     }
 
