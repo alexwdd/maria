@@ -112,6 +112,10 @@ class Goods extends Common {
             }
             if($path!=''){
                 $map['path|path1'] = array('like',$path.'%');
+                $cate = db("GoodsCate")->field('id,path,name')->where('path',$path)->find();
+            }
+            if($cate){
+                $child = db("GoodsCate")->field('id,path,name')->where('fid',$cate['id'])->select();
             }
             if($keyword!=''){
                 $map['name|short|keyword'] = array('like','%'.$keyword.'%');
@@ -131,7 +135,7 @@ class Goods extends Common {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
                 $list[$key]['rmb'] = $value['price']*$this->rate;
             }
-            returnJson(1,'success',['cate'=>$cate,'next'=>$next,'data'=>$list]);
+            returnJson(1,'success',['cate'=>$cate,'child'=>$child,'next'=>$next,'data'=>$list]);
         }
     }
 
