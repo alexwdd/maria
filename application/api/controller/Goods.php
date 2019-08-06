@@ -7,31 +7,46 @@ class Goods extends Common {
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $map['fid'] = 0;
-            $list = db('GoodsCate')->field('id,name')->where($map)->order('sort asc,id desc')->select();
+            $list = db('GoodsCate')->field('id,path,name')->where($map)->order('sort asc,id desc')->select();
             foreach ($list as $key => $value) {
-                $child = db('GoodsCate')->field('id,name,picname')->where('fid',$value['id'])->order('sort asc,id desc')->select();
+                $child = db('GoodsCate')->field('id,path,name,picname')->where('fid',$value['id'])->order('sort asc,id desc')->select();
                 foreach ($child as $k => $val) {
                     $child[$k]['picname'] = getRealUrl($val['picname']);
                 }
                 $list[$key]['child'] = $child;
             }
-
-            /*unset($map);
-            $map['comm'] = 1;
-            $commendCate = db("GoodsCate")->field('id,name,path,picname')->where($map)->select();
-            foreach ($commendCate as $key => $value) {
-                $commendCate[$key]['picname'] = getRealUrl($value['picname']);
-            }
-
-            unset($map);
-            $map['comm'] = 1;
-            $brand = db("Brand")->field('id,name,logo')->where($map)->select();
-            foreach ($brand as $key => $value) {
-                $brand[$key]['logo'] = getRealUrl($value['logo']);
-            }*/
-
             $config = tpCache("member");
             returnJson(1,'success',['category'=>$list,'hotkey'=>$config['hotkey']]);
+        }
+    }
+
+    public function categoryGoods(){
+        if(request()->isPost()){
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $path = input('post.path');
+
+            if($path==''){
+                returnJson(0,'参数错误');
+            }
+
+            $thisCate = db('GoodsCate')->field('id,name')->where('path',$path)->find();
+            if(!$thisCate){
+                returnJson(0,'分类不存在');
+            }
+
+            $cate = db('GoodsCate')->field('id,name')->where('fid',$thisCate['id'])->order('sort asc,id desc')->select();
+            foreach ($cate as $key => $value) {
+                $map['cid|cid1'] = $value['id'];
+                $map['show'] = 1;
+                $goods = db("Goods")->where($map)->field('id,name,picname,say,price,marketPrice,comm')->order('sort asc,id desc')->select();
+                foreach ($goods as $k => $val) {
+                    $val['picname'] = getThumb($val["picname"],400,400);
+                    $goods[$k]['picname'] = getRealUrl($val['picname']);
+                    $goods[$k]['rmb'] = round($val['price']*$this->rate,2);
+                }
+                $cate[$key]['goods'] = $goods;
+            }
+            returnJson(1,'success',['data'=>$cate]);
         }
     }
 

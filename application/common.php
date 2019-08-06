@@ -109,6 +109,15 @@ function getOrderStatus($v){
     }
 }
 
+function getMoneyType($type){
+
+    foreach (config('moneyType') as $key => $value) {
+        if($key == $type){
+            return $value['name'];
+        }
+    }
+}
+
 //获取抢购时间
 function checkFlashTime($time){
     $time = explode("-",$time);

@@ -1,4 +1,20 @@
 <div class="layui-card">
+    <form class="layui-form layui-card-header layuiadmin-card-header-auto" tableId="lay-common-table">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" name="keyword" autocomplete="off" placeholder="名称" class="layui-input"/>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit lay-filter="tools-btn-search" style="display: block;">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
     <div class="layui-card-body">
         <div style="padding-bottom: 10px;">            
             <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="add" data-tableId="lay-common-table" url="{:url('brand/pub')}" topWidth="80%" topHeight="80%" topTitle="新增">添加</button>
@@ -23,17 +39,17 @@
         </div>
 
         <script type="text/html" id="comm">
-        {{# if(d.comm==0){ }}
+        {{# if(d.comm==1){ }}
         <i class="layui-icon layui-icon-ok"></i>
         {{# } }}
         </script>
 
         <script type="text/html" id="imageTpl">
-            {{# if(d.logo == ''){ }}
-            -
-            {{# }else{ }}
-            <a href="{{d.logo}}" target="_blank"><i class="layui-icon">&#xe64a;</i></a>
-            {{# } }}                
+        {{# if(d.logo == ''){ }}
+        -
+        {{# }else{ }}
+        <a href="{{d.logo}}" target="_blank"><i class="layui-icon">&#xe64a;</i></a>
+        {{# } }}                
         </script>
 
         <script type="text/html" id="barDemo">        

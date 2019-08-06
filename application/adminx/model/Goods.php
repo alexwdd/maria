@@ -72,6 +72,7 @@ class Goods extends Admin
         $order = input('post.order','desc');
         $path = input('path');
         $keyword  = input('keyword');
+        $type  = input('type');
         $goods_id  = input('goods_id');
 
         if($path!=''){
@@ -79,6 +80,9 @@ class Goods extends Admin
         }
         if($keyword!=''){
             $map['name|short|keyword'] = array('like', '%'.$keyword.'%');
+        }
+        if($type!=''){
+            $map['show'] = $type;
         }
         if($goods_id!=''){
             $map['id'] = array('neq',$goods_id);

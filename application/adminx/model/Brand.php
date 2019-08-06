@@ -34,8 +34,12 @@ class Brand extends Admin
         $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
         $order = input('post.order','desc');
+        $keyword = input('post.keyword');
 
         $map['id'] = array('gt',0);
+        if($keyword!=''){
+            $map['name'] = array('like', '%'.$keyword.'%');
+        }
 
         $total = $this->where($map)->count();
         $pages = ceil($total/$pageSize);

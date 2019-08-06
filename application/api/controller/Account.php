@@ -146,7 +146,7 @@ class Account extends Auth {
                 if ($list) {
                     //添加财务记录
                     $data = array(
-                        'type' => 2,
+                        'type' => 1,
                         'money' => $config['sign'],
                         'memberID' => $this->user['id'],     
                         'doID' =>  $this->user['id'],
