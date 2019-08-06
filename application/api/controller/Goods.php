@@ -133,7 +133,7 @@ class Goods extends Common {
             $list = $obj->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
-                $list[$key]['rmb'] = $value['price']*$this->rate;
+                $list[$key]['rmb'] = round($value['price']*$this->rate,2);
             }
             returnJson(1,'success',['cate'=>$cate,'child'=>$child,'next'=>$next,'data'=>$list]);
         }
