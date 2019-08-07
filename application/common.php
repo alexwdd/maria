@@ -472,6 +472,6 @@ function getfirstchar($s0){
     if($asc >= -12556 and $asc <= -11848) return "X";
     if($asc >= -11847 and $asc <= -11056) return "Y";
     if($asc >= -11055 and $asc <= -10247) return "Z";
-    return NULL;
+    return '';
 }
 ?>
