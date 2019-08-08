@@ -99,7 +99,13 @@ class Goods extends Common {
                 }
                 $list[$key]['child'] = $child;
             }
-            returnJson(1,'success',['brand'=>$list]);
+
+            $ad = db("Ad")->field('name,picname,url')->where('cid',2)->select();
+            foreach ($ad as $key => $value) {
+                $value['picname'] = getThumb($value["picname"],600,180);
+                $ad[$key]['picname'] = getRealUrl($value['picname']);
+            }
+            returnJson(1,'success',['brand'=>$list,'ad'=>$ad]);
         }
     }
 

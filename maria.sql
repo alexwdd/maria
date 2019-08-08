@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-06 23:12:42
+Date: 2019-08-09 00:30:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -459,7 +459,7 @@ CREATE TABLE `pm_finance` (
   `extend2` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_finance
@@ -468,6 +468,7 @@ INSERT INTO `pm_finance` VALUES ('1', '2', '1', '2', '1', '10.00', '07-23签到�
 INSERT INTO `pm_finance` VALUES ('2', '2', '1', '2', '1', '10.00', '08-06签到，奖励10积分。', '0', '0', '1565097687');
 INSERT INTO `pm_finance` VALUES ('3', '1', '1', '1', '3', '100.00', '账户充值100元', '0', '0', '1565104138');
 INSERT INTO `pm_finance` VALUES ('4', '2', '1', '1', '3', '10.00', '账户充值10元', '0', '0', '1565104250');
+INSERT INTO `pm_finance` VALUES ('5', '1', '1', '1', '3', '20.00', '账户充值20元', '0', '0', '1565278286');
 
 -- ----------------------------
 -- Table structure for `pm_flash`
@@ -883,7 +884,7 @@ CREATE TABLE `pm_node` (
   KEY `pid` (`pid`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_node
@@ -944,7 +945,7 @@ INSERT INTO `pm_node` VALUES ('53', '列表', 'member/index', '1', '', '52', '3'
 INSERT INTO `pm_node` VALUES ('54', '发布', 'member/pub', '1', '', '52', '3', '', '0', '50', '0');
 INSERT INTO `pm_node` VALUES ('84', '会员充值', 'chongzhi', '1', '', '73', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('87', '配货中', 'order/peing', '1', '', '83', '3', '', '0', '50', '1');
-INSERT INTO `pm_node` VALUES ('85', '全部', 'order/index', '1', '', '83', '3', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('85', '全部', 'order/index', '1', '', '83', '3', '', '0', '0', '1');
 INSERT INTO `pm_node` VALUES ('86', '待配货', 'order/peihuo', '1', '', '83', '3', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('82', '选项设置', 'option', '1', '', '6', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('65', '商品管理', '', '1', '', '0', '1', 'layui-icon-cart', '0', '50', '1');
@@ -966,6 +967,7 @@ INSERT INTO `pm_node` VALUES ('89', '交易关闭', 'order/close', '1', '', '83'
 INSERT INTO `pm_node` VALUES ('90', '包裹定位', 'baoguo', '1', '', '73', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('91', '基金返利', 'fund', '1', '', '73', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('92', '财务明细', 'finance', '1', '', '73', '2', '', '0', '50', '1');
+INSERT INTO `pm_node` VALUES ('93', '待支付', 'order/nopay', '1', '', '83', '3', '', '0', '10', '1');
 
 -- ----------------------------
 -- Table structure for `pm_onepage`
@@ -1058,8 +1060,8 @@ CREATE TABLE `pm_order` (
   `couponID` int(11) NOT NULL COMMENT '优惠券ID',
   `order_no` varchar(50) NOT NULL,
   `total` decimal(8,2) NOT NULL COMMENT '订单总金额(商品金额+快递费-优惠金额)',
-  `point` int(11) NOT NULL,
-  `fund` decimal(8,2) NOT NULL,
+  `point` int(11) NOT NULL COMMENT '获取积分',
+  `fund` decimal(8,2) NOT NULL COMMENT '基金',
   `goodsMoney` decimal(8,2) NOT NULL COMMENT '商品总金额',
   `isCut` tinyint(4) NOT NULL COMMENT '0不予许砍价 1可以砍价',
   `minGoodsMoney` decimal(8,2) NOT NULL COMMENT '商品最小金额',
@@ -1090,11 +1092,12 @@ CREATE TABLE `pm_order` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order
 -- ----------------------------
+INSERT INTO `pm_order` VALUES ('13', '1', '0', '222', '11.00', '1', '2.00', '3.00', '4', '1.00', '1', '11.00', '2.00', '1.00', '1.00', '2', '333', '44', '1', '1', '1', '1', '1', '1', '1', '33', '44', '55', '66', '7', '1', '1', '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `pm_order_baoguo`
@@ -1130,7 +1133,7 @@ CREATE TABLE `pm_order_baoguo` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_baoguo
@@ -1178,7 +1181,7 @@ CREATE TABLE `pm_order_detail` (
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_detail

@@ -85,6 +85,17 @@ function fix_number_precision($data, $precision = 2)
     return $data;
 }
 
+//获取支付方式
+function getPayType($v){
+    if ($v==1) {
+        $name = 'OMI支付';
+    }
+    if ($v==2) {
+        $name = '余额支付';
+    }
+    return $name;
+}
+
 //获取订单状态
 function getOrderStatus($v){
     switch ($v) {
@@ -110,7 +121,6 @@ function getOrderStatus($v){
 }
 
 function getMoneyType($type){
-
     foreach (config('moneyType') as $key => $value) {
         if($key == $type){
             return $value['name'];
@@ -169,34 +179,6 @@ function getGoodsEmpty($goods){
     }else{
         return 0;
     }
-}
-
-function getLastTime($targetTime){
-    // 今天最大时间
-    $todayLast   = strtotime(date('Y-m-d 23:59:59'));
-    $agoTimeTrue = time() - $targetTime;
-    $agoTime     = $todayLast - $targetTime;
-    $agoDay      = floor($agoTime / 86400);
-
-    if ($agoTimeTrue < 60) {
-        $result = '刚刚';
-    } elseif ($agoTimeTrue < 3600) {
-        $result = (ceil($agoTimeTrue / 60)) . '分钟前';
-    } elseif ($agoTimeTrue < 3600 * 12) {
-        $result = (ceil($agoTimeTrue / 3600)) . '小时前';
-    } elseif ($agoDay == 0) {
-        $result = '今天 ' . date('H:i', $targetTime);
-    } elseif ($agoDay == 1) {
-        $result = '昨天 ' . date('H:i', $targetTime);
-    } elseif ($agoDay == 2) {
-        $result = '前天 ' . date('H:i', $targetTime);
-    } elseif ($agoDay > 2 && $agoDay < 16) {
-        $result = $agoDay . '天前 ' . date('H:i', $targetTime);
-    } else {
-        $format = date('Y') != date('Y', $targetTime) ? "Y-m-d H:i" : "m-d H:i";
-        $result = date($format, $targetTime);
-    }
-    return $result;
 }
 
 function getRealUrl($value){
@@ -373,12 +355,6 @@ function inject_replace($sql_str) {
     return preg_replace("/select|inert|script|iframe|update|delete|\'|\/\*|\*|\.\.\/|\.\/|UNION|into|load_file|outfile/i","",$sql_str);
 } 
 
-//过滤数据
-function getCateName($cid){
-    $map['id'] = $cid;
-    return db('Category')->where($map)->value('name');
-}  
-
 /**
  * 获取缓存或者更新缓存
  * @param string $config_key 缓存文件名称
@@ -437,8 +413,6 @@ function tpCache($config_key,$data = array()){
         return cache($param[0],$newData,TEMP_PATH);
     }
 }
-
-
 
 //获取单个汉字拼音首字母。注意:此处不要纠结。汉字拼音是没有以U和V开头的
 function getfirstchar($s0){   

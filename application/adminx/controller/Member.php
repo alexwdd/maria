@@ -9,10 +9,6 @@ class Member extends Admin {
 			$result = model('Member')->getList();
 			echo json_encode($result);
     	}else{
-    		$depart = db("Depart")->order('sort asc,id asc')->select();
-    		$junxian = db("Junxian")->order('sort asc,id asc')->select();
-    		$this->assign('depart',$depart);
-    		$this->assign('junxian',$junxian);
 	    	return view();
     	}
 	}
@@ -57,14 +53,31 @@ class Member extends Admin {
 		}
 	}
 
-	#发送消息
-	public function message() {
-		if(request()->isPost()){
-	        $data = input('post.');
-	        return model('Message')->pub( $data );
+	#封号
+	public function disable() {
+		$id = explode(",",input('post.id'));
+		if (count($id)==0) {
+			$this->error('请选择要封号的会员');
 		}else{
-			$this->assign('memberID',input('get.id'));
-			return view();
+			if(model('Member')->disable($id)){
+				$this->success("操作成功");
+			}else{
+				$this->error('操作失败');
+			}
+		}
+	}
+
+	#解封
+	public function open() {
+		$id = explode(",",input('post.id'));
+		if (count($id)==0) {
+			$this->error('请选择要封号的会员');
+		}else{
+			if(model('Member')->open($id)){
+				$this->success("操作成功");
+			}else{
+				$this->error('操作失败');
+			}
 		}
 	}
 

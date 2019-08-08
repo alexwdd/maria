@@ -9,15 +9,6 @@ class Member extends Admin
         return date("Y-m-d H:i:s",$value);
     }
 
-    public function getActiveTimeAttr($value)
-    {
-        if ($value==0) {
-            return '<span style="color:#f00">未激活</span>';
-        }else{
-            return date("Y-m-d H:i:s",$value);
-        }        
-    }
-    
     //获取列表
     public function getList(){
         $pageNum = input('post.page',1);
@@ -25,22 +16,14 @@ class Member extends Admin
         $field = input('post.field','id');
         $order = input('post.order','desc');
         $keyword = input('post.keyword');
-        $depart  = input('post.depart');
-        $junxian  = input('post.junxian');
         $disable  = input('post.disable');
 
         $map['id'] = array('gt',0);
         if($keyword!=''){
-            $map['name|mobile'] = $keyword;
+            $map['nickname|name|mobile'] = $keyword;
         }
         if($disable!=''){
             $map['disable'] = $disable;
-        }
-        if($junxian!=''){
-            $map['junxian'] = $junxian;
-        }
-        if($depart!=''){
-            $map['depart'] = $depart;
         }
 
         $total = $this->where($map)->count();
@@ -119,6 +102,20 @@ class Member extends Admin
         }else{
             return array('code'=>0,'msg'=>'操作失败');
         }
+    }
+
+    //封号
+    public function disable($id){
+        $map['id'] = array('in',$id);
+        db('Member')->where($map)->setField('disable',1);
+        return array('code'=>1,'操作成功');
+    }
+
+    //解封
+    public function open($id){
+        $map['id'] = array('in',$id);
+        db('Member')->where($map)->setField('disable',0);
+        return array('code'=>1,'操作成功');
     }
 
     //删除
