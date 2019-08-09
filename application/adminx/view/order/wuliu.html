@@ -19,7 +19,7 @@
 		<div class="layui-input-inline" style="width: 80%">
 			<div class="insert-img" id="insert-img1">
 				{volist name="list.eimg" id="vo"}
-				<li><img src="{$vo}" /><input type="hidden" name="eimg[]" value="{$vo}" /><i class="layui-icon" onclick="removeLi(this)">&#x1006;</i></li>
+                <li><img src="{$vo}" /><input type="hidden" name="eimg[]" value="{$vo}" /><i class="layui-icon del-img-btn" data-url="{$vo}">&#x1006;</i></li>
 				{/volist}
 				<a href="javascript:;" class="insert-btn" id="upload-mult">+</a> 
 			</div>
@@ -31,7 +31,7 @@
 		<div class="layui-input-inline" style="width: 80%">
 			<div class="insert-img" id="insert-img">
 				{volist name="list.image" id="vo"}
-				<li><img src="{$vo}" /><input type="hidden" name="image[]" value="{$vo}" /><i class="layui-icon" onclick="removeLi(this)">&#x1006;</i></li>
+                <li><img src="{$vo}" /><input type="hidden" name="image[]" value="{$vo}" /><i class="layui-icon del-img-btn" data-url="{$vo}">&#x1006;</i></li>
 				{/volist}
 				<a href="javascript:;" class="insert-btn" id="upload-mult1">+</a>  
 			</div>
@@ -105,6 +105,13 @@ layui.config({
     			layer.alert(res.msg);
     		}
     	});        
+    });
+
+    //删除文件
+    $("body").on("click",".del-img-btn",function(){
+        let data = {path:$(this).attr("data-url")};
+        $.post("{:url('admin/delFile')}",data);
+        $(this).parent().remove();
     });
 })
 </script>

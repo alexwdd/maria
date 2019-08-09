@@ -34,16 +34,13 @@
             </div>
 
             <div class="layui-input-inline" style="width: 100px">
-                <select name="flag" id="flag">
+                <select name="print" id="print">
                     <option value="">是否打印</option>
                     <option value="1">已打印</option>
                     <option value="0">未打印</option>
                 </select>
             </div>
 
-            <div class="layui-inline">
-                <input type="checkbox" name="sign" value="1" title="有签名" lay-skin="primary">
-            </div>
             <div class="layui-inline">
                 <input type="checkbox" name="image" value="1" title="缺发货图片" lay-skin="primary">
             </div>
@@ -58,14 +55,14 @@
 
     <div class="layui-card-body">
         <div style="padding-bottom: 10px;">   
-            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="refresh" data-tableId="lay-common-table">刷新</button>            
+            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="refresh" data-tableId="lay-common-table">刷新</button>
+
+            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="add" data-tableId="lay-common-table" url="{:url('baoguo/import')}" topWidth="700px" topHeight="400px" topTitle="批量导入">批量导入</button>
 
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" function="toExp">导出
             </button>
-
-            <button class="layui-btn layui-btn-sm layui-btn-primary" function="top" topUrl="{:url('baoguo/import')}" topWidth="80%" isMaximize="0" topHeight="80%" topTitle="批量导入">批量导入</button>
             
-            <button class="layui-btn layui-btn-warm layui-btn-sm" function="toPrint">批量打印</button>
+            <button class="layui-btn layui-btn-sm layui-btn-warm tools-btn" data-type="selectOpenWindow" data-tableId="lay-common-table" url="{:url('baoguo/mprint')}">批量打印</button>
 
             <button type="button" class="layui-btn layui-btn-sm" id="imageBtn">
             <i class="layui-icon">&#xe67c;</i> 批量上传图片
@@ -83,36 +80,73 @@
             <p field="kuaidi" title="快递" width="100" />     
             <p field="eimg" title="面单" width="60" templet="#jietu"/>
             <p title="发货图" width="80" templet="#image"/>
-            <p field="print" title="打印" width="100" dict="print"/>
+            <p title="打印" width="100" templet="#print"/>
             <p field="name" title="收件人" width="160" templet="#shoujianren"/>
-            <p field="sender" title="发件人" width="160"  templet="#fajianren"/>
+            <p field="sender" title="发件人" width="160" templet="#fajianren"/>
             <p title="状态" width="100" templet="#status"/>
-            <p field="snStatus" title="身份证" width="100" dict="snStatus"/>
+            <p field="snStatus" title="身份证" width="100" templet="#snStatus"/>
             <p field="createTime" title="提交日期" width="180"/>
-            <p field="type" title="类型" width="80"/>
+            <p field="type" title="包裹类型" width="80"/>
             <p fixed="right" align="center" toolbar="#barDemo" title="操作" width="80"/>
         </div>
 
+        <script type="text/html" id="shoujianren">
+            {{d.name}}/{{d.tel}}             
+        </script>
+        <script type="text/html" id="fajianren">
+            {{d.sender}}/{{d.senderTel}}                 
+        </script>
+
+        <script type="text/html" id="print">
+            {{# if(d.print == 0){ }}
+            未打印
+            {{# }else{ }}
+            <span style="color:blue">已打印</span>
+            {{# } }}                
+        </script>
+
+        <script type="text/html" id="snStatus">
+            {{# if(d.snStatus == 0){ }}
+            未上传
+            {{# }else{ }}
+            <span style="color:blue">已上传</span>
+            {{# } }}                
+        </script>
+
         <script type="text/html" id="status">
-            {{# if(d.status == 0){ }}
-            待付款     
-            {{# } }}
-            {{# if(d.status == 1){ }}
-            <span style="color:gold">待配货</span>       
-            {{# } }}
-            {{# if(d.status == 2){ }}
-            <span style="color:blue">配货中</span>        
-            {{# } }}
-            {{# if(d.status == 3){ }}
-            <span style="color:green">已发货</span>     
-            {{# } }}
-            {{# if(d.status == 99){ }}
-            <span style="color:red">交易关闭</span>        
+            {{# if(d.flag == 0){ }}
+            未导出
+            {{# }else{ }}
+            <span style="color:blue">已导出</span>
+            {{# } }}                
+        </script>
+
+        <script type="text/html" id="flag">
+            {{# if(d.flag == 0){ }}
+            <span style="color: #f00">未发货</span>
+            {{# }else{ }}
+            已发货
+            {{# } }}                
+        </script>
+
+        <script type="text/html" id="image">
+            {{# if(d.image == ''){ }}
+            -
+            {{# }else{ }}
+            <a href="{:url('bag/image')}?id={{d.id}}" target="_blank"><i class="layui-icon">&#xe64a;</i></a>
+            {{# } }}                
+        </script>
+
+        <script type="text/html" id="jietu">
+            {{# if(d.eimg == ''){ }}
+            -
+            {{# }else{ }}
+            <a href="{{d.eimg}}" target="_blank"><i class="layui-icon">&#xe64a;</i></a>
             {{# } }}                
         </script>
 
         <script type="text/html" id="barDemo">        
-            <a class="layui-btn layui-btn-xs" lay-event="edit" url="{:url('order/info')}?id={{d.id}}" topWidth="80%" topHeight="80%" topTitle="订单详情" data-tableId="lay-common-table">详情</a>
+            <a class="layui-btn layui-btn-xs" lay-event="edit" url="{:url('order/info')}?id={{d.orderID}}" topWidth="80%" topHeight="80%" topTitle="订单详情" data-tableId="lay-common-table">详情</a>
         </script>
     </div>
 </div>
@@ -121,14 +155,31 @@ layui.config({
     base: '{:RES}/' //静态资源所在路径
 }).extend({
     index: 'lib/index' //主入口模块
-}).use(['index','laydate'],function(){
+}).use(['index','laydate','upload'],function(){
     var form = layui.form,
         laydate = layui.laydate,
+        upload = layui.upload,
         $ = layui.$;
 
     laydate.render({
         elem: '#createDate',
         range: true
+    });
+
+    //执行实例
+    var uploadInst = upload.render({
+        elem: '#imageBtn',
+        url: '{:url('bag/upload')}',
+        multiple:true,
+        accept:"images",
+        fileExts:"jpg|png|gif|jpeg",
+        acceptMime: 'image/jpg, image/png, image/gif, image/jpeg',
+        done: function(res){
+            layer.alert("上传成功");
+        },
+        error: function(){
+
+        }
     });
 });
 </script>

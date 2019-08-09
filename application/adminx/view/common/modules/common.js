@@ -363,7 +363,7 @@ layui.define(['form','table','laydate'],function(exports) {
     });
 
     var active = {
-        action: function() {            
+        action: function() {
             var tableId = $(this).attr('data-tableId');
             var url = $(this).attr('url');
             var alert = $(this).attr('alert');
@@ -486,6 +486,21 @@ layui.define(['form','table','laydate'],function(exports) {
         },
         back: function() { 
             window.history.go(-1);
+        },
+        selectOpenWindow: function() {            
+            var tableId = $(this).attr('data-tableId');
+            var url = $(this).attr('url');
+            var refresh = 1;
+            var checkStatus = table.checkStatus(tableId),
+                checkData = checkStatus.data; //得到选中的数据
+            if (checkData.length === 0) {
+                return layer.msg('请选择数据');
+            };
+            var ids = [];
+            for (var i = 0; i < checkData.length; i++) {
+                ids.push(checkData[i].id);
+            };
+            window.open(url+"?ids="+ids.join("-"),'_blank');            
         },
     };
 

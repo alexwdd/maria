@@ -2,33 +2,33 @@
 .item{background: #f2f2f2; clear: both; overflow: hidden; padding: 10px;}
 </style>
 <div class="layui-row layui-col-space15">
-    <div class="layui-col-md7">
+    <div class="layui-col-md12">
         <div class="layui-card">
             <div class="layui-card-header">统计</div>
             <div class="layui-card-body">          
                 <div carousel-item>
                     <ul class="layui-row layui-col-space10">
-                        <li class="layui-col-xs6">
+                        <li class="layui-col-xs3">
                             <div class="layadmin-backlog-body item">
                               <h3>注册会员</h3>
                               <p><cite>{$member}</cite></p>
                             </div>
                         </li>
-                        <li class="layui-col-xs6">
+                        <li class="layui-col-xs3">
                             <div class="layadmin-backlog-body item">
-                              <h3>文章总数</h3>
+                              <h3>商品总数</h3>
                               <p><cite>{$article}</cite></p>
                             </div>
                         </li>
-                        <li class="layui-col-xs6">
+                        <li class="layui-col-xs3">
                             <div class="layadmin-backlog-body item">
-                              <h3>体检报告总数</h3>
+                              <h3>订单总数</h3>
                               <p><cite>{$report}</cite></p>
                             </div>
                         </li>
-                        <li class="layui-col-xs6">
+                        <li class="layui-col-xs3">
                             <div class="layadmin-backlog-body item">
-                              <h3>评论总数</h3>
+                              <h3>今日交易</h3>
                               <p><cite>{$comment}</cite></p>
                             </div>
                         </li>
@@ -47,24 +47,6 @@
                 </div>  
             </div>
         </div>
-    </div>
-
-    <div class="layui-col-md5">
-        <div class="layui-card">
-            <div class="layui-card-header">系统信息</div>
-            <div class="layui-card-body">
-                <table class="layui-table">
-                    <tbody>
-                        {volist name="info" id="v"}
-                        <tr>
-                            <td>{$key}</td>
-                            <td>{$v}</td>
-                        </tr>
-                        {/volist}
-                    </tbody>
-                </table>
-            </div>
-        </div>   
     </div>
 </div>
 <script>
