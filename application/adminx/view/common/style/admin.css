@@ -7,3 +7,11 @@
 .insert-img li i{position: absolute; right: 0; top:0;background:rgba(0,0,0,0.7); color: #fff; display: block; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;}
 .insert-img .insert-btn{display:block; float:left;height: 100px; width: 100px; text-align: center; line-height:100px; border: 1px #ddd solid; margin: 0; padding: 0; font-size: 3rem; color: #666}
 .spec-ipt{width: 80px;}
+
+.orderList{margin-bottom: 15px;}
+.orderList .hd{background: #ccc; color: #000; padding: 5px}
+.orderList .fd{border:1px #dbdbdb solid; border-top: 0; background: #f7f7f7; padding: 5px; clear: both; overflow: hidden;}
+
+.wuliu{float: left;}
+.wuliu a{display: block; float: left; border: 1px #ddd solid; background: #fff; margin-right: 10px;}
+.wuliu a img{display: block;height: 38px}

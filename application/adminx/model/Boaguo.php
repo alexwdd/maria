@@ -2,7 +2,7 @@
 namespace app\adminx\model;
 use think\Session;
 
-class Order extends Admin
+class OrderBaoguo extends Admin
 {
     public function getCreateTimeAttr($value)
     {

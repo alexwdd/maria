@@ -1,4 +1,9 @@
-<div class="layui-col-md12">
+<style type="text/css">
+.face{float: left; margin-right: 15px}
+.face img{height: 80px; display: block;}
+.face a{display: block; width: 100%; margin-top: 5px}
+</style>
+<div class="layui-row layui-col-space5">
     <div class="layui-col-md5">
         <fieldset class="layui-elem-field">
             <legend>商品详情</legend>
@@ -20,9 +25,12 @@
                         {volist name="goods" id="vo"}
                         <tr>
                             <td>
-                                {$vo.name}{$vo.extends}                                 
+                                {$vo.name}
+                                {notempty name="vo.spec"}
+                                <p style="font-size: 12px">{$vo.spec}</p>
+                                {/notempty}
                             </td>
-                            <td>{$vo.num}</td>
+                            <td>{$vo.number}</td>
                             <td>{$vo.price}</td>
                         </tr>
                         {/volist}
@@ -112,7 +120,7 @@
                     </div>
 
                     <div class="layui-form-item layui-hide">
-                        <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('brand/pub')}">
+                        <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('order/info')}">
                     </div>
                     <input type="hidden" name="id" value="{$list.id}">
                 </div>
@@ -122,98 +130,121 @@
 
     <div class="layui-col-md7">
         <fieldset class="layui-elem-field">
-            <legend>包裹信息</legend>
-            <div class="layui-field-box">   
-                {neq name="list.payType" value="1"}
-                {volist name="person" id="vo" key="j"}
-                <div class="layui-card my-card">
-                    <div class="layui-card-header">{$vo.name}，{$vo.mobile}，{$vo.province} {$vo.city} {$vo.area} {$vo.address}</div>
-                    <div class="layui-card-body">
-                        <div class="layui-form">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">身份证</label>
-                                <div class="layui-form-mid">{$vo.sn|default='无'}</div>
-                            </div>
+            <legend>收件人</legend>
+            <div class="layui-field-box">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-form-mid">{$list.name}</div>
+                    </div>
 
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">身份证</label>
-                                <div class="layui-input-block">
-                                    <div class="face">
-                                        {empty name="vo.front"}
-                                        <img src="{:RES}/image/sn1.png">
-                                        {else/}
-                                        <img src="{$vo.front}">
-                                        <a href="{:url('order/image')}?img={$vo.front}" class="layui-btn layui-btn-sm">下载</a>
-                                        {/empty}
-                                    </div>
-                                    <div class="face">
-                                        {empty name="vo.back"}
-                                        <img src="{:RES}/image/sn2.png">
-                                        {else/}
-                                        <img src="{$vo.back}" />
-                                        <a href="{:url('order/image')}?img={$vo.back}" class="layui-btn layui-btn-sm">下载</a>
-                                        {/empty}
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-form-mid">{$list.tel}</div>
+                    </div>
 
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">发件人</label>
-                                <div class="layui-form-mid">{$vo.sender}，{$vo.senderMobile}</div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">地址</label>
+                        <div class="layui-form-mid">{$list.province}{$list.city}{$list.county}{$list.addressDetail}</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">身份证号</label>
+                        <div class="layui-form-mid">{$list.sn|default='无'}</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">身份证</label>
+                        <div class="layui-input-block">
+                            <div class="face">
+                                {empty name="list.front"}
+                                <img src="{:RES}/image/sn1.png">
+                                {else/}
+                                <img src="{$list.front}">
+                                <a href="{:url('order/image')}?img={$list.front}" class="layui-btn layui-btn-sm">下载</a>
+                                {/empty}
+                            </div>
+                            <div class="face">
+                                {empty name="list.back"}
+                                <img src="{:RES}/image/sn2.png">
+                                {else/}
+                                <img src="{$list.back}" />
+                                <a href="{:url('order/image')}?img={$list.back}" class="layui-btn layui-btn-sm">下载</a>
+                                {/empty}
                             </div>
                         </div>
-
-                        {volist name="vo.baoguo" id="f"}
-                        <div class="orderList">
-                            <div class="hd">包裹ID【{$f.id}】 身份证【{eq name="f.snStatus" value="0"}<span style="color: #f00">未上传</span>{else/}已上传{/eq}】 {$f.kuaidi} 运单号【{$f.kdNo|default="-"}】 【{eq name="f.flag" value="0"}<span style="color: #f00">未发货</span>{else/}已发货{/eq}】</div>               
-                            <table class="layui-table" style="margin: 0">
-                                <colgroup>
-                                    <col>
-                                    <col>           
-                                    <col>           
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>名称</th>                 
-                                    <th>单价</th>
-                                    <th>数量</th>     
-                                </tr> 
-                                </thead>
-                                <tbody>
-                                    {volist name="f.goods" id="g"}
-                                    <tr>                        
-                                        <td>{$g.name}{$g.extends}</td>                      
-                                        <td>{$g.price}</td>
-                                        <td>{$g.number}</td>
-                                    </tr>       
-                                    {/volist}
-                                </tbody>
-                            </table>                        
-                            <div class="fd">  
-                                <div class="wuliu">
-                                    {volist name="f.eimg" id="img"}
-                                    <a href="javascript:void(0)" class="photo" data-url="{$img}"><img src="{$img}"></a>
-                                    {/volist}
-                                    {volist name="f.image" id="img"}
-                                    <a href="javascript:void(0)" class="photo" data-url="{$img}"><img src="{$img}"></a>
-                                    {/volist}
-                                </div>
-                                {eq name="list.cancel" value="0"}
-                                <div style="float: right">          
-                                <button type="button" data-id="{$f.id}" class="layui-btn layui-btn-normal snBtn">上传身份证</button>
-                                <button type="button" data-id="{$f.id}" class="layui-btn layui-btn-normal createBtn">生成运单</button>
-                                <button type="button" data-url="{:url("Order/wuliu","id=".$f['id'])}" class="layui-btn wuliuBtn">运单信息</button>
-                                </div>
-                                {/eq}
-                            </div>                      
-                        </div>
-                        {/volist}
                     </div>
                 </div>
-                {/volist}
-                {/neq}
             </div>
-        </fieldset>             
+        </fieldset>
+
+        <fieldset class="layui-elem-field">
+            <legend>发件人</legend>
+            <div class="layui-field-box">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-form-mid">{$list.sender}</div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-form-mid">{$list.senderTel}</div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="layui-elem-field">
+            <legend>包裹</legend>
+            <div class="layui-field-box">
+                {volist name="baoguo" id="f"}
+                <div class="orderList">
+                    <div class="hd">包裹ID【{$f.id}】 身份证【{eq name="f.snStatus" value="0"}<span style="color: #f00">未上传</span>{else/}已上传{/eq}】 {$f.kuaidi} 运单号【{$f.kdNo|default="-"}】 【{eq name="f.flag" value="0"}<span style="color: #f00">未发货</span>{else/}已发货{/eq}】</div>
+                    <table class="layui-table" style="margin: 0">
+                        <colgroup>
+                            <col>
+                            <col>           
+                            <col>           
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>名称</th>                 
+                            <th>单价</th>
+                            <th>数量</th>     
+                        </tr> 
+                        </thead>
+                        <tbody>
+                            {volist name="f.goods" id="g"}
+                            <tr>                        
+                                <td>{$g.name}</td>                      
+                                <td>{$g.price}</td>
+                                <td>{$g.number}</td>
+                            </tr>       
+                            {/volist}
+                        </tbody>
+                    </table>                        
+                    <div class="fd">  
+                        <div class="wuliu">
+                            {volist name="f.eimg" id="img"}
+                            <a href="javascript:void(0)" class="photo" data-url="{$img}"><img src="{$img}"></a>
+                            {/volist}
+                            {volist name="f.image" id="img"}
+                            <a href="javascript:void(0)" class="photo" data-url="{$img}"><img src="{$img}"></a>
+                            {/volist}
+                        </div>
+                        {eq name="list.cancel" value="0"}
+                        <div style="float: right">          
+                        <button type="button" data-id="{$f.id}" class="layui-btn layui-btn-normal snBtn">上传身份证</button>
+                        <button type="button" data-id="{$f.id}" class="layui-btn layui-btn-normal createBtn">生成运单</button>
+                        <button type="button" data-url="{:url("Order/wuliu","id=".$f['id'])}" class="layui-btn wuliuBtn">运单信息</button>
+                        </div>
+                        {/eq}
+                    </div>                      
+                </div>
+                {/volist}
+            </div>
+        </fieldset>
     </div>
 </div>
 
@@ -227,13 +258,65 @@ layui.config({
     myupload = layui.myupload;
     $("html").css({"background":"#fff"});
 
-    myupload.single({
-        elem : '#upload-single',
-        url : '{:url('upload/image')}',
-        ext:'jpg|png|gif|jpeg',
-        mime:'image/*',
-        size:5120,
-        tag : '#logo'
-    }); 
+    $(".wuliuBtn").click(function(){
+        url = $(this).attr("data-url");
+        layer.open({
+            type: 2,
+            title: '运单信息',
+            shadeClose: true,
+            shade: 0.8,
+            area: ["80%", "80%"],
+            content: url //iframe的url
+        });
+    })
+
+    $(".photo").click(function(){
+        url = $(this).attr("data-url");
+        layer.open({
+            type: 1,
+            shadeClose: true,
+            shade: 0.8,
+            area: ["80%", "80%"],
+            content: '<img src="'+url+'"/>'
+        });
+    })
+
+    $(".createBtn").click(function(){
+        var id = $(this).attr("data-id");
+        layer.confirm("确定要生成运单吗？",function(){
+            layer.closeAll();
+            var load = layer.load(0,{shade: [0.7, '#000000']});
+            data = {id:id};
+            $.post("{:url('order/create')}",data,function(res){
+                layer.close(load);
+                if (res.code==1){
+                    layer.alert(res.msg,function(){
+                        window.location.reload();
+                    });
+                }else{
+                    layer.alert(res.msg);
+                }
+            },"json")
+        })
+    })
+
+    $(".snBtn").click(function(){
+        var id = $(this).attr("data-id");
+        layer.confirm("确定要上传身份证吗？",function(){
+            layer.closeAll();
+            var load = layer.load(0,{shade: [0.7, '#000000']});
+            data = {id:id};
+            $.post("{:url('order/uploadPhoto')}",data,function(res){
+                layer.close(load);
+                if (res.code==1){
+                    layer.alert(res.msg,function(){
+                        window.location.reload();
+                    });
+                }else{
+                    layer.alert(res.msg);
+                }
+            },"json")
+        })
+    })
 })
 </script>

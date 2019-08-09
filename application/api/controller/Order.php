@@ -182,7 +182,8 @@ class Order extends Auth {
                 $data['discount'] = 0;
             }
             //获取包裹信息
-            $baoguo = $this->getYunfeiJson($list,$address['province']);        
+            $baoguo = $this->getYunfeiJson($list,$address['province']);   
+    
             $total = $goodsMoney - $data['discount'];
             if($total<=0){
                 $total = 0;

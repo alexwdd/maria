@@ -2,12 +2,13 @@
 namespace app\adminx\controller;
 use think\Cache;
 
-class Order extends Admin {
+class Baoguo extends Admin {
 
 	#列表
 	public function index() {
 		if (request()->isPost()) {
-			$result = model('Order')->getList();			
+			$map['payStatus'] = 0;
+			$result = model('OrderBaoguo')->getList($map);			
 			echo json_encode($result);
     	}else{
 	    	return view();
