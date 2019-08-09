@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-09 00:30:13
+Date: 2019-08-09 17:32:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -77,11 +77,12 @@ CREATE TABLE `pm_address` (
   `sn` varchar(50) NOT NULL,
   `def` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_address
 -- ----------------------------
+INSERT INTO `pm_address` VALUES ('1', '2', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', '', '', '', '0');
 
 -- ----------------------------
 -- Table structure for `pm_article`
@@ -225,7 +226,6 @@ CREATE TABLE `pm_cart` (
 -- ----------------------------
 -- Records of pm_cart
 -- ----------------------------
-INSERT INTO `pm_cart` VALUES ('3', '2', '4', '0', '4', '4', '1');
 
 -- ----------------------------
 -- Table structure for `pm_category`
@@ -546,7 +546,7 @@ CREATE TABLE `pm_goods` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods
@@ -567,6 +567,7 @@ INSERT INTO `pm_goods` VALUES ('20', '0', '19', '0-10-19-', '0', '', '4', '0', '
 INSERT INTO `pm_goods` VALUES ('21', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 叶酸片500mcg 90粒', 'Blackmores Folate 500mcg 90 Tablets', 'BM叶酸90粒', '孕期好伴侣', '', '', '/uploads/images/20190729/2808f8c49bc8ef2211cdeb8942968a61.jpg', null, '', '0', '2020/10', '15', '10.00', '15.00', '18.00', '15.00', '0.20', '0.30', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402099', '1564402099');
 INSERT INTO `pm_goods` VALUES ('22', '0', '20', '0-10-20-', '0', '', '15', '0', '12', 'Elevit 女士爱乐维 孕期维生素 100粒', 'Elevit Pregnancy Multivitamin Tablets 100 Pack （Export Only）', '爱乐维', '健康备孕 降低胎儿畸形', '', '', '/uploads/images/20190729/8225facb8669bff2ca9082f3404de33b.jpg', null, '', '0', '2020/10', '50', '30.00', '50.00', '60.00', '50.00', '0.50', '0.30', '19', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402296', '1564830159');
 INSERT INTO `pm_goods` VALUES ('23', '0', '24', '0-4-24-', '0', '', '4', '0', '8', 'Swisse 高倍蜂胶2000mg 300粒', 'Swisse Ultiboost High Strength Propolis 2000mg 300 Capsules', 'SW蜂胶300粒', '液体黄金 澳洲蜂胶', '', '', '/uploads/images/20190803/504cb220ecb2a76a9794fa1ccb763b86.jpg', null, '', '0', '2020/02/05', '25', '20.00', '25.00', '30.00', '0.00', '0.50', '0.60', '', '100', '999', '0', '0', '0', '1', '1', '1', '0', '1', '50', '1564829689', '1564829826');
+INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', '测试商品', 'test', '鞋子', 'UUG', '', '', '2222', null, '<p>222</p>', '0', '', '10', '10.00', '15.00', '19.00', '2.00', '0.50', '0.70', '', '0', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565322359');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -691,11 +692,15 @@ CREATE TABLE `pm_goods_spec_price` (
   `prom_type` tinyint(2) DEFAULT '0' COMMENT '参加活动类型',
   PRIMARY KEY (`item_id`),
   KEY `key` (`key`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods_spec_price
 -- ----------------------------
+INSERT INTO `pm_goods_spec_price` VALUES ('13', '24', '2_5', '尺码:40码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('14', '24', '2_6', '尺码:40码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('15', '24', '3_5', '尺码:42码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('16', '24', '3_6', '尺码:42码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
 
 -- ----------------------------
 -- Table structure for `pm_link`
@@ -782,7 +787,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1567689687', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1567914455', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1092,12 +1097,12 @@ CREATE TABLE `pm_order` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order
 -- ----------------------------
-INSERT INTO `pm_order` VALUES ('13', '1', '0', '222', '11.00', '1', '2.00', '3.00', '4', '1.00', '1', '11.00', '2.00', '1.00', '1.00', '2', '333', '44', '1', '1', '1', '1', '1', '1', '1', '33', '44', '55', '66', '7', '1', '1', '0', '1', '1', '1');
+INSERT INTO `pm_order` VALUES ('15', '2', '0', '76566162', '15.00', '0', '15.00', '15.00', '1', '13.00', '0', '0.00', '0.00', '20.00', '0.00', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '要红色的', '', '0', '0', '0', '0', '0', '1565322456', '1565322456');
 
 -- ----------------------------
 -- Table structure for `pm_order_baoguo`
@@ -1128,16 +1133,16 @@ CREATE TABLE `pm_order_baoguo` (
   `snStatus` tinyint(4) NOT NULL COMMENT '身份证0未上传，1已上传',
   `flag` tinyint(4) NOT NULL COMMENT '0未导出 1已导出',
   `print` tinyint(4) NOT NULL DEFAULT '0',
-  `del` tinyint(4) DEFAULT NULL COMMENT '0正常 1临时订单（多人模式）',
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_baoguo
 -- ----------------------------
+INSERT INTO `pm_order_baoguo` VALUES ('2', '15', '2', '76566162', '1', '12.00', '4.90', '1.40', '澳邮', '1111111111111', '', '/uploads/images/20190809/60b117ed224ef8958fbf86514e578c64.jpg,/uploads/images/20190809/08ce18aebbd3efaf190cab76ef90abd8.png', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '1', '0', '0', '1565322456', '0');
 
 -- ----------------------------
 -- Table structure for `pm_order_cart`
@@ -1156,11 +1161,12 @@ CREATE TABLE `pm_order_cart` (
   `number` int(11) NOT NULL,
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_cart
 -- ----------------------------
+INSERT INTO `pm_order_cart` VALUES ('8', '2', '15', '24', '15', '测试商品', '2222', '尺码:42码 颜色:红色', '15.00', '2', '2');
 
 -- ----------------------------
 -- Table structure for `pm_order_detail`
@@ -1177,15 +1183,15 @@ CREATE TABLE `pm_order_detail` (
   `short` varchar(200) NOT NULL,
   `number` int(11) NOT NULL COMMENT '单品的数量',
   `price` decimal(8,2) NOT NULL,
-  `del` tinyint(4) DEFAULT NULL COMMENT '0正常 1临时订单（多人模式）',
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_detail
 -- ----------------------------
+INSERT INTO `pm_order_detail` VALUES ('1', '15', '2', '2', '24', '15', '测试商品', '鞋子', '2', '15.00', '0', '1565322456');
 
 -- ----------------------------
 -- Table structure for `pm_role`
@@ -1235,11 +1241,12 @@ CREATE TABLE `pm_sender` (
   `name` varchar(20) NOT NULL,
   `tel` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_sender
 -- ----------------------------
+INSERT INTO `pm_sender` VALUES ('1', '2', 'jack', '18523651112');
 
 -- ----------------------------
 -- Table structure for `pm_server`
