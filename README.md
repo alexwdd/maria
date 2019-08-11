@@ -14,7 +14,7 @@
 
 # 工具栏的方法
 	action			不开启新窗口，直接post
-	selectOpen		选择打开window
+	selectOpen		选择打开新窗口，属性window=1 打开原生窗口
 	add				添加
 	refresh			刷新数据
 	url	 			跳转到url

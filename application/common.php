@@ -1,7 +1,6 @@
 <?php
 /**
- * 多个数组的笛卡尔积
-*
+* 多个数组的笛卡尔积
 * @param unknown_type $data
 */
 function combineDika() {
@@ -123,6 +122,14 @@ function getOrderStatus($v){
 function getMoneyType($type){
     foreach (config('moneyType') as $key => $value) {
         if($key == $type){
+            return $value['name'];
+        }
+    }
+}
+
+function getBaoguoType($type){
+    foreach (config('BAOGUO_TYPE') as $key => $value) {
+        if($value['id'] == $type){
             return $value['name'];
         }
     }

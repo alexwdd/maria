@@ -11,6 +11,7 @@ class Baoguo extends Admin {
 			$result = model('OrderBaoguo')->getList($map);			
 			echo json_encode($result);
     	}else{
+            $this->assign('type',config('BAOGUO_TYPE'));
 	    	return view();
     	}
 	}
@@ -51,9 +52,7 @@ class Baoguo extends Admin {
             $endDate = $date[1];
             $map['createTime'] = array('between',array(strtotime($startDate),strtotime($endDate)+86399));
         }
-        $map['del'] = 0;
         $map['status'] = 1;
-
         $list = db('OrderBaoguo')->where($map)->order('id desc')->select();
         foreach ($list as $key => $value) {
         	db("OrderBaoguo")->where('id',$value['id'])->setField('flag',1);

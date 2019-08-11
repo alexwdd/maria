@@ -14,6 +14,61 @@ class Order extends Admin {
     	}
 	}
 
+	public function nopay() {
+		if (request()->isPost()) {
+			$map['status'] = 0;
+			$result = model('Order')->getList($map);			
+			echo json_encode($result);
+    	}else{
+    		$this->assign('url',url('order/nopay'));
+	    	return view('normal');
+    	}
+	}
+
+	public function peing() {
+		if (request()->isPost()) {
+			$map['status'] = 1;
+			$result = model('Order')->getList($map);			
+			echo json_encode($result);
+    	}else{
+    		$this->assign('url',url('order/peing'));
+	    	return view('normal');
+    	}
+	}
+
+	public function peihuo() {
+		if (request()->isPost()) {
+			$map['status'] = 2;
+			$result = model('Order')->getList($map);			
+			echo json_encode($result);
+    	}else{
+    		$this->assign('url',url('order/peihuo'));
+	    	return view('normal');
+    	}
+	}
+
+	public function fahuo() {
+		if (request()->isPost()) {
+			$map['status'] = 3;
+			$result = model('Order')->getList($map);			
+			echo json_encode($result);
+    	}else{
+    		$this->assign('url',url('order/fahuo'));
+	    	return view('normal');
+    	}
+	}
+
+	public function close() {
+		if (request()->isPost()) {
+			$map['status'] = 99;
+			$result = model('Order')->getList($map);			
+			echo json_encode($result);
+    	}else{
+    		$this->assign('url',url('order/close'));
+	    	return view('normal');
+    	}
+	}
+
     //订单详情
 	public function info(){
 		if(request()->isPost()){

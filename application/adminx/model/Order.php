@@ -10,7 +10,7 @@ class Order extends Admin
     }
 
     //获取列表
-    public function getList($del=0){        
+    public function getList($map){
         $pageNum = input('post.page',1);
         $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
@@ -33,6 +33,7 @@ class Order extends Admin
         if ($order_no!='') {
             $map['order_no'] = $order_no;
         }
+
         if ($createDate!='') {
             $date = explode(" - ", $createDate);
             $startDate = $date[0];
@@ -46,6 +47,11 @@ class Order extends Admin
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {
             $list = collection($list)->toArray();
+            foreach ($list as $key => $value) {
+                if ($value['couponID']>0) {                    
+                    $list[$key]['coupon'] = db("CouponLog")->where("id=".$value['couponID'])->value("name");   
+                }
+            }
         }
 
         $result = array(

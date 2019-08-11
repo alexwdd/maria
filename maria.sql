@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-09 17:32:58
+Date: 2019-08-12 00:20:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -221,11 +221,12 @@ CREATE TABLE `pm_cart` (
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   `typeID` int(11) NOT NULL COMMENT '包裹类型',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_cart
 -- ----------------------------
+INSERT INTO `pm_cart` VALUES ('4', '2', '20', '0', '2', '2', '4');
 
 -- ----------------------------
 -- Table structure for `pm_category`
@@ -414,11 +415,12 @@ CREATE TABLE `pm_fav` (
   `goodsID` int(11) NOT NULL,
   `memberID` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_fav
 -- ----------------------------
+INSERT INTO `pm_fav` VALUES ('4', '20', '2');
 
 -- ----------------------------
 -- Table structure for `pm_feedback`
@@ -546,7 +548,7 @@ CREATE TABLE `pm_goods` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods
@@ -563,11 +565,13 @@ INSERT INTO `pm_goods` VALUES ('16', '0', '16', '0-1-16-', '0', '', '1', '0', '5
 INSERT INTO `pm_goods` VALUES ('17', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 二段 Aptamil Profutura Follow On Formula', 'Aptamil Profutura Follow On Formula 6-12 months 900g', 'P2', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/7b270e564d908413b1d1869720bfacfb.jpg', null, '', '0', '2020/10', '36', '22.00', '36.00', '40.00', '36.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401367', '1564401381');
 INSERT INTO `pm_goods` VALUES ('18', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 三段 Aptamil Profutura Toddler ', 'Aptamil Profutura Toddler Nutritional Supplement From 1 year 900g', 'P3', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/812ed9ab28f0604af6a2045e43b71195.jpg', null, '', '0', '2020/10', '25', '20.00', '25.00', '30.00', '25.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401466', '1564401478');
 INSERT INTO `pm_goods` VALUES ('19', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 四段 Aptamil Profutura Junior', 'Aptamil Profutura Junior Nutritional Supplement 900g', 'P4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/e22295c6db7b698255173d0d76b0b569.jpg', null, '', '0', '2020/10', '28', '20.00', '28.00', '32.00', '28.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401569', '1564401569');
-INSERT INTO `pm_goods` VALUES ('20', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 孕妇黄金素 180粒', 'Blackmores Pregnancy and Breastfeeding Gold 180 Capsules', 'BM黄金素', '', '', '', '/uploads/images/20190729/63b7cacef160a2699898bda5c231b78f.jpg', null, '', '0', '2020/10', '30', '20.00', '30.00', '35.00', '30.00', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401969', '1564401969');
+INSERT INTO `pm_goods` VALUES ('20', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 孕妇黄金素 180粒', 'Blackmores Pregnancy and Breastfeeding Gold 180 Capsules', 'BM黄金素', '', '', '新西兰原罐原装 官方正品 纯净A2蛋白质', '/uploads/images/20190729/63b7cacef160a2699898bda5c231b78f.jpg', null, '<p>11</p>\n<p><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN01kq0zC31fstjynm847_!!2555064063.jpg\" alt=\"2段_05.jpg\" /><br style=\"margin: 0px; padding: 0px; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" /><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN0156ddqR1fstj1c0Wx8_!!2555064063.jpg\" alt=\"2段_06.jpg\" /></p>\n<p>2222</p>', '0', '2020/10', '30', '20.00', '30.00', '35.00', '30.00', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401969', '1565524510');
 INSERT INTO `pm_goods` VALUES ('21', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 叶酸片500mcg 90粒', 'Blackmores Folate 500mcg 90 Tablets', 'BM叶酸90粒', '孕期好伴侣', '', '', '/uploads/images/20190729/2808f8c49bc8ef2211cdeb8942968a61.jpg', null, '', '0', '2020/10', '15', '10.00', '15.00', '18.00', '15.00', '0.20', '0.30', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402099', '1564402099');
 INSERT INTO `pm_goods` VALUES ('22', '0', '20', '0-10-20-', '0', '', '15', '0', '12', 'Elevit 女士爱乐维 孕期维生素 100粒', 'Elevit Pregnancy Multivitamin Tablets 100 Pack （Export Only）', '爱乐维', '健康备孕 降低胎儿畸形', '', '', '/uploads/images/20190729/8225facb8669bff2ca9082f3404de33b.jpg', null, '', '0', '2020/10', '50', '30.00', '50.00', '60.00', '50.00', '0.50', '0.30', '19', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402296', '1564830159');
 INSERT INTO `pm_goods` VALUES ('23', '0', '24', '0-4-24-', '0', '', '4', '0', '8', 'Swisse 高倍蜂胶2000mg 300粒', 'Swisse Ultiboost High Strength Propolis 2000mg 300 Capsules', 'SW蜂胶300粒', '液体黄金 澳洲蜂胶', '', '', '/uploads/images/20190803/504cb220ecb2a76a9794fa1ccb763b86.jpg', null, '', '0', '2020/02/05', '25', '20.00', '25.00', '30.00', '0.00', '0.50', '0.60', '', '100', '999', '0', '0', '0', '1', '1', '1', '0', '1', '50', '1564829689', '1564829826');
-INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', '测试商品', 'test', '鞋子', 'UUG', '', '', '2222', null, '<p>222</p>', '0', '', '10', '10.00', '15.00', '19.00', '2.00', '0.50', '0.70', '', '0', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565322359');
+INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', 'NK 7009 ugg 雪地靴 豆豆鞋 薰衣草紫', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222</p>', '0', '', '10', '10.00', '15.00', '19.00', '2.00', '0.50', '0.70', '', '0', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565538919');
+INSERT INTO `pm_goods` VALUES ('25', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '三件包邮优惠套餐', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222</p>', '0', '', '10', '10.00', '100.00', '19.00', '0.00', '0.50', '0.70', '', '0', '999', '3', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565538919');
+INSERT INTO `pm_goods` VALUES ('26', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '三件包邮优惠套餐', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222</p>', '0', '', '10', '10.00', '180.00', '19.00', '0.00', '0.50', '0.70', '', '0', '999', '6', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565538919');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -787,7 +791,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1567914455', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568131273', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1142,7 +1146,7 @@ CREATE TABLE `pm_order_baoguo` (
 -- ----------------------------
 -- Records of pm_order_baoguo
 -- ----------------------------
-INSERT INTO `pm_order_baoguo` VALUES ('2', '15', '2', '76566162', '1', '12.00', '4.90', '1.40', '澳邮', '1111111111111', '', '/uploads/images/20190809/60b117ed224ef8958fbf86514e578c64.jpg,/uploads/images/20190809/08ce18aebbd3efaf190cab76ef90abd8.png', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '1', '0', '0', '1565322456', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('2', '15', '2', '76566162', '1', '12.00', '4.90', '1.40', '澳邮', '1111111111111', '', '', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '0', '0', '0', '1565322456', '0');
 
 -- ----------------------------
 -- Table structure for `pm_order_cart`

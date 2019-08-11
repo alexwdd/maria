@@ -24,17 +24,6 @@
             </div>  
 
             <div class="layui-input-inline">
-                <select name="status">
-                    <option value="">订单状态</option>
-                    <option value="0">待支付</option>
-                    <option value="1">待配货</option>
-                    <option value="2">配货中</option>
-                    <option value="3">已发货</option>
-                    <option value="99">交易关闭</option>
-                </select>
-            </div>           
-
-            <div class="layui-input-inline">
                 <button class="layui-btn" lay-submit lay-filter="tools-btn-search" style="display: block;">
                     <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                 </button>
@@ -50,7 +39,7 @@
             <button class="layui-btn layui-btn-sm layui-btn-danger tools-btn" data-type="action" data-tableId="lay-common-table" url="{:url('order/del')}" alert="1" alertMsg="删除后不能恢复确定吗，确定吗？">删除</button>
         </div>
 
-        <table id="lay-common-table" class="lay-common-table" lay-method="post" lay-url="{:url('order/index')}" lay-filter="lay-common-table"></table>
+        <table id="lay-common-table" class="lay-common-table" lay-method="post" lay-url="{$url}" lay-filter="lay-common-table"></table>
         <div class="fsDatagridCols">
             <p checkbox="true"/>
             <p field="id" title="ID" width="80"/>  

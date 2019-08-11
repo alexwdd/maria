@@ -61,14 +61,17 @@ class Goods extends Common {
             $pagesize = input('post.pagesize',10);
             $firstRow = $pagesize*($page-1); 
 
+            $cate = '全部';
             if($comm!=''){
                 $map['comm'] = $comm;
             }
             if($cid!=''){
-                $map['cid|cid1'] = $cid;
+                $map['cid'] = $cid; 
+                $cate = db("OptionItem")->where('id',$cid)->value("name");
             }
             if($keyword!=''){
                 $map['name'] = array('like','%'.$keyword.'%');
+                $cate = '品牌搜索';
             }
             $obj = db('Brand');
             $count = $obj->where($map)->count();
@@ -83,7 +86,27 @@ class Goods extends Common {
                 $value['logo'] = getThumb($value['logo'],200,200);
                 $list[$key]['logo'] = getRealUrl($value['logo']);
             }
-            returnJson(1,'success',['next'=>$next,'data'=>$list]);
+            returnJson(1,'success',['next'=>$next,'cate'=>$cate,'data'=>$list]);
+        }
+    }
+
+    public function brandAll(){
+        if(request()->isPost()){
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $list = db("Brand")->field('py')->group('py')->order('py asc')->select();
+            foreach ($list as $key => $value) {
+                $map['py'] = $value['py'];
+                $brand = db("Brand")->field('id,logo,name')->where($map)->order('sort asc , id asc')->select();
+                foreach ($brand as $k => $val) {
+                    $val['logo'] = getThumb($val['logo'],200,200);
+                    $brand[$k]['logo'] = getRealUrl($val['logo']);
+                }
+                $list[$key]['child'] = $brand;
+            }
+
+            $category = db("OptionItem")->field('id as cid,name')->where('cate',4)->order('sort asc,id asc')->select();
+            returnJson(1,'success',['category'=>$category,'brand'=>$list]);
         }
     }
 
@@ -305,7 +328,9 @@ class Goods extends Common {
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
-       
+            
+            $list['picname'] = getThumb($list["picname"],200,200);
+            $list['picname'] = getRealUrl($list['picname']);
             //参数规格
             if($list['fid']>0){
                 $fid = $list['fid'];
@@ -322,7 +347,7 @@ class Goods extends Common {
             $pack = $result['pack'];
 
             $list['rmb'] = number_format($this->rate*$list['price'],1);  
-            returnJson(0,'success',['goods'=>$list,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
+            returnJson(1,'success',['goods'=>$list,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
         }
     }
 
@@ -335,10 +360,12 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,name,picname,image,price,content,say,intr')->where($map)->find();
+            $list = db('Goods')->field('id,fid,name,picname,image,price,marketPrice,point,content,say,intr')->where($map)->find();
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
+            $list['picname'] = getThumb($list["picname"],200,200);
+            $list['picname'] = getRealUrl($list['picname']);
 
             if ($list['image']=='') {
                 $list['image'] = array($list['picname']);            
@@ -365,16 +392,20 @@ class Goods extends Common {
             $pack = $result['pack'];
 
             $list['rmb'] = number_format($this->rate*$list['price'],1);  
-            $list['content'] = htmlspecialchars_decode($list['content']); 
+            $list['content'] = htmlspecialchars_decode($list['content']);
 
-            returnJson(0,'success',['goods'=>$list,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
+            unset($map);
+            $map['memberID'] = $this->user['id'];
+            $cartNumber = db("Cart")->where($map)->count();
+
+            returnJson(1,'success',['goods'=>$list,'cartNumber'=>$cartNumber,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
         }
     }
 
     public function get_spec($goods_id){
         //商品规格 价钱 库存表 找出 所有 规格项id
         $keys = db('GoodsSpecPrice')->where("goods_id", $goods_id)->column("GROUP_CONCAT(`key` ORDER BY store_count desc SEPARATOR '_') ");
-        $filter_spec = array();
+        $filter_spec = array();        
         if ($keys[0]) {
             $keys = str_replace('_', ',', $keys[0]);
             $sql = "SELECT a.name,a.sort,b.* FROM pm_model_spec AS a INNER JOIN pm_model_spec_item AS b ON a.id = b.specID WHERE b.id IN($keys) ORDER BY b.id";

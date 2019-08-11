@@ -418,6 +418,7 @@ layui.define(['form','table','laydate'],function(exports) {
         selectOpen: function() {            
             var tableId = $(this).attr('data-tableId');
             var url = $(this).attr('url');
+            var win = $(this).attr('window');
             var refresh = 1;
             var checkStatus = table.checkStatus(tableId),
                 checkData = checkStatus.data; //得到选中的数据
@@ -428,27 +429,32 @@ layui.define(['form','table','laydate'],function(exports) {
             for (var i = 0; i < checkData.length; i++) {
                 ids.push(checkData[i].id);
             };
-            top.layer.open({
-                type: 2,
-                title: $(this).attr('topTitle'),
-                content: url+"?id="+ids.join("-"),
-                maxmin: true,
-                area: [$(this).attr('topWidth'), $(this).attr('topHeight')],
-                btn: ['确定'],
-                yes: function(index, layero) {
-                    //点击确认触发 iframe 内容中的按钮提交
-                    var submit = layero.find('iframe').contents().find("#lay-common-submit");
-                    submit.click();
-                },
-                cancel:function(){
-                    refresh = 0;
-                },
-                end:function(){
-                    if(tableId!='' && tableId!=undefined && refresh==1) {
-                        table.reload(tableId);
+            url = url+"?id="+ids.join("-");
+            if(win==1){
+                window.open(url,'_blank');
+            }else{
+                top.layer.open({
+                    type: 2,
+                    title: $(this).attr('topTitle'),
+                    content: url,
+                    maxmin: true,
+                    area: [$(this).attr('topWidth'), $(this).attr('topHeight')],
+                    btn: ['确定'],
+                    yes: function(index, layero) {
+                        //点击确认触发 iframe 内容中的按钮提交
+                        var submit = layero.find('iframe').contents().find("#lay-common-submit");
+                        submit.click();
+                    },
+                    cancel:function(){
+                        refresh = 0;
+                    },
+                    end:function(){
+                        if(tableId!='' && tableId!=undefined && refresh==1) {
+                            table.reload(tableId);
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         add: function() {
             var tableId = $(this).attr('data-tableId');
@@ -486,21 +492,6 @@ layui.define(['form','table','laydate'],function(exports) {
         },
         back: function() { 
             window.history.go(-1);
-        },
-        selectOpenWindow: function() {            
-            var tableId = $(this).attr('data-tableId');
-            var url = $(this).attr('url');
-            var refresh = 1;
-            var checkStatus = table.checkStatus(tableId),
-                checkData = checkStatus.data; //得到选中的数据
-            if (checkData.length === 0) {
-                return layer.msg('请选择数据');
-            };
-            var ids = [];
-            for (var i = 0; i < checkData.length; i++) {
-                ids.push(checkData[i].id);
-            };
-            window.open(url+"?ids="+ids.join("-"),'_blank');            
         },
     };
 
