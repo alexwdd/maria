@@ -93,10 +93,13 @@ class Goods extends Common {
     public function brandAll(){
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
-
+            $cid = input('post.cid');
             $list = db("Brand")->field('py')->group('py')->order('py asc')->select();
             foreach ($list as $key => $value) {
                 $map['py'] = $value['py'];
+                if($cid!='' && is_numeric($cid)){
+                    $map['cid'] = $cid;
+                }
                 $brand = db("Brand")->field('id,logo,name')->where($map)->order('sort asc , id asc')->select();
                 foreach ($brand as $k => $val) {
                     $val['logo'] = getThumb($val['logo'],200,200);
@@ -149,6 +152,7 @@ class Goods extends Common {
             }
             if($brandID!=''){
                 $map['brandID'] = $brandID;
+                $brand = db("Brand")->where('id',$brandID)->find();
             }
             if($cid!=''){
                 $map['cid|cid1'] = $cid;
@@ -179,7 +183,7 @@ class Goods extends Common {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
                 $list[$key]['rmb'] = round($value['price']*$this->rate,2);
             }
-            returnJson(1,'success',['cate'=>$cate,'child'=>$child,'next'=>$next,'data'=>$list]);
+            returnJson(1,'success',['cate'=>$cate,'brand'=>$brand,'child'=>$child,'next'=>$next,'data'=>$list]);
         }
     }
 
@@ -218,25 +222,18 @@ class Goods extends Common {
             }
             $list = $obj->field('goodsID')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             if($list){
-                $cateID = $obj->where($map)->group('cid')->column("cid");    
+                $cateID = $obj->where($map)->group('cid')->column("cid");
                 $where['id'] = array('in',$cateID);
                 $cate = db('GoodsCate')->field('id,path,name')->where($where)->select();
             }
             
             foreach ($list as $key => $value) {                
-                $goods = db("Goods")->field('id,name,picname,price,say,price,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();  
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
 
-                $list[$key]['picname'] = getRealUrl($goods['picname']);
-                $list[$key]['goodsName'] = $goods['name'];
-                $list[$key]['price'] = $goods['price'];
-                $list[$key]['marketPrice'] = $goods['marketPrice'];
-                $list[$key]['say'] = $goods['say'];
-                $list[$key]['comm'] = $goods['comm'];
-                $list[$key]['empty'] = $goods['empty'];
-                $list[$key]['tehui'] = $goods['tehui'];
-                $list[$key]['flash'] = $goods['flash'];
-                $list[$key]['baoyou'] = $goods['baoyou'];
-                $list[$key]['rmb'] = round($goods['price']*$this->rate,1);
+                unset($list[$key]['goodsID']);
+                $goods['picname'] = getRealUrl($goods['picname']);
+                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $list[$key] = $goods;
             }
             returnJson(1,'success',['next'=>$next,'data'=>$list,'cate'=>$cate]);
         }
