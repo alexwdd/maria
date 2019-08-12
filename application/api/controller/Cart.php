@@ -9,18 +9,25 @@ class Cart extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $map['memberID'] = $this->user['id'];
             $list = db('Cart')->where($map)->select();
+            $total = 0;
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
 
                 $list[$key]['name'] = $goods['name'];
+                $list[$key]['say'] = $goods['say'];
+                $list[$key]['marketPrice'] = $goods['marketPrice']; 
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
-                $list[$key]['price'] = $result['price'];               
+                $list[$key]['price'] = $result['price'];
                 $list[$key]['spec'] = $result['spec'];
                 $list[$key]['total'] = $result['price'] * $value['number'];
                 $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
+                $list[$key]['checked'] = false; 
+
+                $total += $list[$key]['total'];
             }
-            returnJson(1,'success',['cart'=>$list]);
+            $rmb = number_format($this->rate*$total,1); 
+            returnJson(1,'success',['cart'=>$list,'total'=>$total,'rmb'=>$rmb]);
         }
     }
 
@@ -98,8 +105,15 @@ class Cart extends Auth {
                 }
             }
             
-            $count = db("Cart")->where(array('memberID'=>$this->user['id']))->count();
-            returnJson(1,'success',['number'=>$count]);
+            $list = db('Cart')->where(array('memberID'=>$this->user['id']))->select();
+            $total = 0;
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+                $total += $result['price'] * $value['number'];
+            }
+            $rmb = number_format($this->rate*$total,1);
+            returnJson(1,'success',['number'=>count($list),'total'=>$total,'rmb'=>$rmb]);
         }
     }
 
@@ -127,8 +141,15 @@ class Cart extends Auth {
             $map['memberID'] = $this->user['id'];
             db("Cart")->where($map)->delete();
 
-            $count = db("Cart")->where(array('memberID'=>$this->user['id']))->count();
-            returnJson(1,'success',['number'=>$count]);
+            $list = db('Cart')->where(array('memberID'=>$this->user['id']))->select();
+            $total = 0;
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+                $total += $result['price'] * $value['number'];
+            }
+            $rmb = number_format($this->rate*$total,1);
+            returnJson(1,'success',['number'=>count($list),'total'=>$total,'rmb'=>$rmb]);
         }       
     }
 
