@@ -321,7 +321,7 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,name,picname,price')->where($map)->find();
+            $list = db('Goods')->field('id,fid,name,picname,price,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->find();
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
@@ -331,16 +331,20 @@ class Goods extends Common {
             //参数规格
             if($list['fid']>0){
                 $fid = $list['fid'];
+                $filter_spec = [];
             }else{
                 $fid = $list['id'];
-            }
-            $filter_spec = $this->get_spec($fid);
-            $this->assign('filter_spec',$filter_spec);
+                $filter_spec = $this->get_spec($fid);
+            } 
             
             $result = $this->getGoodsDetail($list,$this->flash);
 
             $list = $result['goods'];
-            $spec = $result['spec'];
+            if($fid==0){
+                $spec = $result['spec'];
+            }else{
+                $spec = [];
+            }            
             $pack = $result['pack'];
 
             $list['rmb'] = number_format($this->rate*$list['price'],1);  
@@ -376,16 +380,20 @@ class Goods extends Common {
             //参数规格
             if($list['fid']>0){
                 $fid = $list['fid'];
+                $filter_spec = [];
             }else{
                 $fid = $list['id'];
-            }
-            $filter_spec = $this->get_spec($fid);
-            $this->assign('filter_spec',$filter_spec);
+                $filter_spec = $this->get_spec($fid);
+            }            
             
             $result = $this->getGoodsDetail($list,$this->flash);
 
             $list = $result['goods'];
-            $spec = $result['spec'];
+            if($fid==0){
+                $spec = $result['spec'];
+            }else{
+                $spec = [];
+            }
             $pack = $result['pack'];
 
             $list['rmb'] = number_format($this->rate*$list['price'],1);  
