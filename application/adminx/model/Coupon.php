@@ -96,6 +96,18 @@ class Coupon extends Admin
         }
         $this->allowField(true)->save($data);
         if($this->id > 0){
+            if($data['goodsID']!=''){
+                $ids = explode(",", $data['goodsID']);
+                $arr = [];
+                foreach ($ids as $key => $value) {
+                    $temp = [
+                        'couponID'=>$this->id,
+                        'goodsID'=>$value
+                    ];
+                    array_push($arr,$temp);
+                }
+                db("CouponGoods")->insertAll($arr);
+            }
             return info('操作成功',1);
         }else{
             return info('操作失败',0);
@@ -111,6 +123,19 @@ class Coupon extends Admin
         }    
         $this->allowField(true)->save($data,['id'=>$data['id']]);
         if($this->id > 0){
+            db("CouponGoods")->where('couponID',$data['id'])->delete();
+            if($data['goodsID']!=''){
+                $ids = explode(",", $data['goodsID']);
+                $arr = [];
+                foreach ($ids as $key => $value) {
+                    $temp = [
+                        'couponID'=>$data['id'],
+                        'goodsID'=>$value
+                    ];
+                    array_push($arr,$temp);
+                }
+                db("CouponGoods")->insertAll($arr);
+            }
             return info('操作成功',1);
         }else{
             return info('操作失败',0);

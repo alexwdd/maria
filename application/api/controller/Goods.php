@@ -333,17 +333,17 @@ class Goods extends Common {
                 $fid = $list['fid'];
                 $filter_spec = [];
             }else{
-                $fid = $list['id'];
+                $fid = $list['id'];     
                 $filter_spec = $this->get_spec($fid);
             } 
             
             $result = $this->getGoodsDetail($list,$this->flash);
 
             $list = $result['goods'];
-            if($fid==0){
-                $spec = $result['spec'];
-            }else{
+            if($list['fid']>0){
                 $spec = [];
+            }else{
+                $spec = $result['spec'];   
             }            
             $pack = $result['pack'];
 
@@ -389,21 +389,46 @@ class Goods extends Common {
             $result = $this->getGoodsDetail($list,$this->flash);
 
             $list = $result['goods'];
-            if($fid==0){
-                $spec = $result['spec'];
-            }else{
+            if($list['fid']>0){
                 $spec = [];
-            }
+            }else{
+                $spec = $result['spec'];   
+            } 
             $pack = $result['pack'];
 
             $list['rmb'] = number_format($this->rate*$list['price'],1);  
             $list['content'] = htmlspecialchars_decode($list['content']);
 
             unset($map);
-            $map['memberID'] = $this->user['id'];
-            $cartNumber = db("Cart")->where($map)->count();
+            if($this->user['id']>0){
+                $map['memberID'] = $this->user['id'];
+                $cartNumber = db("Cart")->where($map)->count();
+                $map['goodsID'] = $list['id'];
+                $fav = db("Fav")->where($map)->count();
+            }else{
+                $cartNumber = 0;
+                $fav = 0;
+            }
+            //商品相关优惠券
+            unset($map);
+            $ids = db("CouponGoods")->where('goodsID',$list['id'])->value('couponID');
+            $map['id'] = array('in',$ids);
+            $map['goodsID'] = array('eq','');
+            $coupon = db("Coupon")->field('id,name,desc,full,dec,number')->whereOr($map)->select();
+            foreach ($coupon as $key => $value) {
+                $where['couponID'] = $value['id'];
+                $where['memberID'] = $this->user['id'];
+                $count = db("CouponLog")->where($where)->count();
+                if($count>=$value['number']){
+                    unset($coupon[$key]);
+                }
+            }
 
-            returnJson(1,'success',['goods'=>$list,'cartNumber'=>$cartNumber,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
+            foreach ($pack as $key => $value) {
+                $pack[$key]['checked'] = false;
+            }
+
+            returnJson(1,'success',['goods'=>$list,'cartNumber'=>$cartNumber,'fav'=>$fav,'coupon'=>$coupon,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
         }
     }
 
@@ -419,7 +444,8 @@ class Goods extends Common {
             foreach ($filter_spec2 as $key => $val) {
                 $filter_spec[$val['name']][] = array(
                     'item_id' => $val['id'],
-                    'item' => $val['item']
+                    'item' => $val['item'],
+                    'checked' => false
                 );
             }
         }

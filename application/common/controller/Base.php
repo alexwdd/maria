@@ -6,6 +6,8 @@ use think\Db;
 
 class Base extends Controller {
 
+    public $rate;
+
     public function _initialize(){
     	$request= Request::instance();
 
@@ -14,7 +16,9 @@ class Base extends Controller {
         define('RES', $THEME_PATH . 'common');
 
         $config = tpCache('basic');
-        config('site',$config);        
+        config('site',$config);   
+
+        $this->rate = $this->getRate();     
     }
 
     //商品限时抢购已销售数量
@@ -88,6 +92,12 @@ class Base extends Controller {
             }
         }else{
             $goods['isFlash'] = 0;
+        }
+        foreach ($spec as $key => $value) {
+            $spec[$key]['rmb'] =  round($this->rate*$value['price'],1);            
+        }
+        foreach ($pack as $key => $value) {
+            $pack[$key]['rmb'] =  round($this->rate*$value['price'],1);            
         }
         return ['goods'=>$goods,'pack'=>$pack,'spec'=>$spec];
     }

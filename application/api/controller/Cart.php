@@ -73,12 +73,12 @@ class Cart extends Auth {
             $db = db("Cart");
             $map['memberID'] = $this->user['id'];
             $map['goodsID'] = $goodsID;
+            $map['specID'] = $specID;
             $list = $db->where($map)->find();
             if ($action=='inc') {
                 if ($list) {
                     $number = $list['number']+$number;
                     $data['number'] = $number;
-                    $data['specID'] = $specID;
                     $data['trueNumber'] = $number*$goods['number'];
                     $db->where($map)->update($data);
                 }else{
