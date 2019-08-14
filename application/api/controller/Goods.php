@@ -16,7 +16,7 @@ class Goods extends Common {
                 $list[$key]['child'] = $child;
             }
             $config = tpCache("member");
-            returnJson(1,'success',['category'=>$list,'hotkey'=>$config['hotkey']]);
+            returnJson(1,'success',['category'=>$list,'hotkey'=>explode(",", $config['hotkey'])]);
         }
     }
 

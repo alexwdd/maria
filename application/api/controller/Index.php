@@ -78,7 +78,7 @@ class Index extends Common
                 'flash'=>$flash,
                 'flashTime'=>$flashTime,
             	'rate'=>$this->rate,
-            	'hotkey'=>$config['hotkey'],
+            	'hotkey'=>explode(",", $config['hotkey']),
             ]);
         }
     }	

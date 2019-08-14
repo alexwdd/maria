@@ -164,4 +164,54 @@ class Cart extends Auth {
             returnJson(1,'success',$result);
         } 
     }
+
+    //创建订单
+    public function order(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $map['memberID'] = $this->user['id'];
+            $address = db('Address')->where($map)->order('def desc , id desc')->find();
+            $sender = db('Sender')->where($map)->order('id desc')->find();
+
+            unset($map);
+            $map['memberID'] = $this->user['id'];
+            $list = db('Cart')->where($map)->select();
+            $baoguo = $this->getYunfeiJson($list);
+
+            $total = 0;
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+
+                $list[$key]['name'] = $goods['name'];
+                $list[$key]['say'] = $goods['say'];
+                $list[$key]['marketPrice'] = $goods['marketPrice']; 
+                $list[$key]['picname'] = getRealUrl($goods['picname']);
+                $list[$key]['price'] = $result['price'];
+                $list[$key]['spec'] = $result['spec'];
+                $list[$key]['total'] = $result['price'] * $value['number'];
+                $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
+                $list[$key]['checked'] = false; 
+
+                $total += $list[$key]['total'];
+            }
+            $rmb = number_format($this->rate*$total,1); 
+
+            //我的优惠券
+            $map['status'] = 0;
+            $map['memberID'] = $this->user['id'];
+            $map['endTime'] = array('gt',time());
+            $coupon = db("CouponLog")->where($map)->select();
+            
+            returnJson(1,'success',[
+                'address'=>$address,
+                'sender'=>$sender,
+                'total'=>$total,
+                'rmb'=>$rmb,
+                'cart'=>$list,
+                'bag'=>$baoguo,
+                'coupon'=>$coupon
+            ]);
+        }
+    }
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-14 17:18:51
+Date: 2019-08-15 00:26:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -221,18 +221,13 @@ CREATE TABLE `pm_cart` (
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   `typeID` int(11) NOT NULL COMMENT '包裹类型',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_cart
 -- ----------------------------
-INSERT INTO `pm_cart` VALUES ('8', '2', '26', '0', '3', '18', '1');
-INSERT INTO `pm_cart` VALUES ('9', '2', '24', '0', '2', '2', '1');
-INSERT INTO `pm_cart` VALUES ('10', '2', '17', '0', '2', '2', '1');
-INSERT INTO `pm_cart` VALUES ('11', '2', '24', '15', '2', '2', '1');
-INSERT INTO `pm_cart` VALUES ('12', '2', '24', '14', '1', '1', '1');
-INSERT INTO `pm_cart` VALUES ('13', '2', '13', '0', '1', '1', '1');
-INSERT INTO `pm_cart` VALUES ('15', '2', '19', '0', '1', '1', '1');
+INSERT INTO `pm_cart` VALUES ('17', '2', '26', '0', '1', '6', '1');
+INSERT INTO `pm_cart` VALUES ('16', '2', '20', '0', '1', '1', '4');
 
 -- ----------------------------
 -- Table structure for `pm_category`
@@ -334,7 +329,7 @@ INSERT INTO `pm_config` VALUES ('98', 'max', '2.00', 'member', null);
 INSERT INTO `pm_config` VALUES ('99', 'hour', '24', 'member', null);
 INSERT INTO `pm_config` VALUES ('100', 'shareMax', '20', 'member', null);
 INSERT INTO `pm_config` VALUES ('101', 'isReg', '1', 'member', null);
-INSERT INTO `pm_config` VALUES ('102', 'hotkey', '补水面膜', 'member', null);
+INSERT INTO `pm_config` VALUES ('102', 'hotkey', '保湿面膜,发发发,fasdfasdf', 'member', null);
 INSERT INTO `pm_config` VALUES ('103', 'kuaidi12', '红酒专邮', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('104', 'price12', '0', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('105', 'inprice12', '0', 'kuaidi', null);
@@ -360,7 +355,7 @@ INSERT INTO `pm_config` VALUES ('124', 'price3', '6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('125', 'inprice3', '5.6', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('126', 'otherPrice3', '2', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('127', 'file', '', 'basic', null);
-INSERT INTO `pm_config` VALUES ('128', 'flashTime', '8:00-23:59', 'member', null);
+INSERT INTO `pm_config` VALUES ('128', 'flashTime', '8:00-12:00', 'member', null);
 INSERT INTO `pm_config` VALUES ('129', 'isCut', '1', 'member', null);
 
 -- ----------------------------
@@ -388,7 +383,7 @@ CREATE TABLE `pm_coupon` (
 -- Records of pm_coupon
 -- ----------------------------
 INSERT INTO `pm_coupon` VALUES ('3', '新手券', '立减50元', '1', '0', '50', '1', '1', '30', '4,7', '使用说明啊啊啊', '1565698552', '1551964995');
-INSERT INTO `pm_coupon` VALUES ('5', '测试一下', '满50元立减5元', '0', '50', '5', '1', '1', '30', '', '', '1565699817', '1565698449');
+INSERT INTO `pm_coupon` VALUES ('5', '测试一下', '满50元立减5元', '0', '50', '5', '0', '1', '30', '', '', '1565799188', '1565698449');
 
 -- ----------------------------
 -- Table structure for `pm_coupon_goods`
@@ -416,19 +411,28 @@ CREATE TABLE `pm_coupon_log` (
   `memberID` int(11) DEFAULT NULL,
   `nickname` varchar(200) DEFAULT NULL,
   `couponID` int(11) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `desc` varchar(200) DEFAULT NULL,
+  `full` decimal(8,2) DEFAULT NULL,
+  `dec` decimal(5,2) DEFAULT NULL,
+  `goodsID` varchar(200) DEFAULT NULL,
   `code` varchar(10) DEFAULT NULL COMMENT '编号',
   `status` tinyint(4) DEFAULT NULL COMMENT '0未使用 1已使用',
   `useTime` int(11) DEFAULT NULL,
   `endTime` int(11) DEFAULT NULL,
   `createTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_coupon_log
 -- ----------------------------
-INSERT INTO `pm_coupon_log` VALUES ('12', '2', '张小黑', '3', '1322228216', '0', '0', '1566634788', '1564041383');
-INSERT INTO `pm_coupon_log` VALUES ('13', '0', '', '3', '1338509194', '0', '0', '1566634823', '1564041383');
+INSERT INTO `pm_coupon_log` VALUES ('12', '2', '张小黑', '3', null, null, null, null, null, '1322228216', '0', '0', '1566634788', '1564041383');
+INSERT INTO `pm_coupon_log` VALUES ('13', '0', '', '3', null, null, null, null, null, '1338509194', '0', '0', '1566634823', '1564041383');
+INSERT INTO `pm_coupon_log` VALUES ('14', '0', '', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '', '1264725452', '0', '0', '0', '1565798942');
+INSERT INTO `pm_coupon_log` VALUES ('15', '0', '', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '', '1189652748', '0', '0', '0', '1565798942');
+INSERT INTO `pm_coupon_log` VALUES ('16', '0', '', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '', '1355403368', '0', '0', '0', '1565798942');
+INSERT INTO `pm_coupon_log` VALUES ('17', '2', '张小黑', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '24', '1039757623', '0', '0', '1568391156', '1565799156');
 
 -- ----------------------------
 -- Table structure for `pm_fav`
@@ -818,7 +822,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568366305', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568391582', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1212,11 +1216,12 @@ CREATE TABLE `pm_order_cut` (
   `money` decimal(4,2) DEFAULT NULL,
   `createTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_cut
 -- ----------------------------
+INSERT INTO `pm_order_cut` VALUES ('1', '15', 'dsfsdfsdfsdfsdf', '张小黑', '111111111', '1.88', '1565781748');
 
 -- ----------------------------
 -- Table structure for `pm_order_detail`

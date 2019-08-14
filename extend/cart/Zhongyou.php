@@ -180,9 +180,9 @@ class Zhongyou {
         }
  		
  		foreach ($this->baoguoArr as $key => $value) {
-			if ($this->baoguoArr[$key]['totalWuliuWeight']<1) {
+			/*if ($this->baoguoArr[$key]['totalWuliuWeight']<1) {
 				$this->baoguoArr[$key]['totalWuliuWeight']=1;
-			}
+			}*/
 
 			$wuliuWeight = ceil($this->baoguoArr[$key]['totalWuliuWeight']*10);
 			$this->baoguoArr[$key]['totalWuliuWeight'] = number_format($wuliuWeight/10,1);
@@ -190,13 +190,21 @@ class Zhongyou {
 			$brandName = getBrandName($value['type']);
 	        $danjia = getDanjia($value['type']);	        
 	        if (in_array($value['type'],[1,2,3])){//奶粉类走澳邮
-	        	$this->baoguoArr[$key]['kuaidi'] = $brandName;
-	        	$this->baoguoArr[$key]['yunfei'] = $this->getNaifen($value['type'],$value['totalNumber']);
+	        	$this->baoguoArr[$key]['kuaidi'] = $brandName;	
+	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
+	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
+	        	}else{
+	        		$this->baoguoArr[$key]['yunfei'] = 0;
+	        	}
 	        	$config = tpCache('kuaidi');
 	        	$this->baoguoArr[$key]['inprice'] = $this->baoguoArr[$key]['totalWuliuWeight']*$config['inprice1'];
 	        }else{
 	        	$this->baoguoArr[$key]['kuaidi'] = $brandName.'($'.$danjia['price'].'/kg)';
-	        	$this->baoguoArr[$key]['yunfei'] = $this->baoguoArr[$key]['totalWuliuWeight']*$danjia['price'];
+	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
+	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
+	        	}else{
+	        		$this->baoguoArr[$key]['yunfei'] = 0;
+	        	}	        	
 	        	$this->baoguoArr[$key]['inprice'] = $this->baoguoArr[$key]['totalWuliuWeight']*$danjia['inprice'];
 	        }
 	        
@@ -781,22 +789,10 @@ class Zhongyou {
 	}
 
 	private function getNaifen($goodsType,$number){
-		if ($goodsType==1 || $goodsType==2) {//大罐奶粉
-	        if ($number==1) {
-	        	return 6;
-	        }elseif($number==2){
-	        	return 12;
-	        }elseif($number==3){
-	        	return 13.5;
-	        }
+		if ($goodsType==1 || $goodsType==2) {//大罐奶粉	    
+	        return 6;
 	    }elseif($goodsType==3){//小罐奶粉
-	    	if ($number==1) {
-	        	return 7;
-	        }elseif($number==2){
-	        	return 14;
-	        }elseif($number==3){
-	        	return 18;
-	        }
+	        return 7;
 	    }
 	}
 

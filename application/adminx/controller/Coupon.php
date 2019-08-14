@@ -48,12 +48,18 @@ class Coupon extends Admin {
         if(request()->isPost()){
             $number = input('post.number');
             $couponID = input('post.couponID');
+            $list = db('Coupon')->where('id',$couponID)->find();
             for($i=0; $i<$number; $i++){
                 $data = [
                     'memberID'=>0,
                     'nickname'=>'',
                     'couponID'=>$couponID,
                     'code'=>$this->getCouponNo(),
+                    'name'=>$list['name'],
+                    'desc'=>$list['desc'],
+                    'full'=>$list['name'],
+                    'dec'=>$list['dec'],
+                    'goodsID'=>$list['goodsID'],
                     'status'=>0,
                     'useTime'=>0,
                     'endTime'=>0,

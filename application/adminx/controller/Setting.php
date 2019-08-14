@@ -20,6 +20,10 @@ class Setting extends Admin {
     	$param = input('post.');
 		$inc_type = $param['inc_type'];
 		unset($param['inc_type']);
+		if($param['hotkey']){
+			$param['hotkey'] = str_replace("，",",",$param['hotkey']);
+		}
+
 		tpCache($inc_type,$param);
 		$this->success("操作成功",url('Setting/index',array('inc_type'=>$inc_type)));
     }

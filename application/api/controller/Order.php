@@ -153,12 +153,6 @@ class Order extends Auth {
                 if(!$coupon){
                     returnJson(0,'无效的优惠券');
                 }
-                $couponInfo = db("Coupon")->where('id',$coupon['couponID'])->find();
-                if(!$couponInfo){
-                    returnJson(0,'无效的优惠券');
-                }
-                $coupon['full'] = $couponInfo['full'];
-                $coupon['dec'] = $couponInfo['dec'];
                 $coupon['goodsID'] = $couponInfo['goodsID'];
 
                 if(!$this->checkCoupon($coupon,$list)){
@@ -339,6 +333,7 @@ class Order extends Auth {
         }       
     }
 
+    //砍价
     public function cut(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
@@ -354,6 +349,10 @@ class Order extends Auth {
             if(!$list){
                 returnJson(0,'订单已关闭');
             }
+
+            if($list['memberID'] == $this->user['id']){
+                returnJson(0,'不能为自己的订单砍价');
+            }
             
             unset($map);
             $map['openid'] = $this->user['openid'];
@@ -366,7 +365,16 @@ class Order extends Auth {
             $config = tpCache('member');
             $money = rand($config['min']*100,$config['max']*100);
             $money = $money/100;
-            echo $money;
+            
+            $data = [
+                'openid'=>$this->user['openid'],
+                'orderID'=>$orderID,
+                'nickname'=>$this->user['nickname'],
+                'headimg'=>$this->user['headimg'],
+                'money'=>$money,
+                'createTime'=>time()
+            ];
+            db("OrderCut")->insert($data);
             returnJson(1,'success');
         }
     }

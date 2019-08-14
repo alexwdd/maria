@@ -274,16 +274,14 @@ class Account extends Auth {
                 }
                 $list[$key]['endTime'] = date("Y-m-d H:i:s",$value['endTime']);
                 $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
-                $info = db('Coupon')->field('name,desc,full,dec,goodsID,intr')->where('id',$value['couponID'])->find();
-                if($info['goodsID']!=''){
-                    $ids = explode(",",$info['goodsID']);
+                if($value['goodsID']!=''){
+                    $ids = explode(",",$value['goodsID']);
                     unset($map);
                     $map['id'] = array('in',$ids);
                     $map['show'] = 1;
                     $goods = db("Goods")->field('id as goodsID,name')->where($map)->select();
-                    $info['goods'] = $goods;
-                }
-                $list[$key]['info'] = $info;
+                    $list[$key]['goods'] = $goods;
+                }        
             }
             returnJson(1,'success',['next'=>$next,'data'=>$list]);
         }
@@ -317,6 +315,11 @@ class Account extends Auth {
                     'nickname'=>$this->user['nickname'],
                     'couponID'=>$couponID,
                     'code'=>$this->getCouponNo(),
+                    'name'=>$list['name'],
+                    'desc'=>$list['desc'],
+                    'full'=>$list['name'],
+                    'dec'=>$list['dec'],
+                    'goodsID'=>$list['goodsID'],
                     'status'=>0,
                     'useTime'=>0,
                     'endTime'=>time()+86400*$list['day'],
@@ -347,7 +350,6 @@ class Account extends Auth {
                 if($count>=$coupon['number']){
                     returnJson(0,$coupon['name'].'每人最多领取'.$coupon['number'].'张');
                 }
-
                 $data = [
                     'memberID'=>$this->user['id'],
                     'nickname'=>$this->user['nickname'],
