@@ -338,4 +338,36 @@ class Order extends Auth {
             returnJson(1,'success');
         }       
     }
+
+    public function cut(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $orderID = input('post.orderID');
+            if ($orderID=='' || !is_numeric($orderID)) {
+                returnJson(0,'缺少参数');
+            }
+            $map['id'] = $orderID;
+            $map['isCut'] = 1;
+            $map['status'] = 0;
+            $list = db('Order')->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单已关闭');
+            }
+            
+            unset($map);
+            $map['openid'] = $this->user['openid'];
+            $map['orderID'] = $orderID;
+            $res = db("OrderCut")->where($map)->find();
+            if($res){
+                returnJson(0,'不能重复砍价');
+            }
+
+            $config = tpCache('member');
+            $money = rand($config['min']*100,$config['max']*100);
+            $money = $money/100;
+            echo $money;
+            returnJson(1,'success');
+        }
+    }
 }

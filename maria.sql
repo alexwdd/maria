@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-14 01:00:42
+Date: 2019-08-14 17:18:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -818,7 +818,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568307547', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568366305', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1198,6 +1198,25 @@ CREATE TABLE `pm_order_cart` (
 -- Records of pm_order_cart
 -- ----------------------------
 INSERT INTO `pm_order_cart` VALUES ('8', '2', '15', '24', '15', '测试商品', '2222', '尺码:42码 颜色:红色', '15.00', '2', '2');
+
+-- ----------------------------
+-- Table structure for `pm_order_cut`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_order_cut`;
+CREATE TABLE `pm_order_cut` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderID` int(11) DEFAULT NULL,
+  `openid` varchar(50) DEFAULT NULL,
+  `nickname` varchar(200) DEFAULT NULL,
+  `headimg` varchar(200) DEFAULT NULL,
+  `money` decimal(4,2) DEFAULT NULL,
+  `createTime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_order_cut
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `pm_order_detail`
