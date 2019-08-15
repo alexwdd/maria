@@ -179,8 +179,19 @@ class Cart extends Auth {
             $baoguo = $this->getYunfeiJson($list);
 
             $total = 0;
+            $point = 0;
+            $isCut = 1;
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                if($goods['fid']>0){
+                    $fid = $goods['fid'];
+                }else{
+                    $fid = $goods['id'];
+                }  
+                if($this->checkInFlash($fid,$this->flash)){
+                    $isCut = 0;
+                }
+
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
 
                 $list[$key]['name'] = $goods['name'];
@@ -189,11 +200,12 @@ class Cart extends Auth {
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
                 $list[$key]['price'] = $result['price'];
                 $list[$key]['spec'] = $result['spec'];
-                $list[$key]['total'] = $result['price'] * $value['number'];
+                $list[$key]['total'] = $result['price'] * $value['number'];  
                 $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
                 $list[$key]['checked'] = false; 
 
                 $total += $list[$key]['total'];
+                $point += $goods['point'] * $value['trueNumber'];
             }
             $rmb = number_format($this->rate*$total,1); 
 
@@ -201,19 +213,19 @@ class Cart extends Auth {
             $map['status'] = 0;
             $map['memberID'] = $this->user['id'];
             $map['endTime'] = array('gt',time());
-            $coupon = db("CouponLog")->field('id,name,desc,full,dec,goodsID')->where($map)->select();
+            $coupon = db("CouponLog")->field('id,name,desc,full,dec,goodsID,endTime')->where($map)->select();
             foreach ($coupon as $key => $value) {
+                $coupon[$key]['endTime'] = date("Y-m-d H:i:s",$value['endTime']);
                 if(!$this->checkCoupon($value,$list,$total)){
                     unset($coupon[$key]);
                 }
             }
-
-            $fina = $this->getUserMoney($this->user['id']);
-            
+             
             returnJson(1,'success',[
-                'money'=>$fina['money'],
+                'isCut'=>$isCut,
                 'address'=>$address,
                 'sender'=>$sender,
+                'point'=>$point,
                 'total'=>$total,
                 'rmb'=>$rmb,
                 'cart'=>$list,

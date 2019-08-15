@@ -240,7 +240,7 @@ class Goods extends Admin
                    
         $spec = db('ModelSpec')->column('id,name'); // 规格表
         $specItem = db('ModelSpecItem')->column('id,item,specID');//规格项
-        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,cutPrice,store_count,bar_code,weight');//规格项                          
+        $keyGoodsSpecPrice = db('GoodsSpecPrice')->where('goods_id = '.$goods_id)->column('key,key_name,price,cutPrice,store_count,bar_code,weight,spec_img');//规格项                          
         $str = "<table class='layui-table' lay-size='sm' id='spec_input_tab'>";
         $str .="<thead><tr>";       
         // 显示第一行的数据
@@ -252,6 +252,7 @@ class Goods extends Admin
                <td>砍价</td>
                <td>库存</td>
                <td>重量(kg)</td>
+               <td>规格图片</td>
              </tr></thead>";
         // 显示第二行开始 
         foreach ($spec_arr2 as $k => $v) 
@@ -274,6 +275,7 @@ class Goods extends Admin
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][cutPrice]' value='{$keyGoodsSpecPrice[$item_key][cutPrice]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][store_count]' value='{$keyGoodsSpecPrice[$item_key][store_count]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/></td>";            
             $str .="<td><input class='layui-input spec-ipt' name='item[$item_key][weight]' value='{$keyGoodsSpecPrice[$item_key][weight]}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/><input type='hidden' name='item[$item_key][key_name]' value='$item_name' /></td>";
+            $str .="<td><div class='layui-inline' style='width:300px'><input class='layui-input' name='item[$item_key][spec_img]' value='{$keyGoodsSpecPrice[$item_key][spec_img]}'/></div> <div class='layui-inline'><button type='button' class='layui-btn upBtn'>上传</button></div></td>";
             $str .="</tr>";
         }
         $str .= "</table>";

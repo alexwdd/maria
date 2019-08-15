@@ -102,19 +102,27 @@ class Order extends Auth {
                 returnJson(0,'购物车中没有商品');
             }
 
-            $pay = input('post.pay');
             $cut = input('post.cut');
 
             //缺少判断库存
-
 
 
             $goodsMoney = 0;   //商品总金额
             $cutMoney = 0;     //可打折金额
             $inprice = 0;
             $point = 0;
+            $isCut = 1;        //订单是否可以砍价
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                if($goods['fid']>0){
+                    $fid = $goods['fid'];
+                }else{
+                    $fid = $goods['id'];
+                }  
+                if($this->checkInFlash($fid,$this->flash)){
+                    $isCut = 0;
+                }
+
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
                 $list[$key]['price'] = $result['price'];
                 $list[$key]['name'] = $goods['name'];
@@ -168,7 +176,7 @@ class Order extends Auth {
                 if($config['isCut']==0){
                     $data['isCut'] = 0;
                 }else{
-                    if($cutMoney > 0){
+                    if($cutMoney > 0 && $isCut==1){
                         $data['isCut'] = 1;
                     }else{
                         $data['isCut'] = 0;
@@ -188,10 +196,6 @@ class Order extends Auth {
                 $total = 0;
             }
             $order_no = $this->getOrderNo();
-
-            if($pay==1){//如果是余额支付
-
-            }
 
             if($data['isCut'] == 1){
                 $data['fund'] = 0;
@@ -243,7 +247,6 @@ class Order extends Auth {
                     $detail['createTime'] = time();          
                     $detail['status'] = 0;              
                     $detail['snStatus'] = 0;
-                    $detail['del'] = 0;
                     $baoguoID = db('OrderBaoguo')->insertGetId($detail);
                     if ($baoguoID) {
                         foreach ($value['goods'] as $k => $val) {   
@@ -256,8 +259,7 @@ class Order extends Auth {
                                 'name'=>$val['name'],
                                 'short'=>$val['short'],
                                 'number'=>$val['trueNumber'],    
-                                'price'=>$val['price'],
-                                'del'=>0,
+                                'price'=>$val['price'],    
                                 'createTime'=>time()
                             ];
                             db('OrderDetail')->insert($gData);      

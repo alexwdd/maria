@@ -189,17 +189,9 @@ class Goods extends Admin
                     'price' => $v['price'],
                     'cutPrice' => $v['cutPrice'],
                     'store_count' => $v['store_count'],
-                    'weight' => $v['weight']
+                    'weight' => $v['weight'],
+                    'spec_img' => $v['spec_img'],
                 ];                
-                if ($item_img) {
-                    $spec_key_arr = explode('_', $k);
-                    foreach ($item_img as $key => $val) {
-                        if (in_array($key, $spec_key_arr)) {
-                            $data['spec_img'] = $val;
-                            break;
-                        }
-                    }
-                }         
                 if (!empty($specStock[$k])) {
                     db('GoodsSpecPrice')->where(['goods_id' => $goods_id, 'key' => $k])->update($data);
                 } else {

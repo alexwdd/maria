@@ -10,7 +10,7 @@
             <td>{$vo.name}</td>
             <td>
                 {volist name="vo.spec_item" id="f" key="k2"}
-                <button type="button" class="layui-btn layui-btn-sm <?php 
+                <button type="button" class="layui-btn specBtn layui-btn-sm <?php 
                              if(!in_array($f['id'],$items_ids)){
                                     echo 'layui-btn-primary'; 
                              }
