@@ -317,8 +317,11 @@ return [
     'moneyType' => array( 
         1 => array('name'=>'签到积分'),
         2 => array('name'=>'购物积分'),
-        3 => array('name'=>'充值'),
-        4 => array('name'=>'基金'),
-        5 => array('name'=>'返利'),
+        3 => array('name'=>'余额充值'),
+        4 => array('name'=>'余额购物'),
+        5 => array('name'=>'购物基金'),
+        6 => array('name'=>'基金清零'),
+        7 => array('name'=>'基金返利'),
+        8 => array('name'=>'积分清零'),
     ),
 ];

@@ -102,13 +102,15 @@ class Order extends Auth {
                 returnJson(0,'购物车中没有商品');
             }
 
+            $pay = input('post.pay');
+            $cut = input('post.cut');
+
             //缺少判断库存
 
-            //判断商品是否抢光
 
 
-            $goodsMoney = 0;
-            $cutMoney = 0;
+            $goodsMoney = 0;   //商品总金额
+            $cutMoney = 0;     //可打折金额
             $inprice = 0;
             $point = 0;
             foreach ($list as $key => $value) {
@@ -153,9 +155,8 @@ class Order extends Auth {
                 if(!$coupon){
                     returnJson(0,'无效的优惠券');
                 }
-                $coupon['goodsID'] = $couponInfo['goodsID'];
 
-                if(!$this->checkCoupon($coupon,$list)){
+                if(!$this->checkCoupon($coupon,$list,$goodsMoney)){
                     returnJson(0,'该优惠券不满足使用条件');
                 }
 
@@ -175,20 +176,30 @@ class Order extends Auth {
                 }
                 $data['discount'] = 0;
             }
+
+            if(!$cut){ //提交订单时不允许砍价
+                $data['isCut'] = 0;
+            }
             //获取包裹信息
             $baoguo = $this->getYunfeiJson($list,$address['province']);   
     
-            $total = $goodsMoney - $data['discount'];
+            $total = $goodsMoney + $baoguo['totalPrice'] - $data['discount'];
             if($total<=0){
                 $total = 0;
             }
             $order_no = $this->getOrderNo();
-            if($data['isCut']==0){
+
+            if($pay==1){//如果是余额支付
+
+            }
+
+            if($data['isCut'] == 1){
                 $data['fund'] = 0;
             }else{
                 $data['fund'] = $total;
             }
             $data['total'] = $total;
+            $data['payment'] = $baoguo['totalPrice'];
             $data['goodsMoney'] = $goodsMoney;
             $data['minGoodsMoney'] = $goodsMoney - $cutMoney;
             $data['inprice'] = $inprice;

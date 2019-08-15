@@ -201,9 +201,17 @@ class Cart extends Auth {
             $map['status'] = 0;
             $map['memberID'] = $this->user['id'];
             $map['endTime'] = array('gt',time());
-            $coupon = db("CouponLog")->where($map)->select();
+            $coupon = db("CouponLog")->field('id,name,desc,full,dec,goodsID')->where($map)->select();
+            foreach ($coupon as $key => $value) {
+                if(!$this->checkCoupon($value,$list,$total)){
+                    unset($coupon[$key]);
+                }
+            }
+
+            $fina = $this->getUserMoney($this->user['id']);
             
             returnJson(1,'success',[
+                'money'=>$fina['money'],
                 'address'=>$address,
                 'sender'=>$sender,
                 'total'=>$total,

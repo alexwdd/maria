@@ -21,6 +21,57 @@ class Base extends Controller {
         $this->rate = $this->getRate();     
     }
 
+    //获取用户财产信息
+    public function getUserMoney($userid){
+        $finance = db('Finance');
+        $map['memberID'] = $userid;
+        $list = $finance->field('type,money')->where($map)->select(); 
+        $signPoint = 0;
+        $buyPoint = 0;
+        $inMoney = 0;
+        $outMoney = 0;
+        $inFund = 0;
+        $outFund = 0;
+        $fundToMoney = 0;
+        $clearJifen = 0;
+
+        foreach ($list as $key => $value) {
+            if ($value['type']==1) {
+                $signPoint += $value['money'];
+            }
+            if ($value['type']==2) {
+                $buyPoint += $value['money'];
+            }
+            if ($value['type']==3) {
+                $inMoney += $value['money'];
+            } 
+            if ($value['type']==4) {
+                $outMoney += $value['money'];
+            }  
+            if ($value['type']==5) {
+                $inFund += $value['money'];
+            }  
+            if ($value['type']==6) {
+                $outFund += $value['money'];
+            }  
+            if ($value['type']==7) {
+                $fundToMoney += $value['money'];
+            } 
+            if ($value['type']==8) {
+                $clearJifen += $value['money'];
+            } 
+        }
+
+        $point = $signPoint + $buyPoint - $clearJifen;
+        $money = $inMoney + $fundToMoney - $outMoney;
+        $fund = $inFund - $outFund;
+        return array(       
+            'point' => $point,
+            'money'=>$money,
+            'fund'=>$fund
+        );
+    }
+
     //商品限时抢购已销售数量
     public function getFlashNumber($goodsID){
         $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y')); 
@@ -241,9 +292,11 @@ class Base extends Controller {
     }
 
     //检查优惠券是否可用
-    public function checkCoupon($coupon,$cart){
-        $cartInfo = $this->getCartInfo($cart);
-        if($cartInfo['total'] < $coupon['full']){
+    /*
+    total 订单商品总金额
+    */
+    public function checkCoupon($coupon,$cart,$total){
+        if($total < $coupon['full']){
             return false;
         }
         if($coupon['goodsID']!=''){

@@ -3,6 +3,55 @@ namespace app\api\controller;
 
 class Account extends Auth {
 
+    //会员首页
+    public function index(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $user['headimg'] = getUserFace($this->user['headimg']);
+            $user['nickname'] = $this->user['nickname'];
+            $user['name'] = $this->user['name'];
+            $user['mobile'] = $this->user['mobile'];
+            $user['wechat'] = $this->user['wechat'];
+            $user['sn'] = $this->user['sn'];
+
+            $map['memberID'] = $this->user['id'];
+            $map['status'] = 0;
+            $order1 = db("Order")->where($map)->count();
+            $map['status'] = 1;
+            $order2 = db("Order")->where($map)->count();
+            $map['status'] = 2;
+            $order3 = db("Order")->where($map)->count();
+            $map['status'] = 3;
+            $order4 = db("Order")->where($map)->count();
+            $map['status'] = 99;
+            $order5 = db("Order")->where($map)->count();
+
+            $fina = $this->getUserMoney($this->user['id']);
+
+            $result = getFundBack($fina['point']);
+            $config = tpCache('member');
+            returnJson(1,'success',[
+                'fina'=>$fina,
+                'jifen'=>$result,
+                'config'=>[
+                    ['jifen'=>$config['jifen1'],'bar'=>$config['back1']],
+                    ['jifen'=>$config['jifen2'],'bar'=>$config['back2']],
+                    ['jifen'=>$config['jifen3'],'bar'=>$config['back3']],
+                    ['jifen'=>$config['jifen4'],'bar'=>$config['back4']],
+                    ['jifen'=>$config['jifen5'],'bar'=>$config['back5']],
+                ],
+                'order'=>[
+                    'nopay'=>$order1,
+                    'peihuo'=>$order2,
+                    'peing'=>$order3,
+                    'fahuo'=>$order4,
+                    'close'=>$order5,
+                ],
+                'user'=>$user,
+            ]);
+        }
+    }
+
     //个人信息
     public function userinfo(){
         if (request()->isPost()) { 

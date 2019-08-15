@@ -11,6 +11,7 @@
 	getCartInfo		获取购物车商品的信息，总金额
 	checkCoupon		检查优惠券是否可用
 	getOrderNo		获取随机订单号
+	getUserMoney	获取用户财产
 
 # 工具栏的方法
 	action			不开启新窗口，直接post

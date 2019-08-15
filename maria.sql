@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-15 00:26:26
+Date: 2019-08-15 17:30:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -382,7 +382,7 @@ CREATE TABLE `pm_coupon` (
 -- ----------------------------
 -- Records of pm_coupon
 -- ----------------------------
-INSERT INTO `pm_coupon` VALUES ('3', '新手券', '立减50元', '1', '0', '50', '1', '1', '30', '4,7', '使用说明啊啊啊', '1565698552', '1551964995');
+INSERT INTO `pm_coupon` VALUES ('3', '新手券', '立减50元', '1', '0', '50', '1', '1', '30', '', '使用说明啊啊啊', '1565831354', '1551964995');
 INSERT INTO `pm_coupon` VALUES ('5', '测试一下', '满50元立减5元', '0', '50', '5', '0', '1', '30', '', '', '1565799188', '1565698449');
 
 -- ----------------------------
@@ -399,8 +399,6 @@ CREATE TABLE `pm_coupon_goods` (
 -- ----------------------------
 -- Records of pm_coupon_goods
 -- ----------------------------
-INSERT INTO `pm_coupon_goods` VALUES ('7', '3', '4');
-INSERT INTO `pm_coupon_goods` VALUES ('8', '3', '7');
 
 -- ----------------------------
 -- Table structure for `pm_coupon_log`
@@ -422,17 +420,16 @@ CREATE TABLE `pm_coupon_log` (
   `endTime` int(11) DEFAULT NULL,
   `createTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_coupon_log
 -- ----------------------------
-INSERT INTO `pm_coupon_log` VALUES ('12', '2', '张小黑', '3', null, null, null, null, null, '1322228216', '0', '0', '1566634788', '1564041383');
-INSERT INTO `pm_coupon_log` VALUES ('13', '0', '', '3', null, null, null, null, null, '1338509194', '0', '0', '1566634823', '1564041383');
+INSERT INTO `pm_coupon_log` VALUES ('18', '2', '张小黑', '3', '新手券', '立减50元', '0.00', '50.00', '', '1277665138', '0', '0', '1568423272', '1565831272');
 INSERT INTO `pm_coupon_log` VALUES ('14', '0', '', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '', '1264725452', '0', '0', '0', '1565798942');
 INSERT INTO `pm_coupon_log` VALUES ('15', '0', '', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '', '1189652748', '0', '0', '0', '1565798942');
 INSERT INTO `pm_coupon_log` VALUES ('16', '0', '', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '', '1355403368', '0', '0', '0', '1565798942');
-INSERT INTO `pm_coupon_log` VALUES ('17', '2', '张小黑', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '24', '1039757623', '0', '0', '1568391156', '1565799156');
+INSERT INTO `pm_coupon_log` VALUES ('17', '2', '张小黑', '5', '测试一下', '满50元立减5元', '0.00', '5.00', '240', '1039757623', '0', '0', '1568391156', '1565799156');
 
 -- ----------------------------
 -- Table structure for `pm_fav`
@@ -492,7 +489,7 @@ CREATE TABLE `pm_finance` (
   `extend2` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_finance
@@ -502,6 +499,13 @@ INSERT INTO `pm_finance` VALUES ('2', '2', '1', '2', '1', '10.00', '08-06签到�
 INSERT INTO `pm_finance` VALUES ('3', '1', '1', '1', '3', '100.00', '账户充值100元', '0', '0', '1565104138');
 INSERT INTO `pm_finance` VALUES ('4', '2', '1', '1', '3', '10.00', '账户充值10元', '0', '0', '1565104250');
 INSERT INTO `pm_finance` VALUES ('5', '1', '1', '1', '3', '20.00', '账户充值20元', '0', '0', '1565278286');
+INSERT INTO `pm_finance` VALUES ('6', '1', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839224');
+INSERT INTO `pm_finance` VALUES ('7', '2', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839224');
+INSERT INTO `pm_finance` VALUES ('8', '1', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839249');
+INSERT INTO `pm_finance` VALUES ('9', '2', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839249');
+INSERT INTO `pm_finance` VALUES ('10', '1', '1', '1', '7', '2000.00', '2019-08返利余额2000元', '0', '0', '1565839509');
+INSERT INTO `pm_finance` VALUES ('11', '2', '1', '1', '7', '2000.00', '2019-08返利余额2000元', '0', '0', '1565839509');
+INSERT INTO `pm_finance` VALUES ('12', '2', '1', '1', '8', '20.00', '2019-09每月积分清零', '0', '0', '1565839927');
 
 -- ----------------------------
 -- Table structure for `pm_flash`
@@ -531,6 +535,24 @@ INSERT INTO `pm_flash` VALUES ('15', '16', '17', '爱他美白金 二段 Aptamil
 INSERT INTO `pm_flash` VALUES ('16', '10', '20', 'Blackmores澳佳宝 孕妇黄金素 180粒', '28', 'a:0:{}', 'a:0:{}', '1564502400', '1567267199', '999', '1564829065');
 INSERT INTO `pm_flash` VALUES ('17', '10', '21', 'Blackmores澳佳宝 叶酸片500mcg 90粒', '12', 'a:0:{}', 'a:0:{}', '1564329600', '1567180799', '999', '1564829136');
 INSERT INTO `pm_flash` VALUES ('18', '4', '23', 'Swisse 高倍蜂胶2000mg 300粒', '23', 'a:0:{}', 'a:0:{}', '1564502400', '1567180799', '999', '1564829752');
+
+-- ----------------------------
+-- Table structure for `pm_fund`
+-- ----------------------------
+DROP TABLE IF EXISTS `pm_fund`;
+CREATE TABLE `pm_fund` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` varchar(20) DEFAULT NULL,
+  `money` varchar(20) DEFAULT NULL,
+  `createTime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of pm_fund
+-- ----------------------------
+INSERT INTO `pm_fund` VALUES ('1', '2019-08', '4000', '1565839509');
+INSERT INTO `pm_fund` VALUES ('2', '2019-09', '0', '1565839927');
 
 -- ----------------------------
 -- Table structure for `pm_goods`
@@ -822,7 +844,7 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568391582', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568433364', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`

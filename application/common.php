@@ -84,6 +84,33 @@ function fix_number_precision($data, $precision = 2)
     return $data;
 }
 
+//获取返利信息
+function getFundBack($point){
+    $config = tpCache('member');
+    if($point >= $config['jifen5']){
+        $bar = $config['back5'];
+        $next = 0;
+        $nextBar = 0;
+    }elseif($point >= $config['jifen4']){
+        $bar = $config['back4'];
+        $next = $config['jifen5'];
+        $nextBar = $config['back5'];
+    }elseif($point >= $config['jifen3']){
+        $bar = $config['back3'];
+        $next = $config['jifen4'];
+        $nextBar = $config['back4'];
+    }elseif($point >= $config['jifen2']){
+        $bar = $config['back2'];
+        $next = $config['jifen3'];
+        $nextBar = $config['back3'];
+    }elseif($point >= $config['jifen1']){
+        $bar = $config['back1'];
+        $next = $config['jifen2'];
+        $nextBar = $config['back2'];
+    }
+    return ['bar'=>$bar,'next'=>$next,'nextBar'=>$nextBar];
+}
+
 //获取支付方式
 function getPayType($v){
     if ($v==1) {
