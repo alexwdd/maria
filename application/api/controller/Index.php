@@ -82,4 +82,14 @@ class Index extends Common
             ]);
         }
     }	
+
+    public function keyword(){
+        if (request()->isPost()) {            
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $config = tpCache('member');
+            returnJson(1,'success',[
+                'hotkey'=>explode(",", $config['hotkey']),
+            ]);
+        }
+    }
 }

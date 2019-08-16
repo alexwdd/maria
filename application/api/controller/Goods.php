@@ -83,7 +83,7 @@ class Goods extends Common {
             }
             $list = $obj->field('id,name,logo,py')->where($map)->limit($firstRow.','.$pagesize)->order('py asc')->select();
             foreach ($list as $key => $value) {
-                $value['logo'] = getThumb($value['logo'],200,200);
+                $value['logo'] = getThumb($value['logo'],200,125);
                 $list[$key]['logo'] = getRealUrl($value['logo']);
             }
             returnJson(1,'success',['next'=>$next,'cate'=>$cate,'data'=>$list]);
@@ -102,7 +102,7 @@ class Goods extends Common {
                 }
                 $brand = db("Brand")->field('id,logo,name')->where($map)->order('sort asc , id asc')->select();
                 foreach ($brand as $k => $val) {
-                    $val['logo'] = getThumb($val['logo'],200,200);
+                    $val['logo'] = getThumb($val['logo'],200,125);
                     $brand[$k]['logo'] = getRealUrl($val['logo']);
                 }
                 $list[$key]['child'] = $brand;
@@ -121,6 +121,7 @@ class Goods extends Common {
             foreach ($list as $key => $value) {
                 $child = db('Brand')->field('id,name,logo')->where('cid',$value['cid'])->order('sort asc,py asc')->limit(5)->select();
                 foreach ($child as $k => $val) {
+                    $val['logo'] = getThumb($val["logo"],200,125);
                     $child[$k]['logo'] = getRealUrl($val['logo']);
                 }
                 $list[$key]['child'] = $child;
@@ -397,6 +398,24 @@ class Goods extends Common {
             $pack = $result['pack'];
 
             $list['rmb'] = number_format($this->rate*$list['price'],1);  
+
+            $goods_txt = strip_tags($list['content']);
+            $goods_txt = preg_replace ('/\n/is', '', $goods_txt);
+            $goods_txt = preg_replace ('/ |　/is', '', $goods_txt);
+            $goods_txt = preg_replace ('/&nbsp;/is', '', $goods_txt);   
+            $list['goods_txt'] = $goods_txt;
+
+            preg_match_all("/src=\"?(\/.*?)\"/", $list['content'], $match);
+            if ($match[1]){
+                $goods_img = $match[1];
+                foreach ($goods_img as $key => $value) {
+                    $goods_img[$key] = getRealUrl($value);
+                }
+            }else{
+                $goods_img = [];
+            }
+            $list['goods_img'] = $goods_img;
+            
             $list['content'] = htmlspecialchars_decode($list['content']);
 
             unset($map);
@@ -409,6 +428,7 @@ class Goods extends Common {
                 $cartNumber = 0;
                 $fav = 0;
             }
+
             //商品相关优惠券
             unset($map);
             $ids = db("CouponGoods")->where('goodsID',$list['id'])->value('couponID');
@@ -418,9 +438,9 @@ class Goods extends Common {
             foreach ($coupon as $key => $value) {
                 $where['couponID'] = $value['id'];
                 $where['memberID'] = $this->user['id'];
-                $count = db("CouponLog")->where($where)->count();
-                if($count>=$value['number']){
-                    unset($coupon[$key]);
+                $my = db("CouponLog")->where($where)->find();
+                if($my){
+                    $coupon[$key]['endTime'] = date("Y-m-d H:i:s",$my['endTime']);
                 }
             }
 
