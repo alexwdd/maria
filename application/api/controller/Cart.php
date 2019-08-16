@@ -176,11 +176,14 @@ class Cart extends Auth {
             unset($map);
             $map['memberID'] = $this->user['id'];
             $list = db('Cart')->where($map)->select();
+            if (!$list) {
+                returnJson(0,'购物车中没有商品');
+            }
             $baoguo = $this->getYunfeiJson($list);
 
             $total = 0;
             $point = 0;
-            $isCut = 1;
+            $isCut = 1;            
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
                 if($goods['fid']>0){

@@ -294,7 +294,7 @@ class Order extends Auth {
                 }
                 db("OrderCart")->insertAll($history);
                 db("Cart")->where('memberID',$this->user['id'])->delete();
-                returnJson(1,'success',[
+                returnJson(1,'订单创建成功',[
                     'order_no'=>$order_no,
                     'isCut'=>$data['isCut'],
                     'total'=>$data['total'],
