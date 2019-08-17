@@ -376,7 +376,7 @@ class Account extends Auth {
                 ];
                 $res = db("CouponLog")->insert($data);
                 if ($res) {
-                    returnJson(1,'success');
+                    returnJson(1,'success',['endTime'=>date("Y-m-d H:i:s",$data['endTime'])]);
                 }else{
                     returnJson(0,'领取失败');
                 }
@@ -406,7 +406,7 @@ class Account extends Auth {
                 ];
                 $res = db("CouponLog")->where($map)->update($data);
                 if ($res) {
-                    returnJson(1,'success');
+                    returnJson(1,'success',['endTime'=>date("Y-m-d H:i:s",$data['endTime'])]);
                 }else{
                     returnJson(0,'领取失败');
                 }

@@ -441,6 +441,8 @@ class Goods extends Common {
                 $my = db("CouponLog")->where($where)->find();
                 if($my){
                     $coupon[$key]['endTime'] = date("Y-m-d H:i:s",$my['endTime']);
+                }else{
+                    $coupon[$key]['endTime'] = '';
                 }
             }
 
