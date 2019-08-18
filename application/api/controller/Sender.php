@@ -56,7 +56,7 @@ class Sender extends Auth {
             $data['memberID'] = $this->user['id'];
             $res = model('Sender')->saveData( $data );
             if ($res['code']==1) {  
-                returnJson(1,'success'); 
+                returnJson(1,'操作成功'); 
             }else{
                 returnJson(0,$res['msg']);
             }            

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-15 17:30:15
+Date: 2019-08-19 00:16:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -50,7 +50,7 @@ CREATE TABLE `pm_ad` (
   `createTime` int(10) NOT NULL,
   `updateTime` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_ad
@@ -58,6 +58,7 @@ CREATE TABLE `pm_ad` (
 INSERT INTO `pm_ad` VALUES ('1', '1', '0-1-', '贝拉米广告', '/uploads/images/20190729/29a16f509df847402f50d82de3fa4f62.jpg', '111', '50', '1563768353', '1564393940');
 INSERT INTO `pm_ad` VALUES ('2', '1', '0-1-', 'a2广告', '/uploads/images/20190729/f78473ebaeb30ade50f61c7f2a6f1e4e.png', '111', '50', '1563768399', '1564393620');
 INSERT INTO `pm_ad` VALUES ('3', '1', '0-1-', 'swisse广告', '/uploads/images/20190729/629546cbfee3e4e6c68d1611aed44af7.png', '1', '50', '1563788399', '1564393579');
+INSERT INTO `pm_ad` VALUES ('4', '2', '0-2-', '测试', '/uploads/images/20190816/0b929b1116175b887c7c57a85e7a58bd.jpg', '1', '50', '1565969493', '1565969493');
 
 -- ----------------------------
 -- Table structure for `pm_address`
@@ -151,62 +152,62 @@ CREATE TABLE `pm_brand` (
 -- ----------------------------
 -- Records of pm_brand
 -- ----------------------------
-INSERT INTO `pm_brand` VALUES ('10', '9', '可瑞康', '/uploads/images/20190220/477de32020af429bfe6919daf392ff60.jpg', '', '', '4', '0', '0', 'K', '1538452189', '1564994207');
-INSERT INTO `pm_brand` VALUES ('3', '10', '佳思敏', '/uploads/images/20181026/2eab1ca102d0dc1a7b827aeade63482f.jpg', '', '', '7', '1', '0', 'J', '1534769273', '1564994256');
-INSERT INTO `pm_brand` VALUES ('4', '9', 'A2', '/uploads/images/20181024/703740029fcee5ee52d2e7602b3b0843.jpg', '', '', '1', '1', '0', 'A', '1534912117', '1564994243');
-INSERT INTO `pm_brand` VALUES ('5', '9', '爱他美', '/uploads/images/20181024/937348f760f65d59129c8c4eb615386a.jpg', '', '', '2', '1', '0', 'A', '1534944898', '1564994248');
-INSERT INTO `pm_brand` VALUES ('8', '12', 'Swisse', '/uploads/images/20190220/61ba27923f83e298aeba0d25b1dab350.jpg', '', '', '1', '1', '1', 'S', '1536034392', '1564994221');
-INSERT INTO `pm_brand` VALUES ('9', '12', '澳佳宝', '/uploads/images/20181026/82471cb0f61635dad80d884c83df8a07.jpg', '', '', '2', '1', '1', 'A', '1536034458', '1564994214');
-INSERT INTO `pm_brand` VALUES ('11', '9', '贝拉米', '/uploads/images/20181026/cd09dc4d2b10232ded443c30a2907403.jpg', '', '', '3', '1', '0', 'B', '1538452869', '1564994200');
-INSERT INTO `pm_brand` VALUES ('12', '12', '爱乐维', '/uploads/images/20181026/46a00f9ca6a2131752928078f70e5a1a.jpg', '', '', '10', '0', '0', 'A', '1538467354', '1564994193');
-INSERT INTO `pm_brand` VALUES ('13', '16', '德运', '/uploads/images/20190220/7007cf8fce36da99f61f74e7b1b5695b.jpg', '', '', '15', '0', '0', 'D', '1538473320', '1564994187');
-INSERT INTO `pm_brand` VALUES ('14', '10', 'GAIA', '/uploads/images/20190220/3b5949eb55cf514a2a05167fb35714a8.jpg', '', '', '17', '1', '1', 'G', '1538564972', '1564994181');
-INSERT INTO `pm_brand` VALUES ('15', '8', 'QV', '/uploads/images/20181026/df2ef3b72b96d4d4011630ed57c11f43.jpg', '', '', '18', '1', '1', 'Q', '1538565237', '1564994175');
-INSERT INTO `pm_brand` VALUES ('16', '16', '美可卓', '/uploads/images/20181026/978f004a7e7b4ddc7539624d7e0b43b5.jpg', '', '', '9', '0', '1', 'M', '1540639709', '1564994167');
-INSERT INTO `pm_brand` VALUES ('17', '9', '雅培', '/uploads/images/20181028/789a84dc53863c69fb73833265de7849.png', '', '', '11', '0', '0', 'Y', '1540639801', '1564994159');
-INSERT INTO `pm_brand` VALUES ('18', '10', '生物岛', '/uploads/images/20190311/db09f0f60a2f0ffc9ddfe786529e9bd3.jpg', '', '', '4', '1', '1', 'S', '1540639875', '1564994150');
-INSERT INTO `pm_brand` VALUES ('19', '8', '茱莉蔻', '/uploads/images/20181026/ec3db505c4d475ea88468d9d01a477d8.jpg', '', '', '20', '0', '0', 'Z', '1540639898', '1564994137');
-INSERT INTO `pm_brand` VALUES ('20', '7', '苏芊', '/uploads/images/20181026/0584de61e82a933cf2a418faeffb6ca7.jpg', '', '', '21', '0', '1', 'S', '1540639923', '1564994131');
+INSERT INTO `pm_brand` VALUES ('10', '9', '可瑞康', '/uploads/images/20190808/998a9cf01b1c6625089e125c1958f710.jpg', '', '', '4', '0', '0', 'K', '1538452189', '1565261451');
+INSERT INTO `pm_brand` VALUES ('3', '10', '佳思敏', '/uploads/images/20190808/b8bcb1974cb16db42778fab295484cf8.jpg', '', '', '7', '1', '0', 'J', '1534769273', '1565261333');
+INSERT INTO `pm_brand` VALUES ('4', '9', 'A2', '/uploads/images/20190808/aec2051e04ad55a16e3c25ff54a82b81.jpg', '', '', '1', '1', '0', 'A', '1534912117', '1565261204');
+INSERT INTO `pm_brand` VALUES ('5', '9', '爱他美', '/uploads/images/20190808/9808435c0c26e69f59c8854f421dfcb5.jpg', '', '', '2', '1', '0', 'A', '1534944898', '1565261319');
+INSERT INTO `pm_brand` VALUES ('8', '12', 'Swisse', '/uploads/images/20190808/af859c302b49495917e95627e967309d.jpg', '', '', '1', '1', '1', 'S', '1536034392', '1565262195');
+INSERT INTO `pm_brand` VALUES ('9', '12', '澳佳宝', '/uploads/images/20190808/67a264b22634a39a2b6cf82efc826bdc.jpg', '', '', '2', '1', '1', 'A', '1536034458', '1565261438');
+INSERT INTO `pm_brand` VALUES ('11', '9', '贝拉米', '/uploads/images/20190808/8a7dac92334df36c47c105390336d986.jpg', '', '', '3', '1', '0', 'B', '1538452869', '1565261464');
+INSERT INTO `pm_brand` VALUES ('12', '12', '爱乐维', '/uploads/images/20190808/ce8c7fed660f7b48f6748289437add1a.jpg', '', '', '10', '0', '0', 'A', '1538467354', '1565261477');
+INSERT INTO `pm_brand` VALUES ('13', '16', '德运', '/uploads/images/20190808/559bff81ca0258a5b2e70d01169e291c.jpg', '', '', '15', '0', '0', 'D', '1538473320', '1565261492');
+INSERT INTO `pm_brand` VALUES ('14', '10', 'GAIA', '/uploads/images/20190808/fb89635eb8b3f9897d371f5cb947d491.jpg', '', '', '17', '1', '1', 'G', '1538564972', '1565261509');
+INSERT INTO `pm_brand` VALUES ('15', '8', 'QV', '/uploads/images/20190808/97f73e8bcb5b786169dc647c56feeaa1.jpg', '', '', '18', '1', '1', 'Q', '1538565237', '1565261526');
+INSERT INTO `pm_brand` VALUES ('16', '16', '美可卓', '/uploads/images/20190808/683537b3b567ef3b466eceb01b8757e0.jpg', '', '', '9', '0', '1', 'M', '1540639709', '1565261544');
+INSERT INTO `pm_brand` VALUES ('17', '9', '雅培', '/uploads/images/20190808/d758bed22e2af72acfcf4fb306a72981.png', '', '', '11', '0', '0', 'Y', '1540639801', '1565261562');
+INSERT INTO `pm_brand` VALUES ('18', '10', '生物岛', '/uploads/images/20190808/4c16e0f1a404a3abed67cf977938e377.jpg', '', '', '4', '1', '1', 'S', '1540639875', '1565261589');
+INSERT INTO `pm_brand` VALUES ('19', '8', '茱莉蔻', '/uploads/images/20190808/d86f0b1f8f750e278aa347d1a09c646f.jpg', '', '', '20', '0', '0', 'Z', '1540639898', '1565261599');
+INSERT INTO `pm_brand` VALUES ('20', '7', '苏芊', '/uploads/images/20190808/1fd385f54cdef192fe470f4742ca05d5.jpg', '', '', '21', '0', '1', 'S', '1540639923', '1565261612');
 INSERT INTO `pm_brand` VALUES ('46', '8', '其他护肤品', '/uploads/images/20190220/6bcde67667030c6f45aaba1fb26b5379.jpg', '', '', '50', '0', '0', 'Q', '1547187665', '1564993809');
-INSERT INTO `pm_brand` VALUES ('47', '12', '安瓶', '/uploads/images/20190220/87c73ae8fb961496a59a992ffd970eff.png', '', '', '50', '0', '1', 'A', '1547428823', '1564993802');
-INSERT INTO `pm_brand` VALUES ('22', '12', 'Healthy Care', '/uploads/images/20181028/d63ece806e3243a2d8f736cc2d168bec.png', '', '', '3', '1', '1', 'H', '1540639967', '1564994119');
-INSERT INTO `pm_brand` VALUES ('23', '8', '百洛油', '/uploads/images/20181026/e05a3f12d1af4888876e898cfba91a9d.jpg', '', '', '28', '0', '1', 'B', '1540639992', '1564994112');
-INSERT INTO `pm_brand` VALUES ('24', '7', '星期四', '/uploads/images/20181026/b5821e0ca53a4b6255f3a970d5be71b0.jpg', '', '', '22', '1', '1', 'X', '1540640023', '1564994101');
-INSERT INTO `pm_brand` VALUES ('25', '7', '水光针', '/uploads/images/20190220/936bff224c59b040d526d22de6015c55.jpg', '', '', '9', '1', '1', 'S', '1540640037', '1564994087');
-INSERT INTO `pm_brand` VALUES ('26', '14', '康维他', '/uploads/images/20181026/cc6e854ff48f0d1d58e8128cf2fcf43a.jpg', '', '', '17', '0', '0', 'K', '1540640117', '1564994080');
+INSERT INTO `pm_brand` VALUES ('47', '12', '安瓶', '/uploads/images/20190808/5258c35b8fb2ac3a2acc144be874e90b.png', '', '', '50', '0', '1', 'A', '1547428823', '1565261966');
+INSERT INTO `pm_brand` VALUES ('22', '12', 'Healthy Care', '/uploads/images/20190808/f0ddcf35303b378977b257621ce51df1.png', '', '', '3', '1', '1', 'H', '1540639967', '1565261627');
+INSERT INTO `pm_brand` VALUES ('23', '8', '百洛油', '/uploads/images/20190808/32d2bcd24694a756f3225e1a6803de7a.jpg', '', '', '28', '0', '1', 'B', '1540639992', '1565261639');
+INSERT INTO `pm_brand` VALUES ('24', '7', '星期四', '/uploads/images/20190808/e2328ee00144c3fdb25af4817e102287.jpg', '', '', '22', '1', '1', 'X', '1540640023', '1565261655');
+INSERT INTO `pm_brand` VALUES ('25', '7', '水光针', '/uploads/images/20190808/1e3e6cbb87a539b86fe2d8431e316d23.jpg', '', '', '9', '1', '1', 'S', '1540640037', '1565261680');
+INSERT INTO `pm_brand` VALUES ('26', '14', '康维他', '/uploads/images/20190808/b4a92f24314dd0c623db3c8f2529095d.jpg', '', '', '17', '0', '0', 'K', '1540640117', '1565261712');
 INSERT INTO `pm_brand` VALUES ('27', '12', '乐康膏', '/uploads/images/20181026/10ad165896fee374798c7491cda80fb7.jpg', '', '', '16', '0', '1', 'L', '1540640200', '1564994071');
-INSERT INTO `pm_brand` VALUES ('28', '18', '奔富', '/uploads/images/20190210/3ddadc149b05540c85f67aa433fcb6b2.jpeg', '', '', '23', '0', '0', 'B', '1540640223', '1564994064');
-INSERT INTO `pm_brand` VALUES ('31', '10', 'Jack n’jill', '/uploads/images/20181028/90167588c46b52b9e3c2dedb0fa1fb66.png', '', '', '26', '0', '1', 'J', '1540640341', '1564994027');
-INSERT INTO `pm_brand` VALUES ('32', '18', '木瓜膏', '/uploads/images/20181026/b63d433122aeb2b61bdef49bd78d0ddd.jpg', '', '', '5', '1', '1', 'M', '1540640364', '1564994008');
-INSERT INTO `pm_brand` VALUES ('33', '10', '贝博士', '/uploads/images/20190311/1931702915f440ae3fd0c558d7a6e84c.jpg', '', '', '12', '1', '1', 'B', '1540698631', '1564993998');
-INSERT INTO `pm_brand` VALUES ('34', '12', '益生菌', '/uploads/images/20181028/015905a109705a2207cea4aba3eb413c.jpg', '', '', '6', '1', '0', 'Y', '1540698792', '1564993980');
-INSERT INTO `pm_brand` VALUES ('35', '16', '澳美滋', '/uploads/images/20181028/19cb22705b119b0a495816176c3151b0.jpg', '', '', '12', '0', '0', 'A', '1540698983', '1564993968');
-INSERT INTO `pm_brand` VALUES ('36', '12', '酵素', '/uploads/images/20181028/3ea8980eb2f833abe1bc89745f297b0e.jpg', '', '', '18', '0', '1', 'J', '1540699142', '1564993948');
-INSERT INTO `pm_brand` VALUES ('37', '9', '惠氏', '/uploads/images/20190220/dbc6e2b9278a4df3c7ed0a9e8ba68f33.jpg', '', '', '50', '0', '0', 'H', '1544592863', '1564993928');
-INSERT INTO `pm_brand` VALUES ('38', '9', '满趣健 草饲', '/uploads/images/20181212/c21547cd1a5503ac1f600ac54ef8f5e4.jpg', '', '', '50', '1', '0', 'M', '1544595668', '1564993920');
-INSERT INTO `pm_brand` VALUES ('39', '16', 'CapriLac', '/uploads/images/20190220/2ee3ee1e287632b0316d79a238f001c3.png', '', '', '50', '0', '0', 'C', '1544605520', '1564993911');
-INSERT INTO `pm_brand` VALUES ('40', '9', '雀巢', '/uploads/images/20181212/82ac02ea1266ac6bb02592641a54fb92.jpg', '', '', '50', '0', '0', 'Q', '1544605982', '1564993903');
-INSERT INTO `pm_brand` VALUES ('41', '8', '艾维诺', '/uploads/images/20181215/b429b7ffec6b3822914e7110d0dc66d0.jpg', '', '', '50', '0', '0', 'A', '1544845875', '1564993895');
-INSERT INTO `pm_brand` VALUES ('42', '14', '新溪岛', '/uploads/images/20190220/9cc8c49b7960691bca20d75f1b04bd35.jpg', '', '', '50', '0', '0', 'X', '1544850429', '1564993875');
-INSERT INTO `pm_brand` VALUES ('43', '7', 'NATIO', '/uploads/images/20190220/53565607b9dae62e32f3787a2f073508.jpg', '', '', '16', '1', '1', 'N', '1544852395', '1564993854');
-INSERT INTO `pm_brand` VALUES ('44', '7', 'Antipodes', '/uploads/images/20181215/4a8446b39138301ed3a5ceba7254780f.jpg', '', '', '50', '0', '0', 'A', '1544853044', '1564993834');
-INSERT INTO `pm_brand` VALUES ('45', '18', '红印', '/uploads/images/20190220/c4d6e3e568a2251dc4817035091a0081.jpg', '', '', '50', '0', '0', 'H', '1545378010', '1564993816');
-INSERT INTO `pm_brand` VALUES ('48', '8', 'Goat 羊奶系列', '/uploads/images/20190220/bf4e19f872122840c6a1e96e4682f152.jpg', '', '', '10', '1', '1', 'G', '1547430101', '1564993790');
-INSERT INTO `pm_brand` VALUES ('49', '7', 'Trilogy', '/uploads/images/20190114/2647ee99bf548e6199829949e22bcdd3.png', '', '', '50', '0', '0', 'T', '1547430311', '1564993782');
+INSERT INTO `pm_brand` VALUES ('28', '18', '奔富', '/uploads/images/20190808/8b0fb2daf8dd8b648f5803ad7a9ddec3.jpg', '', '', '23', '0', '0', 'B', '1540640223', '1565261729');
+INSERT INTO `pm_brand` VALUES ('31', '10', 'Jack n’jill', '/uploads/images/20190808/3dc26e05d323f765d0ffd8bbf3dddcf1.png', '', '', '26', '0', '1', 'J', '1540640341', '1565261744');
+INSERT INTO `pm_brand` VALUES ('32', '18', '木瓜膏', '/uploads/images/20190808/a1cc9ddc235b480b84d6468dff15ff78.jpg', '', '', '5', '1', '1', 'M', '1540640364', '1565261763');
+INSERT INTO `pm_brand` VALUES ('33', '10', '贝博士', '/uploads/images/20190808/8f0454cc287de8bdf52b42ec01610913.jpg', '', '', '12', '1', '1', 'B', '1540698631', '1565261777');
+INSERT INTO `pm_brand` VALUES ('34', '12', '益生菌', '/uploads/images/20190808/97406c8fcb1afbfc98cbf0859c33de81.jpg', '', '', '6', '1', '0', 'Y', '1540698792', '1565261794');
+INSERT INTO `pm_brand` VALUES ('35', '16', '澳美滋', '/uploads/images/20190808/762fd476e86973328b6bf9eda9c83c1e.jpg', '', '', '12', '0', '0', 'A', '1540698983', '1565261812');
+INSERT INTO `pm_brand` VALUES ('36', '12', '酵素', '/uploads/images/20190808/3d956ef31f947b3e7a173856ffaf46cb.jpg', '', '', '18', '0', '1', 'J', '1540699142', '1565261827');
+INSERT INTO `pm_brand` VALUES ('37', '9', '惠氏', '/uploads/images/20190808/f7ea88bb8f1d32f62071d6ec7ba0db06.jpg', '', '', '50', '0', '0', 'H', '1544592863', '1565261840');
+INSERT INTO `pm_brand` VALUES ('38', '9', '满趣健 草饲', '/uploads/images/20190808/0bfec8bd033e199239e1570475d8b986.jpg', '', '', '50', '1', '0', 'M', '1544595668', '1565261854');
+INSERT INTO `pm_brand` VALUES ('39', '16', 'CapriLac', '/uploads/images/20190808/23ad532a4eaa0cb46f94f17c0bbc238c.png', '', '', '50', '0', '0', 'C', '1544605520', '1565261865');
+INSERT INTO `pm_brand` VALUES ('40', '9', '雀巢', '/uploads/images/20190808/ff7919dfed42ec26d3e49e34316930e5.jpg', '', '', '50', '0', '0', 'Q', '1544605982', '1565261879');
+INSERT INTO `pm_brand` VALUES ('41', '8', '艾维诺', '/uploads/images/20190808/af92ad9bab729c75d49fee150e359095.jpg', '', '', '50', '0', '0', 'A', '1544845875', '1565261893');
+INSERT INTO `pm_brand` VALUES ('42', '14', '新溪岛', '/uploads/images/20190808/15a8acec0f72227c9994fc9949e65d37.jpg', '', '', '50', '0', '0', 'X', '1544850429', '1565261908');
+INSERT INTO `pm_brand` VALUES ('43', '7', 'NATIO', '/uploads/images/20190808/4917c4666130ff09cb59b1bb53d4ab38.jpg', '', '', '16', '1', '1', 'N', '1544852395', '1565261920');
+INSERT INTO `pm_brand` VALUES ('44', '7', 'Antipodes', '/uploads/images/20190808/4131299a6ca70dba7f321047bb5bef99.jpg', '', '', '50', '0', '0', 'A', '1544853044', '1565261934');
+INSERT INTO `pm_brand` VALUES ('45', '18', '红印', '/uploads/images/20190808/641450a9e2cc0ee8ecff3f0aa3f0ca9c.jpg', '', '', '50', '0', '0', 'H', '1545378010', '1565261948');
+INSERT INTO `pm_brand` VALUES ('48', '8', 'Goat 羊奶系列', '/uploads/images/20190808/dd03166a63e3cf57ae6d696fdff75d83.jpg', '', '', '10', '1', '1', 'G', '1547430101', '1565261978');
+INSERT INTO `pm_brand` VALUES ('49', '7', 'Trilogy', '/uploads/images/20190808/5fe7a87303cd049a6478089650d44361.png', '', '', '50', '0', '0', 'T', '1547430311', '1565261994');
 INSERT INTO `pm_brand` VALUES ('50', '12', '其他保健品', '/uploads/images/20190220/1624a067359cd1bc26e19e0d8bddafd7.jpg', '', '', '50', '0', '0', 'Q', '1547430357', '1564993759');
-INSERT INTO `pm_brand` VALUES ('51', '8', 'Freezeframe', '/uploads/images/20190220/0ded43041674b5a01cbbd72d8352b453.jpg', '', '', '15', '1', '1', 'F', '1547430592', '1564993752');
-INSERT INTO `pm_brand` VALUES ('52', '12', 'UNICHI', '/uploads/images/20190220/ae1e9a2f3c8c074ea04548dd70b96be8.jpg', '', '', '14', '1', '1', 'U', '1547431459', '1564993739');
-INSERT INTO `pm_brand` VALUES ('53', '17', '食品类', '/uploads/images/20190220/09ff83ee05089d423e0089a2b610df57.jpg', '', '', '50', '0', '0', 'S', '1547431743', '1564993730');
+INSERT INTO `pm_brand` VALUES ('51', '8', 'Freezeframe', '/uploads/images/20190808/38e18bb6fe2a4ea7a07028a46c7d6501.jpg', '', '', '15', '1', '1', 'F', '1547430592', '1565262019');
+INSERT INTO `pm_brand` VALUES ('52', '12', 'UNICHI', '/uploads/images/20190808/0df46cbd24c51032b7f626f6ca02d262.jpg', '', '', '14', '1', '1', 'U', '1547431459', '1565262032');
+INSERT INTO `pm_brand` VALUES ('53', '17', '食品类', '/uploads/images/20190808/365fad6127de4d729f02e79798988aaf.jpg', '', '', '50', '0', '0', 'S', '1547431743', '1565262238');
 INSERT INTO `pm_brand` VALUES ('54', '18', '其他日用品', '/uploads/images/20190220/87fd24a1c271352d532297d0eca15c6a.jpg', '', '', '50', '0', '0', 'Q', '1547432489', '1564993717');
-INSERT INTO `pm_brand` VALUES ('55', '12', '奥斯特林', '/uploads/images/20190114/6bd874babd464dd6eec45cde850191f6.jpg', '', '', '8', '1', '1', 'A', '1547432656', '1564993709');
-INSERT INTO `pm_brand` VALUES ('56', '18', '康迪克', '/uploads/images/20190220/f11c7ba1afc61149e2e69e17eb8ad8ae.jpg', '', '', '50', '0', '0', 'K', '1547432782', '1564993683');
-INSERT INTO `pm_brand` VALUES ('57', '8', 'Oral-B', '/uploads/images/20190220/ee299e065b30f2b668e0008e14eb208f.jpg', '', '', '50', '0', '0', 'O', '1547432908', '1564993637');
-INSERT INTO `pm_brand` VALUES ('58', '18', 'Jellycat', '/uploads/images/20190220/d83139d5eceddb8e575d32b7b1ce3ebf.jpg', '', '', '19', '1', '1', 'J', '1550234263', '1564993625');
-INSERT INTO `pm_brand` VALUES ('61', '9', 'OLI羊奶粉', '/uploads/images/20190319/106176e8899bf343759f76f422020fba.jpg', '', '', '50', '0', '0', 'O', '1552970449', '1564993561');
-INSERT INTO `pm_brand` VALUES ('59', '8', 'GM', '/uploads/images/20190311/3ccc54b6fe08ab8c88c17da70e99365b.jpg', '', '', '11', '1', '1', 'G', '1552271717', '1564993644');
-INSERT INTO `pm_brand` VALUES ('60', '8', 'Femfresh', '/uploads/images/20190311/79122cf49ef11dd15116a931d87b694c.jpg', '', '', '13', '1', '1', 'F', '1552271764', '1564993577');
-INSERT INTO `pm_brand` VALUES ('62', '9', 'Bubs贝儿羊奶粉', '/uploads/images/20190411/c58f9269a6c67e89d144339e312efa39.jpeg', '', '', '50', '1', '0', 'B', '1554945914', '1564993568');
-INSERT INTO `pm_brand` VALUES ('63', '16', 'Diploma学生奶粉', '/uploads/images/20190411/5df7828a3cf65205d6f0b9de88885be7.jpg', '', '', '50', '0', '0', 'D', '1554947900', '1564993390');
+INSERT INTO `pm_brand` VALUES ('55', '12', '奥斯特林', '/uploads/images/20190808/cfa8502a0a715e5bc347f996ac88bbfe.jpg', '', '', '8', '1', '1', 'A', '1547432656', '1565262047');
+INSERT INTO `pm_brand` VALUES ('56', '18', '康迪克', '/uploads/images/20190808/ebf2ffd5edbf90f1aaf98715d500f6f1.jpg', '', '', '50', '0', '0', 'K', '1547432782', '1565262059');
+INSERT INTO `pm_brand` VALUES ('57', '8', 'Oral-B', '/uploads/images/20190808/8249f4e70d12096928ca3e7a93541af9.jpg', '', '', '50', '0', '0', 'O', '1547432908', '1565262071');
+INSERT INTO `pm_brand` VALUES ('58', '18', 'Jellycat', '/uploads/images/20190808/b0cdcc9081892b1ed9955bca3816d934.jpg', '', '', '19', '1', '1', 'J', '1550234263', '1565262084');
+INSERT INTO `pm_brand` VALUES ('61', '9', 'OLI羊奶粉', '/uploads/images/20190808/67667424cf1d8bd445f2ebaca0056a19.jpg', '', '', '50', '0', '0', 'O', '1552970449', '1565262116');
+INSERT INTO `pm_brand` VALUES ('59', '8', 'GM', '/uploads/images/20190808/c4e086b1c3e2687d5d8862a55a4a62a9.jpg', '', '', '11', '1', '1', 'G', '1552271717', '1565262095');
+INSERT INTO `pm_brand` VALUES ('60', '8', 'Femfresh', '/uploads/images/20190808/d4782bb329ee1c851620c055c14ff485.jpg', '', '', '13', '1', '1', 'F', '1552271764', '1565262105');
+INSERT INTO `pm_brand` VALUES ('62', '9', 'Bubs贝儿羊奶粉', '/uploads/images/20190808/e8832546f5f684e95933f93e3d9db55b.jpg', '', '', '50', '1', '0', 'B', '1554945914', '1565262127');
+INSERT INTO `pm_brand` VALUES ('63', '16', 'Diploma学生奶粉', '/uploads/images/20190808/1fa2d5188724a35b0cbb06ea6a4b3d22.jpg', '', '', '50', '0', '0', 'D', '1554947900', '1565262137');
 
 -- ----------------------------
 -- Table structure for `pm_cart`
@@ -221,13 +222,14 @@ CREATE TABLE `pm_cart` (
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   `typeID` int(11) NOT NULL COMMENT '包裹类型',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_cart
 -- ----------------------------
-INSERT INTO `pm_cart` VALUES ('17', '2', '26', '0', '1', '6', '1');
-INSERT INTO `pm_cart` VALUES ('16', '2', '20', '0', '1', '1', '4');
+INSERT INTO `pm_cart` VALUES ('19', '2', '10', '0', '1', '1', '1');
+INSERT INTO `pm_cart` VALUES ('18', '2', '19', '0', '1', '1', '1');
+INSERT INTO `pm_cart` VALUES ('20', '2', '20', '0', '3', '3', '4');
 
 -- ----------------------------
 -- Table structure for `pm_category`
@@ -249,12 +251,13 @@ CREATE TABLE `pm_category` (
   `createTime` int(10) NOT NULL,
   `updateTime` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_category
 -- ----------------------------
 INSERT INTO `pm_category` VALUES ('1', '6', '0', '首页广告', '', '50', '0-1-', '', '', '0', '', '', '1563116411', '1563116411');
+INSERT INTO `pm_category` VALUES ('2', '6', '0', '品牌墙广告', '', '50', '0-2-', '', '', '0', '', '', '1565969443', '1565969443');
 
 -- ----------------------------
 -- Table structure for `pm_config`
@@ -601,7 +604,7 @@ CREATE TABLE `pm_goods` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods
@@ -617,14 +620,14 @@ INSERT INTO `pm_goods` VALUES ('15', '0', '16', '0-1-16-', '0', '', '1', '0', '5
 INSERT INTO `pm_goods` VALUES ('16', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 一段 Aptamil Profutura Infant Formula', 'Aptamil Profutura Infant Formula 0-6 months 900g', 'P1', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/01a8d0cc2d792ead23003d07e611fc43.jpg', null, '', '0', '2020/10', '36', '23.00', '36.00', '40.00', '36.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401252', '1564401252');
 INSERT INTO `pm_goods` VALUES ('17', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 二段 Aptamil Profutura Follow On Formula', 'Aptamil Profutura Follow On Formula 6-12 months 900g', 'P2', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/7b270e564d908413b1d1869720bfacfb.jpg', null, '', '0', '2020/10', '36', '22.00', '36.00', '40.00', '36.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401367', '1564401381');
 INSERT INTO `pm_goods` VALUES ('18', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 三段 Aptamil Profutura Toddler ', 'Aptamil Profutura Toddler Nutritional Supplement From 1 year 900g', 'P3', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/812ed9ab28f0604af6a2045e43b71195.jpg', null, '', '0', '2020/10', '25', '20.00', '25.00', '30.00', '25.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401466', '1564401478');
-INSERT INTO `pm_goods` VALUES ('19', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 四段 Aptamil Profutura Junior', 'Aptamil Profutura Junior Nutritional Supplement 900g', 'P4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/e22295c6db7b698255173d0d76b0b569.jpg', null, '', '0', '2020/10', '28', '20.00', '28.00', '32.00', '28.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401569', '1564401569');
+INSERT INTO `pm_goods` VALUES ('19', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 四段 Aptamil Profutura Junior', 'Aptamil Profutura Junior Nutritional Supplement 900g', 'P4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/e22295c6db7b698255173d0d76b0b569.jpg', null, '', '0', '2020/10', '280', '20.00', '28.00', '32.00', '28.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401569', '1565883828');
 INSERT INTO `pm_goods` VALUES ('20', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 孕妇黄金素 180粒', 'Blackmores Pregnancy and Breastfeeding Gold 180 Capsules', 'BM黄金素', '皮肤急救法宝，强力补水', '', '新西兰原罐原装 官方正品 纯净A2蛋白质', '/uploads/images/20190729/63b7cacef160a2699898bda5c231b78f.jpg', null, '<p>11</p>\n<p><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN01kq0zC31fstjynm847_!!2555064063.jpg\" alt=\"2段_05.jpg\" /><br style=\"margin: 0px; padding: 0px; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" /><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN0156ddqR1fstj1c0Wx8_!!2555064063.jpg\" alt=\"2段_06.jpg\" /></p>\n<p>2222</p>', '0', '2020/10', '30', '20.00', '30.00', '35.00', '30.00', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401969', '1565612731');
 INSERT INTO `pm_goods` VALUES ('21', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 叶酸片500mcg 90粒', 'Blackmores Folate 500mcg 90 Tablets', 'BM叶酸90粒', '孕期好伴侣', '', '', '/uploads/images/20190729/2808f8c49bc8ef2211cdeb8942968a61.jpg', null, '', '0', '2020/10', '15', '10.00', '15.00', '18.00', '15.00', '0.20', '0.30', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402099', '1564402099');
 INSERT INTO `pm_goods` VALUES ('22', '0', '20', '0-10-20-', '0', '', '15', '0', '12', 'Elevit 女士爱乐维 孕期维生素 100粒', 'Elevit Pregnancy Multivitamin Tablets 100 Pack （Export Only）', '爱乐维', '健康备孕 降低胎儿畸形', '', '', '/uploads/images/20190729/8225facb8669bff2ca9082f3404de33b.jpg', null, '', '0', '2020/10', '50', '30.00', '50.00', '60.00', '50.00', '0.50', '0.30', '19', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402296', '1564830159');
 INSERT INTO `pm_goods` VALUES ('23', '0', '24', '0-4-24-', '0', '', '4', '0', '8', 'Swisse 高倍蜂胶2000mg 300粒', 'Swisse Ultiboost High Strength Propolis 2000mg 300 Capsules', 'SW蜂胶300粒', '液体黄金 澳洲蜂胶', '', '', '/uploads/images/20190803/504cb220ecb2a76a9794fa1ccb763b86.jpg', null, '', '0', '2020/02/05', '25', '20.00', '25.00', '30.00', '0.00', '0.50', '0.60', '', '100', '999', '0', '0', '0', '1', '1', '1', '0', '1', '50', '1564829689', '1564829826');
-INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', 'NK 7009 ugg 雪地靴 豆豆鞋 薰衣草紫', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222</p>', '0', '', '10', '10.00', '15.00', '19.00', '2.00', '0.50', '0.70', '', '0', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565701120');
-INSERT INTO `pm_goods` VALUES ('25', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '三件包邮优惠套餐', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222</p>', '0', '', '10', '10.00', '100.00', '19.00', '0.00', '0.50', '0.70', '', '0', '999', '3', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565701120');
-INSERT INTO `pm_goods` VALUES ('26', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '六件包邮优惠套餐', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222</p>', '0', '', '10', '10.00', '180.00', '19.00', '0.00', '0.50', '0.70', '', '0', '999', '6', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565701120');
+INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', 'NK 7009 ugg 雪地靴 豆豆鞋 薰衣草紫', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '15.00', '19.00', '2.00', '0.50', '0.70', '', '0', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565948782');
+INSERT INTO `pm_goods` VALUES ('25', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '三件包邮优惠套餐', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '100.00', '19.00', '0.00', '0.50', '0.70', '', '0', '999', '3', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565948782');
+INSERT INTO `pm_goods` VALUES ('26', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '六件包邮优惠套餐', 'test', '鞋子', 'UUG', '', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '180.00', '19.00', '0.00', '0.50', '0.70', '', '0', '999', '6', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1565948782');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -749,15 +752,15 @@ CREATE TABLE `pm_goods_spec_price` (
   `prom_type` tinyint(2) DEFAULT '0' COMMENT '参加活动类型',
   PRIMARY KEY (`item_id`),
   KEY `key` (`key`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_goods_spec_price
 -- ----------------------------
-INSERT INTO `pm_goods_spec_price` VALUES ('13', '24', '2_5', '尺码:40码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('14', '24', '2_6', '尺码:40码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('15', '24', '3_5', '尺码:42码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('16', '24', '3_6', '尺码:42码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, null, '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('13', '24', '2_5', '尺码:40码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, '', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('14', '24', '2_6', '尺码:40码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, '', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('15', '24', '3_5', '尺码:42码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, '', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('16', '24', '3_6', '尺码:42码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, '', '0', '0');
 
 -- ----------------------------
 -- Table structure for `pm_link`
@@ -838,13 +841,13 @@ CREATE TABLE `pm_member` (
   `createTime` int(11) NOT NULL COMMENT '注册时间',
   `createIP` varchar(20) NOT NULL COMMENT '注册IP',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10002 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_member
 -- ----------------------------
-INSERT INTO `pm_member` VALUES ('1', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('2', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', '111111111', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568433364', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10000', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568736941', '1563767631', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1154,12 +1157,14 @@ CREATE TABLE `pm_order` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order
 -- ----------------------------
 INSERT INTO `pm_order` VALUES ('15', '2', '0', '76566162', '15.00', '0', '15.00', '15.00', '1', '13.00', '0', '0.00', '0.00', '20.00', '0.00', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '要红色的', '', '0', '0', '0', '0', '0', '1565322456', '1565322456');
+INSERT INTO `pm_order` VALUES ('16', '2', '0', '26891479', '210.40', '0', '210.40', '208.00', '0', '208.00', '0', '0.00', '0.00', '80.00', '2.40', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', null, null, '0', '0', '0', '0', '0', '1565873196', '1565873196');
+INSERT INTO `pm_order` VALUES ('17', '2', '0', '54140319', '210.40', '0', '210.40', '208.00', '0', '208.00', '0', '0.00', '0.00', '80.00', '2.40', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', null, null, '0', '0', '0', '0', '0', '1565873287', '1565873287');
 
 -- ----------------------------
 -- Table structure for `pm_order_baoguo`
@@ -1194,12 +1199,15 @@ CREATE TABLE `pm_order_baoguo` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_baoguo
 -- ----------------------------
 INSERT INTO `pm_order_baoguo` VALUES ('2', '15', '2', '76566162', '1', '12.00', '4.90', '1.40', '澳邮', '1111111111111', '', '', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '0', '0', '0', '1565322456', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('3', '17', '2', '54140319', '1', '0.00', '7.35', '2.10', '澳邮', '', '', '', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '0', '0', '0', '1565873287', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('4', '17', '2', '54140319', '1', '0.00', '7.35', '2.10', '澳邮', '', '', '', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '0', '0', '0', '1565873287', '0');
+INSERT INTO `pm_order_baoguo` VALUES ('5', '17', '2', '54140319', '0', '2.40', '3.36', '0.60', '中环($6/kg)', '', '', '', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '0', '0', '0', '0', '0', '1565873287', '0');
 
 -- ----------------------------
 -- Table structure for `pm_order_cart`
@@ -1218,12 +1226,14 @@ CREATE TABLE `pm_order_cart` (
   `number` int(11) NOT NULL,
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_cart
 -- ----------------------------
 INSERT INTO `pm_order_cart` VALUES ('8', '2', '15', '24', '15', '测试商品', '2222', '尺码:42码 颜色:红色', '15.00', '2', '2');
+INSERT INTO `pm_order_cart` VALUES ('9', '2', '17', '26', '0', '六件包邮优惠套餐', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', '', '180.00', '1', '6');
+INSERT INTO `pm_order_cart` VALUES ('10', '2', '17', '20', '0', 'Blackmores澳佳宝 孕妇黄金素 180粒', '/uploads/images/20190729/63b7cacef160a2699898bda5c231b78f.jpg', '', '28.00', '1', '1');
 
 -- ----------------------------
 -- Table structure for `pm_order_cut`
@@ -1263,12 +1273,15 @@ CREATE TABLE `pm_order_detail` (
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_detail
 -- ----------------------------
 INSERT INTO `pm_order_detail` VALUES ('1', '15', '2', '2', '24', '15', '测试商品', '鞋子', '2', '15.00', '0', '1565322456');
+INSERT INTO `pm_order_detail` VALUES ('2', '17', '2', '3', '26', '0', '六件包邮优惠套餐', '鞋子', '3', '180.00', '0', '1565873287');
+INSERT INTO `pm_order_detail` VALUES ('3', '17', '2', '4', '26', '0', '六件包邮优惠套餐', '鞋子', '3', '180.00', '0', '1565873287');
+INSERT INTO `pm_order_detail` VALUES ('4', '17', '2', '5', '20', '0', 'Blackmores澳佳宝 孕妇黄金素 180粒', 'BM黄金素', '1', '28.00', '0', '1565873287');
 
 -- ----------------------------
 -- Table structure for `pm_role`
@@ -1318,12 +1331,18 @@ CREATE TABLE `pm_sender` (
   `name` varchar(20) NOT NULL,
   `tel` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_sender
 -- ----------------------------
 INSERT INTO `pm_sender` VALUES ('1', '2', 'jack', '18523651112');
+INSERT INTO `pm_sender` VALUES ('2', '10001', '李四', '135000000');
+INSERT INTO `pm_sender` VALUES ('3', '10001', '小明', '185000000');
+INSERT INTO `pm_sender` VALUES ('4', '10001', '王帅', '1350000001');
+INSERT INTO `pm_sender` VALUES ('5', '10001', '小五', '1850000000');
+INSERT INTO `pm_sender` VALUES ('6', '10001', '张扬', '185000000');
+INSERT INTO `pm_sender` VALUES ('7', '10001', '发发发1', '11');
 
 -- ----------------------------
 -- Table structure for `pm_server`

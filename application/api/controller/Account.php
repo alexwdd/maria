@@ -13,6 +13,7 @@ class Account extends Auth {
             $user['mobile'] = $this->user['mobile'];
             $user['wechat'] = $this->user['wechat'];
             $user['sn'] = $this->user['sn'];
+            $user['id'] = $this->user['id'];
 
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
@@ -30,9 +31,37 @@ class Account extends Auth {
 
             $result = getFundBack($fina['point']);
             $config = tpCache('member');
+
+            $last_mont_first_date = date('Y-m-1',strtotime('last month'));
+            $last_mont_end_date = date('Y-m-d',strtotime(date('Y-m-1').'-1 day'));
+            unset($map);
+            $map['createTime'] = array('between',array(strtotime($last_mont_first_date),strtotime($last_mont_end_date)+86399));
+            $lastMonth = db("Finance")->where($map)->sum("money");
+
+            $result['fanli'] = round($fina['fund']*$result['bar'],2);
+            $result['baifenbi'] = ($find['point']/12000)*100;
+
+            //为您推荐 
+            $obj = db('GoodsPush');
+            $list = $obj->field('goodsID')->where('cateID',3)->limit(10)->order('id desc')->select();
+            foreach ($list as $key => $value) {                
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
+
+                unset($list[$key]['goodsID']);
+                $goods['picname'] = getRealUrl($goods['picname']);
+                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $list[$key] = $goods;
+            }
+
+
             returnJson(1,'success',[
+                'goods'=>$list,
                 'fina'=>$fina,
                 'jifen'=>$result,
+                'lastMonth'=>[
+                    'money'=>$lastMonth,
+                    'rmb'=>round($lastMonth*$this->rate,2)
+                ],
                 'config'=>[
                     ['jifen'=>$config['jifen1'],'bar'=>$config['back1']],
                     ['jifen'=>$config['jifen2'],'bar'=>$config['back2']],
@@ -62,6 +91,7 @@ class Account extends Auth {
             $user['mobile'] = $this->user['mobile'];
             $user['wechat'] = $this->user['wechat'];
             $user['sn'] = $this->user['sn'];
+            $user['id'] = $this->user['id'];
             returnJson(1,'success',['user'=>$user]);
         }
     }
@@ -271,7 +301,7 @@ class Account extends Auth {
 
             $map['id'] = $this->user['id'];
             db("Member")->where($map)->update($data);
-            returnJson(1,'success');
+            returnJson(1,'操作成功');
         }
     }
         
