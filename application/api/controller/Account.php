@@ -143,14 +143,15 @@ class Account extends Auth {
             foreach ($list as $key => $value) {
                 unset($map);
                 $map['id'] = $value['goodsID'];
-                $goods = db('Goods')->field('name,picname,price,marketPrice')->where($map)->find();
+                $goods = db('Goods')->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->find();
                 if($goods){
                     $goods['picname'] = getRealUrl($goods['picname']);
-                    $goods['rmb'] = $goods['price']*$this->rate;
+                    $goods['rmb'] = round($value['price']*$this->rate,2);
                 }else{
                     $goods = [];
                 }                
                 $list[$key]['goods'] = $goods;
+                $list[$key]['checked'] = false;
             }
             returnJson(1,'success',['next'=>$next,'data'=>$list]);
         }

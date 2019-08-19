@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-19 00:16:28
+Date: 2019-08-19 15:17:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -83,7 +83,7 @@ CREATE TABLE `pm_address` (
 -- ----------------------------
 -- Records of pm_address
 -- ----------------------------
-INSERT INTO `pm_address` VALUES ('1', '2', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', '', '', '', '0');
+INSERT INTO `pm_address` VALUES ('1', '10001', '赵云', '18523651112', '河南省', '开封市', '龙亭区', '中山路435号', '', '', '', '0');
 
 -- ----------------------------
 -- Table structure for `pm_article`
@@ -222,7 +222,7 @@ CREATE TABLE `pm_cart` (
   `trueNumber` int(11) NOT NULL COMMENT '真实商品数量比如2个3件的套餐就显示6',
   `typeID` int(11) NOT NULL COMMENT '包裹类型',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_cart
@@ -230,6 +230,7 @@ CREATE TABLE `pm_cart` (
 INSERT INTO `pm_cart` VALUES ('19', '2', '10', '0', '1', '1', '1');
 INSERT INTO `pm_cart` VALUES ('18', '2', '19', '0', '1', '1', '1');
 INSERT INTO `pm_cart` VALUES ('20', '2', '20', '0', '3', '3', '4');
+INSERT INTO `pm_cart` VALUES ('21', '10001', '22', '0', '3', '3', '2');
 
 -- ----------------------------
 -- Table structure for `pm_category`
@@ -314,11 +315,11 @@ INSERT INTO `pm_config` VALUES ('44', 'dayNumber', '5', 'sms', '');
 INSERT INTO `pm_config` VALUES ('93', 'jifen4', '9000', 'member', null);
 INSERT INTO `pm_config` VALUES ('94', 'back4', '20', 'member', null);
 INSERT INTO `pm_config` VALUES ('95', 'jifen5', '12000', 'member', null);
-INSERT INTO `pm_config` VALUES ('50', 'APP_TOKEN', '2', 'weixin', null);
-INSERT INTO `pm_config` VALUES ('51', 'APP_ID', '3', 'weixin', null);
-INSERT INTO `pm_config` VALUES ('52', 'APP_SECRET', '4', 'weixin', null);
-INSERT INTO `pm_config` VALUES ('53', 'MCH_KEY', '5', 'weixin', null);
-INSERT INTO `pm_config` VALUES ('54', 'MCH_ID', '6', 'weixin', null);
+INSERT INTO `pm_config` VALUES ('50', 'APP_TOKEN', '', 'weixin', null);
+INSERT INTO `pm_config` VALUES ('51', 'APP_ID', 'wxefc3ac8d271b37b7', 'weixin', null);
+INSERT INTO `pm_config` VALUES ('52', 'APP_SECRET', '63e1cd9ea6b5eb918a02e1a44bef6cbd', 'weixin', null);
+INSERT INTO `pm_config` VALUES ('53', 'MCH_KEY', '', 'weixin', null);
+INSERT INTO `pm_config` VALUES ('54', 'MCH_ID', '', 'weixin', null);
 INSERT INTO `pm_config` VALUES ('55', 'NOTIFY', '#', 'alipay', null);
 INSERT INTO `pm_config` VALUES ('56', 'ALIPAY_EMAIL', '491623529@qq22.com', 'alipay', null);
 INSERT INTO `pm_config` VALUES ('57', 'ALIPAY_KEY', 'z0kn76wfr4e6c7ppgxdo4nnx5qwuk459', 'alipay', null);
@@ -443,7 +444,7 @@ CREATE TABLE `pm_fav` (
   `goodsID` int(11) NOT NULL,
   `memberID` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_fav
@@ -796,7 +797,7 @@ CREATE TABLE `pm_login_log` (
   `loginTime` int(11) NOT NULL,
   `loginIP` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_login_log
@@ -820,6 +821,7 @@ INSERT INTO `pm_login_log` VALUES ('16', '0', '1', '13500000000', '1560243253', 
 INSERT INTO `pm_login_log` VALUES ('17', '0', '1', '1212121212', '1563767536', '127.0.0.1');
 INSERT INTO `pm_login_log` VALUES ('18', '0', '1', '1212121212', '1563767569', '127.0.0.1');
 INSERT INTO `pm_login_log` VALUES ('19', '0', '1', '1212121212', '1563767606', '127.0.0.1');
+INSERT INTO `pm_login_log` VALUES ('20', '0', '10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '1566188461', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member`
@@ -841,13 +843,14 @@ CREATE TABLE `pm_member` (
   `createTime` int(11) NOT NULL COMMENT '注册时间',
   `createIP` varchar(20) NOT NULL COMMENT '注册IP',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10003 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('10000', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568736941', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568791007', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '', '', '月明', '', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/zK1Fs3gpSSte4nOJlEepugE5HXA6t1rqs231iczJywgzVNlYh73CJQiaFlz6OoIBQgU9BxgsEjJn92FCrDNGZaEQ/132', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1568780461', '1566188328', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1340,9 +1343,7 @@ INSERT INTO `pm_sender` VALUES ('1', '2', 'jack', '18523651112');
 INSERT INTO `pm_sender` VALUES ('2', '10001', '李四', '135000000');
 INSERT INTO `pm_sender` VALUES ('3', '10001', '小明', '185000000');
 INSERT INTO `pm_sender` VALUES ('4', '10001', '王帅', '1350000001');
-INSERT INTO `pm_sender` VALUES ('5', '10001', '小五', '1850000000');
 INSERT INTO `pm_sender` VALUES ('6', '10001', '张扬', '185000000');
-INSERT INTO `pm_sender` VALUES ('7', '10001', '发发发1', '11');
 
 -- ----------------------------
 -- Table structure for `pm_server`

@@ -16,7 +16,7 @@ class Member extends Model
         $data['mobile'] = '';
         $data['password'] = '';
         $data['createTime'] = time();
-        $data['disable'] = 1;
+        $data['disable'] = 0;
         $data['createIP'] = $request->ip();
 
         //生成token
@@ -43,7 +43,7 @@ class Member extends Model
 		$request= Request::instance(); 
 		$data['password'] = md5($data['password']);
         $data['createTime'] = time();
-        $data['disable'] = 1;
+        $data['disable'] = 0;
         $data['createIP'] = $request->ip();
 
         //生成token
