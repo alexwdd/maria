@@ -209,7 +209,7 @@ class Base extends Controller {
             $cart[$key]['short'] = $goods['short'];
             $cart[$key]['wuliuWeight'] = $goods['wuliuWeight'];            
             $cart[$key]['weight'] = $goods['weight'];
-            $cart[$key]['singleNumber'] = $goods['number'];             
+            $cart[$key]['singleNumber'] = $goods['number'];
         } 
 
         $cart = new \cart\Zhongyou($cart,$kuaidi,$province,$user);
@@ -309,6 +309,38 @@ class Base extends Controller {
             return false;
         }
         return true;
+    }
+
+    //注册就送的优惠券
+    public function autoCoupon($user){
+        $map['register'] = 1;
+        //$map['status'] = 1;
+        $coupon = db("Coupon")->where($map)->select();
+        $data = [];
+        foreach ($coupon as $key => $value) {
+            for ($i=0; $i < $value['number']; $i++) { 
+                $temp = [
+                    'memberID'=>$user['id'],
+                    'nickname'=>$user['nickname'],
+                    'couponID'=>$value['id'],
+                    'code'=>$this->getCouponNo(),
+                    'name'=>$value['name'],
+                    'desc'=>$value['desc'],
+                    'full'=>$value['full'],
+                    'dec'=>$value['dec'],
+                    'intr'=>$value['intr'],
+                    'goodsID'=>$value['goodsID'],
+                    'createTime'=>time(),
+                    'useTime'=>0,
+                    'status'=>0,
+                    'endTime'=>time()+$value['day']*86400
+                ];
+                array_push($data,$temp);
+            }
+            if (count($data)>0) {
+                db("CouponLog")->insertAll($data);
+            }
+        }
     }
 
     //获取随机订单号

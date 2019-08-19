@@ -63,7 +63,8 @@ class Login extends Common {
             }else{
                 $result = model('Member')->wechat($data);
                 if ($result['code']==1) { 
-                    $user = db("Member")->field('nickname,headimg,token')->where('id',$result['msg'])->find();
+                    $user = db("Member")->field('id,nickname,headimg,token')->where('id',$result['msg'])->find();
+                    $this->createCoupon($user);
                     returnJson(1,'success',$user);
                 }else{
                     returnJson(0,$result['msg']);

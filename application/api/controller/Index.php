@@ -4,7 +4,8 @@ namespace app\api\controller;
 class Index extends Common
 {
     public function index(){
-    	if (request()->isPost()) {            
+    	if (request()->isPost()) {
+                        
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $config = tpCache('member');

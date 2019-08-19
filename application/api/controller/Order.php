@@ -97,7 +97,15 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $config = tpCache("member");
 
-            $list = db("Cart")->where('memberID',$this->user['id'])->select();
+            $ids = input('post.ids');
+            if ($ids=='') {
+                returnJson(0,'缺少参数');
+            }
+            $map['memberID'] = $this->user['id'];
+            $ids = explode(",",$ids);
+            $map['id'] = array('in',$ids);
+
+            $list = db("Cart")->where($map)->select();
             if (!$list) {
                 returnJson(0,'购物车中没有商品');
             }
@@ -154,7 +162,7 @@ class Order extends Auth {
             $data['memberID'] = $this->user['id'];
 
             //判断优惠券
-            if ($couponID!="" && is_numeric($couponID)) {
+            if ($couponID>0 && is_numeric($couponID)) {
                 $map['id'] = $couponID;
                 $map['useTime'] = 0;
                 $map['memberID'] = $this->user['id'];
@@ -293,7 +301,11 @@ class Order extends Auth {
                     ]);
                 }
                 db("OrderCart")->insertAll($history);
-                db("Cart")->where('memberID',$this->user['id'])->delete();
+
+                unset($map);
+                $map['memberID'] = $this->user['id'];
+                $map['id'] = array('in',$ids);
+                db("Cart")->where($map)->delete();
                 returnJson(1,'订单创建成功',[
                     'order_no'=>$order_no,
                     'isCut'=>$data['isCut'],

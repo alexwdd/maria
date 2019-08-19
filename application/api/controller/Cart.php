@@ -31,7 +31,30 @@ class Cart extends Auth {
         }
     }
 
-    //我的购物车
+    //获取选中商品价格
+    public function getPrice(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $ids = input("post.ids");
+            if ($ids=='') {
+                returnJson(0,'缺少参数');
+            }
+            $ids = explode(",",$ids);
+            $map['memberID'] = $this->user['id'];
+            $map['id'] = array('in',$ids);
+            $list = db('Cart')->where($map)->select();
+            $total = 0;
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+                $total += $result['price'] * $value['number'];
+            }
+            $rmb = number_format($this->rate*$total,1); 
+            returnJson(1,'success',['total'=>$total,'rmb'=>$rmb]);
+        }
+    }
+
+    //加入购物车
     public function pub(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
@@ -81,6 +104,7 @@ class Cart extends Auth {
                     $data['number'] = $number;
                     $data['trueNumber'] = $number*$goods['number'];
                     $db->where($map)->update($data);
+                    $cartID = $list['id'];
                 }else{
                     $data = [
                         'memberID'=>$this->user['id'],
@@ -90,7 +114,7 @@ class Cart extends Auth {
                         'trueNumber'=>$number*$goods['number'],
                         'typeID'=>$goods['typeID']
                     ];
-                    $db->insert($data);
+                    $cartID = $db->insertGetId($data);
                 }
             }else{
                 if ($list) {
@@ -106,14 +130,15 @@ class Cart extends Auth {
             }
             
             $list = db('Cart')->where(array('memberID'=>$this->user['id']))->select();
-            $total = 0;
+            /*$total = 0;
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
                 $total += $result['price'] * $value['number'];
             }
-            $rmb = number_format($this->rate*$total,1);
-            returnJson(1,'success',['number'=>count($list),'total'=>$total,'rmb'=>$rmb]);
+            $rmb = number_format($this->rate*$total,1);*/
+            //returnJson(1,'success',['cartID'=>$cartID,'number'=>count($list),'total'=>$total,'rmb'=>$rmb]);
+            returnJson(1,'success',['cartID'=>$cartID,'number'=>count($list)]);
         }
     }
 
@@ -126,6 +151,33 @@ class Cart extends Auth {
             db("Cart")->where($map)->delete();
             returnJson(1,'success');
         }
+    }
+
+    //列表页面快速删除并移入收藏夹
+    public function toFav(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $ids = input('post.ids');
+            if ($ids=='') {
+                returnJson(0,'缺少参数');
+            }
+            $ids = explode(",",$ids);
+            $map['id'] = array('in',$ids);
+            $map['memberID'] = $this->user['id'];
+            $list = db("Cart")->where($map)->select();
+            
+            foreach ($list as $key => $value) {
+                $map['goodsID'] = $value['goodsID'];
+                $map['memberID'] = $this->user['id'];
+                $res = db('Fav')->where($map)->find();
+                if (!$res) {      
+                    $data = ['goodsID'=>$value['goodsID'],'memberID'=>$this->user['id']];
+                    db('Fav')->insert($data);
+                }
+                db('Cart')->where('id',$value['id'])->delete();
+            }
+            returnJson(1,'success');
+        }       
     }
 
     //列表页面快速删除
@@ -141,15 +193,16 @@ class Cart extends Auth {
             $map['memberID'] = $this->user['id'];
             db("Cart")->where($map)->delete();
 
-            $list = db('Cart')->where(array('memberID'=>$this->user['id']))->select();
+            /*$list = db('Cart')->where(array('memberID'=>$this->user['id']))->select();
             $total = 0;
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
                 $total += $result['price'] * $value['number'];
             }
-            $rmb = number_format($this->rate*$total,1);
-            returnJson(1,'success',['number'=>count($list),'total'=>$total,'rmb'=>$rmb]);
+            $rmb = number_format($this->rate*$total,1);*/
+            //returnJson(1,'success',['number'=>count($list),'total'=>$total,'rmb'=>$rmb]);
+            returnJson(1,'success');
         }       
     }
 
@@ -169,19 +222,27 @@ class Cart extends Auth {
     public function order(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
+            $ids = input('post.ids');
+            $couponID = input('post.couponID');
+            if ($ids=='') {
+                returnJson(0,'缺少参数');
+            }
+
             $map['memberID'] = $this->user['id'];
             $address = db('Address')->where($map)->order('def desc , id desc')->find();
             $sender = db('Sender')->where($map)->order('id desc')->find();
 
             unset($map);
             $map['memberID'] = $this->user['id'];
+            $ids = explode(",",$ids);
+            $map['id'] = array('in',$ids);
             $list = db('Cart')->where($map)->select();
             if (!$list) {
                 returnJson(0,'购物车中没有商品');
             }
-            $baoguo = $this->getYunfeiJson($list);
 
-            $total = 0;
+            $baoguo = $this->getYunfeiJson($list);    
+            $goodsMoney = 0;
             $point = 0;
             $isCut = 1;            
             foreach ($list as $key => $value) {
@@ -207,33 +268,42 @@ class Cart extends Auth {
                 $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
                 $list[$key]['checked'] = false; 
 
-                $total += $list[$key]['total'];
+                $goodsMoney += $list[$key]['total'];
                 $point += $goods['point'] * $value['trueNumber'];
-            }
-            $rmb = number_format($this->rate*$total,1); 
+            }            
 
             //我的优惠券
+            unset($map);
             $map['status'] = 0;
             $map['memberID'] = $this->user['id'];
-            $map['endTime'] = array('gt',time());
             $coupon = db("CouponLog")->field('id,name,desc,full,dec,goodsID,endTime')->where($map)->select();
+            $coupons = []; 
             foreach ($coupon as $key => $value) {
-                $coupon[$key]['endTime'] = date("Y-m-d H:i:s",$value['endTime']);
-                if(!$this->checkCoupon($value,$list,$total)){
-                    unset($coupon[$key]);
+                if($this->checkCoupon($value,$list,$goodsMoney)){
+                    if($value['id']==$couponID){
+                        $thisCoupon = $value;
+                    }
+                    $value['endTime'] = date("Y-m-d H:i:s",$value['endTime']);
+                    array_push($coupons,$value);
                 }
             }
-             
+            
+            $total = $goodsMoney + $baoguo['totalPrice'];
+            if($thisCoupon){
+                $total = $total - $thisCoupon['dec'];
+            }
+            $rmb = number_format($this->rate*$total,1); 
             returnJson(1,'success',[
                 'isCut'=>$isCut,
                 'address'=>$address,
                 'sender'=>$sender,
                 'point'=>$point,
+                'goodsMoney'=>$goodsMoney,
                 'total'=>$total,
                 'rmb'=>$rmb,
                 'cart'=>$list,
                 'bag'=>$baoguo,
-                'coupon'=>$coupon
+                'coupon'=>$coupons
             ]);
         }
     }

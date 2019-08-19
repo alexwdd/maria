@@ -12,6 +12,7 @@
 	checkCoupon		检查优惠券是否可用
 	getOrderNo		获取随机订单号
 	getUserMoney	获取用户财产
+	autoCoupon		注册就送优惠券
 
 # 工具栏的方法
 	action			不开启新窗口，直接post

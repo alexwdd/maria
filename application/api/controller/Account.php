@@ -36,6 +36,7 @@ class Account extends Auth {
             $last_mont_end_date = date('Y-m-d',strtotime(date('Y-m-1').'-1 day'));
             unset($map);
             $map['createTime'] = array('between',array(strtotime($last_mont_first_date),strtotime($last_mont_end_date)+86399));
+            $map['memberID'] = $this->user['id'];
             $lastMonth = db("Finance")->where($map)->sum("money");
 
             $result['fanli'] = round($fina['fund']*$result['bar'],2);
@@ -329,7 +330,24 @@ class Account extends Auth {
             $pagesize = input('post.pagesize',10);
             $firstRow = $pagesize*($page-1); 
 
-            if($type==1){//位使用
+            $map['status'] = 0;
+            $map['endTime'] = array('gt',time());
+            $map['memberID'] = $this->user['id'];
+            $number1 = db("CouponLog")->where($map)->count();
+
+            unset($map);
+            $map['status'] = 1;
+            $map['memberID'] = $this->user['id'];
+            $number2 = db("CouponLog")->where($map)->count();
+
+            unset($map);
+            $map['status'] = 0;
+            $map['endTime'] = array('lt',time());
+            $map['memberID'] = $this->user['id'];
+            $number3 = db("CouponLog")->where($map)->count();
+
+            unset($map);
+            if($type==1){//未使用
                 $map['status'] = 0;
                 $map['endTime'] = array('gt',time());
             }elseif($type==2){//已使用
@@ -363,7 +381,7 @@ class Account extends Auth {
                     $list[$key]['goods'] = $goods;
                 }        
             }
-            returnJson(1,'success',['next'=>$next,'data'=>$list]);
+            returnJson(1,'success',['next'=>$next,'data'=>$list,'count'=>['number1'=>$number1,'number2'=>$number2,'number3'=>$number3]]);
         }
     }
 
@@ -397,8 +415,9 @@ class Account extends Auth {
                     'code'=>$this->getCouponNo(),
                     'name'=>$list['name'],
                     'desc'=>$list['desc'],
-                    'full'=>$list['name'],
+                    'full'=>$list['full'],
                     'dec'=>$list['dec'],
+                    'intr'=>$list['intr'],
                     'goodsID'=>$list['goodsID'],
                     'status'=>0,
                     'useTime'=>0,
