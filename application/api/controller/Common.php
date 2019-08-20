@@ -38,7 +38,7 @@ class Common extends Base {
         $this->flash = db("Flash")->cache(true,60)->field('goodsID,number,price,spec,pack')->where($map)->order('endDate asc')->select();
     }
 
-    public function base64ToImg($path , $name , $data){
+    /*public function base64ToImg($path , $name , $data){
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $data, $result)){
             $type = $result[2];
             if(!in_array($type,array("jpg","png","bmp","jpeg","gif"))){
@@ -56,5 +56,5 @@ class Common extends Base {
                 return false;
             }
         }
-    }
+    }*/
 }

@@ -354,6 +354,26 @@ class Base extends Controller {
         return $order_no;
     }
 
+    public function base64ToImg($path , $name , $data){
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $data, $result)){
+            $type = $result[2];
+            if(!in_array($type,array("jpg","png","bmp","jpeg","gif"))){
+                return false;
+            }
+        
+            if(!file_exists($path)){
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                mkdir('./'.$path, 0700, true);
+            }
+            $new_file = $path.$name.".{$type}";  
+            if (file_put_contents('.'.$new_file, base64_decode(str_replace($result[1], '', $data)))){
+                return $new_file;
+            }else{
+                return false;
+            }
+        }
+    }
+
     public function https_post($url,$data = null){
         $ch = curl_init();
         $header = "Accept-Charset: utf-8";

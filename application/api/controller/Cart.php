@@ -243,6 +243,7 @@ class Cart extends Auth {
 
             $baoguo = $this->getYunfeiJson($list);    
             $goodsMoney = 0;
+            $cutMoney = 0;
             $point = 0;
             $isCut = 1;            
             foreach ($list as $key => $value) {
@@ -257,7 +258,6 @@ class Cart extends Auth {
                 }
 
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
-
                 $list[$key]['name'] = $goods['name'];
                 $list[$key]['say'] = $goods['say'];
                 $list[$key]['marketPrice'] = $goods['marketPrice']; 
@@ -268,10 +268,15 @@ class Cart extends Auth {
                 $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
                 $list[$key]['checked'] = false; 
 
+                $cutMoney += $result['cutPrice'];
                 $goodsMoney += $list[$key]['total'];
                 $point += $goods['point'] * $value['trueNumber'];
-            }            
+            }
 
+            if($cutMoney<=0){
+                $isCut = 0;
+            }
+  
             //我的优惠券
             unset($map);
             $map['status'] = 0;
@@ -292,9 +297,18 @@ class Cart extends Auth {
             if($thisCoupon){
                 $total = $total - $thisCoupon['dec'];
             }
+            if($total<=0){
+                $total = 1;
+            }            
+
+            if($isCut && $cutMoney>0){
+                $cutPrice = $total - $cutMoney;
+            }else{
+                $cutPrice = 0;
+            }
             $rmb = number_format($this->rate*$total,1); 
             returnJson(1,'success',[
-                'isCut'=>$isCut,
+                'cutPrice'=>$cutPrice,
                 'address'=>$address,
                 'sender'=>$sender,
                 'point'=>$point,

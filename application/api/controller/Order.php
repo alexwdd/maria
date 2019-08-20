@@ -38,7 +38,7 @@ class Order extends Auth {
                     $list[$key]['upload'] = 1;
                 }
                 
-                $list[$key]['status'] = getOrderStatus($value['status']);
+                //$list[$key]['status'] = getOrderStatus($value['status']);
 
                 $goods = db("OrderCart")->field('goodsID,name,picname,price,number,spec')->where('orderID',$value['id'])->select();
                 foreach ($goods as $k => $val) {

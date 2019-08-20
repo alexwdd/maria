@@ -14,7 +14,7 @@ class Address extends Auth {
             $firstRow = $pagesize*($page-1); 
 
             if($keyword!=''){
-                $map['name'] = array('like','%'.$keyword.'%');
+                $map['name|tel'] = array('like','%'.$keyword.'%');
             }
             $map['memberID'] = $this->user['id'];
             $obj = db('Address');
@@ -57,17 +57,42 @@ class Address extends Auth {
     //发布
     public function pub(){
         if (request()->isPost()) { 
-            if(!checkFormDate()){returnJson(0,'ERROR');}
+            //if(!checkFormDate()){returnJson(0,'ERROR');}
             $data = input('post.');
             $data['memberID'] = $this->user['id'];
+
+            if ($data['def']==1) {
+                $list = db('Address')->where(array('memberID'=>$this->user['id']))->setField('def',0);
+            }
+            if($data['front']!='' && strstr($data['front'], 'base64')){
+                $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
+                $fileName = createNonceStr();
+                $fileUrl = $this->base64ToImg($path,$fileName,$data['front']);
+                if ($fileUrl) {
+                    $data['front'] = $fileUrl;
+                }else{
+                    $data['front'] = '';
+                }
+            }
+            if($data['back']!='' && strstr($data['back'], 'base64')){
+                $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
+                $fileName = createNonceStr();
+                $fileUrl = $this->base64ToImg($path,$fileName,$data['back']);
+                if ($fileUrl) {
+                    $data['back'] = $fileUrl;
+                }else{
+                    $data['back'] = '';
+                }
+            }
             $res = model('Address')->saveData( $data );
             if ($res['code']==1) {  
-                returnJson(1,'success'); 
+                returnJson(1,'操作成功'); 
             }else{
                 returnJson(0,$res['msg']);
             }            
         }
     }
+
 
     //删除
     public function del(){
