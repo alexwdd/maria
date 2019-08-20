@@ -9,7 +9,7 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $keyword = input('param.keyword');
-            $status = input('param.status');
+            $type = input('param.type',0);
             $page = input('post.page/d',1);
             $pagesize = input('post.pagesize',10);
             $firstRow = $pagesize*($page-1); 
@@ -17,8 +17,27 @@ class Order extends Auth {
             if($keyword!=''){
                 $map['order_no'] = $keyword;
             }
-            if($status!=''){
-                $map['status'] = $status;
+            switch ($type) {
+                case 1:
+                    $map['status'] = 0;
+                    $map['isCut'] = 0;
+                    break;
+                case 2:
+                    $map['status'] = 0;
+                    $map['isCut'] = 1;
+                    break;
+                case 3:
+                    $map['status'] = 1;   
+                    break;
+                case 4:
+                    $map['status'] = 2;   
+                    break;
+                case 5:
+                    $map['status'] = 3;   
+                    break;
+                case 6:
+                    $map['status'] = 99;   
+                    break;
             }
             $map['memberID'] = $this->user['id'];
             $obj = db('Order');
@@ -60,7 +79,7 @@ class Order extends Auth {
             }
             $map['id'] = $id;
             $map['memberID'] = $this->user['id'];
-            $list = db('Order')->field('id,total,discount,point,fund,order_no,name,tel,province,city,county,addressDetail,sn,front,back,sender,senderTel,intr,status,createTime')->where( $map )->find();
+            $list = db('Order')->field('id,total,goodsMoney,discount,wallet,money,payment,point,fund,order_no,name,tel,province,city,county,addressDetail,sn,front,back,sender,senderTel,intr,status,createTime')->where( $map )->find();
             if ($list) {
                 $list['createTime'] = date("Y-m-d H:i:s",$list['createTime']);
                 if($list['sn']=='' || $list['front']=='' || $list['back']==''){
@@ -79,7 +98,12 @@ class Order extends Auth {
                 $baoguo = db("OrderBaoguo")->field('id,payment,weight,kuaidi,kdNo,eimg,image')->where('orderID',$list['id'])->select();
                 foreach ($baoguo as $key => $value) {
                     $goods = db("OrderDetail")->field('name,number')->where('baoguoID',$value['id'])->select();
-                    $baoguo['goods'] = $goods;
+                    $number = 0;
+                    foreach ($goods as $k => $val) {
+                        $number += $val['number'];
+                    }
+                    $baoguo[$key]['goods'] = $goods;
+                    $baoguo[$key]['number'] = $number;
                 }
                 returnJson(1,'success',[
                     'order'=>$list,
@@ -402,5 +426,149 @@ class Order extends Auth {
             db("OrderCut")->insert($data);
             returnJson(1,'success');
         }
+    }
+
+    public function pay(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $order_no = input('post.order_no');
+            if($order_no==''){
+                returnJson(0,'参数错误');
+            }
+
+            $map['order_no'] = $order_no;
+            $map['memberID'] = $this->user['id'];
+            $map['status'] = 0;
+            $list = db("Order")->field('id,order_no,total')->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单不存在');
+            }
+
+            $list['rate'] = $this->getRate();
+            $list['rmb'] = round($list['total']*$this->rate,2);
+            $fina = $this->getUserMoney($this->user['id']);
+            if($fina['money']>=$list['total']){
+                $type = 2;
+            }else{
+                $type = 1;
+            }
+            returnJson(1,'success',[
+                'data'=>$list,
+                'wallet'=>$fina['money'],
+                'type'=>$type
+            ]);
+        }
+    }
+
+    public function doPay(){
+        if (request()->isPost()) {
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $order_no = input('post.order_no');
+            $payType = input('post.type');
+
+            if (!in_array($payType,[1,2])) {
+                returnJson(0,'支付方式错误');
+            }
+
+            $map['order_no'] = $order_no;            
+            $map['memberID'] = $this->user['id'];
+            $map['payStatus'] = 0;
+            $list = db('Order')->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单不存在');
+            }
+
+            $fina = $this->getUserMoney($this->user['id']);
+            if ($fina['money']>=$list['total']) {
+                $data['payType'] = 2;
+                $data['wallet'] = $list['total'];
+                $data['payStatus'] = 1;
+                $data['status'] = 1;
+            }else{
+                $data['payType'] = 1;
+                $data['money'] = $list['total'] - $fina['money'];
+                $data['wallet'] = $fina['money'];  
+            }         
+
+            if ($data['wallet']>0) {
+                $finance = model('Finance');
+                $finance->startTrans();
+                $fdata = array(
+                    'type' => 4,
+                    'money' => $data['wallet'],
+                    'memberID' => $this->user['id'],  
+                    'doID' => $this->user['id'],
+                    'oldMoney'=>$this->user['money'],
+                    'newMoney'=>$this->user['money']-$data['wallet'],
+                    'admin' => 2,
+                    'msg' => '购买商品，账户余额支付$'.$data['wallet'].'，订单号：'.$list['order_no'],
+                    'extend1' => $list['id'],
+                    'createTime' => time()
+                ); 
+
+                //db('Finance')->insert($fdata);
+                $res = $finance->insert( $fdata );
+                if ($res) {
+                    $orderModel = model('Order');      
+                    $orderModel->startTrans();  
+                    $result = $orderModel->where('id',$list['id'])->update($data);
+                    if ($result) {  
+                        $orderModel->commit();
+                        $finance->commit();  
+                        //file_put_contents("pay".date("Y-m-d",time()).".txt", date ( "Y-m-d H:i:s" ) . "  "."订单" .$list['order_no']. "，总金额".$list['total']."，用户余额".$this->user['money']."，扣余额".$data['wallet']."，应付".$data['money']."\r\n", FILE_APPEND);
+                    }else{
+                        $orderModel->rollBack();    
+                        $finance->rollBack();  
+                        returnJson(0,'操作失败'); 
+                    }                        
+                    $this->setUserGroup($this->user);//更改会员身份
+                }else{
+                    $orderModel->rollBack();    
+                    $finance->rollBack();  
+                    returnJson(0,'操作失败'); 
+                }
+            }else{  
+                $result = db("Order")->where('id',$list['id'])->update($data);
+                if (!$result) {  
+                    returnJson(0,'操作失败'); 
+                }
+            }
+
+            if ($data['payStatus']==1) {
+                db('OrderBaoguo')->where('orderID',$list['id'])->setField('status',1);
+                //减库存
+                $detail = db("OrderDetail")->where('orderID',$list['id'])->select();
+                foreach ($detail as $key => $value) {
+                    //这里是有问题的
+                    db("Goods")->where('id',$value['goodsID'])->setDec("stock",$value['number']);
+                }
+                returnJson(1,'支付成功，等待商家配货');
+            }else{
+                $url = $this->getOmiUrl($list);
+                returnJson(1,'支付成功，等待商家配货',['url'=>$url]);
+            }         
+        }
+    }
+
+    public function getOmiUrl($order){
+        require_once EXTEND_PATH.'omipay/OmiPayApi.php';
+        $input = new \MakeJSAPIOrderQueryData();
+        $domain = 'CN';
+        // 设置'CN'为访问国内的节点 ,设置为'AU'为访问香港的节点
+        $input -> setMerchantNo(config('omipay.mchID'));
+        $input -> setSercretKey(config('omipay.key'));
+        $notify = 'http://'.$_SERVER['HTTP_HOST'].'/mobile/pay/ominotify.html';
+        $input -> setNotifyUrl($notify);
+        $input -> setCurrency("AUD");// 这里是设置币种
+        $input -> setOrderName("在线支付".$order['order_no']);// 这里是设置商品名称
+        $input -> setAmount($order['money']*100);// 这里是设置支付金额
+        $input -> setOutOrderNo($order['order_no']);// 这里是设置外部订单编号，请确保唯一性
+        $returnUrl = 'http://'.$_SERVER['HTTP_HOST'].'/mobile/Pay/ok/order_no/'.$order['order_no'].'.html';
+        $input -> setRedirectUrl($returnUrl);//设置支付完成之后的跳转地址
+  
+        $omipay = new \OmiPayApi();
+        $result = $omipay->jsApiOrder($input,$domain);
+        return $result['pay_url'];       
     }
 }

@@ -17,15 +17,25 @@ class Account extends Auth {
 
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
+            $map['isCut'] = 0;
             $order1 = db("Order")->where($map)->count();
-            $map['status'] = 1;
+
+            unset($map);
+            $map['memberID'] = $this->user['id'];
+            $map['status'] = 0;
+            $map['isCut'] = 1;
             $order2 = db("Order")->where($map)->count();
-            $map['status'] = 2;
+
+            unset($map);
+            $map['memberID'] = $this->user['id'];
+            $map['status'] = 1;
             $order3 = db("Order")->where($map)->count();
-            $map['status'] = 3;
+            $map['status'] = 2;
             $order4 = db("Order")->where($map)->count();
-            $map['status'] = 99;
+            $map['status'] = 3;
             $order5 = db("Order")->where($map)->count();
+            $map['status'] = 99;
+            $order6 = db("Order")->where($map)->count();
 
             $fina = $this->getUserMoney($this->user['id']);
 
@@ -72,10 +82,11 @@ class Account extends Auth {
                 ],
                 'order'=>[
                     'nopay'=>$order1,
-                    'peihuo'=>$order2,
-                    'peing'=>$order3,
-                    'fahuo'=>$order4,
-                    'close'=>$order5,
+                    'share'=>$order2,
+                    'peihuo'=>$order3,
+                    'peing'=>$order4,
+                    'fahuo'=>$order5,
+                    'close'=>$order6,
                 ],
                 'user'=>$user,
             ]);
