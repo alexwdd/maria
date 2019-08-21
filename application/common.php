@@ -258,8 +258,10 @@ function createNonceStr($length = 16) {
 }
 
 function getStoreOrderNo($fix='') {
-    $randNum = rand(10000000, 99999999);
-    return $randNum;die;
+    $curDateTime = $fix.date("ymdHis");
+    $randNum = rand(10, 99);
+    $order_no = $curDateTime . $randNum;
+    return $order_no;
 }
 
 //图片生成缩略图

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-21 00:55:16
+Date: 2019-08-21 17:34:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -273,7 +273,7 @@ CREATE TABLE `pm_config` (
   `inc_type` varchar(64) DEFAULT NULL COMMENT '配置分组',
   `desc` varchar(50) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_config
@@ -363,6 +363,8 @@ INSERT INTO `pm_config` VALUES ('126', 'otherPrice3', '2', 'kuaidi', null);
 INSERT INTO `pm_config` VALUES ('127', 'file', '', 'basic', null);
 INSERT INTO `pm_config` VALUES ('128', 'flashTime', '8:00-12:00', 'member', null);
 INSERT INTO `pm_config` VALUES ('129', 'isCut', '1', 'member', null);
+INSERT INTO `pm_config` VALUES ('130', 'OMI_ID', '501039', 'omi', null);
+INSERT INTO `pm_config` VALUES ('131', 'OMI_KEY', '547e766b244a4e7eb24fee84a1e28fd2', 'omi', null);
 
 -- ----------------------------
 -- Table structure for `pm_coupon`
@@ -493,8 +495,6 @@ CREATE TABLE `pm_finance` (
   `doID` int(11) NOT NULL COMMENT '操作者ID',
   `type` int(11) NOT NULL COMMENT '类型',
   `money` decimal(10,2) NOT NULL COMMENT '交易金额',
-  `oldMoney` decimal(10,2) NOT NULL,
-  `newMoney` decimal(10,2) NOT NULL,
   `msg` varchar(300) NOT NULL,
   `extend1` int(11) NOT NULL,
   `extend2` int(11) NOT NULL,
@@ -505,18 +505,18 @@ CREATE TABLE `pm_finance` (
 -- ----------------------------
 -- Records of pm_finance
 -- ----------------------------
-INSERT INTO `pm_finance` VALUES ('1', '2', '1', '2', '1', '10.00', '0.00', '0.00', '07-23签到，奖励10积分。', '0', '0', '1563892114');
-INSERT INTO `pm_finance` VALUES ('2', '2', '1', '2', '1', '10.00', '0.00', '0.00', '08-06签到，奖励10积分。', '0', '0', '1565097687');
-INSERT INTO `pm_finance` VALUES ('3', '1', '1', '1', '3', '100.00', '0.00', '0.00', '账户充值100元', '0', '0', '1565104138');
-INSERT INTO `pm_finance` VALUES ('4', '2', '1', '1', '3', '10.00', '0.00', '0.00', '账户充值10元', '0', '0', '1565104250');
-INSERT INTO `pm_finance` VALUES ('5', '1', '1', '1', '3', '20.00', '0.00', '0.00', '账户充值20元', '0', '0', '1565278286');
-INSERT INTO `pm_finance` VALUES ('6', '1', '1', '1', '7', '50.00', '0.00', '0.00', '2019-08返利余额50元', '0', '0', '1565839224');
-INSERT INTO `pm_finance` VALUES ('7', '2', '1', '1', '7', '50.00', '0.00', '0.00', '2019-08返利余额50元', '0', '0', '1565839224');
-INSERT INTO `pm_finance` VALUES ('8', '1', '1', '1', '7', '50.00', '0.00', '0.00', '2019-08返利余额50元', '0', '0', '1565839249');
-INSERT INTO `pm_finance` VALUES ('9', '2', '1', '1', '7', '50.00', '0.00', '0.00', '2019-08返利余额50元', '0', '0', '1565839249');
-INSERT INTO `pm_finance` VALUES ('10', '1', '1', '1', '7', '2000.00', '0.00', '0.00', '2019-08返利余额2000元', '0', '0', '1565839509');
-INSERT INTO `pm_finance` VALUES ('11', '2', '1', '1', '7', '2000.00', '0.00', '0.00', '2019-08返利余额2000元', '0', '0', '1565839509');
-INSERT INTO `pm_finance` VALUES ('12', '2', '1', '1', '8', '20.00', '0.00', '0.00', '2019-09每月积分清零', '0', '0', '1565839927');
+INSERT INTO `pm_finance` VALUES ('1', '2', '1', '2', '1', '10.00', '07-23签到，奖励10积分。', '0', '0', '1563892114');
+INSERT INTO `pm_finance` VALUES ('2', '2', '1', '2', '1', '10.00', '08-06签到，奖励10积分。', '0', '0', '1565097687');
+INSERT INTO `pm_finance` VALUES ('3', '1', '1', '1', '3', '100.00', '账户充值100元', '0', '0', '1565104138');
+INSERT INTO `pm_finance` VALUES ('4', '2', '1', '1', '3', '10.00', '账户充值10元', '0', '0', '1565104250');
+INSERT INTO `pm_finance` VALUES ('5', '1', '1', '1', '3', '20.00', '账户充值20元', '0', '0', '1565278286');
+INSERT INTO `pm_finance` VALUES ('6', '1', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839224');
+INSERT INTO `pm_finance` VALUES ('7', '2', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839224');
+INSERT INTO `pm_finance` VALUES ('8', '1', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839249');
+INSERT INTO `pm_finance` VALUES ('9', '2', '1', '1', '7', '50.00', '2019-08返利余额50元', '0', '0', '1565839249');
+INSERT INTO `pm_finance` VALUES ('10', '1', '1', '1', '7', '2000.00', '2019-08返利余额2000元', '0', '0', '1565839509');
+INSERT INTO `pm_finance` VALUES ('11', '2', '1', '1', '7', '2000.00', '2019-08返利余额2000元', '0', '0', '1565839509');
+INSERT INTO `pm_finance` VALUES ('12', '2', '1', '1', '8', '20.00', '2019-09每月积分清零', '0', '0', '1565839927');
 
 -- ----------------------------
 -- Table structure for `pm_flash`
@@ -855,8 +855,8 @@ CREATE TABLE `pm_member` (
 -- Records of pm_member
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('10000', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568902862', '1563767631', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '', '', '月明', '', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/zK1Fs3gpSSte4nOJlEepugE5HXA6t1rqs231iczJywgzVNlYh73CJQiaFlz6OoIBQgU9BxgsEjJn92FCrDNGZaEQ/132', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1568911922', '1566188328', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568970183', '1563767631', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '', '', '月明', '', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/zK1Fs3gpSSte4nOJlEepugE5HXA6t1rqs231iczJywgzVNlYh73CJQiaFlz6OoIBQgU9BxgsEjJn92FCrDNGZaEQ/132', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1568885337', '1566188328', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1140,7 +1140,7 @@ CREATE TABLE `pm_order` (
   `goodsMoney` decimal(8,2) NOT NULL COMMENT '商品总金额',
   `isCut` tinyint(4) NOT NULL COMMENT '0不予许砍价 1可以砍价',
   `minGoodsMoney` decimal(8,2) NOT NULL COMMENT '商品最小金额',
-  `discount` varchar(10) DEFAULT NULL COMMENT '优惠券金额',
+  `discount` varchar(10) DEFAULT NULL COMMENT '优惠金额',
   `money` decimal(8,2) NOT NULL COMMENT '在线支付金额',
   `wallet` decimal(8,2) NOT NULL COMMENT '余额支付金额',
   `inprice` decimal(8,2) NOT NULL COMMENT '总成本',
@@ -1175,10 +1175,10 @@ CREATE TABLE `pm_order` (
 INSERT INTO `pm_order` VALUES ('15', '2', '0', '76566162', '15.00', '0', '15.00', '15.00', '1', '13.00', '0', '0.00', '0.00', '20.00', '0.00', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', '要红色的', '', '0', '0', '0', '0', '0', '1565322456', '1565322456');
 INSERT INTO `pm_order` VALUES ('16', '2', '0', '26891479', '210.40', '0', '210.40', '208.00', '0', '208.00', '0', '0.00', '0.00', '80.00', '2.40', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', null, null, '0', '0', '0', '0', '0', '1565873196', '1565873196');
 INSERT INTO `pm_order` VALUES ('17', '2', '0', '54140319', '210.40', '0', '210.40', '208.00', '0', '208.00', '0', '0.00', '0.00', '80.00', '2.40', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', 'jack', '18523651112', null, null, '0', '0', '0', '0', '0', '1565873287', '1565873287');
-INSERT INTO `pm_order` VALUES ('18', '10001', '0', '55510864', '43.59', '0', '43.59', '38.00', '0', '36.00', '0', '0.00', '0.00', '10.00', '5.59', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', '张扬', '185000000', '', null, '0', '0', '0', '0', '0', '1566205829', '1566205829');
+INSERT INTO `pm_order` VALUES ('18', '10001', '0', '55510864', '43.59', '0', '43.59', '38.00', '0', '36.00', '0', '43.59', '0.00', '10.00', '5.59', '1', '赵云', '18523651112', '', '', '', '河南省', '开封市', '龙亭区', '中山路435号', '张扬', '185000000', '', null, '0', '1', '0', '0', '0', '1566205829', '1566205829');
 INSERT INTO `pm_order` VALUES ('19', '10002', '0', '30753173', '19.20', '0', '0.00', '15.00', '1', '13.00', '0', '0.00', '0.00', '10.00', '4.20', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '1566284034', '1566284034');
 INSERT INTO `pm_order` VALUES ('20', '10002', '16', '72863769', '75.00', '0', '75.00', '80.00', '0', '77.00', '5.00', '0.00', '0.00', '65.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '1566291433', '1566291433');
-INSERT INTO `pm_order` VALUES ('21', '10002', '19', '45680847', '32.00', '0', '32.00', '35.00', '0', '35.00', '3.00', '32.00', '0.00', '22.00', '0.00', '3', '张明', '18500000000', '', '', '', '辽宁省', '大连市', '旅顺口区', '石鼓路331号西', '张三', '13500000000', '', null, '0', '1', '0', '0', '0', '1566293300', '1566293300');
+INSERT INTO `pm_order` VALUES ('21', '10002', '19', '45680847', '32.00', '0', '32.00', '35.00', '0', '35.00', '3.00', '0.00', '0.00', '22.00', '0.00', '3', '张明', '18500000000', '', '', '', '辽宁省', '大连市', '旅顺口区', '石鼓路331号西', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '1566293300', '1566293300');
 
 -- ----------------------------
 -- Table structure for `pm_order_baoguo`

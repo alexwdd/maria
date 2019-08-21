@@ -439,9 +439,13 @@ class Order extends Auth {
             $map['order_no'] = $order_no;
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
-            $list = db("Order")->field('id,order_no,total')->where($map)->find();
+            $list = db("Order")->field('id,order_no,total,money')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
+            }   
+            if($list['money']>0){
+                $url = $this->getOmiUrl($list);
+                returnJson(1,'success',['url'=>$url]);
             }
 
             $list['rate'] = $this->getRate();
@@ -528,7 +532,8 @@ class Order extends Auth {
                     $finance->rollBack();  
                     returnJson(0,'操作失败'); 
                 }
-            }else{  
+            }else{
+                $data['isCut'] = 0;
                 $result = db("Order")->where('id',$list['id'])->update($data);
                 if (!$result) {  
                     returnJson(0,'操作失败'); 
@@ -552,12 +557,13 @@ class Order extends Auth {
     }
 
     public function getOmiUrl($order){
+        $config = tpCache("omi");
         require_once EXTEND_PATH.'omipay/OmiPayApi.php';
         $input = new \MakeJSAPIOrderQueryData();
         $domain = 'CN';
         // 设置'CN'为访问国内的节点 ,设置为'AU'为访问香港的节点
-        $input -> setMerchantNo(config('omipay.mchID'));
-        $input -> setSercretKey(config('omipay.key'));
+        $input -> setMerchantNo($config['OMI_ID']);
+        $input -> setSercretKey($config['OMI_KEY']);
         $notify = 'http://'.$_SERVER['HTTP_HOST'].'/mobile/pay/ominotify.html';
         $input -> setNotifyUrl($notify);
         $input -> setCurrency("AUD");// 这里是设置币种
@@ -565,8 +571,7 @@ class Order extends Auth {
         $input -> setAmount($order['money']*100);// 这里是设置支付金额
         $input -> setOutOrderNo($order['order_no']);// 这里是设置外部订单编号，请确保唯一性
         $returnUrl = 'http://'.$_SERVER['HTTP_HOST'].'/mobile/Pay/ok/order_no/'.$order['order_no'].'.html';
-        $input -> setRedirectUrl($returnUrl);//设置支付完成之后的跳转地址
-  
+        $input -> setRedirectUrl($returnUrl);//设置支付完成之后的跳转地址 
         $omipay = new \OmiPayApi();
         $result = $omipay->jsApiOrder($input,$domain);
         return $result['pay_url'];       
