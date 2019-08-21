@@ -18,15 +18,18 @@ class Account extends Auth {
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
             $map['isCut'] = 0;
+            $map['hide'] = 0;
             $order1 = db("Order")->where($map)->count();
 
             unset($map);
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
             $map['isCut'] = 1;
+            $map['hide'] = 0;
             $order2 = db("Order")->where($map)->count();
 
             unset($map);
+            $map['hide'] = 0;
             $map['memberID'] = $this->user['id'];
             $map['status'] = 1;
             $order3 = db("Order")->where($map)->count();
@@ -59,6 +62,7 @@ class Account extends Auth {
                 $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
 
                 unset($list[$key]['goodsID']);
+                $goods['picname'] = getThumb($goods["picname"],200,200);
                 $goods['picname'] = getRealUrl($goods['picname']);
                 $goods['rmb'] = round($goods['price']*$this->rate,2);
                 $list[$key] = $goods;

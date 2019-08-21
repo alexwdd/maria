@@ -42,14 +42,6 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">订单保留</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="orderTime" value="{$config.orderTime}" lay-verify="required" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">未支付订单最多保留几个小时</div>
-            </div>
-
-            <div class="layui-form-item">
                 <label class="layui-form-label">注册赠送</label>
                 <div class="layui-input-inline">
                     <input type="text" name="register" value="{$config.register}" lay-verify="required" class="layui-input">
@@ -131,6 +123,14 @@
                     <input type="radio" name="isCut" value="1" title="开启" <?php if($config['isCut']==='1')echo 'checked'; ?>>   
                     <input type="radio" name="isCut" value="0" title="关闭" <?php if($config['isCut']==='0')echo 'checked'; ?>>           
                 </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">订单保留</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="orderTime" value="{$config.orderTime}" lay-verify="required" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">未支付订单最多保留几个小时</div>
             </div>
 
             <div class="layui-form-item">

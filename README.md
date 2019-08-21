@@ -1,5 +1,8 @@
 # maria
 
+# 注意
+	加入团购后，自动删除一定要看下
+
 # 全局通用的方法
 	getFlashNumber 	商品限时抢购已销售数量
 	checkInFlash 	商品是否在限时抢购中

@@ -40,6 +40,7 @@ class Order extends Auth {
                     break;
             }
             $map['memberID'] = $this->user['id'];
+            $map['hide'] = 0;
             $obj = db('Order');
             $count = $obj->where($map)->count();
             $totalPage = ceil($count/$pagesize);
@@ -78,6 +79,7 @@ class Order extends Auth {
                 returnJson(0,'参数错误');
             }
             $map['id'] = $id;
+            $map['hide'] = 0;
             $map['memberID'] = $this->user['id'];
             $list = db('Order')->field('id,total,goodsMoney,discount,wallet,money,payment,point,fund,order_no,name,tel,province,city,county,addressDetail,sn,front,back,sender,senderTel,intr,status,createTime')->where( $map )->find();
             if ($list) {
@@ -91,6 +93,7 @@ class Order extends Auth {
 
                 $goods = db("OrderCart")->field('goodsID,name,picname,price,number,spec')->where('orderID',$list['id'])->select();
                 foreach ($goods as $k => $val) {
+                    $val['picname'] = getThumb($val['picname'],200,200);
                     $goods[$k]['picname'] = getRealUrl($val['picname']);
                 }
                 $list['goods'] = $goods;
@@ -158,6 +161,7 @@ class Order extends Auth {
                 $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
                 $list[$key]['price'] = $result['price'];
                 $list[$key]['name'] = $goods['name'];
+                $list[$key]['fid'] = $goods['fid'];
                 $list[$key]['picname'] = $goods['picname'];
                 if($result['spec']){
                     $list[$key]['spec'] = $result['spec']['key_name'];
@@ -168,8 +172,7 @@ class Order extends Auth {
                 $cutMoney += $result['cutPrice'];
                 $inprice += $goods['inprice'] * $value['trueNumber'];
                 $point += $goods['point'] * $value['trueNumber'];
-            }    
-
+            } 
             $senderID = input('post.senderID');
             $sender = db("Sender")->where(['id'=>$senderID,'memberID'=>$this->user['id']])->find();
             if(!$sender){
@@ -235,6 +238,7 @@ class Order extends Auth {
                 $data['fund'] = $total;
             }
             $data['total'] = $total;
+            $data['point'] = $point;
             $data['payment'] = $baoguo['totalPrice'];
             $data['goodsMoney'] = $goodsMoney;
             $data['minGoodsMoney'] = $goodsMoney - $cutMoney;
@@ -315,6 +319,7 @@ class Order extends Auth {
                         'orderID'=>$orderID,
                         'memberID'=>$this->user['id'],
                         'goodsID'=>$value['goodsID'],
+                        'fid'=>$value['fid'],
                         'specID'=>$value['specID'],
                         'name'=>$value['name'],
                         'picname'=>$value['picname'],
@@ -356,18 +361,16 @@ class Order extends Auth {
             $list = db('Order')->where($map)->find();
             if ($list) {
                 if ($list['wallet']>0) {
+                    $fina = $this->getUserMoney($this->user['id']);
                     $fdata = array(
                         'type' => 3,
                         'money' => $list['wallet'],
                         'memberID' => $this->user['id'],
-                        'mobile' => $this->user['mobile'],
                         'doID' => $this->user['id'],
-                        'doUser' => $this->user['mobile'],
-                        'oldMoney'=>$this->user['money'],
-                        'newMoney'=>$this->user['money']+$list['wallet'],
+                        'oldMoney'=>$fina['money'],
+                        'newMoney'=>$fina['money']+$list['wallet'],
                         'admin' => 2,
                         'msg' => '取消订单，退还账户余额$'.$list['wallet'].'，订单号：'.$list['order_no'],
-                        'showTime' => time(),
                         'createTime' => time()
                     );
                     db('Finance')->insert($fdata);
@@ -376,10 +379,62 @@ class Order extends Auth {
                 db('OrderBaoguo')->where('orderID',$id)->delete();
                 db('OrderCart')->where('orderID',$id)->delete();
                 db('OrderDetail')->where('orderID',$id)->delete();
+                db('OrderCut')->where('orderID',$id)->delete();
             }
 
             returnJson(1,'success');
         }       
+    }
+
+    //删除
+    public function hide(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $id = input('post.id');
+            if ($id=='' || !is_numeric($id)) {
+                returnJson(0,'缺少参数');
+            }
+            $map['id'] = $id;
+            $map['memberID'] = $this->user['id'];
+            $map['status'] = array('in',[3,99]);
+            $list = db('Order')->where($map)->find();
+            if ($list) {
+                db('Order')->where('id',$id)->setField('hide',1);
+            }
+            returnJson(1,'success');
+        }       
+    }
+
+    public function cutDetail(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $order_no = input('post.order_no');
+            if ($order_no=='') {
+                returnJson(0,'缺少参数');
+            }
+            $map['order_no'] = $order_no;
+            $map['isCut'] = 1;
+            $map['status'] = 0;
+            $list = db('Order')->field('id,order_no,createTime,total,minGoodsMoney')->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单已关闭');
+            }
+
+            $goods = db("OrderCart")->field('name,picname,price,number,spec')->where('orderID',$list['id'])->select();
+            foreach ($goods as $k => $val) {
+                $val['picname'] = getThumb($val['picname'],200,200);
+                $goods[$k]['picname'] = getRealUrl($val['picname']);
+            }
+            $list['goods'] = $goods;
+
+            $config = tpCache('member');
+            $endTime = $list['createTime']+($config['hour']*3600)-time();
+            returnJson(1,'success',[
+                'data'=>$list,
+                'endTime'=>$endTime
+            ]);
+        }
     }
 
     //砍价
@@ -551,7 +606,7 @@ class Order extends Auth {
                 returnJson(1,'支付成功，等待商家配货');
             }else{
                 $url = $this->getOmiUrl($list);
-                returnJson(1,'支付成功，等待商家配货',['url'=>$url]);
+                returnJson(1,'success',['url'=>$url]);
             }         
         }
     }
@@ -564,16 +619,46 @@ class Order extends Auth {
         // 设置'CN'为访问国内的节点 ,设置为'AU'为访问香港的节点
         $input -> setMerchantNo($config['OMI_ID']);
         $input -> setSercretKey($config['OMI_KEY']);
-        $notify = 'http://'.$_SERVER['HTTP_HOST'].'/mobile/pay/ominotify.html';
+        $notify = 'http://'.$_SERVER['HTTP_HOST'].'/www/notify/ominotify.html';
         $input -> setNotifyUrl($notify);
         $input -> setCurrency("AUD");// 这里是设置币种
         $input -> setOrderName("在线支付".$order['order_no']);// 这里是设置商品名称
-        $input -> setAmount($order['money']*100);// 这里是设置支付金额
+        //$input -> setAmount($order['money']*100);// 这里是设置支付金额
+        $input -> setAmount(1);// 这里是设置支付金额
         $input -> setOutOrderNo($order['order_no']);// 这里是设置外部订单编号，请确保唯一性
-        $returnUrl = 'http://'.$_SERVER['HTTP_HOST'].'/mobile/Pay/ok/order_no/'.$order['order_no'].'.html';
+        $returnUrl = 'http://m.aumaria.com/pay/return/'.$order['order_no'];
         $input -> setRedirectUrl($returnUrl);//设置支付完成之后的跳转地址 
         $omipay = new \OmiPayApi();
         $result = $omipay->jsApiOrder($input,$domain);
         return $result['pay_url'];       
+    }
+
+    public function success(){
+        if (request()->isPost()) {
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $order_no = input('post.order_no');
+            $map['order_no'] = $order_no;            
+            $map['memberID'] = $this->user['id'];
+            $order = db('Order')->field('id,order_no,fund,point,payStatus')->where($map)->find();
+            if(!$order){
+                returnJson(0,'订单不存在');
+            }
+
+            //为您推荐 
+            $obj = db('GoodsPush');
+            $list = $obj->field('goodsID')->where('cateID',3)->limit(10)->order('id desc')->select();
+            foreach ($list as $key => $value) {                
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
+
+                unset($list[$key]['goodsID']);
+                $goods['picname'] = getThumb($goods["picname"],200,200);
+                $goods['picname'] = getRealUrl($goods['picname']);
+                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $list[$key] = $goods;
+            }
+
+            returnJson(1,'success',['data'=>$order,'goods'=>$list]);
+        }
     }
 }

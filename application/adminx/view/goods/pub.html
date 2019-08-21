@@ -186,7 +186,7 @@
 
                     <label class="layui-form-label">初始销量</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="sellNumber" value="{$list.sellNumber}" class="layui-input">
+                        <input type="text" name="sellNumber" value="{$list.sellNumber|default=0}" class="layui-input">
                     </div>
 
                     <label class="layui-form-label">库存</label>
@@ -198,7 +198,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">单品数量</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="number" id="number" value="{$list.number}" class="layui-input">
+                        <input type="text" name="number" id="number" value="{$list.number|default=1}" class="layui-input" lay-verify="required">
                     </div>
 
                     <label class="layui-form-label">水印</label>
