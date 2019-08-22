@@ -73,8 +73,6 @@ class Order extends Auth {
                     $list[$key]['upload'] = 1;
                 }
                 
-                //$list[$key]['status'] = getOrderStatus($value['status']);
-
                 $goods = db("OrderCart")->field('goodsID,name,picname,price,number,spec')->where('orderID',$value['id'])->select();
                 foreach ($goods as $k => $val) {
                     $goods[$k]['picname'] = getRealUrl($val['picname']);
@@ -89,6 +87,8 @@ class Order extends Auth {
     public function detail(){
         if (request()->isPost()) {
             if(!checkFormDate()){returnJson(0,'ERROR');}
+            $config = tpCache('member');
+
             $id = input('post.id');
             if ($id=='') {
                 returnJson(0,'参数错误');
@@ -96,21 +96,35 @@ class Order extends Auth {
             $map['id'] = $id;
             $map['hide'] = 0;
             $map['memberID'] = $this->user['id'];
-            $list = db('Order')->field('id,total,goodsMoney,discount,wallet,money,payment,point,fund,order_no,name,tel,province,city,county,addressDetail,sn,front,back,sender,senderTel,intr,status,createTime')->where( $map )->find();
-            if ($list) {
-                $list['createTime'] = date("Y-m-d H:i:s",$list['createTime']);
+            $list = db('Order')->field('id,isCut,total,goodsMoney,discount,wallet,money,payment,point,fund,order_no,name,tel,province,city,county,addressDetail,sn,front,back,sender,senderTel,intr,status,createTime,endTime')->where( $map )->find();
+            if ($list) {                
                 if($list['sn']=='' || $list['front']=='' || $list['back']==''){
                     $list['upload'] = 0;
                 }else{
                     $list['upload'] = 1;
                 }
-                $list['status'] = getOrderStatus($list['status']);
+                $list['statusStr'] = getOrderStatus($list);
+
+                if($list['isCut']==1){
+                    if($list['endTime']==0){
+                        $cutEndTime = $list['createTime']+($config['hour']*3600)-time();
+                        if($cutEndTime<0){
+                            $cutEndTime=0;
+                        }
+                        $list['cutEndTime'] = $cutEndTime;
+                    }else{
+                        $list['cutEndTime'] = 0;
+                    }
+                    $list['cutMoney'] = db("OrderCut")->where('orderID',$list['id'])->sum('money');
+                }
 
                 $goods = db("OrderCart")->field('goodsID,name,picname,price,number,spec')->where('orderID',$list['id'])->select();
                 foreach ($goods as $k => $val) {
                     $val['picname'] = getThumb($val['picname'],200,200);
                     $goods[$k]['picname'] = getRealUrl($val['picname']);
                 }
+
+                $list['createTime'] = date("Y-m-d H:i:s",$list['createTime']);
                 $list['goods'] = $goods;
 
                 $baoguo = db("OrderBaoguo")->field('id,payment,weight,kuaidi,kdNo,eimg,image')->where('orderID',$list['id'])->select();
@@ -122,7 +136,7 @@ class Order extends Auth {
                     }
                     $baoguo[$key]['goods'] = $goods;
                     $baoguo[$key]['number'] = $number;
-                }
+                }   
                 returnJson(1,'success',[
                     'order'=>$list,
                     'baoguo'=>$baoguo
@@ -489,6 +503,7 @@ class Order extends Auth {
             }
             $map['order_no'] = $order_no;
             $map['isCut'] = 1;
+            $map['endTime'] = array('gt',0);
             $list = db('Order')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');

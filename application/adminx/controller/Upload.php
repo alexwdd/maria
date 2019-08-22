@@ -22,7 +22,7 @@ class Upload extends Admin{
 
 	#保存图片
 	private function _saveimage($dir=NULL,$water=0,$thumb=0){
-		if(!checkRequest()){
+		if(!checkFormDate()){
 	        return array('state'=>'非法提交');
 	    }
 

@@ -123,26 +123,21 @@ function getPayType($v){
 }
 
 //获取订单状态
-function getOrderStatus($v){
-    switch ($v) {
-        case 0:
+function getOrderStatus($order){
+    if($order['status']==1){
+        return '待配货';
+    }elseif($order['status']==2){
+        return '配货中';
+    }elseif($order['status']==3){
+        return '已发货';
+    }elseif($order['status']==99){
+        return '取消订单';
+    }elseif($order['status']==0){
+        if($order['endTime']==0 && $order['isCut']==1){
+            return '砍价中';
+        }else{
             return '待付款';
-            break;
-        case 1:
-            return '待配货';
-            break;
-        case 2:
-            return '配货中';
-            break;
-        case 3:
-            return '已发货';
-            break;
-        case 99:
-            return '交易关闭';
-            break;
-        default:
-            # code...
-            break;
+        }        
     }
 }
 
