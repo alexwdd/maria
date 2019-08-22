@@ -17,7 +17,7 @@ class Account extends Auth {
 
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
-            $map['isCut'] = 0;
+            $map['endTime'] = array('gt',0);
             $map['hide'] = 0;
             $order1 = db("Order")->where($map)->count();
 
@@ -26,6 +26,7 @@ class Account extends Auth {
             $map['status'] = 0;
             $map['isCut'] = 1;
             $map['hide'] = 0;
+            $map['endTime'] = 0;
             $order2 = db("Order")->where($map)->count();
 
             unset($map);

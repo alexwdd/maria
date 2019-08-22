@@ -20,11 +20,12 @@ class Order extends Auth {
             switch ($type) {
                 case 1:
                     $map['status'] = 0;
-                    $map['isCut'] = 0;
+                    $map['endTime'] = array('gt',0);
                     break;
                 case 2:
                     $map['status'] = 0;
                     $map['isCut'] = 1;
+                    $map['endTime'] = 0;
                     break;
                 case 3:
                     $map['status'] = 1;   
@@ -39,6 +40,7 @@ class Order extends Auth {
                     $map['status'] = 99;   
                     break;
             }
+            $config = tpCache('member');
             $map['memberID'] = $this->user['id'];
             $map['hide'] = 0;
             $obj = db('Order');
@@ -49,8 +51,21 @@ class Order extends Auth {
             }else{
                 $next = 0;
             }
-            $list = $obj->field('id,order_no,isCut,total,front,back,sn,status,createTime')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            $list = $obj->field('id,order_no,isCut,total,front,back,sn,status,createTime,endTime')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
+                if($value['isCut']==1){
+                    if($value['endTime']==0){
+                        $cutEndTime = $value['createTime']+($config['hour']*3600)-time();
+                        if($cutEndTime<0){
+                            $cutEndTime=0;
+                        }
+                        $list[$key]['cutEndTime'] = $cutEndTime;
+                    }else{
+                        $list[$key]['cutEndTime'] = 0;
+                    }
+                    $list[$key]['cutMoney'] = db("OrderCut")->where('orderID',$value['id'])->sum('money');
+                }
+
                 $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
                 if($value['sn']=='' || $value['front']=='' || $value['back']==''){
                     $list[$key]['upload'] = 0;
@@ -415,10 +430,19 @@ class Order extends Auth {
             }
             $map['order_no'] = $order_no;
             $map['isCut'] = 1;
-            $map['status'] = 0;
-            $list = db('Order')->field('id,order_no,createTime,total,minGoodsMoney')->where($map)->find();
+            $list = db('Order')->field('id,order_no,createTime,total,minGoodsMoney,endTime')->where($map)->find();
             if(!$list){
-                returnJson(0,'订单已关闭');
+                returnJson(0,'订单不存在');
+            }
+
+            $list['rmb'] = round($list['total']*$this->rate,2);
+            $list['minRmb'] = round($list['minGoodsMoney']*$this->rate,2);
+            $list['headimg'] = $this->user['headimg'];
+            if($list['endTime']>0){
+                $list['endTime'] = date("Y-m-d H:i:s",$list['endTime']);
+                $list['end'] = 1;
+            }else{
+                $list['end'] = 0;
             }
 
             $goods = db("OrderCart")->field('name,picname,price,number,spec')->where('orderID',$list['id'])->select();
@@ -428,10 +452,27 @@ class Order extends Auth {
             }
             $list['goods'] = $goods;
 
+            $friend = db("OrderCut")->field('money,headimg')->where('orderID',$list['id'])->select();
+
+            //为您推荐 
+            $obj = db('GoodsPush');
+            $commend = $obj->field('goodsID')->where('cateID',3)->limit(10)->order('id desc')->select();
+            foreach ($commend as $key => $value) {                
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
+
+                unset($commend[$key]['goodsID']);
+                $goods['picname'] = getThumb($goods["picname"],200,200);
+                $goods['picname'] = getRealUrl($goods['picname']);
+                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $commend[$key] = $goods;
+            }
+
             $config = tpCache('member');
             $endTime = $list['createTime']+($config['hour']*3600)-time();
             returnJson(1,'success',[
                 'data'=>$list,
+                'friend'=>$friend,
+                'goods'=>$commend,
                 'endTime'=>$endTime
             ]);
         }
@@ -442,16 +483,15 @@ class Order extends Auth {
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
-            $orderID = input('post.orderID');
-            if ($orderID=='' || !is_numeric($orderID)) {
+            $order_no = input('post.order_no');
+            if ($order_no=='') {
                 returnJson(0,'缺少参数');
             }
-            $map['id'] = $orderID;
+            $map['order_no'] = $order_no;
             $map['isCut'] = 1;
-            $map['status'] = 0;
             $list = db('Order')->where($map)->find();
             if(!$list){
-                returnJson(0,'订单已关闭');
+                returnJson(0,'订单不存在');
             }
 
             if($list['memberID'] == $this->user['id']){
@@ -460,26 +500,41 @@ class Order extends Auth {
             
             unset($map);
             $map['openid'] = $this->user['openid'];
-            $map['orderID'] = $orderID;
+            $map['orderID'] = $list['id'];
             $res = db("OrderCut")->where($map)->find();
             if($res){
                 returnJson(0,'不能重复砍价');
+            }
+
+            $diffMoney = $list['total'] - $list['minGoodsMoney'];
+            if($diffMoney<0){
+                $diffMoney = 0;
             }
 
             $config = tpCache('member');
             $money = rand($config['min']*100,$config['max']*100);
             $money = $money/100;
             
+            if($money > $diffMoney){
+                $money = $diffMoney;
+                $flag = 1;
+            }
+
             $data = [
                 'openid'=>$this->user['openid'],
-                'orderID'=>$orderID,
+                'orderID'=>$list['id'],
                 'nickname'=>$this->user['nickname'],
                 'headimg'=>$this->user['headimg'],
                 'money'=>$money,
                 'createTime'=>time()
             ];
             db("OrderCut")->insert($data);
-            returnJson(1,'success');
+            $update['total'] = $list['total'] - $money;
+            if($flag){
+                $update['endTime'] = time();                
+            }
+            db("Order")->where('id',$list['id'])->update($update);
+            returnJson(1,'success',['money'=>$money]);
         }
     }
 
@@ -548,7 +603,11 @@ class Order extends Auth {
                 $data['payType'] = 1;
                 $data['money'] = $list['total'] - $fina['money'];
                 $data['wallet'] = $fina['money'];  
-            }         
+            }
+
+            if($list['endTime']==0){
+                $data['endTime'] = time();
+            }
 
             if ($data['wallet']>0) {
                 $finance = model('Finance');
@@ -558,8 +617,8 @@ class Order extends Auth {
                     'money' => $data['wallet'],
                     'memberID' => $this->user['id'],  
                     'doID' => $this->user['id'],
-                    'oldMoney'=>$this->user['money'],
-                    'newMoney'=>$this->user['money']-$data['wallet'],
+                    'oldMoney'=>$fina['money'],
+                    'newMoney'=>$fina['money']-$data['wallet'],
                     'admin' => 2,
                     'msg' => '购买商品，账户余额支付$'.$data['wallet'].'，订单号：'.$list['order_no'],
                     'extend1' => $list['id'],
@@ -580,15 +639,13 @@ class Order extends Auth {
                         $orderModel->rollBack();    
                         $finance->rollBack();  
                         returnJson(0,'操作失败'); 
-                    }                        
-                    $this->setUserGroup($this->user);//更改会员身份
+                    } 
                 }else{
                     $orderModel->rollBack();    
                     $finance->rollBack();  
                     returnJson(0,'操作失败'); 
                 }
-            }else{
-                $data['isCut'] = 0;
+            }else{                
                 $result = db("Order")->where('id',$list['id'])->update($data);
                 if (!$result) {  
                     returnJson(0,'操作失败'); 

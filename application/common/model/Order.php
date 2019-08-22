@@ -11,7 +11,11 @@ class Order extends Model
             return array('code'=>0,'msg'=>$validate->getError());
         }
         $data['createTime'] = time();
-        $data['updateTime'] = time();
+        if($data['isCut']==1){
+            $data['endTime'] = 0;
+        }else{
+            $data['endTime'] = time();
+        }        
         $data['status'] = 0;
         $data['payType'] = 0;
         $data['payStatus'] = 0;
