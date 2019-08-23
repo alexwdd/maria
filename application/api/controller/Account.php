@@ -196,6 +196,36 @@ class Account extends Auth {
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
+            $config = tpCache('member');
+            $date = date("Y-m-d");
+            $map['memberID'] = $this->user['id'];
+            $map['signDate'] = $date;
+            $list = db('Sign')->where($map)->find();
+            if (!$list) {
+                $data['signDate'] = $date;
+                $data['point'] = $config['sign'];
+                $data['memberID'] = $this->user['id'];
+                $data['createTime'] = time();
+                $list = db('Sign')->insert($data);
+                if ($list) {
+                    $fina = $this->getUserMoney($this->user['id']);
+                    //添加财务记录
+                    $data = array(
+                        'type' => 1,
+                        'money' => $config['sign'],
+                        'memberID' => $this->user['id'],     
+                        'doID' =>  $this->user['id'],
+                        'oldMoney'=>$fina['point'],
+                        'newMoney'=>$fina['point']+$config['sign'],
+                        'admin' => 1,
+                        'msg' => date("m-d").'签到，奖励'.$config['sign'].'积分。',
+                        'extend1'=>0,
+                        'createTime' => time()
+                    ); 
+                    db('Finance')->insert( $data );
+                }
+            }
+
             $beginDate = strtotime(date("Y-m-1"));
             $beginStr = date("Y-m-d",$beginDate);
             $endDate = strtotime("$beginStr +1 month -1 day");
@@ -207,41 +237,35 @@ class Account extends Auth {
                 $decDay = $w-1;
             }
             $beginDate = $beginDate - $decDay*86400;
-            echo date("Y-m-d H:i:s",$beginDate);
 
-            $w = date("w",strtotime($endDate));
+            $w = date("w",$endDate);
+  
             if($w==0){
                 $addDay = 0;
             }else{
                 $addDay = 7-$w;
             }
             $endDate = $endDate + $addDay*86400;
-            echo date("Y-m-d H:i:s",$endDate);
-            die;
 
-            $endDate = strtotime("$beginStr +1 month -1 day");
-            $dataArr = array();
-            for ($i=$beginDate; $i <=$endDate ; $i+=24*3600) { 
-                array_push($dataArr,date("m-d",$i));
-            }
+            $signNumber = 0;
+            $date = [];
+            for ($i=$beginDate; $i <= $endDate ; $i=$i+86400) { 
+                $map['memberID'] = $this->user['id'];
+                $map['signDate'] = date("Y-m-d",$i);
+                $res = db("Sign")->where($map)->find();
+                if($res){
+                    $signNumber++;
+                    array_push($date, ['day'=>date("d",$i),'sign'=>1]);
+                }else{
+                    array_push($date, ['day'=>date("d",$i),'sign'=>0]);
+                }
+            } 
 
-            $map['createTime'] = array('between',array($beginDate,$endDate));
-            $map['memberID'] = $this->user['id'];
-            $sign = db('Sign')->where($map)->column('id,signDate');
-            if (in_array(date("Y-m-d"),$sign)) {
-                $flag = '1';
-            }else{
-                $flag = '0';
-            }           
+            $count = db("Sign")->where('memberID',$this->user['id'])->count();
 
-            foreach ($sign as $key => $value) {
-                $sign[$key]=date("m-d",strtotime($value));
-            }
-
-            unset($map);
             $list = db("Sign")->field('point,signDate')->where('memberID',$this->user['id'])->order('id desc')->limit(10)->select();
 
-            returnJson(1,'success',['today'=>$flag,'sign'=>$sign,'data'=>$list]);
+            returnJson(1,'success',['signNumber'=>$signNumber,'total'=>$count,'date'=>$date,'data'=>$list]);
         }
     }
 
