@@ -125,6 +125,7 @@ class Account extends Auth {
             $map['memberID'] = $this->user['id'];
             $res = db('Fav')->where($map)->find();
             if ($res) {
+                $result = db('Fav')->where($map)->delete();
                 returnJson(1,'success');
              }else{
                 $data = ['goodsID'=>$goodsID,'memberID'=>$this->user['id']];
@@ -197,6 +198,27 @@ class Account extends Auth {
 
             $beginDate = strtotime(date("Y-m-1"));
             $beginStr = date("Y-m-d",$beginDate);
+            $endDate = strtotime("$beginStr +1 month -1 day");
+
+            $w = date("w",strtotime($beginDate));
+            if($w==0){
+                $decDay = 6;
+            }else{
+                $decDay = $w-1;
+            }
+            $beginDate = $beginDate - $decDay*86400;
+            echo date("Y-m-d H:i:s",$beginDate);
+
+            $w = date("w",strtotime($endDate));
+            if($w==0){
+                $addDay = 0;
+            }else{
+                $addDay = 7-$w;
+            }
+            $endDate = $endDate + $addDay*86400;
+            echo date("Y-m-d H:i:s",$endDate);
+            die;
+
             $endDate = strtotime("$beginStr +1 month -1 day");
             $dataArr = array();
             for ($i=$beginDate; $i <=$endDate ; $i+=24*3600) { 

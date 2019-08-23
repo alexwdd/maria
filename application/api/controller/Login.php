@@ -35,7 +35,7 @@ class Login extends Common {
                 returnJson(0,'缺少头像');
             }
 
-            $user = db("Member")->field('id,nickname,headimg,openid')->where('openid',$data['openid'])->find();
+            $user = db("Member")->field('id,nickname,headimg,openid,mobile')->where('openid',$data['openid'])->find();
             if($user){
                 $request= Request::instance();
                 $log = array(
@@ -63,8 +63,8 @@ class Login extends Common {
             }else{
                 $result = model('Member')->wechat($data);
                 if ($result['code']==1) { 
-                    $user = db("Member")->field('id,nickname,headimg,token')->where('id',$result['msg'])->find();
-                    $this->createCoupon($user);
+                    $user = db("Member")->field('id,nickname,headimg,token,mobile')->where('id',$result['msg'])->find();
+                    $this->autoCoupon($user);
                     returnJson(1,'success',$user);
                 }else{
                     returnJson(0,$result['msg']);
