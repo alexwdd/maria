@@ -374,6 +374,23 @@ class Base extends Controller {
         }
     }
 
+    public function getCodeStatus($code,$mobile){
+        $map['account'] = $mobile;
+        $map['regcode'] = $code;
+        $map['status'] = 0;
+        $list = db("MemberCode")->where($map)->order('id desc')->find();
+        if ($list) {
+            $config = tpCache('sms');
+            if (time()-$list['createTime'] > $config['out_time']*60) {
+                return ['code'=>0,'msg'=>'短信验证码超时，请在'.$config['out_time'].'分钟内容输入'];
+            }else{
+                return ['code'=>1,'msg'=>'success'];
+            }            
+        }else{
+            return ['code'=>0,'msg'=>'短信验证码错误'];
+        }
+    }
+
     public function https_post($url,$data = null){
         $ch = curl_init();
         $header = "Accept-Charset: utf-8";

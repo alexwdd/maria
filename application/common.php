@@ -221,12 +221,28 @@ function getRealUrl($value){
 
 // 手机号检测
 function check_mobile($mobile){
-    $mobilepreg = '/^1[3|4|5|6|7|8|9][0-9]{9}$/';
+    $mobilepreg = '/^1[3|4|5|6|7|8|9][0-9]{9}$|^04[0-9]{8}$/';
     if (!preg_match($mobilepreg, $mobile)) {
         return false;
     }else {
         return true;
     }
+}
+
+//短信宝发短信验证码
+function send_sms($mobile,$content){
+    $smsapi = "http://api.smsbao.com/";
+    $config = tpCache('sms');
+    $user = $config['sms_name']; //短信平台帐号
+    $pass = md5($config['sms_pwd']); //短信平台密码   
+    if (strlen($mobile)==11) {                
+        $sendurl = $smsapi."sms?u=".$user."&p=".$pass."&m=".urlencode($mobile)."&c=".urlencode($content);
+    }else{
+        $mobile = '+61'.$mobile;        
+        $sendurl = $smsapi."wsms?u=".$user."&p=".$pass."&m=".urlencode($mobile)."&c=".urlencode($content);
+    }
+    $result =file_get_contents($sendurl);
+    return $result;
 }
 
 //获取头像

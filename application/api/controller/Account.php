@@ -98,6 +98,84 @@ class Account extends Auth {
         }
     }
 
+    public function bind(){
+        if (request()->isPost()) { 
+            $code = input('post.code');
+            $mobile = input('post.mobile');
+
+            if ($code=='' || !is_numeric($code)) {
+                returnJson(0,'请输入验证码');
+            }
+
+            if (!check_mobile($mobile)) {
+                returnJson(0,'手机号格式错误！');
+            }
+
+            $res = $this->getCodeStatus($code,$mobile);
+
+            if ($res['code']==0) {
+                returnJson(0,$res['msg']);
+            }
+
+            $map['mobile'] = $mobile;
+            $user = db('Member')->where($map)->find();
+            if ($user) {
+                returnJson(0,'手机号码已存在');
+            }
+
+            $data['id'] = $this->user['id'];
+            $result = db('Member')->where('id',$this->user['id'])->update(['mobile'=>$mobile]);
+            if ($result) {
+                unset($map);
+                $map['account'] = $mobile;
+                $map['regcode'] = $code;
+                db('MemberCode')->where($map)->order('id desc')->setField('status',1);
+                returnJson(1,'手机绑定成功');
+            }else{
+                returnJson(0,'操作失败');
+            }
+        }
+    }
+    
+    public function changePhone(){
+        if (request()->isPost()) { 
+            $code = input('post.code');
+            $mobile = input('post.mobile');
+
+            if ($code=='' || !is_numeric($code)) {
+                returnJson(0,'请输入验证码');
+            }
+
+            if (!check_mobile($mobile)) {
+                returnJson(0,'手机号格式错误！');
+            }
+
+            $res = $this->getCodeStatus($code,$this->user['mobile']);
+
+            if ($res['code']==0) {
+                returnJson(0,$res['msg']);
+            }
+
+            $map['mobile'] = $mobile;
+            $user = db('Member')->where($map)->find();
+            if ($user) {
+                returnJson(0,'手机号码已存在');
+            }
+
+            $data['id'] = $this->user['id'];
+            $result = db('Member')->where('id',$this->user['id'])->update(['mobile'=>$mobile]);
+            if ($result) {
+                unset($map);
+                $map['account'] = $this->user['mobile'];
+                $map['regcode'] = $code;
+                db('MemberCode')->where($map)->order('id desc')->setField('status',1);
+                returnJson(1,'手机绑定成功');
+            }else{
+                returnJson(0,'操作失败');
+            }
+        }
+    }
+
     //个人信息
     public function userinfo(){
         if (request()->isPost()) { 
@@ -265,7 +343,7 @@ class Account extends Auth {
 
             $list = db("Sign")->field('point,signDate')->where('memberID',$this->user['id'])->order('id desc')->limit(10)->select();
 
-            returnJson(1,'success',['signNumber'=>$signNumber,'total'=>$count,'date'=>$date,'data'=>$list]);
+            returnJson(1,'success',['signNumber'=>$signNumber,'total'=>$count,'date'=>$date,'data'=>$list,'month'=>date("Y-m")]);
         }
     }
 
