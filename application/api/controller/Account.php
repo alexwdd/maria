@@ -269,6 +269,37 @@ class Account extends Auth {
         }       
     }
 
+    //我的收藏
+    public function finance(){
+        if(request()->isPost()){
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $page = input('post.page/d',1);
+            $type = input('post.type/d',0);
+            $pagesize = input('post.pagesize',10);
+
+            $firstRow = $pagesize*($page-1); 
+            
+            if($type>0){
+                $map['type'] = $type;
+            }
+            $map['memberID'] = $this->user['id'];
+            $obj = db('Finance');
+            $count = $obj->where($map)->count();
+            $totalPage = ceil($count/$pagesize);
+            if ($page < $totalPage) {
+                $next = 1;
+            }else{
+                $next = 0;
+            }
+            $list = $obj->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            foreach ($list as $key => $value) {
+                $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
+                $list[$key]['typeName'] = getMoneyType($value['type']);
+            }
+            returnJson(1,'success',['next'=>$next,'data'=>$list,'type'=>config('moneyType')]);
+        }
+    }
+
     //每日签到
     public function sign(){
         if (request()->isPost()) { 
@@ -457,6 +488,29 @@ class Account extends Auth {
             $fileUrl = $this->base64ToImg($path,$fileName,$image);
             $fileUrl = getUserFace($fileUrl);
             returnJson(1,'success',['face'=>$fileUrl]);
+        }
+    }
+
+    //未领取的优惠券
+    public function couponList(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $data= [];
+            $map['status'] = 1;
+            $map['register'] = 0;
+            $list = db("Coupon")->where($map)->select();
+            foreach ($list as $key => $value) {
+                unset($map);
+                $map['couponID'] = $value['id'];
+                $map['memberID'] = $this->user['id'];
+                $count = db("CouponLog")->where($map)->count();
+                if($count>=$value['number']){
+                    unset($value);
+                }else{
+                    array_push($data,$value);
+                }
+            }
+            returnJson(1,'success',['data'=>$data]);
         }
     }
 

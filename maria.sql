@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-22 01:03:19
+Date: 2019-08-25 23:31:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -308,9 +308,9 @@ INSERT INTO `pm_config` VALUES ('90', 'back2', '10', 'member', null);
 INSERT INTO `pm_config` VALUES ('91', 'jifen3', '6000', 'member', null);
 INSERT INTO `pm_config` VALUES ('92', 'back3', '15', 'member', null);
 INSERT INTO `pm_config` VALUES ('38', 'isSms', '1', 'sms', '');
-INSERT INTO `pm_config` VALUES ('39', 'sms_name', 'xinfeidianqi', 'sms', '');
-INSERT INTO `pm_config` VALUES ('40', 'sms_pwd', 'kf01888', 'sms', '');
-INSERT INTO `pm_config` VALUES ('41', 'sms_sign', '奥讯', 'sms', '');
+INSERT INTO `pm_config` VALUES ('39', 'sms_name', 'trainex666666', 'sms', '');
+INSERT INTO `pm_config` VALUES ('40', 'sms_pwd', 'train666666', 'sms', '');
+INSERT INTO `pm_config` VALUES ('41', 'sms_sign', '玛丽亚', 'sms', '');
 INSERT INTO `pm_config` VALUES ('42', 'out_time', '10', 'sms', '');
 INSERT INTO `pm_config` VALUES ('43', 'diffTime', '1', 'sms', '');
 INSERT INTO `pm_config` VALUES ('44', 'dayNumber', '5', 'sms', '');
@@ -385,13 +385,14 @@ CREATE TABLE `pm_coupon` (
   `updateTime` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of pm_coupon
 -- ----------------------------
 INSERT INTO `pm_coupon` VALUES ('3', '新手券', '立减50元', '1', '0', '50', '1', '1', '30', '', '使用说明啊啊啊', '1565831354', '1551964995');
 INSERT INTO `pm_coupon` VALUES ('5', '测试一下', '满50元立减5元', '0', '50', '5', '0', '1', '30', '', '', '1565799188', '1565698449');
+INSERT INTO `pm_coupon` VALUES ('6', '新的优惠群哈哈', '满50元立减5元', '0', '50', '5', '1', '1', '30', '', '法师打发斯蒂芬\n阿斯蒂芬阿斯蒂芬a阿斯蒂芬\n阿什顿发水电费阿萨德', '1566744163', '1566744163');
 
 -- ----------------------------
 -- Table structure for `pm_coupon_goods`
@@ -429,7 +430,7 @@ CREATE TABLE `pm_coupon_log` (
   `endTime` int(11) DEFAULT NULL,
   `createTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_coupon_log
@@ -440,6 +441,7 @@ INSERT INTO `pm_coupon_log` VALUES ('15', '0', '', '5', '测试一下', '满50�
 INSERT INTO `pm_coupon_log` VALUES ('16', '10002', '月明', '5', '测试一下', '满50元立减5元', '50.00', '5.00', '好吃不贵', '', '1355403368', '1', '1566291433', '1568823326', '1565798942');
 INSERT INTO `pm_coupon_log` VALUES ('17', '2', '张小黑', '5', '测试一下', '满50元立减5元', '0.00', '5.00', null, '240', '1039757623', '0', '0', '1568391156', '1565799156');
 INSERT INTO `pm_coupon_log` VALUES ('19', '10002', '月明', '3', '新手券', '立减3元', '0.00', '3.00', '好贵不吃', '', '1239757623', '1', '1566293300', '1568809414', '1566217414');
+INSERT INTO `pm_coupon_log` VALUES ('21', '10002', '月明', '6', '新的优惠群哈哈', '满50元立减5元', '50.00', '5.00', '法师打发斯蒂芬\n阿斯蒂芬阿斯蒂芬a阿斯蒂芬\n阿什顿发水电费阿萨德', '', '1185122606', '0', '0', '1569336630', '1566744630');
 
 -- ----------------------------
 -- Table structure for `pm_fav`
@@ -502,7 +504,7 @@ CREATE TABLE `pm_finance` (
   `extend2` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_finance
@@ -522,6 +524,8 @@ INSERT INTO `pm_finance` VALUES ('12', '2', '1', '1', '8', '20.00', '0.00', '0.0
 INSERT INTO `pm_finance` VALUES ('13', '10002', '2', '10002', '2', '10.00', '0.00', '10.00', '购买商品，获得10积分', '22', '0', '1566398081');
 INSERT INTO `pm_finance` VALUES ('14', '10002', '2', '10002', '5', '180.00', '0.00', '180.00', '购买商品，获得$180.00返利基金', '22', '0', '1566398081');
 INSERT INTO `pm_finance` VALUES ('15', '10002', '2', '10002', '3', '5.00', '0.00', '5.00', '取消订单，退还账户余额$5.00，订单号：19082123201862', '0', '0', '1566401851');
+INSERT INTO `pm_finance` VALUES ('16', '10002', '1', '10002', '1', '10.00', '10.00', '20.00', '08-23签到，奖励10积分。', '0', '0', '1566568656');
+INSERT INTO `pm_finance` VALUES ('17', '10002', '1', '10002', '1', '10.00', '20.00', '30.00', '08-25签到，奖励10积分。', '0', '0', '1566714888');
 
 -- ----------------------------
 -- Table structure for `pm_flash`
@@ -861,7 +865,7 @@ CREATE TABLE `pm_member` (
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('10000', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
 INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1568902862', '1563767631', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '', '', '月明', '', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/zK1Fs3gpSSte4nOJlEepugE5HXA6t1rqs231iczJywgzVNlYh73CJQiaFlz6OoIBQgU9BxgsEjJn92FCrDNGZaEQ/132', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1568998804', '1566188328', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '13503784120', '', '月明', '', '', '', 'http://127.0.0.10/uploads/face/BWZxNHGBaz6ACSCX.jpeg', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1569338510', '1566188328', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -874,11 +878,12 @@ CREATE TABLE `pm_member_code` (
   `status` tinyint(4) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_member_code
 -- ----------------------------
+INSERT INTO `pm_member_code` VALUES ('1', '18537391515', '9017', '1', '1566920242');
 
 -- ----------------------------
 -- Table structure for `pm_message`
@@ -1171,15 +1176,15 @@ CREATE TABLE `pm_order` (
   `hide` tinyint(4) NOT NULL,
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
   `createTime` int(11) NOT NULL,
-  `updateTime` int(11) NOT NULL,
+  `endTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order
 -- ----------------------------
-INSERT INTO `pm_order` VALUES ('30', '10002', '0', '19082123203957', '29.00', '30', '0.00', '29.00', '1', '26.00', '0', '0.00', '0.00', '25.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '0', '1566400839', '1566400839');
-INSERT INTO `pm_order` VALUES ('28', '10002', '0', '19082123190881', '29.00', '30', '0.00', '29.00', '1', '26.00', '0', '0.00', '0.00', '25.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '0', '1566400748', '1566400748');
+INSERT INTO `pm_order` VALUES ('30', '10002', '0', '19082123203957', '29.00', '30', '0.00', '29.00', '1', '26.00', '0', '0.00', '0.00', '25.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '0', '1566400839', '0');
+INSERT INTO `pm_order` VALUES ('28', '10002', '0', '19082123190881', '29.00', '30', '0.00', '29.00', '1', '26.00', '0', '0.00', '0.00', '25.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '0', '1566400748', '0');
 INSERT INTO `pm_order` VALUES ('20', '10002', '16', '72863769', '75.00', '0', '75.00', '80.00', '0', '77.00', '5.00', '0.00', '0.00', '65.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '3', '1', '0', '1566291433', '1566291433');
 INSERT INTO `pm_order` VALUES ('22', '10002', '0', '19082120265963', '180.00', '10', '180.00', '180.00', '0', '180.00', '0', '0.00', '0.00', '60.00', '0.00', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '1', '1', '1', '0', '0', '1566390419', '1566390419');
 INSERT INTO `pm_order` VALUES ('23', '10002', '0', '19082120582663', '49.20', '0', '49.20', '45.00', '0', '45.00', '0', '0.00', '0.00', '30.00', '4.20', '2', '张明', '13500000000', '2222222', 'http://127.0.0.10/uploads/sn/10002/OJNDAUC5hJtJkWzl.png', '/uploads/sn/10002/UUW5WT0rAS08RIVq.png', '北京市', '北京市', '东城区', '1111111111', '张三', '13500000000', '', null, '0', '0', '0', '0', '0', '0', '1566392306', '1566392306');
@@ -1220,7 +1225,7 @@ CREATE TABLE `pm_order_baoguo` (
   `createTime` int(11) NOT NULL,
   `updateTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_baoguo
@@ -1307,7 +1312,7 @@ CREATE TABLE `pm_order_detail` (
   `cancel` tinyint(4) NOT NULL COMMENT '取消订单',
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_order_detail
@@ -1419,13 +1424,15 @@ CREATE TABLE `pm_sign` (
   `signDate` varchar(20) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_sign
 -- ----------------------------
 INSERT INTO `pm_sign` VALUES ('1', '2', '10', '2019-07-23', '1563892114');
 INSERT INTO `pm_sign` VALUES ('2', '2', '10', '2019-08-06', '1565097687');
+INSERT INTO `pm_sign` VALUES ('3', '10002', '10', '2019-08-23', '1566568656');
+INSERT INTO `pm_sign` VALUES ('4', '10002', '10', '2019-08-25', '1566714888');
 
 -- ----------------------------
 -- Table structure for `pm_user`
