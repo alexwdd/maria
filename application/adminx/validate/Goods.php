@@ -5,7 +5,7 @@ use think\Validate;
 
 class Goods extends Validate
 {
-    protected $rule =   [
+    /*protected $rule =   [
         'name'  => 'require',
         'cid'  => 'require',
         'picname'  => 'require',
@@ -19,7 +19,7 @@ class Goods extends Validate
         'price.require'       => '销售价不能为空',
         'picname.require'       => '封面不能为空',
         'number.egt'       => '单品数量不能是0'
-    ];
+    ];*/
 
 }
 

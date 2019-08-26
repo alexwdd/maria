@@ -13,12 +13,20 @@ class Goods extends Admin
         return time();
     }
     public function setCidAttr(){
-        $class = explode(',', input('post.cid'));
-        return $class[0];
+        if(input('post.cid')!=''){
+            $class = explode(',', input('post.cid'));
+            return $class[0];
+        }else{
+            return 0;
+        } 
     }
-    public function setPathAttr(){        
-        $class = explode(',', input('post.cid'));
-        return $class[1];
+    public function setPathAttr(){   
+        if(input('post.cid')!=''){     
+            $class = explode(',', input('post.cid'));
+            return $class[1];
+        }else{
+            return '';
+        }
     }
     public function setCid1Attr(){
         if (input('post.cid1')!='') {

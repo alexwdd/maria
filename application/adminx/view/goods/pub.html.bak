@@ -14,21 +14,21 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" value="{$list.name}" placeholder="请输入商品名称" class="layui-input">
+                        <input type="text" name="name" value="{$list.name}" lay-verify="required" placeholder="请输入商品名称" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">英文名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="en" value="{$list.en}" placeholder="请输入英文名称" class="layui-input">
+                        <input type="text" name="en" value="{$list.en}" lay-verify="required" placeholder="请输入英文名称" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">短名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="short" value="{$list.short}" placeholder="20个字内" maxlength="20" class="layui-input">
+                        <input type="text" name="short" value="{$list.short}" lay-verify="required" placeholder="20个字内" maxlength="20" class="layui-input">
                     </div>
 
                     <label class="layui-form-label">特色描述</label>
@@ -65,7 +65,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">分类一</label>
                     <div class="layui-input-inline">
-                        <select name="cid" id="cid" {gt name="list.cid" value="0"}default="{$list['cid']},{$list['path']}"{/gt}>
+                        <select name="cid" id="cid" {gt name="list.cid" value="0"}default="{$list['cid']},{$list['path']}"{/gt} lay-verify="required">
                         <option value="">请选择</option>
                         {volist name="cate" id="vo"}
                         <option value="{$vo['id']},{$vo['path']}">{php}
@@ -99,7 +99,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">品牌</label>
                     <div class="layui-input-inline">
-                        <select name="brandID" default="{$list.brandID}">
+                        <select name="brandID" default="{$list.brandID}" lay-verify="required">
                             <option value="">请选择</option>
                             {volist name="brand" id="vo"}
                             <option value="{$vo.id}">{$vo.name}</option>
@@ -109,7 +109,7 @@
 
                     <label class="layui-form-label">包裹类型</label>
                     <div class="layui-input-inline">
-                        <select name="typeID" default="{$list.typeID}">
+                        <select name="typeID" default="{$list.typeID}" lay-verify="required">
                             <option value="">请选择</option>
                             {volist name="type" id="vo"}
                             <option value="{$vo.id}">{$vo.name}</option>
@@ -140,41 +140,41 @@
                 <div class="layui-form-item"> 
                     <label class="layui-form-label">售价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="price" id="price" value="{$list.price}" autocomplete="off" class="layui-input" />
+                        <input type="text" name="price" id="price" value="{$list.price}" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>
 
                     <label class="layui-form-label">砍价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="cutPrice" id="cutPrice" value="{$list.cutPrice|default=0}" autocomplete="off" class="layui-input" placeholder="0不允许砍价"/>
+                        <input type="text" name="cutPrice" id="cutPrice" value="{$list.cutPrice|default=0}" autocomplete="off" class="layui-input" placeholder="0不允许砍价" lay-verify="required"/>
                     </div>
 
                     <label class="layui-form-label">积分</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="point" id="point" value="{$list.point}" autocomplete="off" class="layui-input" />
+                        <input type="text" name="point" id="point" value="{$list.point}" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>                    
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">市场价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="marketPrice" id="marketPrice" value="{$list.marketPrice}" autocomplete="off" class="layui-input" />
+                        <input type="text" name="marketPrice" id="marketPrice" value="{$list.marketPrice}" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>
 
                     <label class="layui-form-label">进价</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="inprice" value="{$list.inprice}" autocomplete="off" class="layui-input" />
+                        <input type="text" name="inprice" value="{$list.inprice}" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">商品重量</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="weight" value="{$list.weight}" autocomplete="off" class="layui-input" />
+                        <input type="text" name="weight" value="{$list.weight}" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>
 
                     <label class="layui-form-label">物流重量</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="wuliuWeight" value="{$list.wuliuWeight}" autocomplete="off" class="layui-input" />
+                        <input type="text" name="wuliuWeight" value="{$list.wuliuWeight}" lay-verify="required" autocomplete="off" class="layui-input" />
                     </div>
                 </div>
 
@@ -198,7 +198,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">单品数量</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="number" id="number" value="{$list.number|default=1}" class="layui-input">
+                        <input type="text" name="number" id="number" value="{$list.number|default=1}" class="layui-input" lay-verify="required">
                     </div>
 
                     <label class="layui-form-label">水印</label>
@@ -243,10 +243,10 @@
                         </tr>
                         {volist name="pack" id="vo"}
                         <tr>                        
-                        <td><input type="hidden" name="pack_id[]" value="{$vo.id}"><input type="text" name="pack_name[]" value="{$vo.name}" class="layui-input"></td> 
-                        <td><input type="text" name="pack_price[]" value="{$vo.price}" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
-                        <td><input type="text" name="pack_cutPrice[]" value="{$vo.cutPrice}" placeholder="0不允许砍价" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
-                        <td><input type="text" name="pack_number[]" value="{$vo.number}" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td> 
+                        <td><input type="hidden" name="pack_id[]" value="{$vo.id}"><input type="text" name="pack_name[]" value="{$vo.name}" lay-verify="required" class="layui-input"></td> 
+                        <td><input type="text" name="pack_price[]" value="{$vo.price}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
+                        <td><input type="text" name="pack_cutPrice[]" value="{$vo.cutPrice}" lay-verify="required" placeholder="0不允许砍价" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
+                        <td><input type="text" name="pack_number[]" value="{$vo.number}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td> 
                         <td><a href="javascript:void(0)" onclick="delSpec(this)" data-id="{$vo.id}" class="layui-btn layui-btn-primary layui-btn-xs"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
                         </tr>
                         {/volist}

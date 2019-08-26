@@ -1,0 +1,60 @@
+<div class="layui-card">
+    <form class="layui-form layui-card-header layuiadmin-card-header-auto" tableId="lay-common-table">
+        <div class="layui-form-item">            
+            <div class="layui-inline">
+                <label class="layui-form-mid">日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date" id="date" autocomplete="off" class="layui-input" placeholder=" - "/>             
+                </div>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn" type="button" id="myBtn" style="display: block;">
+                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="layui-card-body">
+        <table id="test" class="lay-common-table"></table>
+    </div>
+</div>
+<script>
+layui.config({
+    base: '{:RES}/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index','table','laydate'],function(){
+    var form = layui.form,
+        table = layui.table,
+        laydate = layui.laydate,
+        $ = layui.$;
+
+    laydate.render({
+        elem: '#date',
+        range: true
+    });
+
+    var tableIns = table.render({
+        elem: '#test'
+        ,url:'{:url('jiesuan/index')}'
+        ,method:'post'
+        ,title: '每日结算'
+        ,totalRow: true
+        ,cols: [[
+            {field:'date', title:'日期', width:120, unresize: true, sort: true, totalRowText: '合计'}
+            ,{field:'total', title:'订单总金额', width:150, sort: true, totalRow: true}
+            ,{field:'wallet', title:'余额支付', width:150, edit: 'text', sort: true, totalRow: true}
+            ,{field:'money', title:'实付金额', width:150, sort: true, totalRow: true}
+            ,{field:'inprice', title:'商品成本',width:150, totalRow: true}
+            ,{field:'lirun', title:'利润', width:100, totalRow: true}
+        ]]
+    });
+
+    $("#myBtn").click(function(){
+        tableIns.reload({
+            where:{date:$("#date").val()}
+        });
+    });
+});
+</script>

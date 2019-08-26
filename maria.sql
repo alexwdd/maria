@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-08-25 23:31:43
+Date: 2019-08-26 17:05:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -968,7 +968,7 @@ CREATE TABLE `pm_node` (
   KEY `pid` (`pid`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_node
@@ -1052,6 +1052,7 @@ INSERT INTO `pm_node` VALUES ('90', '包裹定位', 'baoguo', '1', '', '73', '2'
 INSERT INTO `pm_node` VALUES ('91', '基金返利', 'fund', '1', '', '73', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('92', '财务明细', 'finance', '1', '', '73', '2', '', '0', '50', '1');
 INSERT INTO `pm_node` VALUES ('93', '待支付', 'order/nopay', '1', '', '83', '3', '', '0', '10', '1');
+INSERT INTO `pm_node` VALUES ('94', '每日结算', 'jiesuan', '1', '', '73', '2', '', '0', '50', '1');
 
 -- ----------------------------
 -- Table structure for `pm_onepage`
