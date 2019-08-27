@@ -256,12 +256,13 @@ class Base extends Controller {
         }else{
             require_once EXTEND_PATH.'omipay/OmiPayApi.php';
             require_once EXTEND_PATH.'omipay/OmiPayData.php';
+            $config = tpCache("omi");
             $domain = 'AU';
             // 设置'CN'为访问国内的节点 ,设置为'AU'为访问香港的节点
             $input = new \OmiPayExchangeRate();
-            $input -> setMerchantNo(config('omipay.mchID'));
-            $input -> setSercretKey(config('omipay.key'));
-            $input -> setPlatform("设置查询平台'WECHATPAY/ALIPAY'");
+            $input -> setMerchantNo($config['OMI_ID']);
+            $input -> setSercretKey($config['OMI_KEY']);
+            //$input -> setPlatform("设置查询平台'WECHATPAY/ALIPAY'");
             $omipay = new \OmiPayApi();
             $res = $omipay->exchangeRate($input,$domain);
             if ($res['success']) {
@@ -272,6 +273,105 @@ class Base extends Controller {
             cache("rate",$rate,3600);
             return $rate;
         }        
+    }
+
+    public function getAueToken(){
+        if (cache("aueToken")) {
+            return cache("aueToken");
+        }else{
+            $url = 'http://auth.auexpress.com/api/token';
+            $config = tpCache("kuaidi");
+            $data = ['MemberId'=>$config['AUE_ID'],'Password'=>$config['AUE_KEY']];
+            $res = $this->https_post($url,$data,true);
+            $res = json_decode($res,true);   
+            if ($res['Token']) {
+                $token = $res['Token'];
+                cache("aueToken",$token,7200);
+                return $token;
+            }else{
+                return '';
+            }           
+        }
+    }
+
+    public function createSingleOrder($order){
+        $goods = db("OrderDetail")->where("baoguoID",$order['id'])->select();
+        $content = '';
+        foreach ($goods as $k => $val) {      
+            $goodsName = $val['short'];        
+            if ($k==0) {
+                $content .= $goodsName.'*'.$val['number'];
+            }else{
+                $content .= ";".$goodsName.'*'.$val['number'];
+            }
+        }
+
+        $brandID = getBrandID($order);
+        $config = tpCache("kuaidi");
+        $data = [
+            'MemberId'=>$config['AUE_ID'],
+            'BrandId'=>$brandID,
+            'SenderName'=>$order['sender'],
+            'SenderPhone'=>$order['senderTel'],
+            'ReceiverName'=>$order['name'],
+            'ReceiverPhone'=>$order['tel'],
+            'ReceiverProvince'=>$order['province'],
+            'ReceiverCity'=>$order['city'],
+            'ReceiverAddr1'=>$order['county'].$order['addressDetail'],
+            'ChargeWeight'=>0,
+            'Value'=>0,
+            'ShipmentContent'=>$content
+        ];
+
+        $token = $this->getAueToken();
+        $url = 'http://aueapi.auexpress.com/api/AgentShipmentOrder/Create';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS,'['.json_encode($data).']');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization: Bearer '.$token));
+        $result = curl_exec($ch);
+        $result = json_decode($result,true);    
+
+        if ($result['Message']=='Authentication failed, invalid token.') {
+            Cache::rm('aueToken');  
+        }
+        if ($result['Code']==0 && $result['Message']!='' && $result['Message']!='Authentication failed, invalid' && $result['Message']!='Authentication failed, invalid token.') {
+            $update = [
+                'kdNo'=>$result['Message']
+            ];
+            db("OrderBaoguo")->where('id',$order['id'])->update($update);
+            return ['code'=>1,'msg'=>$result['Message']];
+        }else{
+            return ['code'=>0,'msg'=>$result['Errors'][0]['Message']];
+        }
+    }
+
+    public function saveAuePng($orderNo){        
+        $token = $this->getAueToken();
+        $url = 'http://aueapi.auexpress.com/api/OrderLabelPrint?orderId='.$orderNo.'&printMode=1&fileType=0&fontSize=0';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer '.$token));
+        $res = curl_exec($ch);
+        if ($res=='') {
+            return '';
+        }else{
+            $path = config('UPLOAD_PATH').'order/'.date("Ymd").'/'.$orderNo.'.png';
+            $filename = '.'.$path;   // 文件保存路径
+            $this->createDir(dirname($filename));
+            $fp= @fopen($filename,"w"); 
+            fwrite($fp,$res);
+            return $path;
+        }        
+    }
+
+    public function createDir($path){ 
+        if (!file_exists($path)){ 
+            $this->createDir(dirname($path)); 
+            mkdir($path, 0777); 
+        } 
     }
 
     //获取购物车信息
@@ -391,9 +491,8 @@ class Base extends Controller {
         }
     }
 
-    public function https_post($url,$data = null){
+    public function https_post($url,$data = null,$json = false){
         $ch = curl_init();
-        $header = "Accept-Charset: utf-8";
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -402,7 +501,16 @@ class Base extends Controller {
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);      
+        if (!empty($data)) {
+            if ($json && is_array($data)) {
+                $data = json_encode($data);
+            }
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);            
+            if ($json) {//发送JSON数据
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            }
+        }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);       
         return $output;

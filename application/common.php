@@ -141,6 +141,17 @@ function getOrderStatus($order){
     }
 }
 
+//获取中邮快递ID
+function getBrandID($order){
+    if ($order['type']==1 || $order['type']==2 || $order['type']==3) {
+        return 1;
+    }
+    if ($order['type']==5) {
+        return 2;
+    }
+    return 3;
+}
+
 function getMoneyType($type){
     foreach (config('moneyType') as $key => $value) {
         if($key == $type){
@@ -494,5 +505,19 @@ function getfirstchar($s0){
     if($asc >= -11847 and $asc <= -11056) return "Y";
     if($asc >= -11055 and $asc <= -10247) return "Z";
     return '';
+}
+
+//图片转base64
+function base64EncodeImage($image_file) {
+    $base64_image = '';
+    $image_info = getimagesize($image_file);
+    if($image_info){
+        $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+        //$base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+        $base64_image = chunk_split(base64_encode($image_data));
+        return $base64_image;
+    }else{
+        return '';
+    }    
 }
 ?>

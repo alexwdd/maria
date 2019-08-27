@@ -18,6 +18,8 @@
 	autoCoupon		注册就送优惠券
 	base64ToImg		base64转图片
 	getCodeStatus	检查短信验证码是否正确
+	createSingleOrder	创建包裹订单号
+	saveAuePng	生成电子面单
 
 # 工具栏的方法
 	action			不开启新窗口，直接post
