@@ -24,7 +24,7 @@ class Wechat extends Common {
                 if ($con['errcode']) {
                     returnJson(0,$con['errmsg']);
                 }else{
-                    $openid = $con['openid'];
+                    $openid = $con['unionid'];
                     $access_token = $con['access_token'];
                     $url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';            
                     $con = $this->https_post($url);
