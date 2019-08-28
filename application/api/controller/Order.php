@@ -155,6 +155,11 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $config = tpCache("member");
 
+            $lock =  'order_'.$this->user['id'];
+            if(!$this->lock(5,$lock,$this->user['id'])){
+                returnJson(0,'操作太频繁，稍后重试!');
+            }
+
             $ids = input('post.ids');
             if ($ids=='') {
                 returnJson(0,'缺少参数');
@@ -170,9 +175,6 @@ class Order extends Auth {
 
             $cut = input('post.cut');
 
-            //缺少判断库存
-
-
             $goodsMoney = 0;   //商品总金额
             $cutMoney = 0;     //可打折金额
             $inprice = 0;
@@ -180,6 +182,15 @@ class Order extends Auth {
             $isCut = 1;        //订单是否可以砍价
             foreach ($list as $key => $value) {
                 $goods = db("Goods")->where('id',$value['goodsID'])->find();
+
+                if (!$goods) {
+                    returnJson(0,'商品【'.$goods['name'].'】已经下架');
+                }
+
+                if ($goods['stock'] < $value['trueNumber']) {
+                    returnJson(0,'商品【'.$goods['name'].'】库存不足，当前库存为'.$goods['stock']);
+                }
+
                 if($goods['fid']>0){
                     $fid = $goods['fid'];
                 }else{

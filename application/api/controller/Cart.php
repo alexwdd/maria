@@ -26,8 +26,24 @@ class Cart extends Auth {
 
                 $total += $list[$key]['total'];
             }
-            $rmb = number_format($this->rate*$total,1); 
-            returnJson(1,'success',['cart'=>$list,'total'=>$total,'rmb'=>$rmb]);
+            $rmb = number_format($this->rate*$total,1);
+
+            
+            //为您推荐 
+            $obj = db('GoodsPush');
+            $comm = $obj->field('goodsID')->where('cateID',3)->limit(10)->order('id desc')->select();
+            foreach ($comm as $key => $value) {                
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
+
+                unset($comm[$key]['goodsID']);
+                $goods['picname'] = getThumb($goods["picname"],200,200);
+                $goods['picname'] = getRealUrl($goods['picname']);
+                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $comm[$key] = $goods;
+            }
+           
+
+            returnJson(1,'success',['cart'=>$list,'total'=>$total,'rmb'=>$rmb,'goods'=>$comm]);
         }
     }
 

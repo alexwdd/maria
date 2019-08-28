@@ -514,5 +514,28 @@ class Base extends Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);       
         return $output;
-    }    
+    }
+
+    //防止重复提交
+    public function lock($expire=1,$mark='',$userid){
+        $request= \think\Request::instance();
+        $url=strtolower($request->module().'/'.$request->controller().'/'.$request->action());//操作地址  
+        $prefix='lock_'; 
+        $key=$prefix.md5($userid.$url.$mark);//令牌键值
+        $options = [
+            'type'      => 'redis',
+            'host'      => '127.0.0.1',
+            'port'      => '6379',//你redis的端口号，可以在配置文件设置其他的
+            'password'  => '', //这里是你redis配置的密码，如果没有则留空
+            'timeout'   => 3600 //缓存时间
+        ];
+        cache($options);
+        if(!cache($key)){
+            cache($key, $expire, $expire);
+            return true;
+        }else{
+            return false;
+        }
+        return true;   
+    }
 }
