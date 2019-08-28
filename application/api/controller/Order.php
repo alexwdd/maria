@@ -103,6 +103,8 @@ class Order extends Auth {
                 }else{
                     $list['upload'] = 1;
                 }
+                $list['front']=getRealUrl($list['front']);
+                $list['back']=getRealUrl($list['back']);
                 $list['statusStr'] = getOrderStatus($list);
 
                 if($list['isCut']==1){
@@ -762,6 +764,59 @@ class Order extends Auth {
                 returnJson(0,'没有查询到相关资源');
             }
             returnJson(1,'success',['data'=>$result]);
+        }
+    }
+
+    public function updatePersonCard(){
+        if (request()->isPost()) {
+            //if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $id = input('post.id');
+            $front = input('post.front');
+            $back = input('post.back');
+            if ($id=='') {
+                returnJson(0,'参数错误');
+            }
+            if ($front=='' && $back=='') {
+                returnJson(0,'请选择身份证照片');
+            }
+
+            $map['id'] = $id;
+            $map['memberID'] = $this->user['id'];
+            $list = db("Order")->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单不存在');
+            }
+
+            if($front!=''){
+                $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
+                $fileName = createNonceStr();
+                $frontUrl = $this->base64ToImg($path,$fileName,$front);
+            }
+            
+            if($back!=''){
+                $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
+                $fileName = createNonceStr();
+                $backUrl = $this->base64ToImg($path,$fileName,$back);
+            }
+            
+            if($frontUrl != ''){
+                $data['front'] = $frontUrl;
+            }
+
+            if($backUrl != ''){
+                $data['back'] = $backUrl;
+            }
+
+            $res = db("Order")->where('id',$id)->update($data);
+
+            if($res){
+                $frontUrl = getRealUrl($frontUrl);
+                $backUrl = getRealUrl($backUrl);
+                returnJson(1,'success',['front'=>$frontUrl,'back'=>$backUrl]);
+            }else{
+                returnJson(0,'照片保存失败');
+            }
         }
     }
 }
