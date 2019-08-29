@@ -362,12 +362,13 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,name,picname,image,price,marketPrice,point,content,say,intr')->where($map)->find();
+            $list = db('Goods')->field('id,fid,name,picname,image,price,marketPrice,point,number,content,say,intr')->where($map)->find();
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
             $list['picname'] = getThumb($list["picname"],200,200);
             $list['picname'] = getRealUrl($list['picname']);
+            $list['point'] = $list['point'] * $list['number'];
 
             if ($list['image']=='') {
                 $list['image'] = array($list['picname']);            
@@ -434,7 +435,7 @@ class Goods extends Common {
             $ids = db("CouponGoods")->where('goodsID',$list['id'])->value('couponID');
             $map['id'] = array('in',$ids);
             $map['goodsID'] = array('eq','');
-            $coupon = db("Coupon")->field('id,name,desc,full,dec,number')->whereOr($map)->select();
+            $coupon = db("Coupon")->field('id,name,desc,full,dec,number')->whereOr($map)->where('status',1)->select();
             foreach ($coupon as $key => $value) {
                 $where['couponID'] = $value['id'];
                 $where['memberID'] = $this->user['id'];

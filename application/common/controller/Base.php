@@ -106,7 +106,7 @@ class Base extends Controller {
         $pack = db("Goods")->field('id,name,price')->where('fid',$fid)->select();
 
         //参数规格
-        $spec  = db('GoodsSpecPrice')->where("goods_id", $fid)->column("key,key_name,price,item_id");  
+        $spec  = db('GoodsSpecPrice')->where("goods_id", $fid)->column("key,key_name,price,item_id,spec_img");  
 
         //是否今日抢购
         if($flash = $this->checkInFlash($fid,$flashArr)){
@@ -145,7 +145,10 @@ class Base extends Controller {
             $goods['isFlash'] = 0;
         }
         foreach ($spec as $key => $value) {
-            $spec[$key]['rmb'] =  round($this->rate*$value['price'],1);            
+            $spec[$key]['rmb'] =  round($this->rate*$value['price'],1);
+            
+            $value['spec_img'] = getThumb($value['spec_img'],200,200);
+            $spec[$key]['spec_img'] = getRealUrl($value['spec_img']);
         }
         foreach ($pack as $key => $value) {
             $pack[$key]['rmb'] =  round($this->rate*$value['price'],1);            
