@@ -247,7 +247,7 @@
                         <td><input type="text" name="pack_price[]" value="{$vo.price}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
                         <td><input type="text" name="pack_cutPrice[]" value="{$vo.cutPrice}" lay-verify="required" placeholder="0不允许砍价" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
                         <td><input type="text" name="pack_number[]" value="{$vo.number}" lay-verify="required" class="layui-input" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td> 
-                        <td><a href="javascript:void(0)" onclick="delSpec(this)" data-id="{$vo.id}" class="layui-btn layui-btn-primary layui-btn-xs"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
+                        <td><a href="javascript:void(0)" data-id="{$vo.id}" class="layui-btn layui-btn-primary layui-btn-xs del-pack-btn"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
                         </tr>
                         {/volist}
                     </tbody>
@@ -279,7 +279,7 @@
                     <div class="layui-col-md12">                        
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" id="keyword" name="keyword" autocomplete="off" placeholder="名称" class="layui-input"/>
+                                <input type="text" id="skeyword" autocomplete="off" placeholder="名称" class="layui-input"/>
                             </div>
                             <div class="layui-inline">
                                 <button class="layui-btn" type="button" id="goods-search">
@@ -550,7 +550,7 @@ layui.config({
             elem: '#goodsTable',
             url: '{:url('goods/index')}', //数据接口
             method:'post',
-            where: {goods_id:'{$list.id}',keyword:$("#keyword").val()},
+            where: {goods_id:'{$list.id}',keyword:$("#skeyword").val()},
             page: true, //开启分页
             cols: [[ //表头
                 {field: 'picname', title: '图片' , width: 80 , templet:'#imageTpl'},
@@ -586,7 +586,7 @@ layui.config({
     });
 
     $("#goods-search").click(function(){
-        var keyword = $("#keyword").val();
+        var keyword = $("#skeyword").val();
         if(keyword!=''){
             getData();
         }
