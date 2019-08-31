@@ -69,6 +69,21 @@ class Index extends Common
             }
 
             $flashTime = checkFlashTime($config['flashTime']);
+
+            $flashH5 = [];
+            $q = [];
+            $i = 1;
+            foreach ($flash as $key => $value) {
+                array_push($q,$flash[$key]);
+                if ($i%3==0) {
+                    array_push($flashH5,$q);
+                    $q = [];
+                }
+                $i++;
+            }
+            if (count($q)>0) {
+                array_push($flashH5,$q);
+            }
             
             returnJson(1,'success',[
             	'ad'=>$ad,
@@ -77,6 +92,7 @@ class Index extends Common
                 'push'=>$push,
                 'commend'=>$commend,
                 'flash'=>$flash,
+                'flashH5'=>$flashH5,
                 'flashTime'=>$flashTime,
             	'rate'=>$this->rate,
             	'hotkey'=>explode(",", $config['hotkey']),
