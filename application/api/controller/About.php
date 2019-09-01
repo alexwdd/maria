@@ -21,5 +21,13 @@ class About extends Common
             }
            
         }
-    }	
+    }
+
+    public function version(){ 
+        $list = db('Version')->field('version,desc,url,status,createTime')->order('id desc')->select();
+        foreach ($list as $key => $value) {
+            $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
+        }
+        returnJson(1,'success',array('lists'=>$list));   
+    }
 }
