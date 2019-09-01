@@ -84,17 +84,36 @@ class Base extends Controller {
 
     //商品是否在限时抢购中
     public function checkInFlash($goodsID,$flash){
-        foreach ($flash as $key => $value) {
-            if($value['goodsID'] == $goodsID){
-                return $value;
-                break;
+        $config = tpCache("member");
+        $time = $config['flashTime'];
+        $time = explode("-",$time);
+        $start = strtotime(date($time[0]));
+        $end = strtotime(date($time[1]));
+        if (time()>$start && time()<$end) {//是否在抢购时间范围        
+            foreach ($flash as $key => $value) {
+                if($value['goodsID'] == $goodsID){
+                    //判断是否抢光了
+                    $sellNumber = $this->getFlashNumber($goodsID);
+                    if($sellNumber < $value['number']){
+                        $per = ($sellNumber/$value['number'])*100;          
+                        if($per>100){
+                            $per = 100;
+                        }
+                        $value['per'] = $per;
+                        return $value;
+                        break;
+                    }
+                }
             }
+            return false;
+        }else{
+            return false;
         }
-        return false;
     }
 
     //返回商品的价格，套餐，规格型号
     public function getGoodsDetail($goods,$flashArr){
+        $config = tpCache('member');
         //判断是套餐的ID还是商品的ID
         if($goods['fid']>0){
             $fid = $goods['fid'];
@@ -110,36 +129,26 @@ class Base extends Controller {
 
         //是否今日抢购
         if($flash = $this->checkInFlash($fid,$flashArr)){
-            $sellNumber = $this->getFlashNumber($goods['goodsID']);
-            $per = ($sellNumber/$flash['number'])*100;
-            
-            if($per>100){
-                $per = 100;
-            }
-            $goods['per'] = $per;
+            $goods['per'] = $flash['per'];
             $flash['spec'] = unserialize($flash['spec']);
-            $flash['pack'] = unserialize($flash['pack']);            
-            $goods['isFlash'] = 1;
+            $flash['pack'] = unserialize($flash['pack']); 
 
-            if($per<100){
-                $goods['price'] = $flash['price'];
-
-                foreach ($flash['pack'] as $key => $value) {
-                    foreach ($pack as $k => $val) {
-                        if($val['id'] == $value['packID']){
-                            $pack[$k]['price'] = $value['price'];
-                        }
-                    }
-                }
-
-                foreach ($flash['spec'] as $key => $value) {
-                    foreach ($spec as $k => $val) {
-                        if($val['item_id'] == $value['specID']){
-                            $spec[$k]['price'] = $value['price'];
-                        }
+            $goods['price'] = $flash['price'];
+            foreach ($flash['pack'] as $key => $value) {
+                foreach ($pack as $k => $val) {
+                    if($val['id'] == $value['packID']){
+                        $pack[$k]['price'] = $value['price'];
                     }
                 }
             }
+            foreach ($flash['spec'] as $key => $value) {
+                foreach ($spec as $k => $val) {
+                    if($val['item_id'] == $value['specID']){
+                        $spec[$k]['price'] = $value['price'];
+                    }
+                }
+            }
+            $goods['isFlash'] = 1;            
         }else{
             $goods['isFlash'] = 0;
         }

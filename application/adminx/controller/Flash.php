@@ -19,6 +19,11 @@ class Flash extends Admin {
             $data = input('post.');
             db('Flash')->where('goodsID',$data['goodsID'])->delete();
             $result = model('Flash')->add( $data );
+            if($result['code']==1){
+                $map['id'] = $data['goodsID'];
+                $map['fid'] = $data['goodsID'];
+                db("Goods")->whereOr($map)->setField("flash",1);
+            }
             return $result;
         }else{
             $id = input('get.id');
@@ -48,6 +53,10 @@ class Flash extends Admin {
 			$this->error('请选择要删除的数据');
 		}else{
 			if(model('Flash')->del($id)){
+                $goodsID = db("Flash")->where('id','in',$id)->column('goodsID');
+                $map['id'] = array('in',$goodsID);
+                $map['fid'] = array('in',$goodsID);
+                db("Goods")->whereOr($map)->setField("flash",0);
 				$this->success("操作成功");
 			}else{
 				$this->error('操作失败');
