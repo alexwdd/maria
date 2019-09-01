@@ -10,11 +10,20 @@
         <div class="fsDatagridCols">
             <p checkbox="true"/>				
 			<p field="id" title="ID" width="80"/>
+            <p title="类型" width="110" templet="#type"/>
 			<p field="version" title="版本号" width="80"/>
           	<p field="url" title="url地址" width="40%"/>
 			<p field="status" title="强制更新" width="110" templet="#status"/>
             <p fixed="right" align="left" toolbar="#barDemo" title="操作" width="80"/>
         </div>
+
+        <script type="text/html" id="type">
+        {{# if(d.type==1){ }}
+        安卓
+        {{# }else{ }}
+        IOS
+        {{# } }}
+        </script>
 
         <script type="text/html" id="status">
 		{{# if(d.status==0){ }}

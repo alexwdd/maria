@@ -477,13 +477,48 @@ class Account extends Auth {
             returnJson(1,'操作成功');
         }
     }
-        
+
     //上传图片
     public function upload(){
+        if(!checkFormDate()){
+            returnJson(0,'非法提交');
+        }
+
+        $path = '.'.config('UPLOAD_PATH');
+
+        if(!is_dir($path)){
+            mkdir($path);
+        }
+
+        $file = request()->file('file');
+        if(!$file){
+            returnJson(0,'请选择要上传的图片');
+        }
+        $info = $file->validate(['size'=>config('image_size')*1000*1000,'ext'=>config('image_exts')])->move($path);
+
+        if($info){
+            $fname=str_replace('\\','/',$info->getSaveName());
+            $fname = config('UPLOAD_PATH').$fname;    
+
+            $image = \think\Image::open('.'.$fname);
+            // 按照原图的比例生成一个最大为150*150的缩略图并保存为thumb.png
+            $image->thumb(config('IMAGE_MAX_WIDTH'), config('IMAGE_MAX_HEIGHT'))->save('.'.$fname);
+            returnJson(1,'success',['url'=>$fname,'realUrl'=>getRealUrl($fname)]);
+        }else{
+            //是专门来获取上传的错误信息的
+            returnJson(0,$file->getError());
+        }
+    }
+        
+    //上传头像
+    public function uploadFace(){
         if (request()->isPost()) {
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $image = input('post.image');
             $path = config('UPLOAD_PATH').'face/';
+            if($image==''){
+                returnJson(0,'请选择照片');
+            }
             $fileName = createNonceStr();
             $fileUrl = $this->base64ToImg($path,$fileName,$image);
             $fileUrl = getUserFace($fileUrl);

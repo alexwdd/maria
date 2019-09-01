@@ -97,7 +97,7 @@ class Upload extends Admin{
 		}
 
 	    $file = request()->file('file');
-		$info = $file->validate(['size'=>config('image_size')*1000*1000,'ext'=>config('image_exts')])->move($path);
+		$info = $file->validate(['size'=>config('file_size')*1000*1000,'ext'=>config('file_exts')])->move($path);
 
 		if($info){
 			$fname=str_replace('\\','/',$info->getSaveName());

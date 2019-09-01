@@ -249,8 +249,11 @@ return [
     'UPLOAD_PATH' => '/uploads/', //上传保存路径
     'IMAGE_MAX_WIDTH' => 1000,  //图片最大宽度
     'IMAGE_MAX_HEIGHT' => 2000,  //图片最大高度
-    'image_exts' => 'jpg,png,bmp,jpeg,gif,xls',
+    'image_exts' => 'jpg,png,bmp,jpeg,gif',
     'image_size' => 5, //单位兆
+
+    'file_exts' => 'rar,zip,xls',
+    'file_size' => 10, //单位兆
 
     //token有效期，小时
     'TOKEN_HOUR'=>24*30,
