@@ -22,9 +22,9 @@ class Upload extends Admin{
 
 	#保存图片
 	private function _saveimage($dir=NULL,$water=0,$thumb=0){
-		if(!checkFormDate()){
+		/*if(!checkFormDate()){
 	        return array('state'=>'非法提交');
-	    }
+	    }*/
 
 		if (empty($dir)) {
 			$path = '.'.config('UPLOAD_PATH');
@@ -82,9 +82,9 @@ class Upload extends Admin{
 
  	#保存文件
 	private function _savefile($dir=NULL){
-		if(!checkRequest()){
+		/*if(!checkRequest()){
 	        return array('state'=>'非法提交');
-	    }
+	    }*/
 
 		if (empty($dir)) {
 			$path = '.'.config('UPLOAD_PATH');
