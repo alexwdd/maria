@@ -1,8 +1,9 @@
 <div class="layui-card">
     <div class="layui-card-body">
         <div style="padding-bottom: 10px;">
-            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="add" data-tableId="lay-common-table" url="{:url('fund/pub')}" topWidth="80%" topHeight="80%" topTitle="返利">返利</button>     
-            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="refresh" data-tableId="lay-common-table">刷新</button>            
+            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="add" data-tableId="lay-common-table" url="{:url('fund/pub')}" topWidth="80%" topHeight="80%" topTitle="返利">返利</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" id="jisuan">计算返利</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary tools-btn" data-type="refresh" data-tableId="lay-common-table">刷新</button>
         </div>
 
         <table id="lay-common-table" class="lay-common-table" lay-method="post" lay-url="{:url('fund/index')}" lay-filter="lay-common-table"></table>
@@ -22,5 +23,14 @@ layui.config({
     index: 'lib/index' //主入口模块
 }).use(['index','table'],function(){
     var form = layui.form, $ = layui.$;
+    $("#jisuan").click(function(){
+        var load = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.get('{:url("fund/jisuan")}',function(res){
+            layer.close(load);
+            layer.alert("当前返利总金额"+res.total+"元");
+        },'json')
+    })
 });
 </script>

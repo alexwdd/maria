@@ -81,5 +81,20 @@ class Fund extends Admin {
             return view();
         }
     }
+
+    public function jisuan(){
+        set_time_limit(1800);
+
+        $list = db("Member")->field('id')->select();
+        $config = tpCache('member');
+        $total = 0;
+        foreach ($list as $key => $value) {
+            $fina = $this->getUserMoney($value['id']);
+            $result = getFundBack($fina['point']);
+            $bar = $result['bar'];
+            $total += round(($bar * $fina['fund'] /100),2);
+        }
+        echo json_encode(['total'=>$total]);
+    }
 }
 ?>
