@@ -38,7 +38,7 @@ class Cart extends Auth {
                 unset($comm[$key]['goodsID']);
                 $goods['picname'] = getThumb($goods["picname"],200,200);
                 $goods['picname'] = getRealUrl($goods['picname']);
-                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $goods['rmb'] = round($goods['price']*$this->rate,1);
                 $comm[$key] = $goods;
             }
            

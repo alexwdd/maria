@@ -462,8 +462,8 @@ class Order extends Auth {
                 returnJson(0,'订单不存在');
             }
 
-            $list['rmb'] = round($list['total']*$this->rate,2);
-            $list['minRmb'] = round($list['minGoodsMoney']*$this->rate,2);
+            $list['rmb'] = round($list['total']*$this->rate,1);
+            $list['minRmb'] = round($list['minGoodsMoney']*$this->rate,1);
             $list['headimg'] = $this->user['headimg'];
             if($list['endTime']>0){
                 $list['endTime'] = date("Y-m-d H:i:s",$list['endTime']);
@@ -490,7 +490,7 @@ class Order extends Auth {
                 unset($commend[$key]['goodsID']);
                 $goods['picname'] = getThumb($goods["picname"],200,200);
                 $goods['picname'] = getRealUrl($goods['picname']);
-                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $goods['rmb'] = round($goods['price']*$this->rate,1);
                 $commend[$key] = $goods;
             }
 
@@ -587,7 +587,7 @@ class Order extends Auth {
             }
 
             $list['rate'] = $this->getRate();
-            $list['rmb'] = round($list['total']*$this->rate,2);
+            $list['rmb'] = round($list['total']*$this->rate,1);
             $fina = $this->getUserMoney($this->user['id']);
             if($fina['money']>=$list['total']){
                 $type = 2;
@@ -739,7 +739,7 @@ class Order extends Auth {
                 unset($list[$key]['goodsID']);
                 $goods['picname'] = getThumb($goods["picname"],200,200);
                 $goods['picname'] = getRealUrl($goods['picname']);
-                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $goods['rmb'] = round($goods['price']*$this->rate,1);
                 $list[$key] = $goods;
             }
 

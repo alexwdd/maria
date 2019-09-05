@@ -33,7 +33,7 @@ class Index extends Common
                     if ($goods) {
                         $goods['picname'] = getThumb($goods["picname"],400,400);
                         $goods['picname'] = getRealUrl($goods['picname']);
-                        $goods['rmb'] = round($goods['price']*$this->rate,2);
+                        $goods['rmb'] = round($goods['price']*$this->rate,1);
                         $push[$key]['goods'] = $goods;
                     }                    
                 }                
@@ -47,7 +47,7 @@ class Index extends Common
             foreach ($commend as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],400,400);
                 $commend[$key]['picname'] = getRealUrl($value['picname']);
-                $commend[$key]['rmb'] = round($value['price']*$this->rate,2);
+                $commend[$key]['rmb'] = round($value['price']*$this->rate,1);
             }
 
             unset($map);
@@ -68,7 +68,7 @@ class Index extends Common
                 $flash[$key]['name'] = $goods['name'];
                 $flash[$key]['picname'] = getRealUrl($goods['picname']);
                 $flash[$key]['marketPrice'] = $goods['marketPrice'];
-                $flash[$key]['rmb'] = round($value['price']*$this->rate,2);
+                $flash[$key]['rmb'] = round($value['price']*$this->rate,1);
             }
 
             $flashTime = checkFlashTime($config['flashTime']);

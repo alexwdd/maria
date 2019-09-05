@@ -65,7 +65,7 @@ class Account extends Auth {
                 unset($list[$key]['goodsID']);
                 $goods['picname'] = getThumb($goods["picname"],200,200);
                 $goods['picname'] = getRealUrl($goods['picname']);
-                $goods['rmb'] = round($goods['price']*$this->rate,2);
+                $goods['rmb'] = round($goods['price']*$this->rate,1);
                 $list[$key] = $goods;
             }
 
@@ -76,7 +76,7 @@ class Account extends Auth {
                 'jifen'=>$result,
                 'lastMonth'=>[
                     'money'=>$lastMonth,
-                    'rmb'=>round($lastMonth*$this->rate,2)
+                    'rmb'=>round($lastMonth*$this->rate,1)
                 ],
                 'config'=>[
                     ['jifen'=>$config['jifen1'],'bar'=>$config['back1']],
@@ -242,7 +242,7 @@ class Account extends Auth {
                 $goods = db('Goods')->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->find();
                 if($goods){
                     $goods['picname'] = getRealUrl($goods['picname']);
-                    $goods['rmb'] = round($value['price']*$this->rate,2);
+                    $goods['rmb'] = round($value['price']*$this->rate,1);
                 }else{
                     $goods = [];
                 }                
