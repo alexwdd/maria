@@ -799,16 +799,20 @@ class Order extends Auth {
                 returnJson(0,'订单不存在');
             }
 
-            if($front!=''){
+            if($front!='' && strstr($front, 'base64')){
                 $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
                 $fileName = createNonceStr();
                 $frontUrl = $this->base64ToImg($path,$fileName,$front);
+            }else{
+                $frontUrl = $front;
             }
             
-            if($back!=''){
+            if($back!='' && strstr($back, 'base64')){
                 $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
                 $fileName = createNonceStr();
                 $backUrl = $this->base64ToImg($path,$fileName,$back);
+            }else{
+                $backUrl = $back;
             }
             
             if($frontUrl != ''){
