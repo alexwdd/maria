@@ -378,6 +378,7 @@ class Order extends Auth {
                 $map['id'] = array('in',$ids);
                 db("Cart")->where($map)->delete();
                 returnJson(1,'订单创建成功',[
+                    'id'=>$orderID,
                     'order_no'=>$order_no,
                     'isCut'=>$data['isCut'],
                     'total'=>$data['total'],
