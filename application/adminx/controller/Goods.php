@@ -375,10 +375,12 @@ class Goods extends Admin
                 $data['en'] = trim($sheet->getCellByColumnAndRow(21, $i)->getValue());
 
                 if ($goodsID!='' && $goodsID>0) {
-                    $res = db("Goods")->where('id',$goodsID)->find();
+                    $where['id'] = $goodsID;
+                    $map['fid'] = 0;
+                    $res = db("Goods")->where($where)->find();
                 }
 
-                if ($res) {                    
+                if ($res) {
                     $obj->where('id',$goodsID)->update($data);
                 }else{
                     $data['sort'] = 50;
