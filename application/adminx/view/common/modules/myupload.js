@@ -52,7 +52,7 @@ layui.define(['upload'], function(exports) {
 	                }
 
 	                //上传成功后，返回文件路径
-					_html = '<li><a href="'+res.data.url+'" target="_blank"><img src="'+res.data.url+'" /></a><input type="hidden" name="image[]" value="'+res.data.url+'" /><i class="layui-icon del-img-btn" data-url="'+res.data.url+'">&#x1006;</i></li>';
+					_html = '<li><a href="'+res.data.url+'" target="_blank"><img src="'+res.data.url+'" /></a><input type="hidden" name="'+opt.name+'[]" value="'+res.data.url+'" /><i class="layui-icon del-img-btn" data-url="'+res.data.url+'">&#x1006;</i></li>';
 					thisBtn = this.item;
 					thisBtn.before(_html);
 	            },

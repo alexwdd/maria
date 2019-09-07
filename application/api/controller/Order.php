@@ -140,11 +140,23 @@ class Order extends Auth {
                     $baoguo[$key]['number'] = $number;
 
                     if($value['image']){
-                        $baoguo[$key]['image'] = explode(",", $value['image']);
+                        $image = explode(",", $value['image']);
+                        foreach ($image as $k => $val) {
+                            $image[$k] = getRealUrl($val);
+                        }        
+                    }else{
+                        $image = [];
                     }
                     if($value['eimg']){
-                        $baoguo[$key]['eimg'] = explode(",", $value['eimg']);
+                        $eimg = explode(",", $value['eimg']);
+                        foreach ($eimg as $k => $val) {
+                            $eimg[$k] = getRealUrl($val);
+                        }   
+                    }else{
+                        $eimg = [];
                     }
+                    $image = array_merge($eimg,$image);
+                    $baoguo[$key]['image'] = $image;
                 }   
                 returnJson(1,'success',[
                     'order'=>$list,
@@ -290,6 +302,7 @@ class Order extends Auth {
             $data['point'] = $point;
             $data['payment'] = $baoguo['totalPrice'];
             $data['goodsMoney'] = $goodsMoney;
+            $data['maxGoodsMoney'] = $total;
             $data['minGoodsMoney'] = $goodsMoney - $cutMoney;
             $data['inprice'] = $inprice;
             $data['order_no'] = $order_no;
@@ -465,14 +478,15 @@ class Order extends Auth {
             }
             $map['order_no'] = $order_no;
             $map['isCut'] = 1;
-            $list = db('Order')->field('id,order_no,createTime,total,minGoodsMoney,endTime')->where($map)->find();
+            $list = db('Order')->field('id,memberID,order_no,createTime,total,maxGoodsMoney,minGoodsMoney,endTime')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
             }
 
             $list['rmb'] = round($list['total']*$this->rate,1);
             $list['minRmb'] = round($list['minGoodsMoney']*$this->rate,1);
-            $list['headimg'] = $this->user['headimg'];
+            $headimg = db('Member')->where('id',$list['memberID'])->value('headimg');
+            $list['headimg'] = getUserFace($headimg);
             if($list['endTime']>0){
                 $list['endTime'] = date("Y-m-d H:i:s",$list['endTime']);
                 $list['end'] = 1;
@@ -488,6 +502,11 @@ class Order extends Auth {
             $list['goods'] = $goods;
 
             $friend = db("OrderCut")->field('money,headimg')->where('orderID',$list['id'])->select();
+            $total = 0;
+            foreach ($friend as $key => $value) {
+                $total += $value['money'];
+            }    
+            $progress = round(($total/($list['maxGoodsMoney']-$list['minGoodsMoney']))*100);
 
             //为您推荐 
             $obj = db('GoodsPush');
@@ -508,6 +527,7 @@ class Order extends Auth {
                 'data'=>$list,
                 'friend'=>$friend,
                 'goods'=>$commend,
+                'progress'=>$progress,
                 'endTime'=>$endTime
             ]);
         }
@@ -524,7 +544,7 @@ class Order extends Auth {
             }
             $map['order_no'] = $order_no;
             $map['isCut'] = 1;
-            $map['endTime'] = array('gt',0);
+            $map['endTime'] = 0;
             $list = db('Order')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
