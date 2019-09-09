@@ -151,7 +151,7 @@ class Base extends Controller {
             $goods['isFlash'] = 1;            
         }else{
             $goods['isFlash'] = 0;
-        }
+        }       
         foreach ($spec as $key => $value) {
             $spec[$key]['rmb'] =  round($this->rate*$value['price'],1);
             

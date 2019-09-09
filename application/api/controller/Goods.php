@@ -38,7 +38,7 @@ class Goods extends Common {
             foreach ($cate as $key => $value) {
                 $map['cid|cid1'] = $value['id'];
                 $map['show'] = 1;
-                $goods = db("Goods")->where($map)->field('id,name,picname,say,price,marketPrice,comm')->order('sort asc,id desc')->select();
+                $goods = db("Goods")->where($map)->field('id,name,picname,say,price,marketPrice,comm,empty,tehui,flash,baoyou')->order('sort asc,id desc')->select();
                 foreach ($goods as $k => $val) {
                     $val['picname'] = getThumb($val["picname"],400,400);
                     $goods[$k]['picname'] = getRealUrl($val['picname']);
@@ -339,7 +339,7 @@ class Goods extends Common {
             } 
             
             $result = $this->getGoodsDetail($list,$this->flash);
-
+            
             $list = $result['goods'];
             if($list['fid']>0){
                 $spec = [];
@@ -348,7 +348,7 @@ class Goods extends Common {
             }            
             $pack = $result['pack'];
 
-            $list['rmb'] = round($goods['price']*$this->rate,1);  
+            $list['rmb'] = round($list['price']*$this->rate,1);  
             returnJson(1,'success',['goods'=>$list,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
         }
     }

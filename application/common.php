@@ -93,19 +93,19 @@ function getFundBack($point){
         $nextBar = 0;
     }elseif($point >= $config['jifen4']){
         $bar = $config['back4'];
-        $next = $config['jifen5'];
+        $next = $config['jifen5']-$point;
         $nextBar = $config['back5'];
     }elseif($point >= $config['jifen3']){
         $bar = $config['back3'];
-        $next = $config['jifen4'];
+        $next = $config['jifen4']-$point;
         $nextBar = $config['back4'];
     }elseif($point >= $config['jifen2']){
         $bar = $config['back2'];
-        $next = $config['jifen3'];
+        $next = $config['jifen3']-$point;
         $nextBar = $config['back3'];
     }elseif($point >= $config['jifen1']){
         $bar = $config['back1'];
-        $next = $config['jifen2'];
+        $next = $config['jifen2']-$point;
         $nextBar = $config['back2'];
     }
     return ['bar'=>$bar,'next'=>$next,'nextBar'=>$nextBar];

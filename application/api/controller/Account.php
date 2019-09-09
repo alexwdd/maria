@@ -43,7 +43,7 @@ class Account extends Auth {
 
             $fina = $this->getUserMoney($this->user['id']);
 
-            $result = getFundBack($fina['point']);
+            $result = getFundBack($fina['point']);     
             $config = tpCache('member');
 
             $last_mont_first_date = date('Y-m-1',strtotime('last month'));
