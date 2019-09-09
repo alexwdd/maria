@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-09-07 12:21:12
+Date: 2019-09-09 08:08:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -513,7 +513,7 @@ CREATE TABLE `pm_finance` (
   `extend2` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_finance
@@ -536,6 +536,7 @@ INSERT INTO `pm_finance` VALUES ('15', '10002', '2', '10002', '3', '5.00', '0.00
 INSERT INTO `pm_finance` VALUES ('16', '10002', '1', '10002', '1', '10.00', '10.00', '20.00', '08-23签到，奖励10积分。', '0', '0', '1566568656');
 INSERT INTO `pm_finance` VALUES ('17', '10002', '1', '10002', '1', '10.00', '20.00', '30.00', '08-25签到，奖励10积分。', '0', '0', '1566714888');
 INSERT INTO `pm_finance` VALUES ('18', '10001', '1', '10001', '1', '10.00', '0.00', '10.00', '08-29签到，奖励10积分。', '0', '0', '1567069194');
+INSERT INTO `pm_finance` VALUES ('19', '10002', '1', '10002', '1', '10.00', '30.00', '40.00', '09-08签到，奖励10积分。', '0', '0', '1567908488');
 
 -- ----------------------------
 -- Table structure for `pm_flash`
@@ -610,9 +611,9 @@ CREATE TABLE `pm_goods` (
   `endDate` varchar(50) NOT NULL,
   `point` int(11) NOT NULL,
   `inprice` decimal(10,2) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `marketPrice` decimal(10,2) NOT NULL,
-  `cutPrice` decimal(10,2) NOT NULL,
+  `price` decimal(10,1) NOT NULL,
+  `marketPrice` decimal(10,1) NOT NULL,
+  `cutPrice` decimal(10,1) NOT NULL,
   `weight` decimal(10,2) NOT NULL,
   `wuliuWeight` decimal(10,2) NOT NULL,
   `linkIds` varchar(500) DEFAULT NULL,
@@ -635,25 +636,25 @@ CREATE TABLE `pm_goods` (
 -- ----------------------------
 -- Records of pm_goods
 -- ----------------------------
-INSERT INTO `pm_goods` VALUES ('7', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 三段 A2 Premium Toddler', 'A2 Premium Toddler Stage 3 900g', 'A3', '澳洲最佳奶粉推荐，独特a2配方', '', 'A2 Platinum白金系列高端牛奶粉是专门为婴幼儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 三段：1岁', '/uploads/images/20190729/9609c47af27df3c4875605abde9ff4dc.jpg', null, '', '0', '2020/10', '30', '25.00', '31.00', '35.00', '31.00', '1.10', '1.10', '', '200', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1563703331', '1564397947');
-INSERT INTO `pm_goods` VALUES ('10', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 二段 A2 Follow On Formula', 'A2 Follow On Formula Stage 2 900g', 'A2-2', '澳洲最佳奶粉推荐，独特a2配方', '', 'A2 Platinum白金系列高端牛奶粉是专门为婴幼儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 二段：6-12月', '/uploads/images/20190729/e47cfa2678fc5785d957bb71e4e19f6e.jpg', null, '', '0', '2020/10', '30', '25.00', '29.00', '35.00', '3.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1564396584', '1564400836');
-INSERT INTO `pm_goods` VALUES ('9', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 一段 A2 Infant Formula ', 'A2 Infant Formula Stage 1 900g', 'A1', '澳洲最佳奶粉推荐', '', 'A2 Platinum白金系列高端牛奶粉一段是专门为新生儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 一段：0-6月', '/uploads/images/20190729/a0312cfa0da34943a7898ee675267dd3.jpg', null, '', '0', '2020/10', '30', '25.00', '30.00', '35.00', '30.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564395464', '1564395640');
-INSERT INTO `pm_goods` VALUES ('11', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 四段 A2 Junior Formula', 'A2 Junior Stage 4 900g', 'A4', '澳洲最佳奶粉推荐，独特a2配方', '', 'A2 Platinum白金系列高端牛奶粉是专门为婴幼儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 四段：3岁', '/uploads/images/20190729/aa51a8e0127330992820424d3613f9db.jpg', null, '', '0', '2020/10', '34', '25.00', '34.00', '36.00', '34.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1564398209', '1564400855');
-INSERT INTO `pm_goods` VALUES ('12', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 一段 Aptamil Gold+ 1 Infant Formula', 'Aptamil Gold+ 1 Infant Formula 0-6 Months 900g', 'K1', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/0b2e9e8b22809180d74ab02aa7bae6ec.jpg', null, '', '0', '2020/10', '28', '25.00', '28.00', '35.00', '28.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564400481', '1564400496');
-INSERT INTO `pm_goods` VALUES ('13', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 二段 Aptamil Gold+ 2 Follow-On Formula', 'Aptamil Gold+ 2 Follow-On Formula 6-12 Months 900g', 'K2', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/88b995c3c31e9bd27f99690c5b8df15b.jpg', null, '', '0', '2020/10', '27', '25.00', '27.00', '30.00', '27.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564400592', '1564400592');
-INSERT INTO `pm_goods` VALUES ('14', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 三段 Aptamil Gold+ 3 Toddler', 'Aptamil Gold+ 3 Toddler Nutritional Supplement From 1 year 900g', 'K3', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/44e9f48967390b811d34b29ef63b1cc6.jpg', null, '', '0', '2020/10', '30', '22.00', '30.00', '36.00', '30.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1564400696', '1564400866');
-INSERT INTO `pm_goods` VALUES ('15', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 四段 Aptamil Gold+ 4 Junior', 'Aptamil Gold+ 4 Junior Nutritional Supplement From 2 years 900g', 'K4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/0a9d834dbc1f306bd29cda25ad99bb7c.jpg', null, '', '0', '2020/10', '23', '20.00', '23.00', '25.00', '23.00', '1.10', '1.10', '', '1000', '999', '1', '2', '0', '0', '0', '0', '0', '1', '50', '1564400804', '1564402845');
-INSERT INTO `pm_goods` VALUES ('16', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 一段 Aptamil Profutura Infant Formula', 'Aptamil Profutura Infant Formula 0-6 months 900g', 'P1', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/01a8d0cc2d792ead23003d07e611fc43.jpg', null, '', '0', '2020/10', '36', '23.00', '36.00', '40.00', '36.00', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401252', '1564401252');
-INSERT INTO `pm_goods` VALUES ('17', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 二段 Aptamil Profutura Follow On Formula', 'Aptamil Profutura Follow On Formula 6-12 months 900g', 'P2', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/7b270e564d908413b1d1869720bfacfb.jpg', null, '', '0', '2020/10', '36', '22.00', '36.00', '40.00', '36.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401367', '1564401381');
-INSERT INTO `pm_goods` VALUES ('18', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 三段 Aptamil Profutura Toddler ', 'Aptamil Profutura Toddler Nutritional Supplement From 1 year 900g', 'P3', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/812ed9ab28f0604af6a2045e43b71195.jpg', null, '', '0', '2020/10', '25', '20.00', '25.00', '30.00', '25.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401466', '1564401478');
-INSERT INTO `pm_goods` VALUES ('19', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 四段 Aptamil Profutura Junior', 'Aptamil Profutura Junior Nutritional Supplement 900g', 'P4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/e22295c6db7b698255173d0d76b0b569.jpg', null, '', '0', '2020/10', '280', '20.00', '28.00', '32.00', '28.00', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401569', '1565883828');
-INSERT INTO `pm_goods` VALUES ('20', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 孕妇黄金素 180粒', 'Blackmores Pregnancy and Breastfeeding Gold 180 Capsules', 'BM黄金素', '皮肤急救法宝，强力补水', '', '新西兰原罐原装 官方正品 纯净A2蛋白质', '/uploads/images/20190729/63b7cacef160a2699898bda5c231b78f.jpg', null, '<p>11</p>\n<p><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN01kq0zC31fstjynm847_!!2555064063.jpg\" alt=\"2段_05.jpg\" /><br style=\"margin: 0px; padding: 0px; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" /><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN0156ddqR1fstj1c0Wx8_!!2555064063.jpg\" alt=\"2段_06.jpg\" /></p>\n<p>2222</p>', '0', '2020/10', '30', '20.00', '30.00', '35.00', '30.00', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401969', '1567144240');
-INSERT INTO `pm_goods` VALUES ('21', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 叶酸片500mcg 90粒', 'Blackmores Folate 500mcg 90 Tablets', 'BM叶酸90粒', '孕期好伴侣', '', '', '/uploads/images/20190729/2808f8c49bc8ef2211cdeb8942968a61.jpg', null, '', '0', '2020/10', '15', '10.00', '15.00', '18.00', '2.00', '0.20', '0.30', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402099', '1564402099');
-INSERT INTO `pm_goods` VALUES ('22', '0', '20', '0-10-20-', '0', '', '15', '0', '12', 'Elevit 女士爱乐维 孕期维生素 100粒', 'Elevit Pregnancy Multivitamin Tablets 100 Pack （Export Only）', '爱乐维', '健康备孕 降低胎儿畸形', '', '', '/uploads/images/20190729/8225facb8669bff2ca9082f3404de33b.jpg', null, '', '0', '2020/10', '50', '30.00', '50.00', '60.00', '50.00', '0.50', '0.30', '19', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402296', '1564830159');
-INSERT INTO `pm_goods` VALUES ('23', '0', '24', '0-4-24-', '0', '', '4', '0', '8', 'Swisse 高倍蜂胶2000mg 300粒', 'Swisse Ultiboost High Strength Propolis 2000mg 300 Capsules', 'SW蜂胶300粒', '液体黄金 澳洲蜂胶', '', '', '/uploads/images/20190803/504cb220ecb2a76a9794fa1ccb763b86.jpg', null, '', '0', '2020/02/05', '25', '20.00', '25.00', '30.00', '0.00', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '1', '0', '0', '1', '50', '1564829689', '1564829826');
-INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', 'NK 7009 ugg 雪地靴 豆豆鞋 薰衣草紫', 'test', '鞋子', 'UUG', 'AA bb', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '15.00', '19.00', '2.00', '0.50', '0.70', '', '0', '980', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1567144983');
-INSERT INTO `pm_goods` VALUES ('25', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '三件包邮优惠套餐', 'test', '鞋子', 'UUG', 'AA bb', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '100.00', '19.00', '0.00', '0.50', '0.70', '', '0', '980', '3', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1567144983');
-INSERT INTO `pm_goods` VALUES ('26', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '六件包邮优惠套餐', 'test', '鞋子', 'UUG', 'AA bb', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '180.00', '19.00', '0.00', '0.50', '0.70', '', '0', '980', '6', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1567144983');
+INSERT INTO `pm_goods` VALUES ('7', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 三段 A2 Premium Toddler', 'A2 Premium Toddler Stage 3 900g', 'A3', '澳洲最佳奶粉推荐，独特a2配方', '', 'A2 Platinum白金系列高端牛奶粉是专门为婴幼儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 三段：1岁', '/uploads/images/20190729/9609c47af27df3c4875605abde9ff4dc.jpg', null, '', '0', '2020/10', '30', '25.00', '31.0', '35.0', '31.0', '1.10', '1.10', '', '200', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1563703331', '1564397947');
+INSERT INTO `pm_goods` VALUES ('10', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 二段 A2 Follow On Formula', 'A2 Follow On Formula Stage 2 900g', 'A2-2', '澳洲最佳奶粉推荐，独特a2配方', '', 'A2 Platinum白金系列高端牛奶粉是专门为婴幼儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 二段：6-12月', '/uploads/images/20190729/e47cfa2678fc5785d957bb71e4e19f6e.jpg', null, '', '0', '2020/10', '30', '25.00', '29.0', '35.0', '3.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1564396584', '1564400836');
+INSERT INTO `pm_goods` VALUES ('9', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 一段 A2 Infant Formula ', 'A2 Infant Formula Stage 1 900g', 'A1', '澳洲最佳奶粉推荐', '', 'A2 Platinum白金系列高端牛奶粉一段是专门为新生儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 一段：0-6月', '/uploads/images/20190729/a0312cfa0da34943a7898ee675267dd3.jpg', null, '', '0', '2020/10', '30', '25.00', '30.0', '35.0', '30.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564395464', '1564395640');
+INSERT INTO `pm_goods` VALUES ('11', '0', '15', '0-1-15-', '0', '', '1', '0', '4', 'A2铂金 四段 A2 Junior Formula', 'A2 Junior Stage 4 900g', 'A4', '澳洲最佳奶粉推荐，独特a2配方', '', 'A2 Platinum白金系列高端牛奶粉是专门为婴幼儿而设计的特殊配方奶粉，它的营养很全面，能为宝宝提供成长和发育所需要的重要营养成分。该独特的配方奶粉含有天然的A2牛奶，能促进宝宝消化系统的发育,丰富的营养成分，有助于宝宝大脑和眼睛的发育，促进宝宝免疫系统的发育。 四段：3岁', '/uploads/images/20190729/aa51a8e0127330992820424d3613f9db.jpg', null, '', '0', '2020/10', '34', '25.00', '34.0', '36.0', '34.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1564398209', '1564400855');
+INSERT INTO `pm_goods` VALUES ('12', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 一段 Aptamil Gold+ 1 Infant Formula', 'Aptamil Gold+ 1 Infant Formula 0-6 Months 900g', 'K1', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/0b2e9e8b22809180d74ab02aa7bae6ec.jpg', null, '', '0', '2020/10', '28', '25.00', '28.0', '35.0', '28.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564400481', '1564400496');
+INSERT INTO `pm_goods` VALUES ('13', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 二段 Aptamil Gold+ 2 Follow-On Formula', 'Aptamil Gold+ 2 Follow-On Formula 6-12 Months 900g', 'K2', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/88b995c3c31e9bd27f99690c5b8df15b.jpg', null, '', '0', '2020/10', '27', '25.00', '27.0', '30.0', '27.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564400592', '1564400592');
+INSERT INTO `pm_goods` VALUES ('14', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 三段 Aptamil Gold+ 3 Toddler', 'Aptamil Gold+ 3 Toddler Nutritional Supplement From 1 year 900g', 'K3', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/44e9f48967390b811d34b29ef63b1cc6.jpg', null, '', '0', '2020/10', '30', '22.00', '30.0', '36.0', '30.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1564400696', '1564400866');
+INSERT INTO `pm_goods` VALUES ('15', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美金装 四段 Aptamil Gold+ 4 Junior', 'Aptamil Gold+ 4 Junior Nutritional Supplement From 2 years 900g', 'K4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/0a9d834dbc1f306bd29cda25ad99bb7c.jpg', null, '', '0', '2020/10', '23', '20.00', '23.0', '25.0', '23.0', '1.10', '1.10', '', '1000', '999', '1', '2', '0', '0', '0', '0', '0', '1', '50', '1564400804', '1564402845');
+INSERT INTO `pm_goods` VALUES ('16', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 一段 Aptamil Profutura Infant Formula', 'Aptamil Profutura Infant Formula 0-6 months 900g', 'P1', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/01a8d0cc2d792ead23003d07e611fc43.jpg', null, '', '0', '2020/10', '36', '23.00', '36.0', '40.0', '36.0', '1.10', '1.10', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401252', '1564401252');
+INSERT INTO `pm_goods` VALUES ('17', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 二段 Aptamil Profutura Follow On Formula', 'Aptamil Profutura Follow On Formula 6-12 months 900g', 'P2', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/7b270e564d908413b1d1869720bfacfb.jpg', null, '', '0', '2020/10', '36', '22.00', '36.0', '40.0', '36.0', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401367', '1564401381');
+INSERT INTO `pm_goods` VALUES ('18', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 三段 Aptamil Profutura Toddler ', 'Aptamil Profutura Toddler Nutritional Supplement From 1 year 900g', 'P3', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/812ed9ab28f0604af6a2045e43b71195.jpg', null, '', '0', '2020/10', '25', '20.00', '25.0', '30.0', '25.0', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401466', '1564401478');
+INSERT INTO `pm_goods` VALUES ('19', '0', '16', '0-1-16-', '0', '', '1', '0', '5', '爱他美白金 四段 Aptamil Profutura Junior', 'Aptamil Profutura Junior Nutritional Supplement 900g', 'P4', '新西兰纯天然奶源', '', '', '/uploads/images/20190729/e22295c6db7b698255173d0d76b0b569.jpg', null, '', '0', '2020/10', '280', '20.00', '28.0', '32.0', '28.0', '1.10', '1.10', '', '100', '999', '1', '0', '1', '1', '0', '0', '0', '1', '50', '1564401569', '1565883828');
+INSERT INTO `pm_goods` VALUES ('20', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 孕妇黄金素 180粒', 'Blackmores Pregnancy and Breastfeeding Gold 180 Capsules', 'BM黄金素', '皮肤急救法宝，强力补水', '', '新西兰原罐原装 官方正品 纯净A2蛋白质', '/uploads/images/20190729/63b7cacef160a2699898bda5c231b78f.jpg', null, '<p>11</p>\n<p><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN01kq0zC31fstjynm847_!!2555064063.jpg\" alt=\"2段_05.jpg\" /><br style=\"margin: 0px; padding: 0px; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" /><img class=\"img-ks-lazyload\" style=\"margin: 0px; padding: 0px; border: 0px; animation: 350ms linear 0ms 1 normal both running ks-fadeIn; opacity: 1; vertical-align: top; max-width: 100%; float: none; color: #404040; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: #ffffff;\" src=\"https://img.alicdn.com/imgextra/i1/2555064063/O1CN0156ddqR1fstj1c0Wx8_!!2555064063.jpg\" alt=\"2段_06.jpg\" /></p>\n<p>2222</p>', '0', '2020/10', '30', '20.00', '30.0', '35.0', '30.0', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564401969', '1567144240');
+INSERT INTO `pm_goods` VALUES ('21', '0', '19', '0-10-19-', '0', '', '4', '0', '9', 'Blackmores澳佳宝 叶酸片500mcg 90粒', 'Blackmores Folate 500mcg 90 Tablets', 'BM叶酸90粒', '孕期好伴侣', '', '', '/uploads/images/20190729/2808f8c49bc8ef2211cdeb8942968a61.jpg', null, '', '0', '2020/10', '15', '10.00', '15.0', '18.0', '2.0', '0.20', '0.30', '', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402099', '1564402099');
+INSERT INTO `pm_goods` VALUES ('22', '0', '20', '0-10-20-', '0', '', '15', '0', '12', 'Elevit 女士爱乐维 孕期维生素 100粒', 'Elevit Pregnancy Multivitamin Tablets 100 Pack （Export Only）', '爱乐维', '健康备孕 降低胎儿畸形', '', '', '/uploads/images/20190729/8225facb8669bff2ca9082f3404de33b.jpg', null, '', '0', '2020/10', '50', '30.00', '50.0', '60.0', '50.0', '0.50', '0.30', '19', '100', '999', '1', '0', '0', '1', '0', '0', '0', '1', '50', '1564402296', '1564830159');
+INSERT INTO `pm_goods` VALUES ('23', '0', '24', '0-4-24-', '0', '', '4', '0', '8', 'Swisse 高倍蜂胶2000mg 300粒', 'Swisse Ultiboost High Strength Propolis 2000mg 300 Capsules', 'SW蜂胶300粒', '液体黄金 澳洲蜂胶', '', '', '/uploads/images/20190803/504cb220ecb2a76a9794fa1ccb763b86.jpg', null, '', '0', '2020/02/05', '25', '20.00', '25.0', '30.0', '0.0', '0.50', '0.60', '', '100', '999', '1', '0', '0', '1', '1', '0', '0', '1', '50', '1564829689', '1564829826');
+INSERT INTO `pm_goods` VALUES ('24', '0', '15', '0-1-15-', '0', '', '1', '1', '4', 'NK 7009 ugg 雪地靴 豆豆鞋 薰衣草紫', 'test', '鞋子', 'UUG', 'AA bb', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '15.0', '19.0', '2.0', '0.50', '0.70', '', '0', '980', '1', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1567144983');
+INSERT INTO `pm_goods` VALUES ('25', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '三件包邮优惠套餐', 'test', '鞋子', 'UUG', 'AA bb', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '100.0', '19.0', '0.0', '0.50', '0.70', '', '0', '980', '3', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1567144983');
+INSERT INTO `pm_goods` VALUES ('26', '24', '15', '0-1-15-', '0', '', '1', '1', '4', '六件包邮优惠套餐', 'test', '鞋子', 'UUG', 'AA bb', '', '/uploads/images/20190811/83c4de372c836bbeb4d378db0789faa9.jpg', null, '<p>222发斯蒂芬</p>\n<p>阿斯顿发斯蒂芬</p>\n<p><img src=\"/uploads/images/20190816/5415a5eeb090fdaa9ec32b458a705832.jpg\" alt=\"\" /></p>', '0', '', '10', '10.00', '180.0', '19.0', '0.0', '0.50', '0.70', '', '0', '980', '6', '0', '0', '0', '0', '0', '0', '1', '50', '1565322339', '1567144983');
 
 -- ----------------------------
 -- Table structure for `pm_goods_cate`
@@ -685,7 +686,6 @@ INSERT INTO `pm_goods_cate` VALUES ('1', '0', '奶粉专区', '', '20', '0-1-', 
 INSERT INTO `pm_goods_cate` VALUES ('4', '0', '营养保健', '', '50', '0-4-', '/uploads/images/20190729/4c6aecdd4dcb5eeb7f146e7f53942c4d.jpg', '', '0', '1', '0', '', '', '1564111190', '1564398347');
 INSERT INTO `pm_goods_cate` VALUES ('5', '0', '纤体瘦身', '', '50', '0-5-', '/uploads/images/20190729/61d16a9a3734d0ee4accbcd5059e0a2c.jpg', '', '0', '1', '0', '', '', '1564111296', '1564398354');
 INSERT INTO `pm_goods_cate` VALUES ('7', '0', '美妆护肤', '', '50', '0-7-', '/uploads/images/20190729/a13c35609ae92b6ccd5730e7b0f47348.jpg', '', '0', '1', '0', '', '', '1564112889', '1564398361');
-INSERT INTO `pm_goods_cate` VALUES ('8', '0', '购物须知', '', '999', '0-8-', '/uploads/images/20190726/bf3a4c1de31f4da3ee8d709591637397.jpg', '', '0', '1', '0', '', '', '1564112901', '1564400216');
 INSERT INTO `pm_goods_cate` VALUES ('13', '0', '围巾鞋子', '', '50', '0-13-', '/uploads/images/20190729/01bba9d4c089764f30fc43442cf6b761.jpg', '', '0', '1', '0', '', '', '1564387478', '1564398340');
 INSERT INTO `pm_goods_cate` VALUES ('9', '0', '婴幼儿区', '', '50', '0-9-', '/uploads/images/20190729/34b07f95d337a98b359b2c08a490de2c.jpg', '', '0', '1', '0', '', '', '1564370609', '1564398367');
 INSERT INTO `pm_goods_cate` VALUES ('10', '0', '孕妈专区', '', '50', '0-10-', '/uploads/images/20190729/9edbb30978db4002909f71c1d02e082a.jpg', '', '0', '1', '0', '', '', '1564370628', '1564398319');
@@ -767,8 +767,8 @@ CREATE TABLE `pm_goods_spec_price` (
   `goods_id` int(11) DEFAULT '0' COMMENT '商品id',
   `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '规格键名',
   `key_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '规格键名中文',
-  `price` decimal(10,2) DEFAULT NULL COMMENT '价格',
-  `cutPrice` decimal(10,2) DEFAULT NULL,
+  `price` decimal(10,1) DEFAULT NULL COMMENT '价格',
+  `cutPrice` decimal(10,1) DEFAULT NULL,
   `store_count` int(11) unsigned DEFAULT '10' COMMENT '库存数量',
   `bar_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '商品条形码',
   `weight` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '重量',
@@ -783,10 +783,10 @@ CREATE TABLE `pm_goods_spec_price` (
 -- ----------------------------
 -- Records of pm_goods_spec_price
 -- ----------------------------
-INSERT INTO `pm_goods_spec_price` VALUES ('13', '24', '2_5', '尺码:40码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, '/uploads/images/20190829/acae9254c1f98a11d9cebd7f63c93fae.png', '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('14', '24', '2_6', '尺码:40码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, '/uploads/images/20190829/66d5da99a0764da2f33b4b93be5cfe94.jpg', '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('15', '24', '3_5', '尺码:42码 颜色:红色', '15.00', '2.00', '0', '', '0.5', null, '/uploads/images/20190829/eac79303ef33ead9bd0116644a98d091.png', '0', '0');
-INSERT INTO `pm_goods_spec_price` VALUES ('16', '24', '3_6', '尺码:42码 颜色:蓝色', '15.00', '2.00', '0', '', '0.5', null, '/uploads/images/20190829/67fb7e6c1819511d81a0e792e629d806.jpg', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('13', '24', '2_5', '尺码:40码 颜色:红色', '15.0', '2.0', '0', '', '0.5', null, '/uploads/images/20190829/acae9254c1f98a11d9cebd7f63c93fae.png', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('14', '24', '2_6', '尺码:40码 颜色:蓝色', '15.0', '2.0', '0', '', '0.5', null, '/uploads/images/20190829/66d5da99a0764da2f33b4b93be5cfe94.jpg', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('15', '24', '3_5', '尺码:42码 颜色:红色', '15.0', '2.0', '0', '', '0.5', null, '/uploads/images/20190829/eac79303ef33ead9bd0116644a98d091.png', '0', '0');
+INSERT INTO `pm_goods_spec_price` VALUES ('16', '24', '3_6', '尺码:42码 颜色:蓝色', '15.0', '2.0', '0', '', '0.5', null, '/uploads/images/20190829/67fb7e6c1819511d81a0e792e629d806.jpg', '0', '0');
 
 -- ----------------------------
 -- Table structure for `pm_link`
@@ -875,7 +875,7 @@ CREATE TABLE `pm_member` (
 -- ----------------------------
 INSERT INTO `pm_member` VALUES ('10000', '1212121212', '', '', '张小黑1', '', '', '', '111111111', '0', 'f1e1e857c5d3cb398dbef234f465320bdcba2ef7', '1566359606', '1563767300', '127.0.0.1');
 INSERT INTO `pm_member` VALUES ('10001', 'dsfsdfsdfsdfsdf', '', '', '张小黑', '张黑', '', '', 'http://thirdwx.qlogo.cn/mmopen/vi_32/PLh3YV0ZQhVw7n3D5kflfctMmErkic2CHHDEzTa36vuCLVCNNqTYgJCB4OxZrgz1Gqy4odIc97iblFFlF7u9DcIg/132', '0', '7f92012aaa7c2d71d3415968311effaa0c923e45', '1569815374', '1563767631', '127.0.0.1');
-INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '13503784120', '', '月明', '', '', '', 'http://127.0.0.10/uploads/face/BWZxNHGBaz6ACSCX.jpeg', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1570420613', '1566188328', '127.0.0.1');
+INSERT INTO `pm_member` VALUES ('10002', 'ob5wP1Phg9aYeeW_Q162FyDJ-LaA', '13503784120', '', '月明', '', '', '', 'http://127.0.0.10/uploads/face/BWZxNHGBaz6ACSCX.jpeg', '0', 'b9a6fdf376af956a870d74e0a82e848603bf6779', '1570500750', '1566188328', '127.0.0.1');
 
 -- ----------------------------
 -- Table structure for `pm_member_code`
@@ -1077,12 +1077,13 @@ CREATE TABLE `pm_onepage` (
   `updateTime` int(10) NOT NULL,
   `createTime` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_onepage
 -- ----------------------------
 INSERT INTO `pm_onepage` VALUES ('1', '关于我们', '<p>123123123</p>\n<p>发送到发地方阿斯蒂芬</p>\n<p>阿斯蒂芬阿斯蒂芬阿萨德</p>', '', '', '1566285023', '1566284260');
+INSERT INTO `pm_onepage` VALUES ('2', '购物须知', '<p>购物须知</p>', '', '', '1567906570', '1567906570');
 
 -- ----------------------------
 -- Table structure for `pm_option_cate`
@@ -1441,7 +1442,7 @@ CREATE TABLE `pm_sign` (
   `signDate` varchar(20) NOT NULL,
   `createTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pm_sign
@@ -1451,6 +1452,7 @@ INSERT INTO `pm_sign` VALUES ('2', '2', '10', '2019-08-06', '1565097687');
 INSERT INTO `pm_sign` VALUES ('3', '10002', '10', '2019-08-23', '1566568656');
 INSERT INTO `pm_sign` VALUES ('4', '10002', '10', '2019-08-25', '1566714888');
 INSERT INTO `pm_sign` VALUES ('5', '10001', '10', '2019-08-29', '1567069194');
+INSERT INTO `pm_sign` VALUES ('6', '10002', '10', '2019-09-08', '1567908488');
 
 -- ----------------------------
 -- Table structure for `pm_user`
