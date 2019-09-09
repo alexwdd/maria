@@ -406,7 +406,7 @@ class Goods extends Common {
             $goods_txt = preg_replace ('/&nbsp;/is', '', $goods_txt);   
             $list['goods_txt'] = $goods_txt;
 
-            preg_match_all("/src=\"?(\/.*?)\"/", $list['content'], $match);
+            preg_match_all('/<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/i', $list['content'], $match);
             if ($match[1]){
                 $goods_img = $match[1];
                 foreach ($goods_img as $key => $value) {
