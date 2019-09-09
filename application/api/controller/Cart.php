@@ -351,4 +351,79 @@ class Cart extends Auth {
             ]);
         }
     }
+
+    public function baoguo(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $ids = input('post.ids');
+            if ($ids=='') {
+                returnJson(0,'缺少参数');
+            } 
+
+            unset($map);
+            $map['memberID'] = $this->user['id'];
+            $ids = explode(",",$ids);
+            $map['id'] = array('in',$ids);
+            $list = db('Cart')->where($map)->select();
+            if (!$list) {
+                returnJson(0,'购物车中没有商品');
+            }
+
+            $baoguo = $this->getYunfeiJson($list);    
+            $goodsMoney = 0;
+            $cutMoney = 0;
+            $point = 0;
+            $isCut = 1;            
+            foreach ($list as $key => $value) {
+                $goods = db("Goods")->where('id',$value['goodsID'])->find();
+                if($goods['fid']>0){
+                    $fid = $goods['fid'];
+                }else{
+                    $fid = $goods['id'];
+                }  
+                if($this->checkInFlash($fid,$this->flash)){
+                    $isCut = 0;
+                }
+
+                $result = $this->getGoodsPrice($goods,$value['specID'],$this->flash);
+                $list[$key]['name'] = $goods['name'];
+                $list[$key]['say'] = $goods['say'];
+                $list[$key]['marketPrice'] = $goods['marketPrice']; 
+                $list[$key]['picname'] = getRealUrl($goods['picname']);
+                $list[$key]['price'] = $result['price'];
+                $list[$key]['spec'] = $result['spec'];
+                $list[$key]['total'] = $result['price'] * $value['number'];  
+                $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
+                $list[$key]['checked'] = false; 
+
+                $cutMoney += $result['cutPrice'];
+                $goodsMoney += $list[$key]['total'];
+                $point += $goods['point'] * $value['trueNumber'];
+            }
+            
+            $total = $goodsMoney + $baoguo['totalPrice'];
+            if($thisCoupon){
+                $total = $total - $thisCoupon['dec'];
+            }
+            if($total<=0){
+                $total = 1;
+            }            
+
+            if($isCut && $cutMoney>0){
+                $cutPrice = $total - $cutMoney;
+            }else{
+                $cutPrice = 0;
+            }
+            $rmb = number_format($this->rate*$total,1); 
+            returnJson(1,'success',[
+                'cutPrice'=>$cutPrice,   
+                'point'=>$point,
+                'goodsMoney'=>$goodsMoney,
+                'total'=>$total,
+                'rmb'=>$rmb,
+                'cart'=>$list,
+                'bag'=>$baoguo,
+            ]);
+        }
+    }
 }

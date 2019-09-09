@@ -67,10 +67,22 @@ class Order extends Auth {
                 }
 
                 $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
-                if($value['sn']=='' || $value['front']=='' || $value['back']==''){
+                if($value['front']=='' || $value['back']==''){
                     $list[$key]['upload'] = 0;
                 }else{
                     $list[$key]['upload'] = 1;
+                }
+
+                unset($where);
+                $where['orderID'] = $value['id'];
+                $bag = db("OrderBaoguo")->field('image')->where($where)->select();     
+                foreach ($bag as $k => $val) {       
+                    if($val['image']=='') {
+                        $list[$key]['image'] = 0;
+                        break;
+                    }else{
+                        $list[$key]['image'] = 1;
+                    }         
                 }
                 
                 $goods = db("OrderCart")->field('goodsID,name,picname,price,number,spec')->where('orderID',$value['id'])->select();
