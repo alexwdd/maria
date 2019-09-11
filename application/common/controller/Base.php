@@ -213,7 +213,10 @@ class Base extends Controller {
     }
 
     //获取包裹
-    public function getYunfeiJson($cart,$province=null){
+    /*
+    $type 1价格优先 2数量优先
+    */
+    public function getYunfeiJson($cart,$type=1,$province=null){
         foreach ($cart as $key => $value) {
             $goods = db('Goods')->where('id',$value['goodsID'])->find(); 
             $cart[$key]['name'] = $goods['name'];
@@ -223,7 +226,8 @@ class Base extends Controller {
             $cart[$key]['singleNumber'] = $goods['number'];
         } 
 
-        $cart = new \cart\Zhongyou($cart,$kuaidi,$province,$user);
+        //中环包裹信息
+        $cart = new \pack\Zhonghuan($cart,$province);
         $baoguoArr = $cart->getBaoguo();
            
         $totalWeight = 0;

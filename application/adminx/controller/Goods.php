@@ -98,7 +98,7 @@ class Goods extends Admin
             $this->assign('model', $model);
 
             $this->assign('tag',config('GOODS_TAG'));
-            $this->assign('type',config('BAOGUO_TYPE'));
+            $this->assign('type',config('BAOGUO_ZH'));
 
             $this->assign('list', $list);
             $this->assign('linkGoods',json_encode($linkGoods));

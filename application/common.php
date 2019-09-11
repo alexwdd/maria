@@ -161,7 +161,7 @@ function getMoneyType($type){
 }
 
 function getBaoguoType($type){
-    foreach (config('BAOGUO_TYPE') as $key => $value) {
+    foreach (config('BAOGUO_ZH') as $key => $value) {
         if($value['id'] == $type){
             return $value['name'];
         }
