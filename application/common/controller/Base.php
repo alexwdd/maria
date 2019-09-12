@@ -227,9 +227,28 @@ class Base extends Controller {
         } 
 
         //中环包裹信息
-        $cart = new \pack\Zhonghuan($cart,$province);
-        $baoguoArr = $cart->getBaoguo();
-           
+        $zhonghuan = new \pack\Zhonghuan($cart,$province);
+        $zhBag = $this->getBagTotal($zhonghuan->getBaoguo());
+
+        $zhongyou = new \pack\Zhongyou($cart,$province);        
+        $zyBag = $this->getBagTotal($zhongyou->getBaoguo());
+        if($type==1){
+            if($zhBag['totalPrice']>$zyBag['totalPrice']){
+                $baoguo = $zyBag;
+            }else{
+                $baoguo = $zhBag;
+            }
+        }else{
+            if(count($zhBag['baoguo'])>count($zyBag['baoguo'])){
+                $baoguo = $zyBag;
+            }else{
+                $baoguo = $zhBag;
+            }
+        }   
+        return $baoguo;
+    }
+
+    public function getBagTotal($baoguoArr){
         $totalWeight = 0;
         $totalWuliuWeight = 0;
         $totalPrice = 0;

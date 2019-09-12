@@ -1,14 +1,14 @@
 <?php
 namespace pack;
 
-class Zhonghuan {
+class Zhongyou {
 
 	private $cart;				//购物车商品
 	private $baoguoArr = [];
 	private $province;
 	private $extendArea = ['新疆维吾尔自治区','西藏自治区'];
-	private $maxNumber = 10; 	//单个包裹中最多商品个数
-	private $maxWeight = 3.3; 	//单个包裹最大重量(kg)
+	private $maxNumber = 15; 	//单个包裹中最多商品个数
+	private $maxWeight = 4.4; 	//单个包裹最大重量(kg)
 	private $maxPrice = 180; 	//单个包裹最大金额
 
 	/*
@@ -163,7 +163,7 @@ class Zhonghuan {
 	        	$this->baoguoArr[$key]['inprice'] = $this->baoguoArr[$key]['totalWuliuWeight']*$config['inprice1'];
 	        }else{
 	        	$danjia = getDanjia(3);
-	        	$this->baoguoArr[$key]['kuaidi'] = '中环($'.$danjia['price'].'/kg)';
+	        	$this->baoguoArr[$key]['kuaidi'] = '中邮($'.$danjia['price'].'/kg)';
 	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
 	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
 	        	}else{
@@ -186,7 +186,7 @@ class Zhonghuan {
 		$thisMaxNumber = $this->maxNumber;
 		//12是类特殊的包裹，只有同一类商品的话允许超过上限
 		if($this->canOutMaxNumber($baoguo,$item)){
-			$thisMaxNumber = 15;
+			$thisMaxNumber = 20;
 		}
 		
 		//总数不能超过包裹商品数量
@@ -277,7 +277,7 @@ class Zhonghuan {
 
 	//获取当前商品包裹类型
 	private function getBaoguoType($item){
-		foreach (config('BAOGUO_ZH') as $key => $value) {
+		foreach (config('BAOGUO_ZY') as $key => $value) {
 			if ($item['typeID'] == $value['id']) {
 				return $value;
 				break;

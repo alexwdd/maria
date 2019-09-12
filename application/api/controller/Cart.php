@@ -356,6 +356,7 @@ class Cart extends Auth {
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $ids = input('post.ids');
+            $type = input('post.baoguoType',1);
             if ($ids=='') {
                 returnJson(0,'缺少参数');
             } 
@@ -369,7 +370,7 @@ class Cart extends Auth {
                 returnJson(0,'购物车中没有商品');
             }
 
-            $baoguo = $this->getYunfeiJson($list,$type);    
+            $baoguo = $this->getYunfeiJson($list,$type);
             $goodsMoney = 0;
             $cutMoney = 0;
             $point = 0;

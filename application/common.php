@@ -201,16 +201,15 @@ function getBrandName($type){
 //物流单价
 function getDanjia($type){
     $config = tpCache("kuaidi");
-    if ($type==1 || $type==2 || $type==3) {//澳邮
+    if ($type==1) {//澳邮
         return ['price'=>$config['price1'],'inprice'=>$config['inprice1'],'otherPrice'=>$config['otherPrice1']];
     }
-    if ($type==5) {//中邮
+    if ($type==2) {//中邮
         return ['price'=>$config['price2'],'inprice'=>$config['inprice2'],'otherPrice'=>$config['otherPrice2']];
     }
-    if (in_array($type,[12,13,14])) {
-        return ['price'=>$config['price'.$type],'inprice'=>$config['inprice'.$type],'otherPrice'=>$config['otherPrice'.$type]];
+    if ($type==3) {//中环
+        return ['price'=>$config['price3'],'inprice'=>$config['inprice3'],'otherPrice'=>$config['otherPrice3']];
     }
-    return ['price'=>$config['price3'],'inprice'=>$config['inprice3'],'otherPrice'=>$config['otherPrice3']];//中环
 }
 
 function getGoodsEmpty($goods){
