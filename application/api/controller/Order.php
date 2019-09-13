@@ -318,6 +318,8 @@ class Order extends Auth {
                 $data['fund'] = $total;
             }
             $data['total'] = $total;
+            $data['money'] = $total;
+            $data['wellet'] = 0;
             $data['point'] = $point;
             $data['payment'] = $baoguo['totalPrice'];
             $data['goodsMoney'] = $goodsMoney;
@@ -624,12 +626,12 @@ class Order extends Auth {
             $map['order_no'] = $order_no;
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
-            $list = db("Order")->field('id,order_no,total,money')->where($map)->find();
+            $list = db("Order")->field('id,order_no,total,money,wallet')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
             }
 
-            if($list['money']>0){
+            if($list['wallet']>0){
                 $url = $this->getOmiUrl($list);
                 returnJson(1,'success',['url'=>$url]);
             }
@@ -675,6 +677,11 @@ class Order extends Auth {
             $list = db('Order')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
+            }
+
+            if($list['wallet']>0){
+                $url = $this->getOmiUrl($list);
+                returnJson(1,'success',['url'=>$url]);
             }
 
             $fina = $this->getUserMoney($this->user['id']);

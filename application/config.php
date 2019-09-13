@@ -282,7 +282,13 @@ return [
         array('id'=>11,'name'=>'D2(日用品)','max'=>2,'same'=>2,'can'=>[4,5,6,7,8,9,10,12,13]),
 
         array('id'=>12,'name'=>'E(婴儿食品)','max'=>15,'same'=>4,'can'=>[4,5,6,7,8,9,10,11,13]),
-        array('id'=>13,'name'=>'F类(成人食品)','max'=>10,'same'=>4,'can'=>[4,5,6,7,8,9,10,11,12])
+        array('id'=>13,'name'=>'F类(成人食品)','max'=>10,'same'=>4,'can'=>[4,5,6,7,8,9,10,11,12]),
+
+        array('id'=>14,'name'=>'1个不混','max'=>1,'same'=>1,'can'=>[]),
+
+        array('id'=>15,'name'=>'红酒','max'=>999,'same'=>999,'can'=>[]),
+        array('id'=>16,'name'=>'手动面单','max'=>999,'same'=>999,'can'=>[]),
+        array('id'=>17,'name'=>'生鲜','max'=>999,'same'=>999,'can'=>[])
     ),
 
     'BAOGUO_ZY' => array(
@@ -303,7 +309,13 @@ return [
         array('id'=>11,'name'=>'D2(日用品)','max'=>3,'same'=>3,'can'=>[4,5,6,7,8,9,10,12,13]),
 
         array('id'=>12,'name'=>'E(婴儿食品)','max'=>20,'same'=>6,'can'=>[4,5,6,7,8,9,10,11,13]),
-        array('id'=>13,'name'=>'F类(成人食品)','max'=>15,'same'=>6,'can'=>[4,5,6,7,8,9,10,11,12])
+        array('id'=>13,'name'=>'F类(成人食品)','max'=>15,'same'=>6,'can'=>[4,5,6,7,8,9,10,11,12]),
+
+        array('id'=>14,'name'=>'1个不混','max'=>1,'same'=>1,'can'=>[]),
+
+        array('id'=>15,'name'=>'红酒','max'=>999,'same'=>999,'can'=>[]),
+        array('id'=>16,'name'=>'手动面单','max'=>999,'same'=>999,'can'=>[]),
+        array('id'=>17,'name'=>'生鲜','max'=>999,'same'=>999,'can'=>[])
     ),
 
     "GOODS_TAG"=>array(

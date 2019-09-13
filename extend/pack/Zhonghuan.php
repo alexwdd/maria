@@ -88,6 +88,24 @@ class Zhonghuan {
 
 	public function getBaoguo(){
 
+		//处理红酒
+		$hongjiu = $this->singleBaoguo(15);
+		if ($hongjiu) {
+			array_push($this->baoguoArr,$hongjiu);
+		}
+
+		//处理手动面单
+		$miandan = $this->singleBaoguo(16);
+		if ($miandan) {
+			array_push($this->baoguoArr,$miandan);
+		}
+
+		//处理生鲜
+		$shengxian = $this->singleBaoguo(17);
+		if ($shengxian) {
+			array_push($this->baoguoArr,$shengxian);
+		}
+		
 		foreach ($this->cart as $key => $value) {
 			if ($value['typeID']==5) {
 				$this->goodsInsertBaoguo($value);
@@ -177,6 +195,39 @@ class Zhonghuan {
 	        }
 		}	
 		return $this->baoguoArr;
+	}
+
+	//特殊类包裹，不计算重量、价格、数量统统一个包裹
+	private function singleBaoguo($typeID){
+        $goods = [];
+        $number = 0;
+        $weight = 0;
+        $wuliuWeight = 0;
+		foreach ($this->cart as $key => $value) {
+			if ($value['typeID']==$typeID) {
+			   	array_push($goods,$value);
+			   	$this->deleteGoods($value,$value['trueNumber']);
+			   	$number += $value['trueNumber'];
+			   	$weight += $value['weight']*$value['trueNumber'];
+			   	$wuliuWeight += $value['wuliuWeight']*$value['trueNumber'];
+			}
+        }
+        if (count($goods)>0) {
+        	return [
+				'type'=>$typeID, 		//类型
+	            'totalNumber'=>$number, //总数量
+	            'totalWeight'=>$weight, 		//商品总重量
+	            'totalWuliuWeight'=>$wuliuWeight,	//包装后总重量
+	            'totalPrice'=>0,  		//商品中金额
+	            'yunfei'=>0,	  		//运费
+	            'extend'=>0,
+	            'kuaidi'=>'',
+	            'status'=>1,
+	            'goods'=>$goods,
+	        ];
+        }else{
+        	return false;
+        }
 	}
 
 	//判断当前商品是否能放入包裹

@@ -29,9 +29,9 @@ class Notify extends Base {
             $input->setNonceStr($response['nonce_str']);
             $input->setSign();
             if ($input->getSign() == $response['sign']) {   //验证成功
-                $content = json_encode($response)."\r\n";
+                /*$content = json_encode($response)."\r\n";
                 $file = date('Y-m-d') . '.log';
-                file_put_contents($file, $content,FILE_APPEND);
+                file_put_contents($file, $content,FILE_APPEND);*/
                 $order_no = $response['out_order_no'];
                 $map['order_no'] = $order_no;
                 $list = db('Order')->where($map)->find();
