@@ -163,7 +163,7 @@ class Zhonghuan {
 	        	$this->baoguoArr[$key]['inprice'] = $this->baoguoArr[$key]['totalWuliuWeight']*$config['inprice1'];
 	        }else{
 	        	$danjia = getDanjia(3);
-	        	$this->baoguoArr[$key]['kuaidi'] = '中环($'.$danjia['price'].'/kg)';
+	        	$this->baoguoArr[$key]['kuaidi'] = '中环';
 	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
 	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
 	        	}else{

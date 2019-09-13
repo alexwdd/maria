@@ -232,6 +232,7 @@ class Base extends Controller {
 
         $zhongyou = new \pack\Zhongyou($cart,$province);        
         $zyBag = $this->getBagTotal($zhongyou->getBaoguo());
+
         if($type==1){
             if($zhBag['totalPrice']>$zyBag['totalPrice']){
                 $baoguo = $zyBag;

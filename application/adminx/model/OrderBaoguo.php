@@ -46,9 +46,6 @@ class OrderBaoguo extends Admin
         $list = $this->where($map)->order($field.' '.$order)->limit($firstRow.','.$pageSize)->select();
         if($list) {
             $list = collection($list)->toArray();
-            foreach ($list as $key => $value) {
-                $list[$key]['type'] = getBaoguoType($value['type']);
-            }
         }
 
         $result = array(

@@ -366,8 +366,7 @@ class Goods extends Common {
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
-            $list['picname'] = getThumb($list["picname"],200,200);
-            $list['picname'] = getRealUrl($list['picname']);
+            
             $list['point'] = $list['point'] * $list['number'];
 
             if ($list['image']=='') {
@@ -376,6 +375,7 @@ class Goods extends Common {
                 $list['image'] = explode(",", $list['image']);
             }
             foreach ($list['image'] as $key => $value) {
+                $value = getThumb($value,1000,1000);
                 $list['image'][$key] = getRealUrl($value);
             }                  
        

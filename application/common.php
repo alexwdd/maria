@@ -143,10 +143,10 @@ function getOrderStatus($order){
 
 //获取中邮快递ID
 function getBrandID($order){
-    if ($order['type']==1 || $order['type']==2 || $order['type']==3) {
+    if ($order['kuaidi']=='澳邮') {
         return 1;
     }
-    if ($order['type']==5) {
+    if ($order['kuaidi']=='中邮') {
         return 2;
     }
     return 3;

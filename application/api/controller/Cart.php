@@ -236,7 +236,7 @@ class Cart extends Auth {
         }       
     }
 
-    public function package(){
+    /*public function package(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $list = db("Cart")->where('memberID',$this->user['id'])->order('typeID asc,trueNumber desc')->select();
@@ -246,7 +246,7 @@ class Cart extends Auth {
             $result = $this->getYunfeiJson($list);
             returnJson(1,'success',$result);
         } 
-    }
+    }*/
 
     //创建订单
     public function order(){

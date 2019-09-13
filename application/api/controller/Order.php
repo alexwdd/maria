@@ -51,7 +51,7 @@ class Order extends Auth {
             }else{
                 $next = 0;
             }
-            $list = $obj->field('id,order_no,isCut,total,front,back,sn,status,createTime,endTime')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            $list = $obj->field('id,order_no,isCut,total,money,front,back,sn,status,createTime,endTime')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
                 if($value['isCut']==1){
                     if($value['endTime']==0){
@@ -191,6 +191,11 @@ class Order extends Auth {
                 returnJson(0,'操作太频繁，稍后重试!');
             }
 
+            $baoguoType = input('post.baoguoType');
+            if (!in_array($baoguoType,[1,2])) {
+                returnJson(0,'分箱方式错误');
+            }
+
             $ids = input('post.ids');
             if ($ids=='') {
                 returnJson(0,'缺少参数');
@@ -241,11 +246,12 @@ class Order extends Auth {
                 }else{
                     $list[$key]['spec'] = '';
                 }
-                $goodsMoney += $result['price'];
-                $cutMoney += $result['cutPrice'];
+                $goodsMoney += $result['price'] * $value['number'];
+                $cutMoney += $result['cutPrice'] * $value['number'];
                 $inprice += $goods['inprice'] * $value['trueNumber'];
                 $point += $goods['point'] * $value['trueNumber'];
             } 
+
             $senderID = input('post.senderID');
             $sender = db("Sender")->where(['id'=>$senderID,'memberID'=>$this->user['id']])->find();
             if(!$sender){
@@ -297,12 +303,13 @@ class Order extends Auth {
                 $data['isCut'] = 0;
             }
             //获取包裹信息
-            $baoguo = $this->getYunfeiJson($list,$address['province']);   
+            $baoguo = $this->getYunfeiJson($list,$baoguoType,$address['province']);   
     
             $total = $goodsMoney + $baoguo['totalPrice'] - $data['discount'];
             if($total<=0){
                 $total = 0;
             }
+     
             $order_no = $this->getOrderNo();
 
             if($data['isCut'] == 1){
@@ -620,7 +627,8 @@ class Order extends Auth {
             $list = db("Order")->field('id,order_no,total,money')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
-            }   
+            }
+
             if($list['money']>0){
                 $url = $this->getOmiUrl($list);
                 returnJson(1,'success',['url'=>$url]);
@@ -634,8 +642,16 @@ class Order extends Auth {
             }else{
                 $type = 1;
             }
+
+            $payMoney = $list['total'] - $fina['money'];
+            if($payMoney<0){
+                $payMoney = 0;
+            }
+            $rmb = round($payMoney*$this->rate,1);
             returnJson(1,'success',[
                 'data'=>$list,
+                'payMoney'=>$payMoney,
+                'rmb'=>$rmb,
                 'wallet'=>$fina['money'],
                 'type'=>$type
             ]);
@@ -730,6 +746,7 @@ class Order extends Auth {
                 }
                 returnJson(1,'支付成功，等待商家配货');
             }else{
+                $list['money'] = $data['money'];
                 $url = $this->getOmiUrl($list);
                 returnJson(1,'success',['url'=>$url]);
             }         

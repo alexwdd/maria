@@ -162,8 +162,8 @@ class Zhongyou {
 	        	$config = tpCache('kuaidi');
 	        	$this->baoguoArr[$key]['inprice'] = $this->baoguoArr[$key]['totalWuliuWeight']*$config['inprice1'];
 	        }else{
-	        	$danjia = getDanjia(3);
-	        	$this->baoguoArr[$key]['kuaidi'] = '中邮($'.$danjia['price'].'/kg)';
+	        	$danjia = getDanjia(2);
+	        	$this->baoguoArr[$key]['kuaidi'] = '中邮';
 	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
 	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
 	        	}else{
