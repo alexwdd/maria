@@ -51,6 +51,7 @@ class Account extends Auth {
             unset($map);
             $map['createTime'] = array('between',array(strtotime($last_mont_first_date),strtotime($last_mont_end_date)+86399));
             $map['memberID'] = $this->user['id'];
+            $map['type'] = 7;
             $lastMonth = db("Finance")->where($map)->sum("money");
 
             $result['fanli'] = round($fina['fund']*$result['bar'],2);
@@ -94,6 +95,56 @@ class Account extends Auth {
                     'close'=>$order6,
                 ],
                 'user'=>$user,
+            ]);
+        }
+    }
+
+    public function point(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $fina = $this->getUserMoney($this->user['id']);
+
+            $result = getFundBack($fina['point']);     
+            $config = tpCache('member');
+
+            $result['fanli'] = round($fina['fund']*$result['bar'],2);
+            $result['baifenbi'] = ($find['point']/12000)*100;
+
+            returnJson(1,'success',[
+                'fina'=>$fina,
+                'jifen'=>$result, 
+                'config'=>[
+                    ['jifen'=>$config['jifen1'],'bar'=>$config['back1']],
+                    ['jifen'=>$config['jifen2'],'bar'=>$config['back2']],
+                    ['jifen'=>$config['jifen3'],'bar'=>$config['back3']],
+                    ['jifen'=>$config['jifen4'],'bar'=>$config['back4']],
+                    ['jifen'=>$config['jifen5'],'bar'=>$config['back5']],
+                ]
+            ]);
+        }
+    }
+
+    public function wallet(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+           
+            $fina = $this->getUserMoney($this->user['id']);
+
+            $last_mont_first_date = date('Y-m-1',strtotime('last month'));
+            $last_mont_end_date = date('Y-m-d',strtotime(date('Y-m-1').'-1 day'));
+            unset($map);
+            $map['createTime'] = array('between',array(strtotime($last_mont_first_date),strtotime($last_mont_end_date)+86399));
+            $map['memberID'] = $this->user['id'];
+            $map['type'] = 7;
+            $lastMonth = db("Finance")->where($map)->sum("money");
+
+            returnJson(1,'success',[
+                'fina'=>$fina,    
+                'lastMonth'=>[
+                    'money'=>$lastMonth,
+                    'rmb'=>round($lastMonth*$this->rate,1)
+                ]
             ]);
         }
     }
@@ -274,14 +325,15 @@ class Account extends Auth {
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $page = input('post.page/d',1);
-            $type = input('post.type/d',0);
+            $type = input('post.type');
             $pagesize = input('post.pagesize',10);
 
             $firstRow = $pagesize*($page-1); 
             
-            if($type>0){
-                $map['type'] = $type;
+            if($type !='' ){
+                $map['type'] = array('in',$type);
             }
+
             $map['memberID'] = $this->user['id'];
             $obj = db('Finance');
             $count = $obj->where($map)->count();
@@ -291,7 +343,8 @@ class Account extends Auth {
             }else{
                 $next = 0;
             }
-            $list = $obj->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+
+            $list = $obj->field('money,newMoney,oldMoney,msg,createTime,type')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
             foreach ($list as $key => $value) {
                 $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
                 $list[$key]['typeName'] = getMoneyType($value['type']);
