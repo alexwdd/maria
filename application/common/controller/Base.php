@@ -224,12 +224,15 @@ class Base extends Controller {
             $cart[$key]['wuliuWeight'] = $goods['wuliuWeight'];            
             $cart[$key]['weight'] = $goods['weight'];
             $cart[$key]['singleNumber'] = $goods['number'];
+            $cart[$key]['baoyou'] = $goods['baoyou'];
+            $cart[$key]['price'] = $goods['price'];
         } 
 
         //中环包裹信息
         $zhonghuan = new \pack\Zhonghuan($cart,$province);
         $zhBag = $this->getBagTotal($zhonghuan->getBaoguo());
 
+        //中邮包裹信息
         $zhongyou = new \pack\Zhongyou($cart,$province);        
         $zyBag = $this->getBagTotal($zhongyou->getBaoguo());
 

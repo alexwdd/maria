@@ -13,10 +13,10 @@ class Zhonghuan {
 
 	/*
 	$cart中的trueNumber是实际单品数量，比如商品A单品数量是3个，如果购物车中有2个，单品数量总数是6，这里的trueNumber不是数据库中单个商品的trueNumber！！！
+	包裹的status属性如果是1就是该包裹不再跟别的包裹2次混编
 	*/
 	public function __construct($cart,$province) {
 		foreach ($cart as $key => $value) {
-			unset($cart[$key]['number']);
 			unset($cart[$key]['memberID']);
 		}
 
@@ -37,7 +37,8 @@ class Zhonghuan {
 	            'yunfei'=>0,	  		//运费
 	            'extend'=>0,
 	            'kuaidi'=>'',
-	            'status'=>1,
+	            'status'=>0,
+	            'baoyou'=>0,
 	            'goods'=>[],
 	        ];
 	        array_push($this->baoguoArr,$baoguo);
@@ -46,24 +47,26 @@ class Zhonghuan {
 		//$totalNumber = 0;//计算遍历包裹后该商品一共插入了几个
 		
 		foreach ($this->baoguoArr as $key => $value) {
-			$number = $this->canInsert($value,$item,false);
-			if ($number) {
-				$oldNumber = $item['trueNumber'];
-            	//可以放入包裹中商品的单品总数量
-            	if($number >= $item['trueNumber']){
-            		$number = $item['trueNumber'];
-            	}
-          		if($number>0){
-	            	$item['trueNumber'] = $number;
-	            	$this->baoguoArr[$key]['totalNumber'] += $number;
-	            	$this->baoguoArr[$key]['totalWeight'] += $number*$item['weight'];
-	            	$this->baoguoArr[$key]['totalWuliuWeight'] += $number*$item['wuliuWeight'];
-	            	$this->baoguoArr[$key]['totalPrice'] += $number*$item['price'];
-	            	$this->baoguoArr[$key]['type'] = $item['typeID'];
-	                array_push($this->baoguoArr[$key]['goods'],$item);	                
-	                $this->deleteGoods($item,$number);
-	                $item['trueNumber'] = $oldNumber - $number;
-           		}
+			if($value['status']==0){
+				$number = $this->canInsert($value,$item,false);
+				if ($number) {
+					$oldNumber = $item['trueNumber'];
+	            	//可以放入包裹中商品的单品总数量
+	            	if($number >= $item['trueNumber']){
+	            		$number = $item['trueNumber'];
+	            	}
+	          		if($number>0){
+		            	$item['trueNumber'] = $number;
+		            	$this->baoguoArr[$key]['totalNumber'] += $number;
+		            	$this->baoguoArr[$key]['totalWeight'] += $number*$item['weight'];
+		            	$this->baoguoArr[$key]['totalWuliuWeight'] += $number*$item['wuliuWeight'];
+		            	$this->baoguoArr[$key]['totalPrice'] += $number*$item['price'];
+		            	$this->baoguoArr[$key]['type'] = $item['typeID'];
+		                array_push($this->baoguoArr[$key]['goods'],$item);	                
+		                $this->deleteGoods($item,$number);
+		                $item['trueNumber'] = $oldNumber - $number;
+	           		}
+	            }
             }
 		}
 
@@ -77,7 +80,8 @@ class Zhonghuan {
 	            'yunfei'=>0,	  		//运费
 	            'extend'=>0,
 	            'kuaidi'=>'',
-	            'status'=>1,
+	            'status'=>0,
+	            'baoyou'=>0,
 	            'goods'=>[],
 	        ];
 	        array_push($this->baoguoArr,$baoguo);
@@ -87,7 +91,9 @@ class Zhonghuan {
 	}
 
 	public function getBaoguo(){
-
+		//处理包邮
+		$baoyou = $this->getBaoyou();
+		
 		//处理红酒
 		$hongjiu = $this->singleBaoguo(15);
 		if ($hongjiu) {
@@ -124,10 +130,9 @@ class Zhonghuan {
             }
 		}
 
-
 		foreach ($this->cart as $key => $value) {			
 			$this->goodsInsertBaoguo($value);           
-		}		
+		}
 
 		/*while ($this->cart) {
 			$baoguo = [
@@ -176,14 +181,18 @@ class Zhonghuan {
 
 		$lastBaoguo = end($this->baoguoArr);
 		//最后一个包裹重量小于1公斤，从其他包裹中匀一部分商品，总重够1公斤就可以了
-		if ($lastBaoguo['totalWeight'] < 1) {
-			for ($i=0; $i < ($length-1); $i++) { 
-				$res = $this->moveGoods($this->baoguoArr[$i],$lastBaoguo);
-				$lastBaoguo = $res['to'];
-				$this->baoguoArr[$length-1] = $res['to'];
-				$this->baoguoArr[$i] = $res['from'];
+
+		if ($lastBaoguo['totalWeight'] < 1 && $lastBaoguo['baoyou']==0) {
+			for ($i=0; $i < ($length-1); $i++) {
+				if($this->baoguoArr[$i]['status']==0){
+					$res = $this->moveGoods($this->baoguoArr[$i],$lastBaoguo);
+					$lastBaoguo = $res['to'];
+					$this->baoguoArr[$length-1] = $res['to'];
+					$this->baoguoArr[$i] = $res['from'];
+				}				
 			}
 		}
+		
  		
  		foreach ($this->baoguoArr as $key => $value) {
 			$wuliuWeight = ceil($this->baoguoArr[$key]['totalWuliuWeight']*10);
@@ -192,7 +201,7 @@ class Zhonghuan {
 	        if (in_array($value['type'],[1,2,3])){//奶粉类走澳邮
 	        	$danjia = getDanjia(1);
 	        	$this->baoguoArr[$key]['kuaidi'] = '澳邮';
-	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
+	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1 && $this->baoguoArr[$key]['baoyou']==0){
 	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
 	        	}else{
 	        		$this->baoguoArr[$key]['yunfei'] = 0;
@@ -202,7 +211,7 @@ class Zhonghuan {
 	        }else{
 	        	$danjia = getDanjia(3);
 	        	$this->baoguoArr[$key]['kuaidi'] = '中环';
-	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1){
+	        	if($this->baoguoArr[$key]['totalWuliuWeight']<1 && $this->baoguoArr[$key]['baoyou']==0){
 	        		$this->baoguoArr[$key]['yunfei'] = (1-$this->baoguoArr[$key]['totalWuliuWeight'])*$danjia['price'];
 	        	}else{
 	        		$this->baoguoArr[$key]['yunfei'] = 0;
@@ -213,7 +222,7 @@ class Zhonghuan {
 	        if ($this->inExtendArea()) {
 	        	$this->baoguoArr[$key]['extend'] = $this->baoguoArr[$key]['totalWuliuWeight']*$danjia['otherPrice'];
 	        }
-		}	
+		}
 		return $this->baoguoArr;
 	}
 
@@ -262,6 +271,37 @@ class Zhonghuan {
 		return $baoguo;
 	}
 
+	//处理包邮类包裹
+	private function getBaoyou(){
+		foreach ($this->cart as $key => $value) {
+			if ($value['baoyou']==1) {
+			   	for ($i=0; $i < $value['number']; $i++) {
+			   		//$value['number'] = 1;
+			   		//$value['trueNumber'] = $value['singleNumber'];
+			   		$goods = $value;
+			   		$goods['number'] = 1;
+			   		$goods['trueNumber'] = $value['singleNumber'];
+                    $baoguo = [
+                        'type'=>$goods['typeID'],
+                        'totalNumber'=>$goods['singleNumber'],
+                        'totalWeight'=>$goods['weight'],
+                        'totalWuliuWeight'=>$goods['wuliuWeight'],
+                        'totalPrice'=>$goods['price'],
+                        'yunfei'=>0,
+                        'inprice'=>0,
+                        'extend'=>0,
+                        'kuaidi'=>'中环',
+                        'status'=>1,
+                        'baoyou'=>1,
+                        'goods'=>array($goods),
+                    ];
+                    array_push($this->baoguoArr,$baoguo);
+                    $this->deleteGoods($value,$goods['singleNumber']);
+                }
+			}
+        }
+	}
+
 	//特殊类包裹，不计算重量、价格、数量统统一个包裹
 	private function singleBaoguo($typeID){
         $goods = [];
@@ -288,6 +328,7 @@ class Zhonghuan {
 	            'extend'=>0,
 	            'kuaidi'=>'',
 	            'status'=>1,
+	            'baoyou'=>0,
 	            'goods'=>$goods,
 	        ];
         }else{
