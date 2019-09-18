@@ -16,6 +16,8 @@ class Wechat extends Common {
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $code = input('post.code');
+            $shareUser = input('post.shareUser');
+            $config = tpCache('member');
             if($code){
                 $config = tpCache('weixin');
                 $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$config['APP_ID'].'&secret='.$config['APP_SECRET'].'&code='.$code.'&grant_type=authorization_code';
@@ -67,7 +69,42 @@ class Wechat extends Common {
                     }else{
                         $result = model('Member')->wechat($data);
                         if ($result['code']==1) { 
+                            if($shareUser!='' && is_numeric($shareUser)){
+                                $father = db("Member")->where('id',$shareUser)->find();
+                                if($father){
+                                    $fina = $this->getUserMoney($father['id']);
+                                    $data = array(
+                                        'type' => 9,
+                                        'money' => $config['shareStore'],
+                                        'memberID' => $father['id'],     
+                                        'doID' =>  $father['id'],
+                                        'oldMoney'=>$fina['point'],
+                                        'newMoney'=>$fina['point']+$config['shareStore'],
+                                        'admin' => 1,
+                                        'msg' => '成功分享商城，奖励'.$config['shareStore'].'积分。',
+                                        'extend1'=>0,
+                                        'createTime' => time()
+                                    );  
+                                    db('Finance')->insert( $data );
+                                }
+                            }
+
                             $user = db("Member")->field('nickname,headimg,token')->where('id',$result['msg'])->find();
+                            if($config['register']>0){         
+                                $data = array(
+                                    'type' => 9,
+                                    'money' => $config['register'],
+                                    'memberID' => $user['id'],
+                                    'doID' =>  $user['id'],
+                                    'oldMoney'=>0,
+                                    'newMoney'=>$config['register'],
+                                    'admin' => 1,
+                                    'msg' => '新用户注册，赠送'.$config['register'].'积分。',
+                                    'extend1'=>0,
+                                    'createTime' => time()
+                                );  
+                                db('Finance')->insert( $data );                            
+                            }
                             $this->autoCoupon($user);
                             returnJson(1,'success',['token'=>$user['token']]);
                         }else{

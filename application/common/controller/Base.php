@@ -228,25 +228,25 @@ class Base extends Controller {
             $cart[$key]['price'] = $goods['price'];
         } 
 
-        //中环包裹信息
-        $zhonghuan = new \pack\Zhonghuan($cart,$province);
-        $zhBag = $this->getBagTotal($zhonghuan->getBaoguo());
-
         //中邮包裹信息
         $zhongyou = new \pack\Zhongyou($cart,$province);        
         $zyBag = $this->getBagTotal($zhongyou->getBaoguo());
 
+        //中环包裹信息
+        $zhonghuan = new \pack\Zhonghuan($cart,$province);
+        $zhBag = $this->getBagTotal($zhonghuan->getBaoguo());
+
         if($type==1){
-            if($zhBag['totalPrice']>$zyBag['totalPrice']){
-                $baoguo = $zyBag;
-            }else{
+            if($zyBag['totalPrice']>$zhBag['totalPrice']){
                 $baoguo = $zhBag;
+            }else{
+                $baoguo = $zyBag;
             }
         }else{
-            if(count($zhBag['baoguo'])>count($zyBag['baoguo'])){
-                $baoguo = $zyBag;
-            }else{
+            if(count($zyBag['baoguo'])>count($zhBag['baoguo'])){
                 $baoguo = $zhBag;
+            }else{
+                $baoguo = $zyBag;
             }
         }   
         return $baoguo;

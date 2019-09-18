@@ -64,6 +64,23 @@ class Login extends Common {
                 $result = model('Member')->wechat($data);
                 if ($result['code']==1) { 
                     $user = db("Member")->field('id,nickname,headimg,token,mobile')->where('id',$result['msg'])->find();
+                    
+                    if($config['register']>0){         
+                        $data = array(
+                            'type' => 9,
+                            'money' => $config['register'],
+                            'memberID' => $user['id'],
+                            'doID' =>  $user['id'],
+                            'oldMoney'=>0,
+                            'newMoney'=>$config['register'],
+                            'admin' => 1,
+                            'msg' => '新用户注册，赠送'.$config['register'].'积分。',
+                            'extend1'=>0,
+                            'createTime' => time()
+                        );  
+                        db('Finance')->insert( $data );                            
+                    }
+                            
                     $this->autoCoupon($user);
                     returnJson(1,'success',$user);
                 }else{
