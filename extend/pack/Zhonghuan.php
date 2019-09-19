@@ -230,7 +230,7 @@ class Zhonghuan {
 	private function moveGoods($from,$to){
 		foreach ($from['goods'] as $key => $value) {
 			$maxNumber = ceil((1-$to['totalWeight'])/$value['weight']);//最多几个就凑够1公斤了	
-			$number = $this->canInsert($to,$value);
+			$number = $this->canInsert($to,$value,false);
 			if ($number>0 && $maxNumber>0) {
             	$number = $number>$value['trueNumber'] ? $value['trueNumber'] : $number;
             	$number = $number>$maxNumber ? $maxNumber : $number;  

@@ -270,7 +270,7 @@ class Cart extends Auth {
             if (!$list) {
                 returnJson(0,'购物车中没有商品');
             }
-
+       
             $baoguo = $this->getYunfeiJson($list);    
             $goodsMoney = 0;
             $cutMoney = 0;
