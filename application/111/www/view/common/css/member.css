@@ -1,0 +1,44 @@
+body{background: #f1f1f1}
+.user-header{background: #FF0036; height: 80px;}
+.user-logo{float: left; height: 60px; margin-top: 10px}
+.user-logo img{height: 60px;}
+.user-top-menu{float: right; width:1000px;}
+.user-top-menu .leftMenu{float: left; font-size: 30px; color: #fff; margin-top: 20px}
+.user-top-menu .leftMenu span{ margin-left: 20px; border-left: 1px #fff solid; padding-left: 20px;}
+.user-top-menu .leftMenu span a{color: #fff}
+.user-top-menu .rightMenu{float: right;}
+.user-top-menu .rightMenu a{border-radius: 15px; height:30px; line-height:30px; border:1px #fff solid; display: block;padding: 0 20px; color: #fff; margin-top: 25px}
+
+.user-box{width: 1200px; margin: auto; margin-top:20px; clear: both; overflow: hidden; }
+.leftBox{float: left; width: 200px;}
+.rightBox{float: right; width: 980px;}
+.user-menu{clear: both; overflow: hidden;}
+.user-menu a{line-height: 40px; border-bottom: 1px #f1f1f1 solid; display: block; padding-left: 20px}
+.user-menu a:last-child{border: 0}
+.user-menu a.active{color: #FF0036}
+.my-card-header{font-size: 16px;}
+.my-card-header i{color:#FF0036;}
+
+.my-btn{background: #FF0036;} 
+
+.user-face{float: left; width: 180px; text-align: center; overflow: hidden; margin-right: 20px}
+.user-face img{width: 150px; height: 150px; margin-bottom: 10px;}
+.user-info{ float: left;}
+.user-info li{ height: 30px; line-height: 30px; font-size: 14px;}
+.user-info li label{color: #999; width: 100px; display: block; float: left;}
+
+.empty{text-align: center; color: #999; font-size: 20px;}
+.empty img{width: 150px;}
+
+.my-card{border: 1px #f1f1f1 solid}
+.my-card .layui-card-header{font-size: 12px; background: #f1f1f1}
+
+.helpLeft{float: left; width: 200px; background: #fff}
+.helpLeft .hd{height: 50px; background: #FF0036; color: #fff; text-align: center; font-size: 20px; line-height: 50px;}
+.helpLeft .hd i{font-size: 20px}
+.helpRight{float: right; width: 980px;}
+
+.helpMenu{clear: both;}
+.helpMenu a{display: block; padding-left:20px; line-height: 30px; border-bottom: 1px #f1f1f1 solid;color: #777}
+.helpMenu a:last-child{border: 0}
+.my-colla-title{background-color: #fff; font-weight: bold;}

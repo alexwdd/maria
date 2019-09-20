@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/index.css" rel="stylesheet" type="text/css" />
+<script src="{:RES}/js/jquery.fly.min.js"></script>
+</head>
+<body>
+{include file="public:top" /}
+{include file="public:header" /}
+
+<!--导航-->
+<section class="dao_hang">
+	<nav>
+		<!--右下侧广告-->
+		<div class="advertisement" style="top:42px;">
+			<h4>最新公告</h4>
+			<div class="notice_new">
+				<p>
+					<a href="#">来部红色手机，颜值亮爆朋友圈</a>
+				</p>
+				<p>
+					<a href="#">荣耀V10高配版 6GB+64GB 魅丽红 移动联通电信4G手机</a>
+				</p>
+				<p>
+					<a href="#">真正香饽饽，时髦的全面屏手机大团战</a>
+				</p>
+				<p>
+					<a href="#">女生新宠vivo X20梦幻粉，八大配色随你选</a>
+				</p>
+				<p>
+					<a href="#">除了低价，我们还能给你更多专业的购机指导</a>
+				</p>
+				<p>
+					<a href="#">给你三千元，你可以买到什么配置的手机？</a>
+				</p>
+				<p>
+					<a href="#">作为游戏爱好者，怎么能少一款游戏笔记本呢？</a>
+				</p>
+			</div>
+			<a href="#">
+				<div class="notice_img">
+					<img src="{:RES}/image/activity.jpg" class="img1">
+					<img src="{:RES}/image/activity.jpg" class="img2">
+				</div>
+			</a>
+		</div>
+
+		<div class="important indexCate">
+		{include file="public:cate" /}
+		</div>
+
+		{include file="public:nav" /}
+	</nav>
+</section>
+
+<!--banner-->
+<div id="banner_tabs" class="flexslider">
+	<ul class="slides">
+		<li>
+			<a title="" target="_blank" href="#">
+				<img width="1920" height="500" alt="" style="background:#e1211e url({:RES}/image/ba1.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
+			</a>
+		</li>
+		<li>
+			<a title="" href="#">
+				<img width="1920" height="500" alt="" style="background:#900 url({:RES}/image/ba2.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
+			</a>
+		</li>
+		<li>
+			<a title="" target="_blank" href="#">
+				<img width="1920" height="500" alt="" style="background:#e1211e url({:RES}/image/ba1.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
+			</a>
+		</li>
+		<li>
+			<a title="" href="#">
+				<img width="1920" height="500" alt="" style="background:#900 url({:RES}/image/ba2.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
+			</a>
+		</li>
+	</ul>
+	<ul class="flex-direction-nav">
+		<li>
+			<a class="flex-prev" href="javascript:;">Previous</a>
+		</li>
+		<li>
+			<a class="flex-next" href="javascript:;">Next</a>
+		</li>
+	</ul>
+	<ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
+		<li class="active">
+			<a>1</a>
+		</li>
+		<li>
+			<a>2</a>
+		</li>
+		<li>
+			<a>2</a>
+		</li>
+		<li>
+			<a>2</a>
+		</li>
+	</ol>
+</div>
+<script src="{:RES}/js/slider.js"></script>
+<!--广告-->
+<script type="text/javascript">
+$(function() {
+    var bannerSlider = new Slider($('#banner_tabs'),{
+        time: 5000,
+        delay: 400,
+        event: 'hover',
+        auto: true,
+        mode: 'fade',
+        controller: $('#bannerCtrl'),
+        activeControllerCls: 'active'
+    });
+    $('#banner_tabs .flex-prev').click(function() {
+        bannerSlider.prev()
+    });
+    $('#banner_tabs .flex-next').click(function() {
+        bannerSlider.next()
+    });
+
+    $(".advertisement").animate({'top':'42','opacity':'1'},200)
+    $(".flexslider").animate({'margin-top':'0'},200)
+    $("aside").animate({'top':'42','opacity':'1'},200)
+})
+</script>
+
+<!--楼层分布图-->
+<div class="fixed_position">
+	<div class="fixed_position_1">
+		<ul>
+			<li>大聚惠</li>
+			<li>应季商品</li>
+			<li>母婴之家</li>
+			<li>厨房用品</li>
+			<li>生活必备</li>
+			<li>个性筛选</li>
+			<li>推荐商品</li>
+		</ul>
+	</div>
+</div>
+
+<!--大聚惠-->
+<span class="as blessing_package pick-back-a">
+    <a href="#">
+        <h3 class="pick-back1">大聚惠</h3>
+    </a>
+    <div class="detailed_navigation">
+        <ul>
+            <li class="dog d-1-lt04" dg-floor="1" dg-ct="lt04">更多红包</li>
+        </ul>
+    </div>
+</span>
+<div class="three_fb">
+	<ul>
+		<li>
+			<light>
+				<img src="{:RES}/image/saoguang1.png">
+			</light>
+			<a href="liebiao_page.html">
+				<img src="{:RES}/image/1.jpg">
+			</a>
+			<span>价值288元</span>
+			<a href="#">查看福包</a>
+			<em>200人已购买</em>
+		</li>
+		<li>
+			<light>
+				<img src="{:RES}/image/saoguang1.png">
+			</light>
+			<a href="liebiao_page.html">
+				<img src="{:RES}/image/3.jpg">
+			</a>
+			<span>价值288元</span>
+			<a href="#">查看福包</a>
+			<em>200人已购买</em>
+		</li>
+		<li>
+			<light>
+				<img src="{:RES}/image/saoguang1.png">
+			</light>
+			<a href="liebiao_page.html">
+				<img src="{:RES}/image/2.jpg">
+			</a>
+			<span>价值288元</span>
+			<a href="#">查看福包</a>
+			<em>200人已购买</em>
+		</li>
+	</ul>
+</div>
+
+<!--应季商品-->
+<span class="as blessing_package pick-back-b">
+    <a href="#" style=" color:#000">
+        <h3 style="float:left" class="pick-back2">
+            应季商品
+        </h3>
+    </a>
+    <div class="detailed_navigation">
+        <ul>
+            <li class="dog d-1-lt01 yadi" dg-floor="1" dg-ct="lt01">囤年货</li>
+            <li class="dog d-1-lt02" dg-floor="1" dg-ct="lt02">拿货节</li>
+            <li class="dog d-1-lt03" dg-floor="1" dg-ct="lt03">限时</li>
+            <li class="dog d-1-lt04" dg-floor="1" dg-ct="lt04">折扣</li>
+        </ul>
+    </div>
+</span>
+
+<div>
+	<div class="currency f-1-lt01">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥4299.00</span>
+				<a href="#">
+					<p>海尔冰箱（haier）BCD-642WDVMU1 642升风冷无霜对开门 智能 大容积  </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥2149</span>
+				<a href="#">
+					<p>【官网价直降1100】Apple iPhone 6s Plus 32G 玫瑰金 移动联通电信4G 手机</p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad5.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-1-lt02" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/add1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/add1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/add1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/add1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/add1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-1-lt03" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-1-lt04" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<!--母婴专区-->
+<span class="as blessing_package pick-back-c">
+    <a href="#" style=" color:#000">
+        <h3 style="float:left" class="pick-back3">
+            母婴之家
+        </h3>
+    </a>
+    <div class="detailed_navigation">
+        <ul>
+            <li class="dog d-2-lt01 yadi" dg-floor="2" dg-ct="lt01">婴儿玩具</li>
+            <li class="dog d-2-lt02" dg-floor="2" dg-ct="lt02">进口奶粉</li>
+            <li class="dog d-2-lt03" dg-floor="2" dg-ct="lt03">婴儿套装</li>
+            <li class="dog d-2-lt04" dg-floor="2" dg-ct="lt04">尿裤/湿巾</li>
+            <li class="dog d-2-lt04" dg-floor="2" dg-ct="lt05">孕妈专区</li>
+            <li class="dog d-2-lt04" dg-floor="2" dg-ct="lt06">安全防护</li>
+        </ul>
+    </div>
+</span>
+
+<div>
+	<div class="currency f-2-lt01">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-2-lt02" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-2-lt03" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-2-lt04" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-2-lt05" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+	<div class="currency f-2-lt06" style="display:none">
+		<ul>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+			<li>
+				<a href="#">
+					<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+				</a>
+				<light1>
+					<img src="{:RES}/image/saoguang.png">
+				</light1>
+				<span>￥199</span>
+				<a href="#">
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<em>
+					<a href="#">收藏</a>
+					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+				</em>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<!--推荐商品-->
+<div class="as kongzhianniu">
+	<div class="lunbobanner">
+		<ul class="lunboimg">
+			<li>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad4.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad1.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad3.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad7.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad9.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+				<a href="#">
+					<b>
+						<img src="{:RES}/image/ad2.jpg" style=" margin:0 auto; display:block; width:220px; height:220px">
+					</b>
+					<span>￥199</span>
+					<p>Apple iPad MPGW2CH/A 平板电脑 9.7英寸（128G/WLAN）金色 </p>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="btnl">《</div>
+	<div class="btnr">》</div>
+	<h4 class="guanfangremai">推荐商品</h4>
+</div>
+{include file="public:footer" /}
+</body>
+</html>

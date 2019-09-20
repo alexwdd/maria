@@ -1,0 +1,43 @@
+<div class="layui-card">
+    <div class="layui-card-header my-card-header"><i class="layui-icon">&#xe66f;</i> 会员中心</div>
+    <div class="layui-card-body">
+        <div class="user-menu">
+            <a data='u1' href="{:url('Member/index')}">欢迎页</a>
+            <a data='u2' href="{:url('Member/info')}">个人信息</a>
+            <a data='u3' href="{:url('Member/password')}">账号安全</a>
+            <a data='u4' href="{:url('address/index')}">地址管理</a>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card">
+    <div class="layui-card-header my-card-header"><i class="layui-icon">&#xe698;</i> 交易中心</div>
+    <div class="layui-card-body">
+        <div class="user-menu">
+            <a data='u5' href="{:url('order/index')}">我的订单</a>
+            <a data='u6' href="">评价商品</a>
+            <a data='u7' href="">我的收藏</a>
+            <a data='u8' href="">浏览记录</a>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card">
+    <div class="layui-card-header my-card-header"><i class="layui-icon">&#xe702;</i> 服务</div>
+    <div class="layui-card-body">
+        <div class="user-menu">
+            <a data='u9' href="{:url('Member/about')}">关于我们</a>
+            <a data='u10' href="{:url('Member/feedback')}">投诉建议</a>
+            <a href="{:url('Member/help')}" target="_blank">帮助中心</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $(".user-menu a").each(function(){
+        if($(this).attr("data")==$("#userAction").val()){
+            $(this).addClass("active");
+        }
+    })
+})
+</script>

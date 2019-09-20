@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+{include file="public:userheader" /}
+
+
+<div class="user-box">
+    <div class="leftBox">
+        {include file="public:usermenu" /}
+        <input type="hidden" id="userAction" value="u4">
+    </div>
+
+    <div class="rightBox">
+        <div class="layui-card">
+            <div class="layui-card-header">地址管理</div>
+            <div class="layui-card-body">
+                <a href="{:url("address/add")}" class="layui-btn layui-btn-sm my-btn">添加</a>
+                <table class="layui-table">
+                    <colgroup>
+                    <col width="80">
+                    <col width="150">
+                    <col width="250">
+                    <col>
+                    <col width="102">                    
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <TH>姓名</TH>                   
+                            <TH>电话</TH>
+                            <TH>地区</TH>
+                            <TH>地址</TH>  
+                            <TH>操作</TH>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.mobile}</td>
+                            <td>{$vo.province} {$vo.city} {$vo.area}</td>
+                            <td>{$vo.address}</td>    
+                            <td>
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" href="{:url('Address/edit',array('id'=>$vo['id']))}"><i class="layui-icon">&#xe642;</i></a>
+
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" href="{:url('Address/del',array('id'=>$vo['id']))}" onClick="return confirm('确实删除选定的信息？')"><i class="layui-icon">&#xe640;</i></a>
+                            </td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public:footer" /}
+</body>
+</html>

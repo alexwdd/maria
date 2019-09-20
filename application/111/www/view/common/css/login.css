@@ -1,0 +1,11 @@
+/*login*/
+.login-bg{width: 100%; background: url(../image/load_bg.jpg) no-repeat; background-size: cover; padding: 100px 0; clear: both; overflow: hidden;}
+.login-bg .login-box{width: 300px; clear: both; overflow: hidden;border:1px solid #d9dadc; background: #fff;  padding:0 30px;}
+.login-bg .login-box legend{font-size: 20px; color: #323232; text-align: center; padding:30px 0;}
+.login-bg .login-box .layui-input-inline,.login-bg .login-box .layui-input-block{width: 100%; position: relative; margin: 0}
+.login-bg .login-box .layui-input-inline i{position: absolute; top: 8px; left: 10px; color: #d3d3d3; font-size: 20px;}
+.login-bg .login-box .layui-input-inline .layui-input{padding-left: 40px;}
+.login-bg .login-box .layui-input-block button{width: 100%;font-size: 18px;}
+.login-bg .my-btn{width: 100%; background: #FF0036; font-size: 18px;} 
+.login-bg .login-box .veri-code .layui-btn{width: 102px; background: #eeeeee; text-align: center; color: #333; height: 38px; line-height: 38px; border:none; cursor: pointer; font-size: 12px; padding:0 14px; float: right;}
+.login-bg .login-box .veri-code .layui-input{width: 198px; float: left; border-right: 0}

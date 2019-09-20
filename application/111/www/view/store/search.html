@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>搜索-{:config('site.name')}</title>
+    <meta name="keywords" content="{:config('site.keyword')}">
+    <meta name="description" content="{:config('site.content')}">
+    {include file="public:cssjs" /}
+</head>
+
+<body>
+    {include file="public:header" /}
+    
+    <div class="leftBox">
+        <div class="leftLogo"></div>
+        <div class="leftCate">
+            <div class="bd">
+                {volist name="treeMenu" id="vo"}
+                <li><a href="{:url('store/index','path='.$vo['path'])}">{$vo.name}</a></li>
+                {/volist}
+            </div>
+        </div>
+    </div>
+
+    <div class="rightBox">
+        <div class="guide">
+            <a href="/">首页</a> / 搜索
+        </div>
+
+        <div class="rightCate">
+            关键词：{$keyword}
+        </div>
+
+        <div class="productList">
+            {volist name="list" id="vo" empty="$empty"} 
+            <li>
+                <div class="product">
+                    <a href="javascript:void(0)" onclick="openModel('{$vo.url}','商品详情','1100px','80%')">
+                    <img src="{$vo.picname|getThumb=280,280}" alt="">
+                    </a>
+                    <div class="bd">
+                        <a href="javascript:void(0)" onclick="openModel('{$vo.url}','商品详情','1100px','80%')">
+                        <h1>{$vo.name}</h1>
+                        </a>
+                        {gt name="user.id" value="0"}
+                        <div class="price">
+                            <p><span>${$vo.price}</span>/会员<span>${$vo.price1}</span></p>                       
+                        </div>
+                        
+                        <div class="setNumber {eq name="vo.empty" value="0"}canBuy{/eq}" data-id="{$vo.goodsID}" data-type="{$vo.typeID}" spec-id="{$vo.id}">
+                            <span class="set" data-action="dec">-</span>                        
+                            <div class="cartIcon">                          
+                                <i class="layui-icon layui-icon-cart"></i>
+                                <p id="number{$vo.id}">0</p>
+                            </div>
+                            <span class="set" data-action="inc">+</span>
+                        </div>
+                        {/gt}
+                    </div>
+                    {eq name="vo.empty" value="1"}<div class="sold_out"><img src="{:RES}/image/sold-out.png"></div>{/eq}
+                    {notempty name="vo.wuliu"}
+                    <div class="baoyou_tag b_tag{$user.id}"><img src="{:RES}/image/tag1.png"></div>
+                    {else/}
+                    {gt name="vo.tag" value="0"}
+                    <div class="baoyou_tag b_tag{$user.id}"><img src="{:RES}/image/tag{$vo.tag}.png"></div>
+                    {/gt}
+                    {/notempty}
+                </div>
+            </li>
+            {/volist}
+        </div>
+        {$page}
+    </div>
+    
+<script type="text/javascript" src="{:RES}/js/iframe.js"></script>
+<script type="text/javascript" src="{:RES}/js/cart.js"></script>
+</body>
+</html>

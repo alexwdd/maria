@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{include file="public:top" /}
+
+{include file="public:header" /}
+
+<!--导航-->
+<section class="dao_hang">
+	<nav>
+		<!--全部商品分类-->
+		<div class="important inCate">
+        {include file="public:cate" /}
+        </div>
+        
+		{include file="public:nav" /}
+	</nav>
+</section>
+
+<div class="login-bg">
+    <div class="w1200">
+        <div class="login-box" style="float: right;">
+            <form class="layui-form">
+                <legend>用户登录</legend>
+
+                <div class="layui-form-item">                    
+                    <div class="layui-input-inline">
+                        <i class="layui-icon layui-icon-cellphone"></i>
+                        <input type="number" name="mobile" id="mobile" lay-verify="__mobile" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">                    
+                    <div class="layui-input-inline">
+                        <i class="layui-icon layui-icon-password"></i>
+                        <input type="password" name="password" id="password" required lay-verify="__password" placeholder="登录密码" autocomplete="off" class="layui-input">  
+                    </div>
+                </div>
+ 
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn my-btn" lay-submit lay-filter="go" url="{:url('mobile/login/loginDo')}">登录</button>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='{:url('login/register')}'">用户注册</button>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="text-align: center;">
+                    <a href="">忘记密码？</a>
+                </div>
+            </form>
+        </div>
+     </div>
+</div>
+{include file="public:footer" /}
+</body>
+</html>

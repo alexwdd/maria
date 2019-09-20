@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+{include file="public:userheader" /}
+
+
+<div class="user-box">
+    <div class="leftBox">
+        {include file="public:usermenu" /}
+        <input type="hidden" id="userAction" value="u2">
+    </div>
+
+    <div class="rightBox">
+        <div class="layui-card">
+            <div class="layui-card-header">个人信息</div>
+            <div class="layui-card-body">
+                <form class="layui-form" method="post">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" id="name" value="{$user.name}" placeholder="选填" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">QQ</label>
+                        <div class="layui-input-inline">
+                            <input type="number" name="qq" id="qq" value="{$user.qq}" placeholder="选填" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">微信</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="weixin" id="weixin" value="{$user.weixin}" placeholder="选填" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn my-btn" lay-submit lay-filter="go" url="{:url('Member/info')}">修改个人信息</button>
+                        </div>                    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public:footer" /}
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+{include file="public:userheader" /}
+
+
+<div class="user-box">
+    <div class="leftBox">
+        {include file="public:usermenu" /}
+        <input type="hidden" id="userAction" value="u1">
+    </div>
+
+    <div class="rightBox">
+        <div class="layui-card">
+            <div class="layui-card-header">欢迎页</div>
+            <div class="layui-card-body">
+                <div class="layui-row">
+                <div class="user-face">
+                    {empty name="user.face"}
+                    <img src="{:RES}/image/face.png"/>
+                    {else/}
+                    <img src="{$user.face}"/>
+                    {/empty}
+                </div>
+                
+                <div class="user-info">                    
+                    <li><label>身份</label>{$user['group']|getUserGroup=###}</li>                        
+                    <li><label>手机号码</label>{$user['mobile']}</li>                        
+                    <li><label>QQ</label>{$user['qq']|default="-"}</li>
+                    <li><label>微信号</label>{$user['weixin']|default="-"}</li>
+                    <li><label>注册日期</label>{$user['createTime']|date="Y-m-d H:i:s",###}</li>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public:footer" /}
+</body>
+</html>
