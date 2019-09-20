@@ -1,10 +1,7 @@
 <?php
 namespace app\www\controller;
-use think\Request;
-use think\Db;
-use think\Session;
 
-class Login extends Home
+class Login extends Common
 {
 	public function index()
 	{

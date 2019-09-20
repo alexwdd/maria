@@ -2,7 +2,7 @@
 namespace app\www\controller;
 use think\Session;
 
-class User extends Home
+class User extends Common
 {
     public $user;
 

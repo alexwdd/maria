@@ -2,7 +2,7 @@
 namespace app\www\controller;
 use think\Request;
 
-class Upload extends Home
+class Upload extends Common
 {
 	//上传图片
 	public function image()
