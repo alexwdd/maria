@@ -114,6 +114,7 @@ class Account extends Auth {
             returnJson(1,'success',[
                 'fina'=>$fina,
                 'jifen'=>$result, 
+                'userID'=>$this->user['id'], 
                 'config'=>[
                     ['jifen'=>$config['jifen1'],'bar'=>$config['back1']],
                     ['jifen'=>$config['jifen2'],'bar'=>$config['back2']],
