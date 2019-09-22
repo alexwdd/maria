@@ -150,6 +150,142 @@ class Account extends Auth {
         }
     }
 
+    public function share(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $shareUser = input("post.shareUser");
+            if($shareUser=='' || !is_numeric($shareUser)){
+                returnJson(0,'参数错误');
+            }
+
+            $user = db("Member")->where('id',$shareUser)->find();
+            if(!$user){
+                returnJson(0,'用户信息不存在');
+            }
+
+            $fina = $this->getUserMoney($user['id']);
+
+            $result = getFundBack($fina['point']);     
+
+            $result['fanli'] = round($fina['fund']*$result['bar'],2);
+            $result['baifenbi'] = ($find['point']/12000)*100;
+
+            //为您推荐 
+            $obj = db('GoodsPush');
+            $list = $obj->field('goodsID')->where('cateID',3)->limit(10)->order('id desc')->select();
+            foreach ($list as $key => $value) {                
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
+
+                unset($list[$key]['goodsID']);
+                $goods['picname'] = getThumb($goods["picname"],200,200);
+                $goods['picname'] = getRealUrl($goods['picname']);
+                $goods['rmb'] = round($goods['price']*$this->rate,1);
+                $list[$key] = $goods;
+            }
+
+            unset($map);
+            $map['userID'] = $user['id'];
+            $beginDate = date("Y-m-01");
+            $endDate = date('Y-m-d H:i:s', strtotime("$beginDate +1 month -1 second"));
+            $beginDate=strtotime($beginDate);
+            $endDate=strtotime($endDate);
+            $map['createTime'] = array('between',array($beginDate,$endDate));
+            $friend = db("Digg")->field('point,headimg')->where($map)->select();
+
+            returnJson(1,'success',[
+                'jifen'=>$result, 
+                'nickname'=>$user['nickname'],
+                'goods'=>$list,
+                'friend'=>$friend,
+            ]);
+        }
+    }
+
+    public function digg(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $userID = input('post.userID');
+            if ($userID=='' || !is_numeric($userID)) {
+                returnJson(0,'缺少参数');
+            }
+
+            $user = db('Member')->where('id',$userID)->find();
+            if(!$user){
+                returnJson(0,'用户不存在');
+            }
+
+            if($user['id'] == $this->user['id']){
+                returnJson(0,'不能为自己点赞');
+            }
+            
+            unset($map);
+            $map['memberID'] = $this->user['id'];
+            $map['userID'] = $user['id'];
+            $beginDate = date("Y-m-01");
+            $endDate = date('Y-m-d H:i:s', strtotime("$beginDate +1 month -1 second"));
+            $beginDate=strtotime($beginDate);
+            $endDate=strtotime($endDate);
+            $map['createTime'] = array('between',array($beginDate,$endDate));
+            $res = db("Digg")->where($map)->find();
+            if($res){
+                returnJson(0,'本月已经为TA点赞，不能重复点赞');
+            }
+
+            $config = tpCache("member");
+
+            $result = db("Digg")->insert([
+                'userID'=>$user['id'],
+                'memberID'=>$this->user['id'],                
+                'headimg'=>$this->user['headimg'],
+                'point'=>$config['diggPoint'],
+                'createTime'=>time()
+            ]);
+            if($result){                
+                $fina = $this->getUserMoney($user['id']);
+                //添加财务记录
+                $data = array(
+                    'type' => 9,
+                    'money' => $config['diggPoint'],
+                    'memberID' => $user['id'],     
+                    'doID' =>  $this->user['id'],
+                    'oldMoney'=>$fina['point'],
+                    'newMoney'=>$fina['point']+$config['diggPoint'],
+                    'admin' => 1,
+                    'msg' => $this->user['nickname'].'为您点赞，获得'.$config['diggPoint'].'积分。',
+                    'extend1'=>0,
+                    'createTime' => time()
+                ); 
+                db('Finance')->insert( $data );
+
+                $fina['point'] = $fina['point']+$config['diggPoint'];
+                $result = getFundBack($fina['point']);
+                $result['fanli'] = round($fina['fund']*$result['bar'],2);
+                $result['baifenbi'] = ($find['point']/12000)*100;
+
+                //点赞红包
+                unset($map);
+                $map['couponID'] = 14;
+                $map['memberID'] = $this->user['id'];
+                $rs = db('CouponLog')->where($map)->find();
+                if(!$rs){
+                    $coupon = db("Coupon")->field('id,dec')->where('id',14)->find();
+                }else{
+                    $coupon = '';
+                }
+
+                returnJson(1,'success',[
+                    'jifen'=>$result,
+                    'data'=>['headimg'=>$this->user['headimg'],'point'=>$config['diggPoint']],
+                    'coupon'=>$coupon
+                ]);
+            }else{
+                returnJson(0,'操作失败');
+            }            
+        }
+    }
+
     public function bind(){
         if (request()->isPost()) { 
             $code = input('post.code');
@@ -677,7 +813,7 @@ class Account extends Auth {
             $code = input('post.code');
 
             if ($couponID!='' || is_numeric($couponID)) {
-                $map['status'] = 1;
+                //$map['status'] = 1;
                 $map['id'] = $couponID;
                 $list = db('Coupon')->where($map)->find();
                 if(!$list){

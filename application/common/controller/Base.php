@@ -34,6 +34,7 @@ class Base extends Controller {
         $outFund = 0;
         $fundToMoney = 0;
         $clearJifen = 0;
+        $jiangliJifen = 0;
 
         foreach ($list as $key => $value) {
             if ($value['type']==1) {
@@ -60,9 +61,12 @@ class Base extends Controller {
             if ($value['type']==8) {
                 $clearJifen += $value['money'];
             } 
+            if ($value['type']==9) {
+                $jiangliJifen += $value['money'];
+            } 
         }
 
-        $point = $signPoint + $buyPoint - $clearJifen;
+        $point = $signPoint + $jiangliJifen + $buyPoint - $clearJifen;
         $money = $inMoney + $fundToMoney - $outMoney;
         $fund = $inFund - $outFund;
         return array(       
