@@ -10,7 +10,7 @@ class Index extends Common
 
             $config = tpCache('member');
 
-            $ad = db("Ad")->field('name,picname,url')->where('cid',1)->select();
+            $ad = db("Ad")->field('name,picname,url,goodsID')->where('cid',1)->order('sort asc,id desc')->select();
             foreach ($ad as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],1000,480);
             	$ad[$key]['picname'] = getRealUrl($value['picname']);

@@ -127,7 +127,7 @@ class Goods extends Common {
                 $list[$key]['child'] = $child;
             }
 
-            $ad = db("Ad")->field('name,picname,url')->where('cid',2)->select();
+            $ad = db("Ad")->field('name,picname,url,goodsID')->where('cid',2)->order('sort asc,id desc')->select();
             foreach ($ad as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],600,180);
                 $ad[$key]['picname'] = getRealUrl($value['picname']);
