@@ -80,6 +80,7 @@ class Cart extends Auth {
                 $total += $result['price'] * $value['number'];
             }
             $rmb = number_format($this->rate*$total,1); 
+            $total = number_format($total,1); 
             returnJson(1,'success',['total'=>$total,'rmb'=>$rmb]);
         }
     }

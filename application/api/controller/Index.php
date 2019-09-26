@@ -66,6 +66,8 @@ class Index extends Common
                 unset($flash[$key]['pack']);
                 $goods = db("Goods")->field('id,name,picname,price,say,marketPrice')->where('id',$value['goodsID'])->find();
                 $flash[$key]['name'] = $goods['name'];
+
+                $goods['picname'] = getThumb($goods["picname"],400,400);           
                 $flash[$key]['picname'] = getRealUrl($goods['picname']);
                 $flash[$key]['marketPrice'] = $goods['marketPrice'];
                 $flash[$key]['rmb'] = round($value['price']*$this->rate,1);

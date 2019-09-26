@@ -107,8 +107,7 @@ class Account extends Auth {
 
             $result = getFundBack($fina['point']);     
             $config = tpCache('member');
-
-            $result['fanli'] = round($fina['fund']*$result['bar'],2);
+            $result['fanli'] = round(($fina['fund']*$result['bar']/100),2);
             $result['baifenbi'] = ($find['point']/12000)*100;
 
             returnJson(1,'success',[

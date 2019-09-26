@@ -652,7 +652,7 @@ class Order extends Auth {
             $rmb = round($payMoney*$this->rate,1);
             returnJson(1,'success',[
                 'data'=>$list,
-                'payMoney'=>$payMoney,
+                'payMoney'=>number_format($payMoney,1),
                 'rmb'=>$rmb,
                 'wallet'=>$fina['money'],
                 'type'=>$type
