@@ -228,7 +228,7 @@ class Base extends Controller {
             $cart[$key]['wuliuWeight'] = $goods['wuliuWeight'];            
             $cart[$key]['weight'] = $goods['weight'];
             $cart[$key]['singleNumber'] = $goods['number'];
-            $cart[$key]['baoyou'] = $goods['baoyou'];
+            $cart[$key]['baoyou'] = $goods['single'];
             $cart[$key]['price'] = $goods['price'];
         } 
 
