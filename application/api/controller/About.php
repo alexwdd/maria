@@ -37,4 +37,22 @@ class About extends Common
             returnJson(1,'success',array('lists'=>$list));
         }
     }
+
+    public function item(){
+        if (request()->isPost()) {                        
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $id = input('post.id');
+            if ($id=='' || !is_numeric($id)) {
+                returnJson(0,'参数错误');
+            }
+            $map['id'] = $id;
+            $list = db('OptionCate')->field('id,name')->where($map)->find();
+            if($list){
+                $list['item'] = db("OptionItem")->field('id,name,value,ext')->where('cate',$list['id'])->order('sort asc')->select();
+            }else{
+                $list = [];
+            }
+            returnJson(1,'success',array('data'=>$list));
+        }
+    }
 }
