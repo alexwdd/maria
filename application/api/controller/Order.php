@@ -887,11 +887,18 @@ class Order extends Auth {
                 $data['back'] = $backUrl;
             }
 
-            $res = db("Order")->where('id',$id)->update($data);
+            unset($map);
+            $map['addressID'] = $list['addressID'];
+            $map['status'] = array('lt',3);
+            $res = db("Order")->where($map)->update($data);
 
             if($res){
                 $frontUrl = getRealUrl($frontUrl);
                 $backUrl = getRealUrl($backUrl);
+
+                //更新收件人信息
+                db('Address')->where('id',$list['addressID'])->update($data);
+
                 returnJson(1,'success',['front'=>$frontUrl,'back'=>$backUrl]);
             }else{
                 returnJson(0,'照片保存失败');
