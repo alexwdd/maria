@@ -494,11 +494,16 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $order_no = input('post.order_no');
+            $my = input('post.my',0);
+
             if ($order_no=='') {
                 returnJson(0,'缺少参数');
             }
             $map['order_no'] = $order_no;
             $map['isCut'] = 1;
+            if($my==1){
+                $map['memberID'] = $this->user['id'];
+            }
             $list = db('Order')->field('id,memberID,order_no,createTime,total,maxGoodsMoney,minGoodsMoney,endTime')->where($map)->find();
             if(!$list){
                 returnJson(0,'订单不存在');
