@@ -25,9 +25,23 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-inline">
+            <input type="text" name="intr" placeholder="描述" value="{$list.intr}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label">URL</label>
         <div class="layui-input-block">
-            <input type="text" name="url" lay-verify="required" value="{$list.url}" class="layui-input">
+            <input type="text" name="url" value="{$list.url}" class="layui-input">
+        </div>
+    </div>  
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">AppUrl</label>
+        <div class="layui-input-block">
+            <input type="text" name="appUrl" value="{$list.appUrl}" class="layui-input">
         </div>
     </div>  
 

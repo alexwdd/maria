@@ -110,7 +110,7 @@ class Order extends Auth {
             $map['memberID'] = $this->user['id'];
             $list = db('Order')->field('id,isCut,total,goodsMoney,discount,wallet,money,payment,point,fund,order_no,name,tel,province,city,county,addressDetail,sn,front,back,sender,senderTel,intr,status,createTime,endTime')->where( $map )->find();
             if ($list) {                
-                if($list['sn']=='' || $list['front']=='' || $list['back']==''){
+                if($list['front']=='' || $list['back']==''){
                     $list['upload'] = 0;
                 }else{
                     $list['upload'] = 1;

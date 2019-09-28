@@ -10,12 +10,13 @@ class Index extends Common
 
             $config = tpCache('member');
 
-            $ad = db("Ad")->field('name,picname,url,goodsID')->where('cid',1)->order('sort asc,id desc')->select();
+            $ad = db("Ad")->field('name,intr,picname,url,appUrl,goodsID')->where('cid',1)->order('sort asc,id desc')->select();
             foreach ($ad as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],1000,480);
             	$ad[$key]['picname'] = getRealUrl($value['picname']);
             }
 
+            //首页分类
             $map['fid'] = 0;
             $map['comm'] = 1;
             $cate = db("GoodsCate")->field('id,name,path,picname')->where($map)->order('sort asc')->select();
@@ -24,7 +25,14 @@ class Index extends Common
             	$cate[$key]['picname'] = getRealUrl($value['picname']);
             }
 
-            $push = db('OptionItem')->field('value,name,ext')->where('cate',1)->select();
+            //三连图广告
+            $three = db("Ad")->field('name,intr,picname,url,appUrl,goodsID')->where('cid',4)->order('sort asc,id desc')->limit(3)->select();
+            foreach ($three as $key => $value) {
+                $value['picname'] = getThumb($value["picname"],400,400);
+                $three[$key]['picname'] = getRealUrl($value['picname']);
+            }
+
+            /*$push = db('OptionItem')->field('value,name,ext')->where('cate',1)->select();
             foreach ($push as $key => $value) {
                 $push[$key]['goods'] = [];
                 $goodsID = db('GoodsPush')->where('cateID',$value['value'])->order('updateTime desc')->value('goodsID');
@@ -37,7 +45,7 @@ class Index extends Common
                         $push[$key]['goods'] = $goods;
                     }                    
                 }                
-            }
+            }*/
 
             //推荐
             unset($map);
@@ -94,7 +102,7 @@ class Index extends Common
             	'ad'=>$ad,
             	'category'=>$cate,
                 'bottomCate'=>$bottomCate,
-                'push'=>$push,
+                'three'=>$three,
                 'commend'=>$commend,
                 'flash'=>$flash,
                 'flashH5'=>$flashH5,
