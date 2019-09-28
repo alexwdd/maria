@@ -299,7 +299,7 @@ class Cart extends Auth {
                 $list[$key]['rmb'] = number_format($this->rate*$list[$key]['total'],1); 
                 $list[$key]['checked'] = false; 
 
-                $cutMoney += $result['cutPrice'];
+                $cutMoney += $result['cutPrice'] * $value['trueNumber'];
                 $goodsMoney += $list[$key]['total'];
                 $point += $goods['point'] * $value['trueNumber'];
             }

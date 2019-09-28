@@ -54,7 +54,7 @@ class Account extends Auth {
             $map['type'] = 7;
             $lastMonth = db("Finance")->where($map)->sum("money");
 
-            $result['fanli'] = round($fina['fund']*$result['bar'],2);
+            $result['fanli'] = round(($fina['fund']*$result['bar'])/100,2);
             $result['baifenbi'] = ($find['point']/12000)*100;
 
             //为您推荐 

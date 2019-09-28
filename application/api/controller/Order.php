@@ -323,8 +323,8 @@ class Order extends Auth {
             $data['point'] = $point;
             $data['payment'] = $baoguo['totalPrice'];
             $data['goodsMoney'] = $goodsMoney;
-            $data['maxGoodsMoney'] = $total;
-            $data['minGoodsMoney'] = $goodsMoney - $cutMoney;
+            $data['maxGoodsMoney'] = $total; //目前看好像没用
+            $data['minGoodsMoney'] = $total - $cutMoney;
             $data['inprice'] = $inprice;
             $data['order_no'] = $order_no;
             $data['addressID'] = $addressID;
@@ -527,7 +527,7 @@ class Order extends Auth {
             foreach ($friend as $key => $value) {
                 $total += $value['money'];
             }    
-            $progress = round(($total/($list['maxGoodsMoney']-$list['minGoodsMoney']))*100);
+            $progress = round(($total/($list['total']-$list['minGoodsMoney']))*100);
 
             //为您推荐 
             $obj = db('GoodsPush');
@@ -544,8 +544,15 @@ class Order extends Auth {
 
             $config = tpCache('member');
             $endTime = $list['createTime']+($config['hour']*3600)-time();
+
+            $rule = db("Onepage")->where('id',4)->value("content");
+            $rule = strip_tags($rule);
+            //$rule = preg_replace ('/\n/is', '', $rule);
+            $rule = preg_replace ('/ |　/is', '', $rule);
+            $rule = preg_replace ('/&nbsp;/is', '', $rule);  
             returnJson(1,'success',[
                 'data'=>$list,
+                'rule'=>$rule,
                 'friend'=>$friend,
                 'goods'=>$commend,
                 'progress'=>$progress,
@@ -611,7 +618,8 @@ class Order extends Auth {
                 $update['endTime'] = time();                
             }
             db("Order")->where('id',$list['id'])->update($update);
-            returnJson(1,'success',['money'=>$money]);
+            $headimg = getUserFace($this->user['headimg']);
+            returnJson(1,'success',['money'=>$money,'data'=>['money'=>$money,'headimg'=>$headimg]]);
         }
     }
 
