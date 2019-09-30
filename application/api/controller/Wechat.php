@@ -89,7 +89,7 @@ class Wechat extends Common {
                                 }
                             }
 
-                            $user = db("Member")->field('nickname,headimg,token')->where('id',$result['msg'])->find();
+                            $user = db("Member")->field('id,nickname,headimg,token')->where('id',$result['msg'])->find();
                             if($config['register']>0){         
                                 $data = array(
                                     'type' => 9,
