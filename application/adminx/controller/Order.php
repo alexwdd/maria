@@ -25,24 +25,24 @@ class Order extends Admin {
     	}
 	}
 
-	public function peing() {
+	public function peihuo() {
 		if (request()->isPost()) {
 			$map['status'] = 1;
 			$result = model('Order')->getList($map);			
 			echo json_encode($result);
     	}else{
-    		$this->assign('url',url('order/peing'));
+    		$this->assign('url',url('order/peihuo'));
 	    	return view('normal');
     	}
 	}
 
-	public function peihuo() {
+	public function peing() {
 		if (request()->isPost()) {
 			$map['status'] = 2;
 			$result = model('Order')->getList($map);			
 			echo json_encode($result);
     	}else{
-    		$this->assign('url',url('order/peihuo'));
+    		$this->assign('url',url('order/peing'));
 	    	return view('normal');
     	}
 	}

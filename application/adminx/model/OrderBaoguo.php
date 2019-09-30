@@ -10,7 +10,7 @@ class OrderBaoguo extends Admin
     }
 
     //获取列表
-    public function getList($del=0){        
+    public function getList(){        
         $pageNum = input('post.page',1);
         $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
@@ -20,10 +20,7 @@ class OrderBaoguo extends Admin
         $payType = input('post.payType');
         $order_no = input('post.order_no');
         $createDate = input('post.createDate');
-
-        if ($status!='') {
-            $map['status'] = $status;
-        }        
+   
         if ($payType!='') {
             $map['payType'] = $payType;
         }
@@ -39,7 +36,7 @@ class OrderBaoguo extends Admin
             $endDate = $date[1];
             $map['createTime'] = array('between',array(strtotime($startDate),strtotime($endDate)+86399));
         }
-
+        $map['status'] = 1;
         $total = $this->where($map)->count();
         $pages = ceil($total/$pageSize);
         $firstRow = $pageSize*($pageNum-1);         

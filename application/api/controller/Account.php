@@ -429,7 +429,7 @@ class Account extends Auth {
                 $goods = db('Goods')->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->find();
                 if($goods){
                     $goods['picname'] = getRealUrl($goods['picname']);
-                    $goods['rmb'] = round($value['price']*$this->rate,1);
+                    $goods['rmb'] = round($goods['price']*$this->rate,1);
                 }else{
                     $goods = [];
                 }                
@@ -734,7 +734,13 @@ class Account extends Auth {
                     array_push($data,$value);
                 }
             }
-            returnJson(1,'success',['data'=>$data]);
+
+            $ad = db("Ad")->field('name,intr,picname,url,appUrl,goodsID')->where('cid',6)->order('sort asc,id desc')->select();
+            foreach ($ad as $key => $value) {
+                $value['picname'] = getThumb($value["picname"],1000,300);
+                $ad[$key]['picname'] = getRealUrl($value['picname']);
+            }
+            returnJson(1,'success',['data'=>$data,'ad'=>$ad]);
         }
     }
 

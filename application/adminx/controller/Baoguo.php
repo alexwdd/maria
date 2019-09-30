@@ -7,8 +7,7 @@ class Baoguo extends Admin {
 	#列表
 	public function index() {
 		if (request()->isPost()) {
-			$map['payStatus'] = 0;
-			$result = model('OrderBaoguo')->getList($map);			
+			$result = model('OrderBaoguo')->getList();			
 			echo json_encode($result);
     	}else{
             $this->assign('type',config('BAOGUO_ZH'));
@@ -189,7 +188,7 @@ class Baoguo extends Admin {
     }
 
     public function mprint(){
-		$ids = input('get.ids');
+		$ids = input('get.id');
 		$ids = explode("-",$ids);
 
 		$map['eimg'] = array('neq','');
@@ -198,7 +197,6 @@ class Baoguo extends Admin {
 
 		$list = db("OrderBaoguo")->where($map)->select();
 		$this->assign('list',$list);
-
 		unset($map);
 		$map['id'] = array('in',$ids);
 		$map['eimg'] = array('neq','');
