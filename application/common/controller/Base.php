@@ -478,10 +478,10 @@ class Base extends Controller {
                     'endTime'=>time()+$value['day']*86400
                 ];
                 array_push($data,$temp);
-            }
-            if (count($data)>0) {
-                db("CouponLog")->insertAll($data);
-            }
+            }            
+        }
+        if (count($data)>0) {
+            db("CouponLog")->insertAll($data);
         }
     }
 
