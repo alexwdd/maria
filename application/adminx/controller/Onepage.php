@@ -7,6 +7,9 @@ class Onepage extends Admin {
 	public function index() {
 		if (request()->isPost()) {
 			$result = model('Onepage')->getList();
+			foreach ($result['data'] as $key => $value) {
+				$result['data'][$key]['url'] = 'http://' . $_SERVER['HTTP_HOST'] . url('mobile/about/index','id='.$value['id']);
+            }
 			echo json_encode($result);
     	}else{
 	    	return view();

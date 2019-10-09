@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keywords')}">
+<meta name="description" content="{:config('site.description')}">
+{include file="public:cssjs" /}
+</head>
+<body>
+
+<div class="header">
+    <div class="indexHeader">
+        <div class="logo"><img src="{:RES}/image/logo.png"></div>
+        <div class="topIcon">
+            <i class="mui-icon mui-icon-weibo"></i>
+            <i class="mui-icon mui-icon-weixin"></i>
+            <i class="mui-icon mui-icon-search" onclick="window.location.href='{:url('index/search')}'"></i>
+        </div>
+    </div>
+
+    <div class="cateBox">
+        <li><span data-id="0" class="active cateHref">最新</span></li>
+        {volist name="cate" id="vo" key="j"}
+        <li>            
+            <span data-id="{$vo.id}" class="cateHref">{$vo.name}</span>            
+        </li>
+        {/volist}
+    </div>
+
+    <div class="quick">
+        <div class="hd">
+            <p>全部分类</p>
+            <span><i class="mui-icon mui-icon-closeempty close"></i></span>
+        </div>
+        <div class="bd">
+            {volist name="cate" id="vo"}
+            <li><span class="cateHref" data-id="{$vo.id}">{$vo.name}</span></li>
+            {/volist}
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top: 120px">
+        <div class="mui-scroll">
+            <div id="resultList"></div>
+        </div>
+    </div>        
+</div>
+
+<script type="text/javascript">
+var page = 1;
+var cid = '';
+$(function(){
+    $(".cateHref").click(function(){
+        $(".quick").hide();
+        cid = $(this).attr('data-id');
+        page = 1;
+        $("#resultList").html('');
+        mui.showLoading();
+        $(".cateBox span").removeClass("active");
+        $(".cateBox span").each(function(){
+            if($(this).attr('data-id') == cid){
+                $(this).addClass("active");
+            }else{
+                $(this).removeClass("active");
+            }
+        });
+        getData();
+    })
+
+    $(".open").click(function(){
+        $(".quick").show();
+    })
+
+    $(".close").click(function(){
+        $(".quick").hide();
+    })
+})
+mui.init({
+    pullRefresh : {
+        container:"#pullrefresh",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+        up : {
+          height:50,//可选.默认50.触发上拉加载拖动距离
+          auto:true,//可选,默认false.自动上拉加载一次
+          contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+          contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+          callback :getData //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+        }
+    }
+});
+
+//页面加载完成绑定数据
+mui('body').on('tap', '.infoList', function(e) {
+    var url = $(this).attr("data-url");
+    location.href = url;
+});
+
+function getData() {
+    mui.hideLoading();
+    //业务逻辑代码，比如通过ajax从服务器获取新数据；
+    var data = {
+        page : page,
+        cid : cid
+    };
+    mui.post('{:url('index/getData')}',data,function(res){ 
+        if(res.code==1){
+            var data = res.body;
+            $("#resultList").append(data.html);
+            if(data.next == 1){
+                page++;
+                mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+            }else{
+                mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+            }
+        }else{
+            mui.alert(res.desc);
+        }
+        
+    },'json');
+    //注意：
+    //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+    //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+    //this.endPullupToRefresh(true|false);
+}
+</script>
+
+</body>
+</html>

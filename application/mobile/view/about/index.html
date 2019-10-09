@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keywords')}">
+<meta name="description" content="{:config('site.description')}">
+{include file="public:cssjs" /}
+</head>
+<body>
+
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">{$list.title}</h1>
+</header>
+
+<div class="mui-content">
+	<div class="newsInfo">
+	    <div class="content">
+	        {$list.content|htmlspecialchars_decode=###}
+	    </div>
+    </div>
+</div>
+
+</body>
+</html>

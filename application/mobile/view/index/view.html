@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>{$list.title}</title>
+<meta name="keywords" content="{$list.keyword}">
+<meta name="description" content="{$list.intr}">
+{include file="public:cssjs" /}
+</head>
+<body>
+
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">文章详情</h1>
+    <a onclick="window.location.href='http://www.chinanewskf.com'" class="mui-icon mui-icon-home mui-pull-right"></a>
+</header>
+
+<div class="mui-content">
+    <div class="newsInfo">
+        <div class="title">{$list.title}</div>
+        <div class="date">{$list.createTime|date="Y-m-d",###}&nbsp;&nbsp;来源:{$list.from|default="中新开封资讯网"}&nbsp;&nbsp;{$list.hit}次阅读</div>
+        <div class="content">{$list.content|htmlspecialchars_decode=###}</div>
+        <div class="bottom">投稿热线：<a href="tel:18237850555">18237850555</a> 邮箱：chinanewskf@163.com</div>
+    </div>
+
+    <div class="cateTitle">
+        <p>大家还在看</p>
+    </div>
+
+    {volist name="about" id="vo"}
+
+    {switch name="vo.image"}
+        {case value="1"}
+        <div class="imageList infoList" data-url="{$vo.url}">
+            <div class="title">{$vo.title}</div>
+            <div class="img">
+                {volist name="vo.picname" id="img"}
+                <li><img src="{$img}"></li>
+                {/volist}
+            </div>
+            <div class="bottom">
+                <div class="date">{$vo.createTime|date="Y-m-d",###}</div>
+                <div class="hit">{$vo.hit}次阅读</div>
+            </div>  
+        </div>
+        {/case}
+
+        {case value="99"}
+        <div class="news infoList" data-url="{$vo.url}">
+            <div class="mui-row">
+                <div class="mui-col-xs-12">
+                    <div class="info">
+                        <div class="title1">{$vo.title}</div>
+                        <div class="bottom">
+                            <div class="date">{$vo.createTime|date="Y-m-d",###}</div>
+                            <div class="hit">{$vo.hit}次阅读</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/case}
+
+        {default /}
+        <div class="news infoList" data-url="{$vo.url}">
+            <div class="mui-row">
+                <div class="mui-col-xs-8">
+                    <div class="info">
+                        <div class="title">{$vo.title}</div>
+                        <div class="bottom">
+                            <div class="date">{$vo.createTime|date="Y-m-d",###}</div>
+                            <div class="hit">{$vo.hit}次阅读</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mui-col-xs-4"><div class="img"><img src="{$vo.picname[0]}"></div></div>
+            </div>
+        </div>
+    {/switch}
+
+    {/volist}
+     
+</div>
+<script type="text/javascript">
+//页面加载完成绑定数据
+mui('body').on('tap', '.infoList', function(e) {
+    var url = $(this).attr("data-url");
+    location.href = url;
+});
+</script>
+</body>
+</html>

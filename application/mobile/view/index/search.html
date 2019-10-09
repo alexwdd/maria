@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keywords')}">
+<meta name="description" content="{:config('site.description')}">
+{include file="public:cssjs" /}
+</head>
+<body>
+
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">搜索</h1>
+</header>
+
+<div id="app" class="mui-content">
+    <div class="topSearch">
+        <input type="text" name="keyword" id="keyword" v-model="keyword" class="mui-input-clear" placeholder="关键词">
+    </div>
+
+ 
+    <div id="loadding" class="loadding" v-show="loadShow">
+        <span class="mui-spinner"></span>
+    </div> 
+
+    <template v-for="vo in lists">
+        <div class="imageList" v-if="vo.image==1" :key="vo.id" @click="detail(vo)">
+            <div class="title">{{vo.title}}</div>
+            <div class="img">
+                <li v-for="img in vo.picname" :key="img"><img :src="img"></li>
+            </div>
+            <div class="bottom">
+                <div class="date">{{vo.createTime}}</div>
+                <div class="hit">{{vo.hit}}次阅读</div>
+            </div>  
+        </div>
+
+        <div class="news" v-else-if="vo.image==99" :key="vo.id" @click="detail(vo)">
+            <div class="mui-row">
+                <div class="mui-col-xs-12">
+                    <div class="info">
+                        <div class="title">{{vo.title}}</div>
+                        <div class="bottom">
+                            <div class="date">{{vo.createTime}}</div>
+                            <div class="hit">{{vo.hit}}次阅读</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="news" v-else="" :key="vo.id" @click="detail(vo)">
+            <div class="mui-row">
+                <div class="mui-col-xs-8">
+                    <div class="info">
+                        <div class="title">{{vo.title}}</div>
+                        <div class="bottom">
+                            <div class="date">{{vo.createTime}}</div>
+                            <div class="hit">{{vo.hit}}次阅读</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mui-col-xs-4"><div class="img"><img :src="vo.picname[0]"></div></div>
+            </div>
+        </div>
+    </template>
+  
+</div>
+<script src="{:RES}/js/vue.min.js"></script>
+<script>
+mui.init();
+vm = new Vue({
+    el : "#app",
+    data : {
+        loadShow : false,
+        keyword : '',
+        lists:[]
+    },
+    watch : {
+        keyword : function(newValue,oldValue){
+            if (newValue!=''){
+                this.loadShow = true;
+                this.search(newValue);
+            }else{
+                this.lists = [];
+            }         
+        }
+    },
+    methods: {
+        search : function(keyword){
+            var that = this;
+            data = {
+                keyword : keyword
+            };
+            url = "{:url('index/search')}";
+            $.post(url,data,function(res){
+                that.loadShow = false;        
+                that.lists = res.body.data;
+            },'json')
+        },
+        detail : function(item){
+            window.location.href = item.url;
+        }
+    },
+    created : function(){       
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+.header{width: 100%; clear: both; overflow: hidden; background: url(../image/headerBg.jpg); background-size: cover;}
+.indexHeader{width: 100%; clear: both; overflow: hidden;}
+.indexHeader .logo{float: left; padding-top: 5px; padding-left: 5px;}
+.indexHeader .logo img{display: block; height: 36px;}
+.indexHeader .topIcon{float: right; padding-right: 5px; padding-top: 8px}
+.indexHeader .topIcon i{cursor: pointer; color: #fff; padding: 0 5px}
+
+.cateBox{clear: both; overflow: hidden; width: 100%; padding: 10px 0}
+.cateBox li{float: left; width: 16.666%; text-align: center; color: #fff; line-height: 30px}
+.cateBox li span{color: #fff}
+.cateBox li span.active{border-bottom: 2px #fff solid}
+
+.quick{width: 100%; background: #fff; overflow: hidden; position: fixed; top:50px; z-index: 99; display: none;}
+.quick .hd{clear: both; height: 30px; line-height: 30px}
+.quick .hd p{float: left; padding-left: 10px; margin: 0}
+.quick .hd span{display: block; float: right;}
+.quick .hd span i{cursor: pointer;}
+.quick .bd{clear: both; overflow: hidden;}
+.quick .bd li{float: left; width: 25%; padding:10px 15px; box-sizing: border-box;}
+.quick .bd li span{cursor: pointer; border:1px #dbdbdb solid; border-radius:15px; line-height: 30px; display: block; text-align: center;}
+
+.main{margin-top: 90px;}
+
+.news{background: #fff; border-bottom: 1px #dbdbdb solid;clear: both; padding: 10px;}
+.news .info .title{font-size: 16px;text-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical; margin-bottom: 10px; height: 42px;}
+.news .info .title1{font-size: 16px; margin-bottom: 10px;}
+.news .bottom{clear: both; font-size: 12px;color: #999}
+.news .bottom .date{padding-right: 10px; float: left;}
+.news .bottom .hit{float: left;}
+.news .img img{ display: block}
+
+.imageList{background: #fff; border-bottom: 1px #dbdbdb solid;clear: both; padding: 10px; padding-right: 0; padding-bottom: 0}
+.imageList .title{font-size: 16px; margin-bottom: 10px; padding-right: 10px}
+.imageList .img{clear: both; overflow: hidden; padding-right: 5px; overflow: hidden;}
+.imageList .img li{float: left; width: 33.333%; padding-right: 5px; box-sizing: border-box}
+.imageList .img li img{ display: block}
+.imageList .bottom{clear: both; font-size: 12px;color: #999; overflow: hidden; line-height:30px}
+.imageList .bottom .date{padding-right: 10px; float: left;}
+.imageList .bottom .hit{float: left;}
+
+.newsInfo{clear: both; overflow: hidden; background: #fff}
+.newsInfo .title{font-size: 18px; padding: 10px; padding-bottom: 0; background:#fff}
+.newsInfo .date{font-size: 12px; color:#999; padding: 10px; border-bottom: 1px #dbdbdb solid;background:#fff}
+.newsInfo .content{padding: 10px; font-size: 16px}
+.newsInfo .content p{margin-bottom: 1em}
+.newsInfo .bottom{clear: both; overflow: hidden; text-align: center; padding: 10px 0}
+
+.cateTitle{background: #fff; clear: both; overflow: hidden; margin-top: 3px; height: 40px; line-height: 40px; padding-right:5px; font-size: 14px;margin-bottom: 1px;}
+.cateTitle p{float: left; border-left: 2px #b30000 solid; padding-left: 5px; font-weight: bold}
+.cateTitle span{display: block; float: right; font-size: 12px; color: #999}
+
+.loadding{text-align: center;}

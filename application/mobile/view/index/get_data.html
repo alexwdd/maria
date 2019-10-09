@@ -1,0 +1,52 @@
+{volist name="list" id="vo"}
+
+{switch name="vo.image"}
+    {case value="1"}
+    <div class="imageList infoList" data-url="{$vo.url}">
+        <div class="title">{$vo.title}</div>
+        <div class="img">
+            {volist name="vo.picname" id="img"}
+            <li><img src="{$img}" alt="{$vo.title}"></li>
+            {/volist}
+        </div>
+        <div class="bottom">
+            <div class="date">{$vo.createTime}</div>
+            <div class="hit">{$vo.hit}次阅读</div>
+        </div>  
+    </div>
+    {/case}
+
+    {case value="99"}
+    <div class="news infoList" data-url="{$vo.url}">
+        <div class="mui-row">
+            <div class="mui-col-xs-12">
+                <div class="info">
+                    <div class="title1">{$vo.title}</div>
+                    <div class="bottom">
+                        <div class="date">{$vo.createTime}</div>
+                        <div class="hit">{$vo.hit}次阅读</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {/case}
+
+    {default /}
+    <div class="news infoList" data-url="{$vo.url}">
+        <div class="mui-row">
+            <div class="mui-col-xs-8">
+                <div class="info">
+                    <div class="title">{$vo.title}</div>
+                    <div class="bottom">
+                        <div class="date">{$vo.createTime}</div>
+                        <div class="hit">{$vo.hit}次阅读</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mui-col-xs-4"><div class="img"><img src="{$vo.picname[0]}" alt="{$vo.title}"></div></div>
+        </div>
+    </div>
+{/switch}
+
+{/volist}

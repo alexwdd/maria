@@ -1,0 +1,15 @@
+*{font-size: 14px;}
+li,ol,ul{margin: 0; padding: 0; list-style: none;}
+img{max-width: 100%}
+h1,h2,h3,h4,h5,h6{font-weight: normal;}
+.mui-input-row label {width:25%; height: 40px}
+.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea {
+    width: 75%;}
+input, select, textarea {font-size: 14px;}
+a{color: #c00}
+/* .mui-bar { background: url(../image/headerBg.jpg); background-size: cover;}
+.mui-bar .mui-title {color: #fff}
+.mui-bar a{color: #fff;}
+.mui-bar-tab .mui-tab-item.mui-active {color: #fff;}
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {color: #007aff;border-bottom: 0;}
+.mui-segmented-control .mui-control-item {line-height: 40px;} */
