@@ -1,10 +1,12 @@
 <?php
 namespace app\api\controller;
+use app\common\controller\Base;
 
-class About extends Common
+class About extends Base
 {
     public function index(){
-    	if (request()->isPost()) {                        
+        header('Access-Control-Allow-Origin:*');
+        if (request()->isPost()) {                        
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $id = input('post.id');
@@ -39,6 +41,7 @@ class About extends Common
     }
 
     public function item(){
+        header('Access-Control-Allow-Origin:*');
         if (request()->isPost()) {                        
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $id = input('post.id');
