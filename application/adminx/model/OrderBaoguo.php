@@ -17,12 +17,16 @@ class OrderBaoguo extends Admin
         $order = input('post.order','desc');
         $status = input('post.status');        
         $keyword = input('post.keyword');
+        $print = input('post.print');
         $payType = input('post.payType');
         $order_no = input('post.order_no');
         $createDate = input('post.createDate');
    
         if ($payType!='') {
             $map['payType'] = $payType;
+        }
+        if ($print!='') {
+            $map['print'] = $print;
         }
         if ($keyword!='') {
             $map['name|sender'] = $keyword;

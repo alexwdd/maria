@@ -86,7 +86,7 @@
             <p field="kuaidi" title="快递" width="100" />     
             <p field="eimg" title="面单" width="60" templet="#jietu"/>
             <p title="发货图" width="80" templet="#image"/>
-            <p title="打印" width="100" templet="#print"/>
+            <p title="打印" width="100" templet="#tplPrint"/>
             <p field="name" title="收件人" width="160" templet="#shoujianren"/>
             <p field="sender" title="发件人" width="160" templet="#fajianren"/>
             <p title="状态" width="100" templet="#status"/>
@@ -102,7 +102,7 @@
             {{d.sender}}/{{d.senderTel}}                 
         </script>
 
-        <script type="text/html" id="print">
+        <script type="text/html" id="tplPrint">
             {{# if(d.print == 0){ }}
             未打印
             {{# }else{ }}

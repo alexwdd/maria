@@ -218,9 +218,9 @@ class Baoguo extends Admin {
     		$map['id'] = $value['orderID'];
     		$map['status'] = array('in',[1,2]);
         	if ($flagNumber==0 && $printNumber==0) {
-        		db("Order")->where($map)->setField("payStatus",3);
+        		db("Order")->where($map)->setField("status",3);
         	}elseif($printNumber==0){
-	        	db("Order")->where($map)->setField("payStatus",2);
+	        	db("Order")->where($map)->setField("status",2);
         	}
 		}
 		return view();
