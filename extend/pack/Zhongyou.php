@@ -288,7 +288,7 @@ class Zhongyou {
                         'yunfei'=>0,
                         'inprice'=>0,
                         'extend'=>0,
-                        'kuaidi'=>'中环',
+                        'kuaidi'=>'中邮',
                         'status'=>1,
                         'baoyou'=>1,
                         'goods'=>array($goods),
