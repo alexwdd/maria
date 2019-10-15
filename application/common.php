@@ -87,14 +87,10 @@ function fix_number_precision($data, $precision = 2)
 //获取返利信息
 function getFundBack($point){
     $config = tpCache('member');
-    if($point >= $config['jifen5']){
-        $bar = $config['back5'];
+    if($point >= $config['jifen4']){
+        $bar = $config['back4'];
         $next = 0;
         $nextBar = 0;
-    }elseif($point >= $config['jifen4']){
-        $bar = $config['back4'];
-        $next = $config['jifen5']-$point;
-        $nextBar = $config['back5'];
     }elseif($point >= $config['jifen3']){
         $bar = $config['back3'];
         $next = $config['jifen4']-$point;
