@@ -8,17 +8,13 @@ class Login extends Common
 		return view();
 	}
 
-    public function qrcode(){
+    public function wechat(){
         $config = tpCache('weixin');
         //$notify = urlencode('http://'.$_SERVER['HTTP_HOST'].'/api/wechat/login');
         $notify = 'http://www.aumaria.com/api/wechat/login';
-        $url = 'https://open.weixin.qq.com/connect/qrconnect?appid='.$config['WEB_APPID'].'&redirect_uri='.$notify.'&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-        $errorCorrectionLevel = 'Q';//纠错级别：L、M、Q、H
-        $matrixPointSize = 10;//二维码点的大小：1到10
-
-        require_once EXTEND_PATH.'qrcode/qrcode.php';
-        $object = new \QRcode();
-        $object->png($url, false , $errorCorrectionLevel, $matrixPointSize, 2);//
+        $url = 'https://open.weixin.qq.com/connect/qrconnect?appid='.$config['WEB_APPID'].'&redirect_uri='.$notify.'&response_type=code&scope=snsapi_login&state=web#wechat_redirect';
+        echo $url;die;
+        $this->redirect($url);
     }
 
     function signout(){
