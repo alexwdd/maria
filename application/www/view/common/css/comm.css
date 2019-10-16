@@ -10,6 +10,7 @@ img{max-width: 100%}
 .register_login a:hover{color:#FF0036}
 
 .vip_center{float:right;height:42px;line-height:42px}
+.vip_center em{color:#666;font-size:12px}
 .vip_center a{padding-right:6px;padding-left:6px;color:#666;font-size:12px}
 .vip_center a:hover{color:#FF0036}
 
