@@ -16,6 +16,7 @@ class Cart extends Auth {
 
                 $list[$key]['name'] = $goods['name'];
                 $list[$key]['say'] = $goods['say'];
+                $list[$key]['weight'] = $goods['weight'];
                 $list[$key]['marketPrice'] = $goods['marketPrice']; 
                 $list[$key]['picname'] = getRealUrl($goods['picname']);
                 $list[$key]['price'] = $result['price'];
