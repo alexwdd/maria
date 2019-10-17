@@ -322,7 +322,7 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,name,picname,price,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->find();
+            $list = db('Goods')->field('id,fid,name,picname,price,marketPrice,weight,comm,empty,tehui,flash,baoyou')->where($map)->find();
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
@@ -362,7 +362,7 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,name,picname,image,price,marketPrice,point,number,content,say,intr')->where($map)->find();
+            $list = db('Goods')->field('id,fid,name,picname,image,price,marketPrice,weight,point,number,content,say,intr')->where($map)->find();
             if (!$list) {
                 returnJson('-1','不存在的商品');
             }
