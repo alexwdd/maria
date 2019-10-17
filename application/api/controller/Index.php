@@ -51,7 +51,7 @@ class Index extends Common
             unset($map);
             $map['comm'] = 1;
             $map['show'] = 1;
-            $commend = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where($map)->order('sort asc,id desc')->limit(20)->select();
+            $commend = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where($map)->order('sort desc,id desc')->limit(20)->select();
             foreach ($commend as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],400,400);
                 $commend[$key]['picname'] = getRealUrl($value['picname']);

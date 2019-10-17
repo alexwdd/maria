@@ -38,7 +38,7 @@ class Goods extends Common {
             foreach ($cate as $key => $value) {
                 $map['cid|cid1'] = $value['id'];
                 $map['show'] = 1;
-                $goods = db("Goods")->where($map)->field('id,name,picname,say,price,marketPrice,comm,empty,tehui,flash,baoyou')->order('sort asc,id desc')->select();
+                $goods = db("Goods")->where($map)->field('id,name,picname,say,price,marketPrice,comm,empty,tehui,flash,baoyou')->order('sort desc,id desc')->select();
                 foreach ($goods as $k => $val) {
                     $val['picname'] = getThumb($val["picname"],400,400);
                     $goods[$k]['picname'] = getRealUrl($val['picname']);
@@ -179,7 +179,7 @@ class Goods extends Common {
                 $next = 0;
             }
 
-            $list = $obj->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            $list = $obj->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->limit($firstRow.','.$pagesize)->order('sort desc,id desc')->select();
             foreach ($list as $key => $value) {
                 $list[$key]['picname'] = getRealUrl($value['picname']);
                 $list[$key]['rmb'] = round($value['price']*$this->rate,1);

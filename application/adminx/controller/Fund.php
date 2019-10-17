@@ -38,6 +38,8 @@ class Fund extends Admin {
                     $data['type'] = 7;
                     $data['money'] = $money;
                     $data['memberID'] = $value['id'];
+                    $data['oldMoney'] = $fina['money'];
+                    $data['newMoney'] = $fina['money']+$money;         
                     $data['doID'] = $this->admin['id'];
                     $data['admin'] = 1;
                     $data['msg'] = $date.'，'.$fina['point'].'积分，基金'.$fina['fund'].'元，返利'.$money.'元';
@@ -50,6 +52,8 @@ class Fund extends Admin {
                     $data['type'] = 8;
                     $data['money'] = $fina['point'];
                     $data['memberID'] = $value['id'];
+                    $data['oldMoney'] = $fina['point'];
+                    $data['newMoney'] = 0;
                     $data['doID'] = $this->admin['id'];
                     $data['admin'] = 1;
                     $data['msg'] = $date.'每月积分清零';
@@ -59,8 +63,10 @@ class Fund extends Admin {
 
                 if($fina['fund']>0){
                     $data['type'] = 6;
-                    $data['money'] = $fina['point'];
+                    $data['money'] = $fina['fund'];
                     $data['memberID'] = $value['id'];
+                    $data['oldMoney'] = $fina['fund'];
+                    $data['newMoney'] = 0;
                     $data['doID'] = $this->admin['id'];
                     $data['admin'] = 1;
                     $data['msg'] = $date.'每月基金清零';
