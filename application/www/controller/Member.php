@@ -8,39 +8,15 @@ class Member extends User
 	//用户信息
 	public function index()
 	{
-        $map['memberID'] = $this->user['id'];
-        $list = db("Order")->where($map)->order('id desc')->limit(5)->select();
-        foreach ($list as $key => $value) {
-            //$goods = db("OrderDetail")->field('*,sum(number) as num')->where("orderID",$value["id"])->group('itemID')->select(); 
-            //$list[$key]['goods'] = $goods;
-            $person = db("OrderPerson")->field('id,name,mobile')->where("orderID",$value["id"])->select();
-            $list[$key]['person'] = $person;
-            
-            unset($where);
-            $where['orderID'] = $value["id"];
-            $where['front'] = array('eq','');
-            $where['back'] = array('eq','');
-            $where['sn'] = array('eq','');
-            $num = db("OrderPerson")->where($where)->count(); 
-            if ($num>0) {
-                $list[$key]['upload'] = 0;
-            }else{
-                $list[$key]['upload'] = 1;
-            }
-
-            if ($value['payType']>1) {
-                unset($where);
-                $where['image'] = array('eq','');
-                $where['orderID'] = $value["id"];
-                $num = db("OrderBaoguo")->where($where)->count();
-                if ($num>0) {
-                    $list[$key]['image'] = 0;
-                }else{
-                    $list[$key]['image'] = 1;
-                }
-            }
-        }
-        $this->assign('list',$list);
+        $data = ['token'=>$this->user['token']];
+        $result = $this->https_post($this->api.'/api/account/index',$data);
+        $result = json_decode($result,true);
+        $this->user = $result['body']['user'];
+        $this->assign('user',$result['body']['user']);
+        $this->assign('fund',$result['body']['fund']);
+        $this->assign('jifen',$result['body']['jifen']);
+        $this->assign('lastMonth',$result['body']['lastMonth']);
+        $this->assign('fina',$result['body']['fina']);
 		return view();
 	}
 

@@ -69,7 +69,7 @@ class Login extends Common
             if($r){
                 $cryptStr = $token.','.request()->ip();
                 $flag = think_encrypt($cryptStr,config('DATA_CRYPT_KEY'));
-                Cookie::set('flag', $flag, 'www');
+                Cookie::set('flag', $flag,['prefix'=>'www','expire'=>86400]);
                 $this->redirect(url('index/index'));
             }else{
                 $this->redirect(url('index/index'));die;

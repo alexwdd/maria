@@ -2,9 +2,13 @@
 namespace app\www\controller;
 
 use app\common\controller\Base;
-use think\Session;
+use think\Cookie;
 
 class Common extends Base {
+
+    public $user;
+    public $api = 'http://127.0.0.10';
+
 	public function _initialize(){
         parent::_initialize();
 
@@ -13,15 +17,15 @@ class Common extends Base {
         }
 
 
-        if (!Session::get('flag','www')) {
+        if (!Cookie::get('flag','www')) {
             $user = ['id'=>0];
         }else{
-            $flag = think_decrypt(Session::get('flag','www'),config('DATA_CRYPT_KEY'));
+            $flag = think_decrypt(Cookie::get('flag','www'),config('DATA_CRYPT_KEY'));
             $flagArr = explode(',', $flag);
             if ($flagArr[1]!=request()->ip()) {
                 $user = ['id'=>0];
             }else{
-                $user = db('Member')->where(array('id'=>$flagArr[0],'disable'=>0))->find();      
+                $user = db('Member')->where(array('token'=>$flagArr[0],'disable'=>0))->find();      
                 if (!$user) {
                     $user = ['id'=>0];
                 }  

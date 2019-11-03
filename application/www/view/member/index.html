@@ -23,21 +23,60 @@
             <div class="layui-card-header">欢迎页</div>
             <div class="layui-card-body">
                 <div class="layui-row">
-                <div class="user-face">
-                    {empty name="user.face"}
-                    <img src="{:RES}/image/face.png"/>
-                    {else/}
-                    <img src="{$user.face}"/>
-                    {/empty}
+                    <div class="user-face">
+                        {empty name="user.headimg"}
+                        <img src="{:RES}/image/face.png"/>
+                        {else/}
+                        <img src="{$user.headimg}"/>
+                        {/empty}
+                    </div>
+                    
+                    <div class="user-info">                    
+                        <li><label>昵称</label>{$user['nickname']}</li>                        
+                        <li><label>会员编号</label>{$user['id']}</li>                        
+                        <li><label>返利余额</label>AU$<span>{$fina.money}，上月返利AU${$lastMonth.money} 约￥{$lastMonth.rmb}</li>
+                        <li><label>本月返利基金</label>AU${$fina.fund}</li>
+                        <li><label>本月预计返利</label>AU$<span>{$jifen.fanli}</span></li>
+                    </div>
                 </div>
-                
-                <div class="user-info">                    
-                    <li><label>身份</label>{$user['group']|getUserGroup=###}</li>                        
-                    <li><label>手机号码</label>{$user['mobile']}</li>                        
-                    <li><label>QQ</label>{$user['qq']|default="-"}</li>
-                    <li><label>微信号</label>{$user['weixin']|default="-"}</li>
-                    <li><label>注册日期</label>{$user['createTime']|date="Y-m-d H:i:s",###}</li>
-                </div>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">我的积分</div>
+            <div class="layui-card-body">
+                <div class="jindu">
+                    <a href="/point">
+                    <div class="hd">
+                        <div class="arrowBox" style="margin-left:{$jifen.baifenbi}%">
+                            <div class="jifen">积分{$fina.point}</div>
+                            <div class="jifenArr"></div>
+                        </div>
+                    </div>
+                    <div class="bd">
+                        <div class="line"></div>
+                        <div class="number">
+                            <li>0</li>
+                            <li>3000</li>
+                            <li>6000</li>
+                            <li>9000</li>
+                            <li style="font-size:18px; margin-top:-5px; width:0;">∞</li>
+                        </div>
+                        <div class="per">
+                            <li>5%</li>
+                            <li>10%</li>
+                            <li>15%</li>
+                            <li>20%</li>
+                        </div>
+                        <div class="dot">
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>                  
+                        </div>
+                    </div>
+                    <div class="fd">再获得{$jifen.next}积分 <span>本月返利比例提高至 {$jifen.nextBar}%</span></div>
+                    </a>
                 </div>
             </div>
         </div>

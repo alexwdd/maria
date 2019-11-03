@@ -4,10 +4,12 @@
         <div class="register_login">
         </div>
         <div class="vip_center">
-            <em>您好，</em>
-            <a href="{:url('login/wechat')}">微信登录</a>
-            <a href="{:url('member/index')}">会员中心</a>
-            <a href="{:url('member/index')}">我的订单</a>
+            {eq name="user.id" value="0"}
+            <a href="{:url('login/wechat')}"><i class="layui-icon layui-icon-login-wechat"></i> 微信登录</a>
+            {else/}
+            <a href="{:url('member/index')}">您好，{$user.nickname}</a>
+            <a href="{:url('member/order')}">我的订单</a>
+            {/eq}
             <a href="#">帮助</a>
         </div>
     </section>
