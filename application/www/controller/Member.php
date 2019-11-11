@@ -25,13 +25,10 @@ class Member extends User
         if (request()->isPost()) { 
             if(!checkFormDate()){$this->error('未知错误');}
             $qq = input('post.qq');
-            $weixin = input('post.weixin');
+            $wechat = input('post.wechat');
             $name = input('post.name');
-            $face = input('post.face');
             $data = [
-                'face'=>$face,
-                'qq'=>$qq,
-                'weixin'=>$weixin,
+                'wechat'=>$wechat,
                 'name'=>$name
             ];
             $map['id'] = $this->user['id'];
@@ -47,7 +44,7 @@ class Member extends User
     }
 	
 
-    public function password(){
+    public function bind(){
         if(request()->isPost()){
             if (!checkRequest()) {
                 $this->error('未知错误');

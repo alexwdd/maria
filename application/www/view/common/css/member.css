@@ -26,6 +26,7 @@ body{background: #f1f1f1}
 .user-info{ float: left;}
 .user-info li{ height: 30px; line-height: 30px; font-size: 14px;}
 .user-info li label{color: #999; width: 100px; display: block; float: left;}
+.user-info li span{font-weight: bold; padding: 0 5px}
 
 .empty{text-align: center; color: #999; font-size: 20px;}
 .empty img{width: 150px;}
@@ -48,7 +49,7 @@ body{background: #f1f1f1}
 .jindu .hd .arrowBox{float: left;}
 .jindu .hd .arrowBox .jifen{font-size: 12px; height: 20px; line-height: 20px; color: #fff; border-radius: 8px; background: #F0454C; padding: 0 5px;}
 .jindu .hd .arrowBox .jifenArr{width: 0;height: 0;border-left: 4px solid transparent;border-right: 4px solid transparent;border-top: 4px solid #F0454C; margin-left:10px }
-.jindu .fd{font-size: 12px; clear: both;}
+.jindu .fd{font-size: 14px; clear: both; margin-top: 10px;}
 .jindu .fd span{padding-left: 15px;}
 .jindu .bd{clear: both; position: relative; width:100%; height: 50px; overflow: hidden; margin: auto}
 .jindu .line{background: #ccc; height:4px; font-size: 0; width: 100%; left: 0; top: 24px; position: absolute}
@@ -60,3 +61,5 @@ body{background: #f1f1f1}
 .jindu .dot{position: absolute; left: 0; top: 22px; width: 100%; height: 6px;}
 .jindu .dot li{float: left; width: 25%;}
 .jindu .dot li span{display: block; float: left; width:8px; height:8px; border-radius: 4px; background: #000;}
+
+.sn{float: left; width:200px; margin-right: 20px; cursor: pointer;}

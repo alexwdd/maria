@@ -15,45 +15,36 @@
 <div class="user-box">
     <div class="leftBox">
         {include file="public:usermenu" /}
-        <input type="hidden" id="userAction" value="u4">
+        <input type="hidden" id="userAction" value="u5">
     </div>
 
     <div class="rightBox">
         <div class="layui-card">
-            <div class="layui-card-header">地址管理</div>
+            <div class="layui-card-header">寄件人管理</div>
             <div class="layui-card-body">
-                <a href="{:url("address/pub")}" class="layui-btn layui-btn-sm my-btn">添加</a>
+                <a href="{:url("sender/pub")}" class="layui-btn layui-btn-sm my-btn">添加</a>
                 <table class="layui-table">
                     <colgroup>
-                    <col width="60">
-                    <col width="80">
-                    <col width="150">
-                    <col width="250">
+                    <col width="100">
                     <col>
                     <col width="102">                    
                     </colgroup>
                     <thead>
                         <tr>
-                            <TH>默认</TH>                   
                             <TH>姓名</TH>                   
-                            <TH>电话</TH>
-                            <TH>地区</TH>
-                            <TH>地址</TH>  
+                            <TH>电话</TH>      
                             <TH>操作</TH>
                         </tr> 
                     </thead>
                     <tbody>
                         {volist name="list" id="vo"}
                         <tr>
-                            <td>{eq name="vo.def" value="1"}<i class="layui-icon layui-icon-ok" style="color: #f60"></i>{/eq}</td>
                             <td>{$vo.name}</td>
                             <td>{$vo.tel}</td>
-                            <td>{$vo.province} {$vo.city} {$vo.county}</td>
-                            <td>{$vo.addressDetail}</td>    
                             <td>
-                            <a class="layui-btn layui-btn-primary layui-btn-xs" href="{:url('Address/pub',array('id'=>$vo['id']))}"><i class="layui-icon">&#xe642;</i></a>
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" href="{:url('sender/pub',array('id'=>$vo['id']))}"><i class="layui-icon">&#xe642;</i></a>
 
-                            <a class="layui-btn layui-btn-danger layui-btn-xs" href="{:url('Address/del',array('id'=>$vo['id']))}" onClick="return confirm('确实删除选定的信息？')"><i class="layui-icon">&#xe640;</i></a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" href="{:url('sender/del',array('id'=>$vo['id']))}" onClick="return confirm('确实删除选定的信息？')"><i class="layui-icon">&#xe640;</i></a>
                             </td>
                         </tr>
                         {/volist}

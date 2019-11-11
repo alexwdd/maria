@@ -34,8 +34,8 @@
                     <div class="user-info">                    
                         <li><label>昵称</label>{$user['nickname']}</li>                        
                         <li><label>会员编号</label>{$user['id']}</li>                        
-                        <li><label>返利余额</label>AU$<span>{$fina.money}，上月返利AU${$lastMonth.money} 约￥{$lastMonth.rmb}</li>
-                        <li><label>本月返利基金</label>AU${$fina.fund}</li>
+                        <li><label>返利余额</label>AU$<span>{$fina.money}</span>，上月返利AU$<span>{$lastMonth.money}</span> 约￥<span>{$lastMonth.rmb}</span></li>
+                        <li><label>本月返利基金</label>AU$<span>{$fina.fund}</span></li>
                         <li><label>本月预计返利</label>AU$<span>{$jifen.fanli}</span></li>
                     </div>
                 </div>
@@ -45,8 +45,7 @@
         <div class="layui-card">
             <div class="layui-card-header">我的积分</div>
             <div class="layui-card-body">
-                <div class="jindu">
-                    <a href="/point">
+                <div class="jindu">                   
                     <div class="hd">
                         <div class="arrowBox" style="margin-left:{$jifen.baifenbi}%">
                             <div class="jifen">积分{$fina.point}</div>
@@ -75,8 +74,7 @@
                             <li><span></span></li>                  
                         </div>
                     </div>
-                    <div class="fd">再获得{$jifen.next}积分 <span>本月返利比例提高至 {$jifen.nextBar}%</span></div>
-                    </a>
+                    <div class="fd">再获得{$jifen.next}积分 本月返利比例提高至 {$jifen.nextBar}%</div>
                 </div>
             </div>
         </div>

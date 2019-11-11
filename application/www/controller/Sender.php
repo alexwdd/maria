@@ -3,11 +3,11 @@ namespace app\www\controller;
 use think\Request;
 use think\Db;
 
-class Address extends User
+class Sender extends User
 {
     public function index(){ 
         $map['memberID'] = $this->user['id'];
-        $list = db('Address')->where($map)->order('id desc')->select();
+        $list = db('Sender')->where($map)->order('id desc')->select();
         $this->assign('list',$list);
         return view();
     }
@@ -17,14 +17,9 @@ class Address extends User
             if (!checkRequest()) {die;}            
             $data = input('post.');
             $data['memberID'] = $this->user['id'];
-
-            if ($data['def']==1) {
-                db('Address')->where(array('memberID'=>$this->user['id']))->setField('def',0);
-            }
-
-            $res = model('Address')->saveData( $data );
+            $res = model('Sender')->saveData( $data );
             if ($res) {
-                $this->success('操作成功',url('address/index'),['id'=>$res['msg']]);
+                $this->success('操作成功',url('sender/index'),['id'=>$res['msg']]);
             }else{
                 $this->error('操作失败');
             }
@@ -33,7 +28,7 @@ class Address extends User
             if($id!='' && is_numeric($id)){
                 $map['id'] = $id;
                 $map['memberID'] = $this->user['id'];
-                $list = db("Address")->where($map)->find();
+                $list = db("Sender")->where($map)->find();
                 if(!$list){
                     $this->error("信息不存在");
                 }
@@ -47,7 +42,7 @@ class Address extends User
         $id = input('param.id');
         $map['id']=$id;
         $map['memberID'] = $this->user['id'];
-        db('Address')->where($map)->delete();
+        db('Sender')->where($map)->delete();
         $this->redirect($_SERVER['HTTP_REFERER']);
     }
 }
