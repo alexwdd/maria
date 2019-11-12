@@ -90,7 +90,6 @@ body{background: #f1f1f1}
 .list li p{float:right;}
 .list li p.money{color: #f00}
 .list li p.personImg img{display: inline-block; height: 50px;}
-
 .product{box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15); background: #f7f7f7; clear: both; overflow: hidden;transition: 0.3s;}
 .product .img{clear: both; overflow: hidden;}
 .product img{display: block; width: 100%}
