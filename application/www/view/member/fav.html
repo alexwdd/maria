@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+{include file="public:userheader" /}
+
+
+<div class="user-box">
+    <div class="leftBox">
+        {include file="public:usermenu" /}
+        <input type="hidden" id="userAction" value="u8">
+    </div>
+
+    <div class="rightBox">
+        <div class="layui-card">
+            <div class="layui-card-header">我的收藏</div>
+            <div class="layui-card-body">
+                <div class="layui-row layui-col-space20">
+                    {volist name="list" id="vo" empty="$empty"}
+                    <div class="layui-col-md3 layui-col-xs6">
+                        <div class="product">
+                            <a href="{:url('store/detail','id='.$vo['id'])}">
+                            <div class="img"><img src="{$vo.goods.picname|getThumb=280,280}"></div>
+                            <div class="name">{$vo.goods.name}</div> 
+                            <div class="price">AU${$vo.goods.price}</div>
+                            </a>
+                            <div class="addBtn"><a href="{:url('member/delfav',array('id'=>$vo['id']))}" class="layui-btn layui-btn-primary layui-btn-xs">删除</a></div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public:footer" /}
+</body>
+</html>

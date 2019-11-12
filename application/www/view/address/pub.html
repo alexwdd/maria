@@ -70,7 +70,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">详细地址</label>
                         <div class="layui-input-block">
-                            <input type="text" name="addressDetail" value="{$list.addressDetail}" lay-verify="required" placeholder="必填" autocomplete="off" class="layui-input">
+                            <input type="text" name="addressDetail" id="addressDetail" value="{$list.addressDetail}" lay-verify="required" placeholder="必填" autocomplete="off" class="layui-input">
                         </div>
                     </div>
 
@@ -83,11 +83,11 @@
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">智能填写</label>
-                        <div class="layui-input-inline" style="width: 600px">
-                            <textarea class="layui-textarea"></textarea>
+                        <div class="layui-input-inline" style="width: 600px;">
+                            <input type="text" id="text" placeholder="快速录入格式:收件人，电话，地址自动提取（或空格间隔）" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-input-inline">
-                            <button type="button" class="layui-btn layui-btn-primary">提取</button>
+                            <button type="button" id="tBtn" class="layui-btn layui-btn-primary">提取</button>
                         </div>
                     </div>
 
@@ -103,8 +103,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">身份证</label>
                         <div class="layui-input-block">
-                            <div class="sn" onclick="uploadImage('front','{:url('upload/image','water=1')}');"><img id="front_src" src="{:RES}/image/sn1.png" /></div>
-                            <div class="sn" onclick="uploadImage('back','{:url('upload/image','water=1')}');"><img id="back_src" src="{:RES}/image/sn2.png" /></div>
+                            <div class="sn" onclick="uploadImage('front','{:url('upload/image')}');"><img id="front_src" src="{empty name="list.front"}{:RES}/image/sn1.png{else/}{$list.front}{/empty}" /></div>
+                            <div class="sn" onclick="uploadImage('back','{:url('upload/image')}');"><img id="back_src" src="{empty name="list.back"}{:RES}/image/sn2.png{else/}{$list.back}{/empty}" /></div>
                         </div>
                     </div>
 
@@ -114,12 +114,41 @@
                             <a href="javascript:window.history.go(-1)" class="layui-btn layui-btn-primary">返回</a>
                         </div>                    
                     </div>
+                    <input type="hidden" name="front" id="front" value="{$list.front}">
+                    <input type="hidden" name="back" id="back" value="{$list.back}">
                     <input type="hidden" name="id" value="{$list.id}">
                 </form>             
             </div>
         </div>
     </div>
 </div>
+<input type="file" id="uploadfile" hidden /> 
+<script src="{:RES}/js/upload.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+layui.use('form',function(){    
+    var form = layui.form;
+    $("#tBtn").click(function(){
+        var text = $("#text").val();
+        if(text==''){
+            layer.alert("请输入需要转换的文字");
+            return false;
+        }
+        $.post('{:url('api/address/textToAddress')}',{token:'{$user.token}',text:text},function(res){
+            if(res.code==1){
+                $("#name").val(res.body.name);
+                $("#tel").val(res.body.mobile);
+                $("#provid").val(res.body.province_name);
+                $("#cityid").append("<option name='"+res.body.city_name+"'>"+res.body.city_name+"</option>").val(res.body.city_name);
+                $("#areaid").append("<option name='"+res.body.county_name+"'>"+res.body.county_name+"</option>").val(res.body.county_name);
+                $("#addressDetail").val(res.body.detail);
+                form.render();
+            }else{
+                layer.alert(res.desc);
+            }
+        },'json');
+    })
+})
+</script>
 {include file="public:footer" /}
 </body>
 </html>

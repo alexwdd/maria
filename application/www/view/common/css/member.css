@@ -63,3 +63,37 @@ body{background: #f1f1f1}
 .jindu .dot li span{display: block; float: left; width:8px; height:8px; border-radius: 4px; background: #000;}
 
 .sn{float: left; width:200px; margin-right: 20px; cursor: pointer;}
+
+.tabMenu{clear: both; overflow: hidden; margin-bottom: 10px;}
+.tabMenu li{float: left; margin-right: 10px;}
+.tabMenu li a{display: block; padding: 5px 10px; background: #f7f7f7}
+.tabMenu li.active a{background: #FF0036; color: #fff}
+
+.orderBox{clear: both; border:1px #f1f1f1 solid; overflow: hidden; margin-bottom: 10px}
+.orderBox *{font-size: 12px}
+.orderBox a:hover{ color: #FF0036}
+.orderBox .hd{clear: both; line-height: 40px; padding: 0 10px; background: #f1f1f1; overflow: hidden;}
+.orderBox .bd{clear: both; display: flex;} 
+.orderBox .bd .item{ padding: 10px; flex: 1; border-right: 1px #f1f1f1 solid}
+.orderBox .bd .price{ padding: 10px; width: 70px; text-align: center; border-right: 1px #f1f1f1 solid}
+.orderBox .bd .action{ padding: 10px; width:80px; text-align: center;}
+.goodsDetail{clear: both; overflow: hidden;}
+.goodsDetail li{float: left; margin-right: 10px; line-height: 20px}
+.goodsDetail li img{height: 50px; display: block;}
+.goodsDetail li p{color: #999}
+.delIcon{cursor: pointer; float: right; width: 40px; text-align: center;}
+.delIcon i{font-size: 20px;}
+
+.list{clear: both;}
+.list li{border-bottom:1px #f1f1f1 solid; clear: both; padding: 5px; overflow: hidden;}
+.list li label{float:left;}
+.list li p{float:right;}
+.list li p.money{color: #f00}
+.list li p.personImg img{display: inline-block; height: 50px;}
+
+.product{box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15); background: #f7f7f7; clear: both; overflow: hidden;transition: 0.3s;}
+.product .img{clear: both; overflow: hidden;}
+.product img{display: block; width: 100%}
+.product .name{font-size:16px; padding: 10px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;line-clamp: 2;-webkit-box-orient: vertical; height: 40px}
+.product .price{font-size:16px; text-align: center; padding: 10px; float: left;}
+.product .addBtn{ float: right; padding-right: 10px; padding-top: 10px}

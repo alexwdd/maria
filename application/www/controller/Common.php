@@ -35,7 +35,7 @@ class Common extends Base {
         $this->assign('user',$this->user);        
         
         //空信息       
-        $this->assign('empty','<div class="empty"><img src="/app/www/view/common/image/empty.png" /><p>空空如也~</p></div>');
+        $this->assign('empty','<div class="empty"><img src="/application/www/view/common/image/empty.png" /><p>空空如也~</p></div>');
     }
     
 }

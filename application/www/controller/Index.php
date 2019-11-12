@@ -9,7 +9,7 @@ class Index extends Common
 			$this->redirect('http://m.aumaria.com');
 		}
 
-		/*$token = 'c762f2e04ddaaed0a1c57285abcf1b3844a56cb1';
+		/*$token = '265cb04a5898e15d24dc11c5955cbbd9bc06591b';
 		$cryptStr = $token.','.request()->ip();
         $flag = think_encrypt($cryptStr,config('DATA_CRYPT_KEY'));
         \think\Cookie::set('flag', $flag, ['prefix'=>'www','expire'=>86400]);*/

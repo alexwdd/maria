@@ -1,111 +1,110 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
-<title>会员中心-{:config('site.name')}</title>
+<title>用户中心-{:config('site.name')}</title>
 <meta name="keywords" content="{:config('site.keyword')}">
 <meta name="description" content="{:config('site.content')}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 {include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-{include file="public:header" /}
+{include file="public:userheader" /}
 
-<div class="leftBox">
-    {include file="public:usermenu" /}
-</div>
-
-<div class="rightBox">
-    <div class="guide">
-        <a href="/">首页</a> / 我的订单
+<div class="user-box">
+    <div class="leftBox">
+        {include file="public:usermenu" /}
+        <input type="hidden" id="userAction" value="u6">
     </div>
 
-    <div style="padding: 10px; padding-top: 0">
-        <div class="layui-row">
-            <div class="layui-col-md4">
-                <div class="tabMenu">
-                    <li <?php if($payStatus==''){echo 'class="active"';}?>><a href="{:url('order/index','day='.$day)}">全部</a></li>
-                    <li {eq name="payStatus" value="0"}class="active"{/eq}><a href="{:url('order/index','payStatus=0&day='.$day)}">待付款</a></li>
-                    <li {eq name="payStatus" value="1"}class="active"{/eq}><a href="{:url('order/index','payStatus=1&day='.$day)}">配货中</a></li>
-                    <li {eq name="payStatus" value="2"}class="active"{/eq}><a href="{:url('order/index','payStatus=2&day='.$day)}">已发货</a></li>
-                </div>
-            </div>
-
-            <div class="layui-col-md8">
-                <div class="tabMenu">
-                    <li {eq name="day" value="now"}class="active"{/eq}><a href="{:url('order/index','payStatus='.$payStatus.'&day=now')}">本月</a></li>
-                    <li {eq name="day" value="up"}class="active"{/eq}><a href="{:url('order/index','payStatus='.$payStatus.'&day=up')}">上月</a></li>
-                    <li><a href="{:url('order/index','payStatus=1')}">自定义</a></li>
-                </div>
-            </div>
-        </div>        
-
-        <table class="layui-table">
-            <colgroup>
-                <col>
-                <col width="100">                       
-                <col width="120">             
-            </colgroup>
-            <thead>
-            <tr style="background: #fff">
-              <th>收件人</th>
-              <th>金额</th>
-              <th>订单操作</th>
-            </tr> 
-            </thead>            
-        </table>
-
-        {volist name="list" id="vo" empty="$empty"}
+    <div class="rightBox">
         <div class="layui-card">
-            <div class="layui-card-header" style="color: #999; font-size: 12px;">
-            订单号：<span class="money">{$vo.order_no}</span>
-            <?php
-            if($vo['payType']!=1 && $vo['upload']==0){
-            ?>
-            <span class="layui-badge">未上传身份证，请点击订单详情上传</span>
-            <?php
-            }else{
-            ?>
-            <span class="layui-badge layui-bg-green">已上传身份证</span>
-            <?php
-            }
-            ?>
-            <span style="float: right;font-size: 12px">{$vo.createTime|date="Y-m-d H:i:s",###}</span>
-            </div>
+            <div class="layui-card-header">我的订单</div>
             <div class="layui-card-body">
-                <table class="layui-table">
-                    <colgroup>
-                        <col>   
-                        <col width="100">                       
-                        <col width="100">                       
-                    </colgroup>
-                    <tr>
-                        <td>
-                            {eq name="vo.payType" value="1"}
-                            店铺自提
-                            {else/}
-                            {$vo.person}
-                            {/eq}
-                        </td>
-                        <td>
-                            <p class="money text-center">${$vo.money}</p>
-                            {gt name="vo.payType" value="1"}
-                            {eq name="vo.payStatus" value="0"}<p class="text-center"><a href="{:url('order/pay','order_no='.$vo['order_no'])}" class="layui-btn layui-btn-danger layui-btn-xs">去支付</a></p>{/eq}
-                            {/gt} 
-                        </td>
-                        <td class="actd">        
-                            <p class="text-center"><a href="{:url('order/detail',array('id'=>$vo['id']))}" class="layui-btn layui-btn-primary layui-btn-xs layui-btn-fluid">订单详情</a></p>
-                        </td>
-                    </tr>
-                </table>
+                <div class="tabMenu">
+                    <li <?php if($type==''){echo 'class="active"';}?>><a href="{:url('order/index')}">全部</a></li>
+                    <li {eq name="type" value="1"}class="active"{/eq}><a href="{:url('order/index','type=1')}">待付款</a></li>
+                    <li {eq name="type" value="2"}class="active"{/eq}><a href="{:url('order/index','type=2')}">待分享</a></li>
+                    <li {eq name="type" value="3"}class="active"{/eq}><a href="{:url('order/index','type=3')}">待发货</a></li>
+                    <li {eq name="type" value="4"}class="active"{/eq}><a href="{:url('order/index','type=4')}">配货中</a></li>
+                    <li {eq name="type" value="5"}class="active"{/eq}><a href="{:url('order/index','type=5')}">已发货</a></li>
+                    <li {eq name="type" value="6"}class="active"{/eq}><a href="{:url('order/index','type=6')}">取消订单</a></li>
+                </div>   
                 
-            </div>
-        </div>            
-        {/volist}
+                {volist name="list" id="vo"}
+                <div class="orderBox">
+                    <div class="hd">
+                        <div class="pull-left">
+                            <span style="color: #000; font-weight: bold; margin-right:5px">{$vo.createTime|date="Y-m-d H:i:s",###}</span>
+                            订单号: {$vo.order_no}
 
-        {$page}
+                        </div>
+                        <div class="pull-right">     
+                            <?php
+                            if($vo['endTime']>0 && $vo['status']==0){
+                                echo '等待付款';
+                            }elseif($vo['isCut']==1 && $vo['endTime']==0){
+                                echo '砍价中';
+                            }elseif($vo['status']==1){
+                                echo '待配货';
+                            }elseif($vo['status']==2){
+                                echo '配货中';
+                            }elseif($vo['status']==3){
+                                echo '已发货';
+                            }elseif($vo['status']==99){
+                                echo '取消订单';
+                            }
+                            ?>           
+                            <?php
+                            if($vo['status']==99 || $vo['status']==3){
+                            ?>
+                            <a href="{:url('Order/hide',array('id'=>$vo['id']))}" onClick="return confirm('确实删除选定的信息？')"><div class="delIcon"><i class="layui-icon layui-icon-delete"></i></div></a>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div> 
+                    <div class="bd">
+                        <div class="item">
+                            {volist name="vo.goods" id="f"}
+                            <div class="goodsDetail">
+                                <li><img src="{$f.picname}" /></li>
+                                <li style="width: 70%">{$f.name}<p>{$f.spec}</p></li>
+                                <li>{$f.number}件</li>
+                            </div>
+                            {/volist}
+                        </div>
+                        <div class="price">
+                            <p style="font-weight: bold;">AU${$vo.total}</p>
+                            {eq name="vo.status" value="0"}
+                            <a href="{:url('order/pay','orderID='.$vo['id'])}" style="color: #f00">去支付</a>
+                            {/eq}
+                        </div>
+                        <div class="action">
+                            <p><a href="{:url('order/detail',array('id'=>$vo['id']))}">订单详情</a></p>
+
+                            {eq name="vo.upload" value="1"}
+                            <p>查看身份证</p>
+                            {else/}
+                            <p><a href="">上传身份证</a></p>
+                            {/eq}
+
+                            <?php if($vo['status']==0){?>
+                            <p><a href="{:url('Order/del',array('id'=>$vo['id']))}" onClick="return confirm('确实删除选定的信息？')">删除订单</a></p>
+                            <?php } ?>
+                        </div>                       
+                    </div> 
+                </div>
+                {/volist}
+
+                
+                {$page}
+            </div>
+        </div>
     </div>
 </div>
 
-<script type="text/javascript" src="{:RES}/js/iframe.js"></script>
+{include file="public:footer" /}
 </body>
 </html>
