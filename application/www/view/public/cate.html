@@ -1,141 +1,24 @@
 <!--全部商品分类-->
-
     <i class="layui-icon">&#xe653;</i> 全部商品分类
-    <aside style="top:42px;">
+    <aside style="top:42px; overflow: auto;">
         <ul>
-            <li class="cates" mt-ct="list01">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
+            {volist name="cate" id="vo" key="i"}
+            <li class="cates" mt-ct="list0{$i}">
+                <h3>{$vo.name}<i class="layui-icon">&#xe602;</i></h3>
             </li>
-            <li class="cates" mt-ct="list02">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
-            </li>
-            <li class="cates" mt-ct="list03">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
-            </li>
-            <li class="cates" mt-ct="list04">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
-            </li>
-            <li class="cates" mt-ct="list05">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
-            </li>
-            <li class="cates" mt-ct="list06">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
-            </li>
-            <li class="cates" mt-ct="list07">
-                <h3>手机通讯<i class="layui-icon">&#xe602;</i></h3>
-            </li>
+            {/volist}
         </ul>
     </aside>
     <div>
-        <div class="import_list b-list01">
+        {volist name="cate" id="vo" key="k"}
+        <div class="import_list b-list0{$k}">
             <dd>
-                <a href="#">全部手机</a>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">荣耀</a>
-                <a href="#">华为</a>
-                <a href="#">魅族</a>
-                <a href="#">美图</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-            <dd>
-                <a href="#">全部手机</a>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">荣耀</a>
-                <a href="#">华为</a>
-                <a href="#">魅族</a>
-                <a href="#">美图</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
+                {volist name="vo.child" id="f"}
+                <a href="#">{$f.name}</a>
+                {/volist}
             </dd>
         </div>
-        <div class="import_list b-list02">
-            <dd>
-                <a href="#">全部手机</a>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">荣耀</a>
-                <a href="#">华为</a>
-                <a href="#">魅族</a>
-                <a href="#">美图</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-        </div>
-        <div class="import_list b-list03">
-            <dt>手机通讯：</dt>
-            <dd>
-                <a href="#">荣耀</a>
-                <a href="#">华为</a>
-                <a href="#">魅族</a>
-                <a href="#">美图</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-        </div>
-        <div class="import_list b-list04">
-            <dt>手机通讯：</dt>
-            <dd>
-                <a href="#">全部手机</a>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">荣耀</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-        </div>
-        <div class="import_list b-list05">
-            <dt>手机通讯：</dt>
-            <dd>
-                <a href="#">全部手机</a>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">美图</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-        </div>
-        <div class="import_list b-list06">
-            <dt>手机通讯：</dt>
-            <dd>
-                <a href="#">全部手机</a>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">荣耀</a>
-                <a href="#">华为</a>
-                <a href="#">魅族</a>
-                <a href="#">美图</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-        </div>
-        <div class="import_list b-list07">
-            <dt>手机通讯：</dt>
-            <dd>
-                <a href="#">iPhone</a>
-                <a href="#">小米</a>
-                <a href="#">荣耀</a>
-                <a href="#">美图</a>
-                <a href="#">努比亚</a>
-                <a href="#">诺基亚</a>
-                <a href="#">手机维修</a>
-                <a href="#">以旧换新</a>
-            </dd>
-        </div>
+        {/volist}
     </div>
 
 <!--结束-->

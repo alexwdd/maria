@@ -69,6 +69,15 @@ class Base extends Controller {
         $point = $signPoint + $jiangliJifen + $buyPoint - $clearJifen;
         $money = $inMoney + $fundToMoney - $outMoney;
         $fund = $inFund - $outFund;
+        if($fund<0){
+            $fund = 0;
+        }
+        if($money<0){
+            $money = 0;
+        }
+        if($point<0){
+            $point = 0;
+        }
         return array(       
             'point' => $point,
             'money'=>$money,

@@ -49,7 +49,7 @@ aside ul li h3 i{float: right; color: #999}
 .import_list{position:absolute;top:42px;left:210px;z-index:3000;display:none;width:729px;height:498px;background:#FFF}
 .import_list dt{margin-top:7px;height:30px;color:#000;text-indent:20px;font-size:14px;line-height:30px}
 .import_list dd{margin-left:20px;border-bottom:1px dashed #f3f3f3}
-.import_list dd a{padding-right:6px;padding-left:6px;color:#666;font-size:14px}
+.import_list dd a{padding-right:6px;padding-left:6px;color:#666;font-size:14px; white-space: nowrap;}
 .import_list dd a:hover{color:#FF0036}
 
 /* footer */

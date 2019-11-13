@@ -55,20 +55,22 @@
 
 .three_fb{overflow:hidden;margin:0 auto;margin-top:20px;width:1200px}
 .three_fb ul{width:1200px}
-.three_fb ul li{position:relative;float:left;overflow:hidden;padding-bottom:3px;width:396px;height:179px;border:2px solid #fff}
+.three_fb ul li{position:relative;float:left;overflow:hidden;padding-bottom:3px;width:396px;height:156px;border:2px solid #fff}
 light{position:absolute;top:0;left:-396px;width:396px;height:156px;transition:.8s}
 .three_fb ul li:hover light{left:396px}
-.three_fb ul li:hover{border:2px solid #FF0036}
+/*.three_fb ul li:hover{border:2px solid #FF0036}*/
 .three_fb ul li img{display:block;margin-bottom:2px;width:396px;height:156px}
 .three_fb ul li span{padding-right:10px;padding-left:10px;background:#FF0036;color:#fff;font-size:14px;line-height:20px}
 .three_fb ul li em{float:right;margin-right:20px;color:#ff6182;font-size:12px;line-height:24px}
-.three_fb ul li a{float:right;color:#000;font-size:14px;line-height:24px;transition:.3s}
-.three_fb ul li a:hover{padding-right:10px;padding-left:10px;background:#FF0036;color:#fff}
+
 
 .currency{overflow:hidden;margin:0 auto;margin-top:14px;padding-top:6px;padding-bottom:6px;width:1200px}
 .currency ul{width:1300px}
 .currency ul li{position:relative;float:left;overflow:hidden;margin-right:10px;width:230px;height:300px;border:1px solid #ddd;background:rgba(255,255,255,.3)}
-.currency ul li span{display:block;width:220px;color:#FF0036;font-size:20px;line-height:24px}
+.currency ul li img{display: block; width:230px; height: 230px}
+.currency ul li .price {display:block;width:220px;line-height:24px; margin: auto;}
+.currency ul li .price span{color:#FF0036;font-size:20px;}
+.currency ul li .price b{font-size: 12px; font-weight: normal; color: #999}
 light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition:.8s}
 .currency ul li:hover light1{left:230px}
 .currency i{position:absolute;top:0;left:0;z-index:6000;display:block;width:50px;height:50px;background:#000}
@@ -83,14 +85,15 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .lunbobanner{position:relative;overflow:hidden;padding-top:6px;width:1200px;height:306px}
 .lunboimg{position:absolute;float:left;width:100000px;height:300px}
 .lunboimg li{float:left;width:1200px;height:359px}
-.btnl{position:absolute;top:-51px;right:46px;z-index:9999;width:45px;height:45px;background:#FF0036;color:#fff;text-align:left;font-size:20px;line-height:45px;cursor:pointer}
-.btnr{position:absolute;top:-51px;right:0;z-index:9999;width:45px;height:45px;background:#FF0036;color:#fff;text-align:right;font-size:20px;line-height:45px;cursor:pointer}
-.btnl:hover{background:#FF0036;color:#fff}
+.btnl{position:absolute;top:-51px;right:46px;z-index:9999;width:45px;height:45px;background:#FF0036;color:#fff;text-align:center;line-height:45px;cursor:pointer}
+.btnr{position:absolute;top:-51px;right:0;z-index:9999;width:45px;height:45px;background:#FF0036;color:#fff;text-align:center;line-height:45px;cursor:pointer}
+.btnl i,.btnr i{font-size: 20px}
+.btnl:hover{background:#b54800;color:#fff}
 .btnr:hover{background:#b54800;color:#fff}
 .lunboimg li a{float:left;display:block;margin-right:10px;width:230px;height:300px;box-shadow:2px 2px 2px rgba(0,0,0,.2)}
-.lunboimg li a b{display:block;margin:0 auto;width:220px;height:220px}
+.lunboimg li a b{display:block;margin:0 auto;width:100%}
 .lunboimg li a span{display:block;width:220px;color:#FF0036;font-size:20px;line-height:24px}
 .lunboimg li a p{display:block;margin:0 auto;width:220px;color:#111;font-size:12px;line-height:20px}
 .lunboimg li a p:hover{text-decoration:underline}
 .lunboimg li a:hover{animation:.7s czzo ease-in 1;-webkit-animation:.7s czzo ease-in 1;-ms-animation:.7s czzo ease-in 1;-moz-animation:.7s czzo ease-in 1;-o-animation:1.2s czzo ease-in 1}
-.guanfangremai{position:absolute;top:-51px;left:0;padding-left:1%;width:99%;height:45px;background:#eff0f8;color:#EC5E5D;font-weight:300;font-size:20px;font-size:18px;line-height:45px}
+.guanfangremai{position:absolute;top:-51px;left:0;padding-left:1%;width:99%;height:45px;background:#eff0f8;color:#EC5E5D;font-weight:bold;font-size:20px;font-size:18px;line-height:45px;}
