@@ -203,7 +203,6 @@ $(function() {
 					<b>约￥{$vo.rmb}</b>
 				</div>
 				<a href="#"><p>{$vo.name}</p></a>
-				<i>包邮</i>
 				<em>
 					<a href="#">收藏</a>
 					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
@@ -241,8 +240,13 @@ $(function() {
 					<b style="text-decoration: line-through">${$vo.marketPrice}</b>
 					<b>约￥{$vo.rmb}</b>
 				</div>
-				<a href="#"><p>{$vo.name}</p></a>
-				<i>包邮</i>
+				<a href="#">
+					<p>{$vo.name}</p>
+					<div class="say">{$vo.say}</div>
+				</a>
+				<div class="tag">
+					<span class="layui-badge">推荐</span>
+				</div>				
 				<em>
 					<a href="#">收藏</a>
 					<a href="javascript:void(0)" class="add_scar">加入购物车</a>

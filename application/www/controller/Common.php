@@ -54,7 +54,18 @@ class Common extends Base {
             }
         }
         $this->user = $user;
-        $this->assign('user',$this->user);        
+        $this->assign('user',$this->user);      
+
+        if(cache("cate")){
+            $cate = cache("cate");          
+        }else{
+            $cate = db("GoodsCate")->field('id,name,path,picname')->where('fid',0)->order('sort asc')->select();
+            foreach ($cate as $key => $value) {
+                $cate[$key]['child'] = db("GoodsCate")->field('id,name,path,picname')->where('fid',$value['id'])->order('sort asc')->select();
+            }
+            cache("cate",$cate);
+        }
+        $this->assign('globalCate',$cate);  
         
         //空信息       
         $this->assign('empty','<div class="empty"><img src="/application/www/view/common/image/empty.png" /><p>空空如也~</p></div>');

@@ -14,18 +14,8 @@ class Index extends Common
         $flag = think_encrypt($cryptStr,config('DATA_CRYPT_KEY'));
         \think\Cookie::set('flag', $flag, ['prefix'=>'www','expire'=>86400]);*/
 
-        if(cache($cate)){
-        	$cate = cache("cate");	        
-        }else{
-        	$cate = db("GoodsCate")->field('id,name,path,picname')->where('fid',0)->order('sort asc')->select();
-	        foreach ($cate as $key => $value) {
-	        	$cate[$key]['child'] = db("GoodsCate")->field('id,name,path,picname')->where('fid',$value['id'])->order('sort asc')->select();
-	        }
-	        cache("cate",$cate);
-        }
-        $this->assign('cate',$cate);
+        
 
-        //抢购
         //今日抢购
         $flash = [];
         foreach ($this->flash as $key => $value) {

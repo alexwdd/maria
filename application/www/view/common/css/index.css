@@ -73,9 +73,10 @@ light{position:absolute;top:0;left:-396px;width:396px;height:156px;transition:.8
 .currency ul li .price b{font-size: 12px; font-weight: normal; color: #999}
 light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition:.8s}
 .currency ul li:hover light1{left:230px}
-.currency i{position:absolute;top:0;left:0;z-index:6000;display:block;width:50px;height:50px;background:#000}
-.currency ul li p{display:block;margin:0 auto;width:220px;color:#111;font-size:12px;line-height:20px}
+.currency .tag{position:absolute;top:5px;left:5px;z-index:6000;}
+.currency ul li p{display:block;margin:0 auto;width:220px;color:#111;font-size:14px;line-height:20px}
 .currency ul li p:hover{color:#FF0036;text-decoration:underline}
+.currency ul li .say{font-size: 12px; clear: #999;margin:0 auto;width:220px;}
 .currency ul li em{position:absolute;top:-46px;left:0;z-index:999999;display:block;overflow:hidden;width:230px;height:44px;background:#FF0036;transition:.3s}
 .currency ul li:hover em{top:0}
 .currency ul li em a{float:left;display:block;margin-top:5px;margin-left:11px;padding-right:20px;padding-left:20px;width:56px;height:30px;border:1px solid #fff;color:#fff;text-align:center;font-size:12px;line-height:30px;transition:.3s}

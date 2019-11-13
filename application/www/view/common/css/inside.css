@@ -1,0 +1,7 @@
+.main{width: 1200px; clear: both; margin: auto;}
+.brand{clear: both; overflow: hidden; border:1px #dbdbdb solid; margin-top: 20px}
+.brand .hd{text-align: center; font-size: 20px; padding:15px 0; color: #FF0036; background: #f1f1f1; font-weight: bold;}
+.brand .bd{clear: both; overflow: hidden; padding-top: 20px}
+.brand .bd li{float: left; width: 20%; margin-bottom: 20px}
+.brand .bd li img{display: block; border:1px #dbdbdb solid; margin: auto;transition: 0.3s;}
+.brand .bd li img:hover{transform: scale(1.1);}

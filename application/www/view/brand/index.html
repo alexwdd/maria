@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
-<title>品牌-{:config('site.name')}</title>
+<title>品牌专区-{:config('site.name')}</title>
 <meta name="keywords" content="{:config('site.keyword')}">
 <meta name="description" content="{:config('site.content')}">
 {include file="public:cssjs" /}
+<link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+{include file="public:top" /}
+
 {include file="public:header" /}
 
+<!--导航-->
+<section class="dao_hang">
+	<nav>
+		<!--全部商品分类-->
+		<div class="important inCate">
+        {include file="public:cate" /}
+        </div>
+        
+		{include file="public:nav" /}
+	</nav>
+</section>
 
 <div class="main">
-{volist name="list" id="vo"}
-
-<div class="pinyin">{$vo.py}</div>
-
-<div class="layui-row">
-    {volist name="vo.small" id="f"}
-    <div class="layui-col-md1 layui-col-sm2 layui-col-xs3">
-        <div class="product">
-        <a href="{:url('brand/lists','bid='.$f['id'])}"><img src="{$f.logo|getThumb=200,125}" alt="{$f.name}"><p class="layui-elip">{$f.name}</p></a>
-        </div>
-    </div>
-    {/volist}
+	{volist name="list" id="vo"}
+	<div class="brand">
+		<div class="hd">{$vo.name}</div>
+		<div class="bd">
+			{volist name="vo.child" id="item"}
+			<li><a href=""><img src="{$item.logo}"/></a></li>
+			{/volist}
+		</div>
+	</div>
+	{/volist}
 </div>
-{/volist}
-</div>
-    
+
 {include file="public:footer" /}
 </body>
 </html>
