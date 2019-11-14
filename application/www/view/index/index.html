@@ -204,8 +204,8 @@ $(function() {
 				</div>
 				<a href="#"><p>{$vo.name}</p></a>
 				<em>
-					<a href="#">收藏</a>
-					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+					<a href="javascript:void(0)" class="add_fav" data-id="{$vo.goodsID}" data-url="{:url('goods/fav')}">收藏</a>
+					<a href="javascript:void(0)" class="add_cart" data-id="{$vo.goodsID}" data-url="{:url('goods/addCart')}">加入购物车</a>
 				</em>
 			</li>
 			{/volist}
@@ -248,8 +248,8 @@ $(function() {
 					<span class="layui-badge">推荐</span>
 				</div>				
 				<em>
-					<a href="#">收藏</a>
-					<a href="javascript:void(0)" class="add_scar">加入购物车</a>
+					<a href="javascript:void(0)" class="add_fav" data-id="{$vo.id}" data-url="{:url('goods/fav')}">收藏</a>
+					<a href="javascript:void(0)" class="add_cart" data-id="{$vo.id}" data-url="{:url('goods/addCart')}">加入购物车</a>
 				</em>
 			</li>
 			{/volist}

@@ -5,3 +5,10 @@
 .brand .bd li{float: left; width: 20%; margin-bottom: 20px}
 .brand .bd li img{display: block; border:1px #dbdbdb solid; margin: auto;transition: 0.3s;}
 .brand .bd li img:hover{transform: scale(1.1);}
+
+.guide{background: #f1f1f1; clear: both; line-height: 40px}
+
+.rule{clear: both; border:1px #dbdbdb solid; margin-top: 20px}
+.rule .item{border-bottom: 1px #eee dashed; padding: 10px;}
+.rule .item:last-child{border: 0}
+.rule .item .hd{float: left; width: 80px; color: #999}

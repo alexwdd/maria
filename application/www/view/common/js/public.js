@@ -1,4 +1,7 @@
-layui.use('form', function(){
+layui.use(['form','element'], function(){
+
+    var element = layui.element;
+
     var form = layui.form;          
     form.on('submit(go)', function(data){
         if (data.field.remember==1){
@@ -341,25 +344,56 @@ $(function() {
             left: -i * 1200
         }, 500)
     }
+
+    //加入购物车
     var offset = $(".toolbar-item-weixin").offset();
-    $(".add_scar").click(function(event) {
+    $(".add_cart").click(function(event) {
+        if(globalUserId==0){
+            layer.alert("请先登录");
+            return false;
+        }
+
         var addcar = $(this);
         var img = addcar.parent().parent().find('img').attr('src');
         var flyer = $('<img class="u-flyer" src="' + img + '">');
         var tops = $(window).scrollTop();
-        flyer.fly({
-            start: {
-                left: event.pageX,
-                top: event.pageY - tops,
-                width: 0,
-                height: 0
-            },
-            end: {
-                left: offset.left,
-                top: offset.top + 40,
-                width: 0,
-                height: 0
-            },
-        })
+
+        $.post(addcar.attr("data-url"),{goodsID:addcar.attr("data-id")},function(res){
+            if(res.code==1){
+                $("#topCartNumber").html(res.body.number);
+                flyer.fly({
+                    start: {
+                        left: event.pageX,
+                        top: event.pageY - tops,
+                        width: 0,
+                        height: 0
+                    },
+                    end: {
+                        left: offset.left,
+                        top: offset.top + 40,
+                        width: 0,
+                        height: 0
+                    },
+                })
+            }else{
+                layer.alert(res.desc,{icon: 2});
+            }
+        },'JSON')        
+    })
+
+    //加入收藏
+    $(".add_fav").click(function(event) {
+        if(globalUserId==0){
+            layer.alert("请先登录",{icon: 2});
+            return false;
+        }
+        var o = $(this);
+        $.post(o.attr("data-url"),{goodsID:o.attr("data-id")},function(res){
+            if(res.code==1){
+                layer.alert("收藏成功",{icon: 1});
+            }else{
+                layer.alert(res.desc,{icon: 2});
+            }
+        },'JSON')        
     })
 })
