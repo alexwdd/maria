@@ -347,7 +347,7 @@ $(function() {
 
     //加入购物车
     var offset = $(".toolbar-item-weixin").offset();
-    $(".add_cart").click(function(event) {
+    $("body").on("click",".add_cart",function(event){  
         if(globalUserId==0){
             layer.alert("请先登录");
             return false;
@@ -382,7 +382,7 @@ $(function() {
     })
 
     //加入收藏
-    $(".add_fav").click(function(event) {
+    $("body").on("click",".add_fav",function(){   
         if(globalUserId==0){
             layer.alert("请先登录",{icon: 2});
             return false;

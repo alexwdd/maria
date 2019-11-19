@@ -8,7 +8,43 @@
 
 .guide{background: #f1f1f1; clear: both; line-height: 40px}
 
-.rule{clear: both; border:1px #dbdbdb solid; margin-top: 20px}
-.rule .item{border-bottom: 1px #eee dashed; padding: 10px;}
+.rule{clear: both; border:1px #dbdbdb solid; margin-top: 20px; overflow: hidden;}
+.rule *{font-size: 12px}
+.rule .item{border-bottom: 1px #eee dashed; padding: 10px; clear: both; overflow: hidden;}
 .rule .item:last-child{border: 0}
-.rule .item .hd{float: left; width: 80px; color: #999}
+.rule .item .hd{float: left; width: 80px; color: #999;}
+.rule .item .bd{margin-left: 80px;}
+.rule .item .bd a{white-space: nowrap; padding: 0 5px;}
+.rule .item .bd a.this{background: #FF0036; color: #fff}
+
+.layui-form-checkbox[lay-skin=primary]:hover i {border-color: #FF0036;}
+.layui-form-checked[lay-skin=primary] i {border-color: #FF0036;background-color: #FF0036;}
+.quick{clear: both; margin-top:20px; height:36px; border:1px #dbdbdb solid;}
+.quick .item{float: left;}
+.quick .item li{float: left; line-height: 36px; border-right: 1px #dbdbdb solid; padding: 0 10px; cursor: pointer;}
+.quick .item li i{font-size: 12px;}
+.quick .item li.this{background: #FF0036; color: #fff}
+.quick .layui-form{ margin-top: 7px; padding: 0 10px}
+.quick .item dd{float: left; line-height: 36px; padding: 0 5px}
+.quick .item dd input{width: 50px; font-size: 12px; color: #999; padding:2px}
+.quick .item dd button{background:#fff; border: 1px #ccc solid; font-size: 12px; cursor: pointer; line-height: 22px; padding: 0 5px}
+.quick .item dd button.sBtn{background: #FF0036; color: #fff; border: 0; line-height: 24px}
+
+.goodsList{clear: both; overflow: hidden; margin-top: 20px;}
+.goodsList ul{width:1300px}
+.goodsList ul li{position:relative;float:left;overflow:hidden;margin-right:10px;width:230px;height:300px;border:1px solid #ddd;background:rgba(255,255,255,.3); margin-bottom: 20px}
+.goodsList ul li img{display: block; width:230px; height: 230px}
+.goodsList ul li .price {display:block;width:220px;line-height:24px; margin: auto;}
+.goodsList ul li .price span{color:#FF0036;font-size:20px;}
+.goodsList ul li .price b{font-size: 12px; font-weight: normal; color: #999}
+light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition:.8s}
+.goodsList ul li:hover light1{left:230px}
+.goodsList .tag{position:absolute;top:5px;left:5px;z-index:6000;}
+.goodsList ul li p{display:block;margin:0 auto;width:220px;color:#111;font-size:14px;line-height:20px}
+.goodsList ul li p:hover{color:#FF0036;text-decoration:underline}
+.goodsList ul li .say{font-size: 12px; clear: #999;margin:0 auto;width:220px;}
+.goodsList ul li em{position:absolute;top:-46px;left:0;z-index:999999;display:block;overflow:hidden;width:230px;height:44px;background:#FF0036;transition:.3s}
+.goodsList ul li:hover em{top:0}
+.goodsList ul li em a{float:left;display:block;margin-top:5px;margin-left:11px;padding-right:20px;padding-left:20px;width:56px;height:30px;border:1px solid #fff;color:#fff;text-align:center;font-size:12px;line-height:30px;transition:.3s}
+.goodsList ul li em a:hover{background:#333}
+.empty{text-align: center; color: #999; padding: 20px; clear: both;}

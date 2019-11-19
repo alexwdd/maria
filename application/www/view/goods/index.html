@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
-<title>品牌专区-{:config('site.name')}</title>
+<title>{$thisCate.name}-{:config('site.name')}</title>
 <meta name="keywords" content="{:config('site.keyword')}">
 <meta name="description" content="{:config('site.content')}">
 {include file="public:cssjs" /}
+<script src="{:RES}/js/jquery.fly.min.js"></script>
 <link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -28,7 +29,7 @@
 	<div class="main">
 	    <span class="layui-breadcrumb">
 	        <a href="{:url('index/index')}">首页</a>
-	        <a><cite>房产</cite></a>
+	        <a><cite>{$thisCate.name}</cite></a>
 	    </span>
     </div>
 </div>
@@ -37,14 +38,162 @@
 	<div class="rule">
 		<div class="item">
 			<div class="hd">分类：</div>
-			<div class="bd">
+			<div class="bd" id="rCate">
+				<a href="javascript:void(0)" data-id="" class="this">全部</a>
 				{volist name="cate" id="vo"}
-				<a href="">发发发</a>
+				<a href="javascript:void(0)" data-id="{$vo.id}">{$vo.name}</a>
 				{/volist}
 			</div>
 		</div>
 	</div>
+
+	<div class="quick">
+		<div class="item qtab">
+			<li class="this" data-type="new">新品</li>
+			<li data-type="sellNumber">销量 <i class="layui-icon layui-icon-down"></i></li>
+			<li data-type="price">价格 <i class="layui-icon layui-icon-down"></i></li>
+		</div>
+		<div class="item layui-form">
+			<input lay-filter="baoyou" type="checkbox" title="包邮" lay-skin="primary"/>
+		</div>	
+		<div class="item">
+			<dd><input type="text" id="min" placeholder="$" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/></dd>
+			<dd>-</dd>
+			<dd><input type="text" id="max" placeholder="$" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/></dd>
+			<dd><button type="button" class="sBtn" id="sBtn">搜索</button></dd>
+			<dd><button type="button" id="clearPrice">清空</button></dd>
+		</div>	
+	</div>
+
+	<div class="goodsList">
+		<ul id="result">			
+		</ul>
+		<div style="text-align: center;" id="loadding">
+			<i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop" style="font-size: 50px;color: #999"></i>
+		</div>
+	</div>
 </div>
+
+<script id="goodsTpl" type="text/html">
+{{# layui.each(d, function(index, vo){ }}
+<li>
+	<a href="#"><img src="{{vo.picname}}"></a>
+	<light1><img src="{:RES}/image/saoguang.png"></light1>
+	<div class="price">
+		<span>${{vo.price}}</span>
+		<b style="text-decoration: line-through">${{vo.marketPrice}}</b>
+		<b>约￥{{vo.rmb}}</b>
+	</div>
+	<a href="#">
+		<p>{{vo.name}}</p>
+		<div class="say">{{vo.say}}</div>
+	</a>
+	<div class="tag">
+		<span class="layui-badge">推荐</span>
+	</div>				
+	<em>
+		<a href="javascript:void(0)" class="add_fav" data-id="{{vo.id}}" data-url="{:url('goods/fav')}">收藏</a>
+		<a href="javascript:void(0)" class="add_cart" data-id="{{vo.id}}" data-url="{:url('goods/addCart')}">加入购物车</a>
+	</em>
+</li>
+{{#  }); }}
+</script>
+<script>
+var canGetData = true;
+var page = 1;
+var data = {
+	page : page,
+	field : 'id',
+	order : 'desc',
+	pagesize : 15,
+	baoyou : 0,
+	min:'',
+	max:'',
+	path : '{$thisCate.path}'
+}
+layui.use(['laytpl','form'], function(){
+	var laytpl = layui.laytpl;
+	var form = layui.form;
+	$(window).scroll(function(){
+        // 当滚动到最底部以上n像素时， 加载新内容
+        if ($(document).height() - $(this).scrollTop() - $(this).height()<300) {
+            if (canGetData) {
+                getData();  
+            }
+        }
+    });
+
+	getData();
+
+	$("#rCate a").click(function(){		
+		$("#rCate a").removeClass("this");
+		$(this).addClass("this");
+		data.cid = $(this).attr("data-id");
+		$("#result").html('');
+		getData();
+	})
+
+	$(".qtab li").click(function(){		
+		if($(this).index()>0){	
+			if(data.order == 'desc' && $(this).hasClass("this")){
+				data.order = 'asc';
+				$(this).find('i').attr("class","layui-icon layui-icon-up");
+			}else{
+				data.order = 'desc';
+				$(this).find('i').attr("class","layui-icon layui-icon-down");
+			}
+		}	
+		$(".qtab li").removeClass("this");
+		$(this).addClass("this");
+		data.field = $(this).attr("data-type");
+		$("#result").html('');
+		getData();
+	})
+
+	form.on('checkbox(baoyou)', function(res){		
+		if(res.elem.checked){
+			data.baoyou = 1;
+		}else{
+			data.baoyou = 0;
+		}
+		$("#result").html('');
+		getData();
+	});
+
+	$("#clearPrice").click(function(){
+		$("#min").val('');
+		$("#max").val('');
+	})
+
+	$("#sBtn").click(function(){
+		if($("#min").val()!='' && $("#max").val()!=''){
+			data.min = $("#min").val();
+			data.max = $("#max").val();
+			$("#result").html('');
+			getData();
+		}		
+	});
+
+	function getData(){
+		$("#loadding").show();
+		canGetData = false;
+		$.post("{:url('goods/ajax')}",data,function(res){	
+			$("#loadding").hide();		
+			var getTpl = goodsTpl.innerHTML;
+			var view = $('#result');
+			laytpl(getTpl).render(res.body.data, function(html){		
+				view.append(html);	
+				if(res.body.next==1){
+					page++;	
+					canGetData = true;
+				}else{
+					$('#result').append("<div class='empty'>没有了...</div>");
+				}
+			});
+		},'json')
+	};
+});
+</script>
 
 {include file="public:footer" /}
 </body>
