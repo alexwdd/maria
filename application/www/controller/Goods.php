@@ -7,16 +7,18 @@ class Goods extends Common
 {
 	public function index()
 	{
-        $cid = input('param.cid');
-        $thisCate = db('GoodsCate')->where('id',$cid)->find();
+        $bid = input('param.bid');
+        $sid = input('param.sid');
+        $thisCate = db('GoodsCate')->where('id',$bid)->find();
         $this->assign('thisCate',$thisCate);
 
         if($thisCate['fid']==0){
-            $cate = db("GoodsCate")->where('fid',$thisCate['id'])->select();
+            $cate = db("GoodsCate")->where('fid',$thisCate['id'])->order('sort asc,id asc')->select();
         }else{
-            $cate = db("GoodsCate")->where('fid',$thisCate['fid'])->select();
+            $cate = db("GoodsCate")->where('fid',$thisCate['fid'])->order('sort asc,id asc')->select();
         }
         $this->assign('cate',$cate);
+        $this->assign('sid',$sid);
 		return view();
 	}
 
@@ -50,5 +52,22 @@ class Goods extends Common
             $result = $this->https_post($this->api.'/api/account/doFav',$data);
             echo $result;
         }
+    }
+
+    public function detail(){
+        $id = input('param.id');
+        if($id=='' || !is_numeric($id)){
+            $this->error("参数错误");
+        }
+
+        $data['goodsID'] = $id;
+        $data['token'] = $this->user['token'];
+        $result = $this->https_post($this->api.'/api/goods/detail',$data);
+        $result = json_decode($result,true);
+        if($result['code']==0){
+            $this->error($result['desc']);
+        }
+        $this->assign('goods',$result['body']['goods']);
+        return view();
     }
 }

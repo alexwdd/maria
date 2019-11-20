@@ -39,9 +39,9 @@
 		<div class="item">
 			<div class="hd">分类：</div>
 			<div class="bd" id="rCate">
-				<a href="javascript:void(0)" data-id="" class="this">全部</a>
+				<a href="javascript:void(0)" data-id="" {empty name="sid"}class="this"{/empty}>全部</a>
 				{volist name="cate" id="vo"}
-				<a href="javascript:void(0)" data-id="{$vo.id}">{$vo.name}</a>
+				<a href="javascript:void(0)" data-id="{$vo.id}" {eq name="sid" value="$vo['id']"}class="this"{/eq}>{$vo.name}</a>
 				{/volist}
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 
 	<div class="quick">
 		<div class="item qtab">
-			<li class="this" data-type="new">新品</li>
+			<li class="this" data-type="id">新品</li>
 			<li data-type="sellNumber">销量 <i class="layui-icon layui-icon-down"></i></li>
 			<li data-type="price">价格 <i class="layui-icon layui-icon-down"></i></li>
 		</div>
@@ -77,14 +77,14 @@
 <script id="goodsTpl" type="text/html">
 {{# layui.each(d, function(index, vo){ }}
 <li>
-	<a href="#"><img src="{{vo.picname}}"></a>
+	<a href="/www/goods/detail/id/{{vo.id}}" target="_blank"><img src="{{vo.picname}}"></a>
 	<light1><img src="{:RES}/image/saoguang.png"></light1>
 	<div class="price">
 		<span>${{vo.price}}</span>
 		<b style="text-decoration: line-through">${{vo.marketPrice}}</b>
 		<b>约￥{{vo.rmb}}</b>
 	</div>
-	<a href="#">
+	<a href="/www/goods/detail/id/{{vo.id}}" target="_blank">
 		<p>{{vo.name}}</p>
 		<div class="say">{{vo.say}}</div>
 	</a>
@@ -100,16 +100,16 @@
 </script>
 <script>
 var canGetData = true;
-var page = 1;
 var data = {
-	page : page,
+	page : 1,
 	field : 'id',
 	order : 'desc',
 	pagesize : 15,
 	baoyou : 0,
 	min:'',
 	max:'',
-	path : '{$thisCate.path}'
+	path : '{$thisCate.path}',
+	cid : '{$sid}',
 }
 layui.use(['laytpl','form'], function(){
 	var laytpl = layui.laytpl;
@@ -129,6 +129,7 @@ layui.use(['laytpl','form'], function(){
 		$("#rCate a").removeClass("this");
 		$(this).addClass("this");
 		data.cid = $(this).attr("data-id");
+		data.page = 1;
 		$("#result").html('');
 		getData();
 	})
@@ -146,6 +147,7 @@ layui.use(['laytpl','form'], function(){
 		$(".qtab li").removeClass("this");
 		$(this).addClass("this");
 		data.field = $(this).attr("data-type");
+		data.page = 1;
 		$("#result").html('');
 		getData();
 	})
@@ -156,6 +158,7 @@ layui.use(['laytpl','form'], function(){
 		}else{
 			data.baoyou = 0;
 		}
+		data.page = 1;
 		$("#result").html('');
 		getData();
 	});
@@ -169,6 +172,7 @@ layui.use(['laytpl','form'], function(){
 		if($("#min").val()!='' && $("#max").val()!=''){
 			data.min = $("#min").val();
 			data.max = $("#max").val();
+			data.page = 1;
 			$("#result").html('');
 			getData();
 		}		
@@ -184,7 +188,7 @@ layui.use(['laytpl','form'], function(){
 			laytpl(getTpl).render(res.body.data, function(html){		
 				view.append(html);	
 				if(res.body.next==1){
-					page++;	
+					data.page++;	
 					canGetData = true;
 				}else{
 					$('#result').append("<div class='empty'>没有了...</div>");

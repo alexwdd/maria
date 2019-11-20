@@ -4,7 +4,7 @@
         <ul>
             {volist name="globalCate" id="vo" key="i"}
             <li class="cates" mt-ct="list0{$i}">
-                <h3><a href="{:url('goods/index','cid='.$vo['id'])}" style="display: block;">{$vo.name}<i class="layui-icon">&#xe602;</i></a></h3>
+                <h3><a href="{:url('goods/index','bid='.$vo['id'])}" style="display: block;">{$vo.name}<i class="layui-icon">&#xe602;</i></a></h3>
             </li>
             {/volist}
         </ul>
@@ -14,7 +14,7 @@
         <div class="import_list b-list0{$k}">
             <dd>
                 {volist name="vo.child" id="f"}
-                <a href="#">{$f.name}</a>
+                <a href="{:url('goods/index',['bid'=>$vo['id'],'sid'=>$f['id']])}">{$f.name}</a>
                 {/volist}
             </dd>
         </div>

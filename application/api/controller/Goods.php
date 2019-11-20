@@ -144,9 +144,30 @@ class Goods extends Common {
             $brandID = input('post.brandID');
             $keyword = input('param.keyword');
             $comm = input('param.comm');
+            $baoyou = input('param.baoyou');
+            $field = input('param.field','id');
+            $order = input('param.order','desc');
+            $min = input('param.min');
+            $max = input('param.max');
             $page = input('post.page/d',1);
             $pagesize = input('post.pagesize',10);
             $firstRow = $pagesize*($page-1); 
+
+            if($field==''){
+                $field = 'id';
+            }
+
+            if($order==''){
+                $order = 'desc';
+            }
+
+            if($baoyou==1){
+                $map['baoyou'] = 1;
+            }
+
+            if($min!='' && $max!=''){
+                $map['price'] = array('between',array($min,$max));
+            }
 
             if($comm!=''){
                 $map['comm'] = $comm;
@@ -179,7 +200,7 @@ class Goods extends Common {
                 $next = 0;
             }
 
-            $list = $obj->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->limit($firstRow.','.$pagesize)->order('sort desc,id desc')->select();
+            $list = $obj->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where($map)->limit($firstRow.','.$pagesize)->order('sort desc,'.$field.' '.$order)->select();
             foreach ($list as $key => $value) {
                 $value['picname'] = getThumb($value["picname"],400,400);
                 $list[$key]['picname'] = getRealUrl($value['picname']);
@@ -326,7 +347,7 @@ class Goods extends Common {
             $map['show'] = 1;
             $list = db('Goods')->field('id,fid,name,picname,price,marketPrice,weight,comm,empty,tehui,flash,baoyou')->where($map)->find();
             if (!$list) {
-                returnJson('-1','不存在的商品');
+                returnJson(0,'不存在的商品');
             }
             
             $list['picname'] = getThumb($list["picname"],200,200);
@@ -366,7 +387,7 @@ class Goods extends Common {
             $map['show'] = 1;
             $list = db('Goods')->field('id,fid,cid,name,picname,image,price,marketPrice,weight,point,number,content,say,intr')->where($map)->find();
             if (!$list) {
-                returnJson('-1','不存在的商品');
+                returnJson(0,'不存在的商品');
             }
             
             $list['point'] = $list['point'] * $list['number'];

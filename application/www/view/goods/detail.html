@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>{$goods.name}-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<script src="{:RES}/swiper/js/swiper.min.js"></script>
+<link href="{:RES}/swiper/css/swiper.min.css" rel="stylesheet" type="text/css" />
+
+<link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{include file="public:top" /}
+
+{include file="public:header" /}
+
+<!--导航-->
+<section class="dao_hang">
+	<nav>
+		<!--全部商品分类-->
+		<div class="important inCate">
+        {include file="public:cate" /}
+        </div>
+        
+		{include file="public:nav" /}
+	</nav>
+</section>
+
+<div class="guide">
+	<div class="main">
+	    <span class="layui-breadcrumb">
+	        <a href="{:url('index/index')}">首页</a>
+	        <a><cite>{$goods.name}</cite></a>
+	    </span>
+    </div>
+</div>
+
+<div class="main">
+	<div class="goodsInfo">
+        <div class="goodsImage">
+            <div class="swiper-container gallery-top">
+                <div class="swiper-wrapper">
+                    {volist name="goods.image" id="vo"}
+                    <div class="swiper-slide" style="background-image:url({$vo})"></div>
+                    {/volist}
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next swiper-button-white"></div>
+                <div class="swiper-button-prev swiper-button-white"></div>
+            </div>
+            <div class="swiper-container gallery-thumbs">
+                <div class="swiper-wrapper">
+                    {volist name="goods.image" id="vo"}
+                    <div class="swiper-slide" style="background-image:url({$vo})"></div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+        <script>
+        var galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 10,
+            slidesPerView: 4,
+            loop: true,
+            freeMode: true,
+            loopedSlides: 5, //looped slides should be the same
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+        });
+        var galleryTop = new Swiper('.gallery-top', {
+            spaceBetween: 10,
+            loop:true,
+            loopedSlides: 5, //looped slides should be the same 
+            navigation: {
+		        nextEl: '.swiper-button-next',
+		        prevEl: '.swiper-button-prev',
+		    },
+            thumbs: {
+                swiper: galleryThumbs,
+            },
+        });
+        </script>
+        
+        <div class="baseInfo">
+            <h1>{$goods.name}</h1>
+            <div class="say">{$goods.say}</div>
+            <div class="intr">{$goods.intr}</div>
+            <div class="price" id="goods_price">${$goods.price}</div>
+
+            {if condition="$filter_spec neq ''"}
+            {foreach item="spec" key="key" name="filter_spec"}
+            <div class="shulges">
+                <p>{$key}</p>  
+                <div class="choic-sel">               
+                    {foreach name="spec" item="v2" key="k2"}        
+                    <span id="goods_spec_a_{$v2[item_id]}" title="{$v2[item]}" onclick="switch_spec(this);">
+                    <input id="goods_spec_{$v2[item_id]}" type="radio" style="display:none;" name="goods_spec[{$key}]" value="{$v2[item_id]}"/>{$v2[item]}</span>        
+                    {/foreach} 
+                </div>   
+            </div>
+            {/foreach}
+            {/if}
+
+            <!--选择数量-->
+            <div class="plus">
+                <span class="btn" onclick="changeNum(-1);">-</span>
+                <span class="mp_mp">
+                    <input type="tel" class="buyNum" id="buyNum" residuenum="{$goods.kucun}" name="goods_num" value="1" min="1" readonly="readonly">
+                </span>
+                <span class="btn" onclick="changeNum(1);">+</span>
+            </div>
+            
+            <div class="selectBtn">
+                <button type="button" class="addBtn" data-userid="{$user.id}"><i class="layui-icon layui-icon-cart"></i>  添加至购物袋</button>
+
+                <button type="button" class="favBtn faved" data-userid="{$user.id}"><i class="layui-icon layui-icon-star"></i>  加入收藏</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{include file="public:footer" /}
+</body>
+</html>

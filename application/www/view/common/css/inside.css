@@ -48,3 +48,36 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .goodsList ul li em a{float:left;display:block;margin-top:5px;margin-left:11px;padding-right:20px;padding-left:20px;width:56px;height:30px;border:1px solid #fff;color:#fff;text-align:center;font-size:12px;line-height:30px;transition:.3s}
 .goodsList ul li em a:hover{background:#333}
 .empty{text-align: center; color: #999; padding: 20px; clear: both;}
+
+.goodsInfo{box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15); clear: both; overflow: hidden; margin-bottom: 30px; background: #f2f2f2; margin-top: 20px}
+.goodsInfo .goodsImage{float: left; width: 700px; background: #fff; overflow: hidden; height: 700px}
+.goodsInfo .baseInfo{float: right;width:500px; padding: 50px 20px 0 20px; box-sizing: border-box; }
+.goodsInfo .baseInfo h1{font-size: 30px;}
+.goodsInfo .baseInfo .say{margin-top: 10px;}
+.goodsInfo .baseInfo .xinghao{margin-top: 10px}
+.goodsInfo .baseInfo .intr{margin-top: 10px; color: #666; line-height: 150%}
+.goodsInfo .baseInfo .price{font-size:30px; margin-top: 20px;}
+
+.swiper-container{width:100%;height:300px;margin-left:auto;margin-right:auto}
+.swiper-slide{background-size:cover;background-position:center}
+.gallery-top{height:500px;width:100%}
+.gallery-thumbs{height:20%;box-sizing:border-box;padding:10px 0}
+.gallery-thumbs .swiper-slide{height:100%;opacity:.4}
+.gallery-thumbs .swiper-slide-thumb-active{opacity:1}
+
+.shulges{clear: both; overflow: hidden; padding:10px 0}
+.shulges p{margin-bottom: 5px;}
+.shulges .choic-sel{clear: both; overflow: hidden;}
+.shulges .choic-sel span{display: block; float: left; padding: 5px 10px; margin-right: 10px; border: 1px #dbdbdb solid; cursor: pointer;}
+.shulges .choic-sel span.red{background: #978351; color: #fff;border-color: #978351}
+
+.plus{clear:both;overflow:hidden; margin-top: 20px}
+.plus .btn{float:left;width:32px;height:32px;display:block;line-height:32px;text-align:center;border:1px #dbdbdb solid;font-size:20px;cursor:pointer;color:#999}
+.plus .mp_mp{width:40px;float:left;margin:0 15px}
+.plus .mp_mp input.buyNum{margin:0;height:32px;line-height:32px;width:40px;text-align:center;border:1px #dbdbdb solid}
+.selectBtn{margin-top: 20px; clear: both;}
+.selectBtn .addBtn{border: 2px #978351 solid; color: #978351; width: 150px; line-height: 40px; text-align: center; margin: auto; margin-bottom: 20px; cursor: pointer; transition: 0.3s; background: #fff }
+.selectBtn .addBtn:hover{background: #978351; color: #fff}
+
+.selectBtn .favBtn{border: 0; color: #978351; width: 150px; line-height: 44px; text-align: center; margin: auto; margin-bottom: 20px; cursor: pointer; transition: 0.3s; background: #fff; margin-left: 10px; }
+.selectBtn .favBtn:hover{background: #978351; color: #fff}
