@@ -349,7 +349,7 @@ $(function() {
     var offset = $(".toolbar-item-weixin").offset();
     $("body").on("click",".add_cart",function(event){  
         if(globalUserId==0){
-            layer.alert("请先登录");
+            layer.alert("请先登录",{icon: 2});
             return false;
         }
 

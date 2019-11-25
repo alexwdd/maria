@@ -5,8 +5,8 @@
 <meta name="keywords" content="{:config('site.keyword')}">
 <meta name="description" content="{:config('site.content')}">
 {include file="public:cssjs" /}
-<script src="{:RES}/swiper/js/swiper.min.js"></script>
-<link href="{:RES}/swiper/css/swiper.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{:RES}/swiper/js/swiper.min.js"></script>
+<link rel="stylesheet" href="{:RES}/swiper/css/swiper.min.css">
 
 <link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
 </head>
@@ -38,87 +38,225 @@
 
 <div class="main">
 	<div class="goodsInfo">
-        <div class="goodsImage">
-            <div class="swiper-container gallery-top">
-                <div class="swiper-wrapper">
-                    {volist name="goods.image" id="vo"}
-                    <div class="swiper-slide" style="background-image:url({$vo})"></div>
-                    {/volist}
+        <div class="layui-row layui-col-space20">
+            <div class="layui-col-md6" style="background: #fff">           
+                <div class="goodsImage">
+                    <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                        {volist name="goods.image" id="vo"}
+                        <div class="swiper-slide"><a href="{$vo}" target="_blank"><img src="{$vo}" /></a></div>
+                        {/volist}
+                    </div>
+                    <!-- Add Arrows -->
+                        <div class="swiper-button-next swiper-button-white"></div>
+                        <div class="swiper-button-prev swiper-button-white"></div>
+                    </div>
+
+                    <div class="swiper-container gallery-thumbs">
+                        <div class="swiper-wrapper">
+                            {volist name="goods.image" id="vo"}
+                            <div class="swiper-slide"><img src="{$vo}" /></div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>           
+                <script>
+                var galleryThumbs = new Swiper('.gallery-thumbs', {
+                    spaceBetween: 10,
+                    slidesPerView: 6,
+                    freeMode: true,
+                    watchSlidesVisibility: true,
+                    watchSlidesProgress: true,
+                });
+                var galleryTop = new Swiper('.gallery-top', {
+                    spaceBetween: 10,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    thumbs: {
+                        swiper: galleryThumbs
+                    }
+                });
+                </script>
+            </div>
+
+            <div class="layui-col-md6">
+                <div class="baseInfo">
+                    <h1>{$goods.name}</h1>
+                    <div class="say">{$goods.say}</div>
+                    <div class="intr">{$goods.intr}</div>
+                    {notempty name="goods.endDate"}
+                    <div class="intr">保质期：{$goods.endDate}</div>
+                    {/notempty}
+
+                    <div class="price">
+                        <span id="goods_price">${$goods.price}</span>
+                        <span class="rmb">约 ￥{$goods.rmb}</span>
+                    </div>
+                    
+                    {notempty name="coupon"}
+                    <div class="layui-form" style="margin-top: 20px">
+                        <div class="layui-form-item">   
+                            <div class="layui-input-inline">
+                                <select id="coupon">
+                                    <option value="">领取优惠券</option>
+                                    {volist name="coupon" id="vo"}
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <button type="button" class="layui-btn myBtn">领取</button>
+                            </div>
+                        </div>                        
+                    </div>
+                    {/notempty}
+
+                    {if condition="$filter_spec neq ''"}
+                    {foreach item="spec" key="key" name="filter_spec"}
+                    <div class="shulges">
+                        <p>{$key}</p>  
+                        <div class="choic-sel">               
+                            {foreach name="spec" item="v2" key="k2"}        
+                            <span id="goods_spec_a_{$v2[item_id]}" title="{$v2[item]}" onclick="switch_spec(this);">
+                            <input id="goods_spec_{$v2[item_id]}" type="radio" style="display:none;" name="goods_spec[{$key}]" value="{$v2[item_id]}"/>{$v2[item]}</span>        
+                            {/foreach} 
+                        </div>   
+                    </div>
+                    {/foreach}
+                    {/if}
+
+                    <!--选择数量-->
+                    <div class="plus">
+                        <span class="btn" onclick="changeNum(-1);">-</span>
+                        <span class="mp_mp">
+                            <input type="tel" class="buyNum" id="buyNum" residuenum="{$goods.kucun}" name="goods_num" value="1" min="1" readonly="readonly">
+                        </span>
+                        <span class="btn" onclick="changeNum(1);">+</span>
+                    </div>
+                    
+                    <div class="selectBtn">
+                        <button type="button" class="addBtn"><i class="layui-icon layui-icon-cart"></i>  添加至购物车</button>
+
+                        <button type="button" class="favBtn faved"><i class="layui-icon layui-icon-star"></i>  加入收藏</button>
+                    </div>                    
                 </div>
-                <!-- Add Arrows -->
-                <div class="swiper-button-next swiper-button-white"></div>
-                <div class="swiper-button-prev swiper-button-white"></div>
-            </div>
-            <div class="swiper-container gallery-thumbs">
-                <div class="swiper-wrapper">
-                    {volist name="goods.image" id="vo"}
-                    <div class="swiper-slide" style="background-image:url({$vo})"></div>
-                    {/volist}
-                </div>
-            </div>
-        </div>
-        <script>
-        var galleryThumbs = new Swiper('.gallery-thumbs', {
-            spaceBetween: 10,
-            slidesPerView: 4,
-            loop: true,
-            freeMode: true,
-            loopedSlides: 5, //looped slides should be the same
-            watchSlidesVisibility: true,
-            watchSlidesProgress: true,
-        });
-        var galleryTop = new Swiper('.gallery-top', {
-            spaceBetween: 10,
-            loop:true,
-            loopedSlides: 5, //looped slides should be the same 
-            navigation: {
-		        nextEl: '.swiper-button-next',
-		        prevEl: '.swiper-button-prev',
-		    },
-            thumbs: {
-                swiper: galleryThumbs,
-            },
-        });
-        </script>
-        
-        <div class="baseInfo">
-            <h1>{$goods.name}</h1>
-            <div class="say">{$goods.say}</div>
-            <div class="intr">{$goods.intr}</div>
-            <div class="price" id="goods_price">${$goods.price}</div>
-
-            {if condition="$filter_spec neq ''"}
-            {foreach item="spec" key="key" name="filter_spec"}
-            <div class="shulges">
-                <p>{$key}</p>  
-                <div class="choic-sel">               
-                    {foreach name="spec" item="v2" key="k2"}        
-                    <span id="goods_spec_a_{$v2[item_id]}" title="{$v2[item]}" onclick="switch_spec(this);">
-                    <input id="goods_spec_{$v2[item_id]}" type="radio" style="display:none;" name="goods_spec[{$key}]" value="{$v2[item_id]}"/>{$v2[item]}</span>        
-                    {/foreach} 
-                </div>   
-            </div>
-            {/foreach}
-            {/if}
-
-            <!--选择数量-->
-            <div class="plus">
-                <span class="btn" onclick="changeNum(-1);">-</span>
-                <span class="mp_mp">
-                    <input type="tel" class="buyNum" id="buyNum" residuenum="{$goods.kucun}" name="goods_num" value="1" min="1" readonly="readonly">
-                </span>
-                <span class="btn" onclick="changeNum(1);">+</span>
-            </div>
-            
-            <div class="selectBtn">
-                <button type="button" class="addBtn" data-userid="{$user.id}"><i class="layui-icon layui-icon-cart"></i>  添加至购物袋</button>
-
-                <button type="button" class="favBtn faved" data-userid="{$user.id}"><i class="layui-icon layui-icon-star"></i>  加入收藏</button>
             </div>
         </div>
     </div>
-</div>
+    
+    <div class="layui-row layui-col-space20">
+        <div class="layui-col-md3">
+        </div>
 
+        <div class="layui-col-md9">
+            <div class="goodsContent">
+                <div class="hd">
+                    <span>商品详情</span>
+                </div>
+                <div class="bd">{$goods.content|htmlspecialchars_decode=###}</div>
+            </div>            
+        </div>
+    </div>
+    
+</div>
+<input type="hidden" id="specID" name="specID" value="0" />
+<input type="hidden" id="goodsID" name="goodsID" value="{$goods.id}" />
+<script type="text/javascript">
+var spec_goods_price = {$spec_goods_price|default='null'};//规格库存价格
+$(function(){
+    $(".addBtn").click(function(){
+        if(globalUserId==0){
+            layer.alert("请先登录",{icon: 2});
+            return false;
+        }
+        var goodsID = $("#goodsID").val();
+        var specID = $("#specID").val();
+        var number = $("#buyNum").val();
+        $.post('{:url('goods/addCart')}',{goodsID:goodsID,specID:specID,number:number},function(res){
+            $("#topCartNumber").html(res.body.number);
+            $("#topWapCartNumber").html(res.body.number);
+            layer.open({
+                type:0, 
+                icon:1,
+                content:'成功加入购物车'
+            });
+        },'json');
+      
+    })
+
+    $(".favBtn").click(function(){
+        if(globalUserId==0){
+            layer.alert("请先登录",{icon: 2});
+            return false;
+        }
+        var that = this;
+        var goodsID = $("#goodsID").val();
+        $.post('{:url('goods/fav')}',{goodsID:goodsID},function(res){
+            layer.open({
+                type:0, 
+                icon:1,
+                content:'已加入收藏'
+            });
+        },'json');
+    })
+})
+//增减数量
+function changeNum(type){
+    oldNum = parseInt($("#buyNum").val());
+    if (type > 0) {
+        v = oldNum+1;
+    }else if(type="del"){
+        v = oldNum-1;
+        if (v<1) {
+          v=1;
+        }    
+    }
+    $("#buyNum").val(v);    
+}
+//切换规格
+function switch_spec(spec) {
+    $(spec).siblings().removeClass('red');
+    $(spec).parent().parent().find('input').removeAttr('checked');
+    if ($(spec).hasClass('red')){
+        $(spec).removeClass('red');        
+        $(spec).children('input').removeAttr('checked');
+    }else{
+        $(spec).addClass('red');        
+        $(spec).children('input').attr('checked', 'checked');
+    }    
+    //商品价格库存显示
+    initGoodsPrice();
+}
+function initGoodsPrice() {
+    if (!$.isEmptyObject(spec_goods_price)) {
+        var goods_spec_arr = [];
+        $("input[name^='goods_spec']").each(function () {
+            if($(this).attr('checked') == 'checked'){
+                goods_spec_arr.push($(this).val());
+            }
+        });
+        var spec_key = goods_spec_arr.sort(sortNumber).join('_');  //排序后组合成 key  
+        if (spec_goods_price[spec_key] != undefined){
+            var item_id = spec_goods_price[spec_key]['item_id'];
+            var price = spec_goods_price[spec_key]['price'];
+            var num = $("#buyNum").val();
+            $('input[name=specID]').val(item_id);
+            $("#goods_price").html("$"+(price * num).toFixed(1));        
+        }else{
+            var price = {$goods.price};
+            var num = $("#buyNum").val();
+            $('input[name=specID]').val(0);
+            $("#goods_price").html("$"+(price * num).toFixed(1)); 
+            return false;
+        }
+    }
+}
+function sortNumber(a,b){
+    return a - b;
+}
+</script>
 
 {include file="public:footer" /}
 </body>

@@ -385,7 +385,7 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,cid,name,picname,image,price,marketPrice,weight,point,number,content,say,intr')->where($map)->find();
+            $list = db('Goods')->field('id,fid,cid,name,picname,image,price,marketPrice,weight,point,number,content,say,endDate,intr')->where($map)->find();
             if (!$list) {
                 returnJson(0,'不存在的商品');
             }
