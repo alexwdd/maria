@@ -44,37 +44,82 @@ class Member extends User
     }
 	
 
-    public function bind(){
-        if(request()->isPost()){
-            if (!checkRequest()) {
-                $this->error('未知错误');
-            }
+    public function coupon(){        
+        $type = input('param.type',0);
+        $page = input('post.page/d',1);
+        $pagesize = input('post.pagesize',10);
+        $firstRow = $pagesize*($page-1); 
 
-            $oldpassword = trim(input('post.oldpassword'));
-            $password = trim(input('post.password'));
-            $cpassword = trim(input('post.repassword'));
-            $id = $this->user['id'];
-            $oldpwd = $this->user['password'];
+        $map['status'] = 0;
+        $map['endTime'] = array('gt',time());
+        $map['memberID'] = $this->user['id'];
+        $number1 = db("CouponLog")->where($map)->count();
 
-            if($oldpwd!=think_encrypt($oldpassword,config('DATA_CRYPT_KEY'))){
-                $this->error('原登录密码错误！');
-            }
+        unset($map);
+        $map['status'] = 1;
+        $map['memberID'] = $this->user['id'];
+        $number2 = db("CouponLog")->where($map)->count();
 
-            if($password!=$cpassword){
-                $this->error('两次密码不一致！');  
-            }
+        unset($map);
+        $map['status'] = 0;
+        $map['endTime'] = array('lt',time());
+        $map['memberID'] = $this->user['id'];
+        $number3 = db("CouponLog")->where($map)->count();
+        $this->assign('number1',$number1);
+        $this->assign('number2',$number2);
+        $this->assign('number3',$number3);
 
-            $user=db('Member');
-            $rsuser=$user->where(array('id'=>$id))->find();
-            if(!$rsuser){
-                $this->error('该用户不存在！');
-            }
-            $data['password']=think_encrypt($password,config('DATA_CRYPT_KEY'));
-            $rs = $user->where(array('id'=>$id))->update($data);            
-            $this->success('修改成功！',url('Member/index'));
-        }else{
-            return view();
+        unset($map);
+        if($type==1){//未使用
+            $map['status'] = 0;
+            $map['endTime'] = array('gt',time());
+        }elseif($type==2){//已使用
+            $map['status'] = 1;
+        }elseif($type==3){//已失效
+            $map['status'] = 0;
+            $map['endTime'] = array('lt',time());
         }
+        $map['memberID'] = $this->user['id'];
+
+        //查询数据
+        $list = db('CouponLog')->where($map)->order('endTime desc,id desc')->paginate(20,false,['query'=>request()->param()])->each(function($item, $key){
+
+            if($item['status']==1){
+                $item['type'] = '<span style="color:blue;font-size:12px">已使用</span>';
+            }else{
+                if($item['endTime'] > time()){
+                    $item['type'] = '未使用';
+                }else{
+                    $item['type'] = '<span style="color:#ccc;font-size:12px">已失效</span>';
+                }
+            }
+            
+
+            if($item['useTime']>0){
+                $item['useTime'] = date("Y-m-d H:i:s",$item['useTime']);
+            }else{
+                $item['useTime'] = '-';
+            }
+
+
+            $item['endTime'] = date("Y-m-d H:i:s",$item['endTime']);
+            $item['createTime'] = date("Y-m-d H:i:s",$item['createTime']);
+            if($item['goodsID']!=''){
+                $ids = explode(",",$item['goodsID']);
+                unset($map);
+                $map['id'] = array('in',$ids);
+                $map['show'] = 1;
+                $goods = db("Goods")->field('id as goodsID,name')->where($map)->select();
+                $item['goods'] = $goods;
+            }
+            return $item;
+        });
+
+        $page = $list->render();
+        $this->assign('list',$list);  
+        $this->assign('page',$page);  
+        $this->assign('type',$type);
+        return view();
     }
 
 

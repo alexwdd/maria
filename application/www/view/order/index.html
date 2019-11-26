@@ -78,7 +78,7 @@
                         <div class="price">
                             <p style="font-weight: bold;">AU${$vo.total}</p>
                             {eq name="vo.status" value="0"}
-                            <a href="{:url('order/pay','orderID='.$vo['id'])}" style="color: #f00">去支付</a>
+                            <a href="{:url('order/pay','order_no='.$vo['order_no'])}" style="color: #f00">去支付</a>
                             {/eq}
                         </div>
                         <div class="action">

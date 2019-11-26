@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+{include file="public:userheader" /}
+
+
+<div class="user-box">
+    <div class="leftBox">
+        {include file="public:usermenu" /}
+        <input type="hidden" id="userAction" value="u7">
+    </div>
+
+    <div class="rightBox">
+        <div class="layui-card">
+            <div class="layui-card-header">我的优惠券</div>
+            <div class="layui-card-body">
+                <div class="tabMenu">
+                    <li <?php if($type==''){echo 'class="active"';}?>><a href="{:url('member/coupon')}">全部</a></li>
+                    <li {eq name="type" value="1"}class="active"{/eq}><a href="{:url('member/coupon','type=1')}">未使用({$number1})</a></li>
+                    <li {eq name="type" value="2"}class="active"{/eq}><a href="{:url('member/coupon','type=2')}">已使用({$number2})</a></li>
+                    <li {eq name="type" value="3"}class="active"{/eq}><a href="{:url('member/coupon','type=3')}">已失效({$number3})</a></li>
+                </div>
+
+  
+                <table class="layui-table" lay-size="sm">
+                    <colgroup>
+                        <col width="50">          
+                        <col width="60">          
+                        <col>
+                        <col width="140">
+                        <col width="140">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>金额</th>
+                            <th>状态</th>
+                            <th>描述</th>
+                            <th>到期时间</th>
+                            <th>使用时间</th>
+                        </tr> 
+                    </thead>
+
+                    <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+                            <td>${$vo.dec}</td>
+                            <td>{$vo.type}</td>
+                            <td>
+                                {$vo.desc}
+                                {volist name="vo.goods" id="f"}
+                                <p><a href="{:url('goods/detail','id='.$f['goodsID'])}" target="_blank"  style="font-size: 12px;">{$f.name}[专用]</a></p>
+                                {/volist}
+                            </td>
+                            <td>{$vo.endTime}</td>
+                            <td>{$vo.useTime}</td>                                
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+                
+                {$page}
+           
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public:footer" /}
+</body>
+</html>

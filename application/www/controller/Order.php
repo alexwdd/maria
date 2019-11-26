@@ -116,4 +116,50 @@ class Order extends User
         $this->assign('baoguo',$result['body']['baoguo']);
         return view();
     }
+
+    public function pay(){
+        $order_no = input('param.order_no');
+        if($order_no==''){
+            $this->error("参数错误");
+        }
+        $data = ['token'=>$this->user['token'],'order_no'=>$order_no];
+        $result = $this->https_post($this->api.'/api/order/pay',$data);
+        $result = json_decode($result,true);
+        if($result['code']==0){
+            $this->error($result['desc']);
+        }
+        $this->assign('list',$result['body']);
+        return view();
+    }
+
+    public function checkpay(){
+        if (request()->isPost()) {
+            $order_no = input("post.order_no");
+            $map['order_no'] = $order_no;
+            $list = db("Order")->where($map)->find();
+            if ($list['payStatus']>0) {
+                echo $this->success("success");
+            }
+        }        
+    }
+
+    public function doPay(){
+        if (request()->isPost()) {
+            $order_no = input("post.order_no");
+            $payType = input("post.payType");
+            $data = ['token'=>$this->user['token'],'type'=>$payType,'order_no'=>$order_no];
+            $result = $this->https_post($this->api.'/api/order/doPay',$data);
+            echo $result;
+        }
+    }
+
+    public function qrcode(){
+        require_once EXTEND_PATH.'qrcode/qrcode.php';
+        $value = input("param.url");//二维码数据
+        $errorCorrectionLevel = 'Q';//纠错级别：L、M、Q、H
+        $matrixPointSize = 10;//二维码点的大小：1到10
+        $object = new \QRcode();
+        $object->png($value, false, $errorCorrectionLevel, $matrixPointSize, 2);//不带Logo二维码的文件名
+        //$filePath = "/".$turePath.'qrcodes.jpg';
+    }
 }
