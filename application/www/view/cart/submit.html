@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>购物车-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{:RES}/element/index.css">
+</head>
+<style type="text/css">
+[v-cloak] {display: none;}
+.baoguoType{clear: both; overflow: hidden;}
+.baoguoType li{border:1px #FF0036 solid; color: #FF0036; float: left; font-size: 14px; line-height: 30px; padding: 0 10px; margin-right: 10px; cursor: pointer;}
+.baoguoType li.active{background: #FF0036; color: #fff}
+</style>
+<body>
+{include file="public:userheader" /}
+<div class="w1200" style="margin-top: 30px; margin-bottom: 100px;" id="app" v-cloak>
+    <div class="layui-card">
+        <div class="layui-card-header">商品清单</div>
+        <div class="layui-card-body">
+            <table class="layui-table">
+                <colgroup>
+                    <col>
+                    <col width="100">
+                    <col width="60">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>商品</th>
+                        <th style="text-align: center;">单价</th>
+                        <th style="text-align: center;">数量</th>
+                    </tr> 
+                </thead>
+
+                <tbody>
+                    <tr v-for="vo in info"> 
+                        <td>
+                            {{vo.name}}
+                            <p v-if="vo.specID>0" style="font-size: 12px; color: #999">{{vo.spec.key_name}}</div>
+                        </td>
+                        <td style="text-align: center;">
+                            <p style="color: #000;font-weight: bold;">AU${{vo.price}}</p>
+                        </td>
+                        <td>{{vo.number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>   
+
+    <div class="layui-card">
+        <div class="layui-card-header">收件人/发件人</div>
+        <div class="layui-card-body">
+            <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">收件人</label>
+                    <div class="layui-form-mid">{{address.name}}，{{address.tel}}，{{address.province}} {{address.city}} {{address.county}} {{address.addressDetail}}
+                    <button type="button" @click="openAddress" class="layui-btn layui-btn-primary layui-btn-xs">选择</button><button type="button" @click="openAddAddress" class="layui-btn layui-btn-primary layui-btn-xs">新增</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发件人</label>
+                    <div class="layui-form-mid">
+                    {{sender.name}}，{{sender.tel}}
+                    <button type="button" @click="openSender" class="layui-btn layui-btn-primary layui-btn-xs">选择</button><button type="button" @click="openAddSender" class="layui-btn layui-btn-primary layui-btn-xs">新增</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="layui-card">
+        <div class="layui-card-header">选择分箱方式</div>
+        <div class="layui-card-body">
+            <div class="baoguoType">
+                <li :class="{'active':baoguoType==1}" @click="getBaoguo(1)">价格优先</li>
+                <li :class="{'active':baoguoType==2}" @click="getBaoguo(2)">数量优先</li>
+            </div>
+            <div class="bagBox" v-for="(vo,index) in bag.baoguo" style="margin-top:5px">
+                <div class="line"></div>
+                <div class="hd">
+                    <p>包裹</p>
+                    <i>{{index+1}}</i>
+                    <div class="tag" v-if="vo.yunfei>0">不足1KG</div>
+                    <div class="tag tag1" v-else="">包邮</div>
+                    <span v-if="vo.yunfei>0">+AU${{vo.yunfei}}</span>
+                </div>
+                <div class="bag">
+                    <li v-for="f in vo.goods">
+                        <div class="goodsName">{{f.name}}</div>
+                        <div class="right">x{{f.trueNumber}}</div>
+                    </li>
+                </div>
+                <div class="fd">总重量:约{{vo.totalWuliuWeight}}KG <span>共{{vo.totalNumber}}件</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-card-header">订单支付</div>
+        <div class="layui-card-body">
+            <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品金额</label>
+                    <div class="layui-form-mid">${{goodsMoney}}</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">运费</label>
+                    <div class="layui-form-mid">${{bag.totalPrice}}(不足1kg邮费差价)</div>
+                </div>
+
+                <div class="layui-form-item" v-if="coupons.length>0">
+                    <label class="layui-form-label">可用优惠券</label>
+                    <div class="layui-form-mid">${{goodsMoney}}</div>
+                </div>
+
+                <div class="layui-form-item" v-if="canCut">
+                    <label class="layui-form-label">参与砍价</label>                    
+                    <div @click="onClickCut" class="cutBox">                 
+                        <div class="radio active" v-if="cut"></div>
+                        <div class="radio" v-else=""></div>
+                    </div>
+                    <div class="layui-form-mid">可砍至 $<span>{{cutPrice}}</div>
+                </div>
+            </div>
+            <div style="font-size:12px; padding:10px; color:#999; text-align: right;">提示：使用优惠券、砍价、抢购订单无返利基金。抢购商品、使用优惠券，不能参与砍价</div>
+            <div class="actionBox">
+                <div class="actionRight">
+                    <span style="padding-right: 20px">
+                    合计:$<i style="color: #000; font-size: 20px">{{total}}</i>
+                    约:￥{{rmb}}，获得积分:{{point}}，返利基金:{{fund}}
+                    </span>
+                    <button type="button" class="layui-btn layui-btn-lg my-btn" @click="onSubmit">提交订单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <el-dialog title="收件人" :visible.sync="addressSelDig">
+        <div class="layui-col-md12">
+            <div class="layui-inline" style="width: 200px">
+                <input type="text" class="layui-input" v-model="keyword" placeholder="姓名/电话">
+            </div>
+            <div class="layui-inline">
+                <button type="button" @click="search" class="layui-btn layui-btn-primary">查询</button>
+            </div>
+        </div>
+
+        <el-table :data="addressData" @row-click="selectAddress">
+        <el-table-column property="name" label="姓名" width="100"></el-table-column>
+        <el-table-column property="tel" label="手机" width="150"></el-table-column>
+        <el-table-column property="province" label="地区" width="200"></el-table-column>
+        <el-table-column property="addressDetail" label="地址"></el-table-column>
+        </el-table>
+        <el-pagination style="margin-top: 10px"
+          background
+          layout="pager"
+          @current-change="handleCurrentChange"
+          :total="pageCount">
+        </el-pagination>
+    </el-dialog>
+
+    <el-dialog title="添加收件人" :visible.sync="addressAddDig">
+        
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">收件人</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" id="name" lay-verify="required"  placeholder="必填" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号码</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="tel" id="mobile" value="{$user.mobile}" required lay-verify="__mobile" placeholder="必填" autocomplete="off" class="layui-input">
+                </div>
+            </div>            
+            <div class="layui-form-item">
+                <label class="layui-form-label">地区</label>
+                <div class="layui-input-inline" style="width: 150px;">
+                    <select name="province" id="provid" lay-filter="provid">
+                        <option value="">请选择省</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 150px;">
+                    <select name="city" id="cityid" lay-filter="cityid">
+                        <option value="">请选择市</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 150px;">
+                    <select name="county" id="areaid" lay-filter="areaid">
+                        <option value="">请选择县/区</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">详细地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="addressDetail" lay-verify="required" placeholder="必填" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sn" lay-verify="_cardNo" placeholder="选填" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证照片</label>
+                <div class="layui-input-block">
+                    <div class="sn" onclick="uploadImage('front','{:url('upload/image')}');"><img id="front_src" src="{:RES}/image/sn1.png" /></div>
+                    <div class="sn" onclick="uploadImage('back','{:url('upload/image')}');"><img id="back_src" src="{:RES}/image/sn2.png" /></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary" lay-submit lay-filter="go1" @click="saveAddress">添加</button>
+                </div>                    
+            </div>
+            <input type="hidden" name="front" id="front" >
+            <input type="hidden" name="back" id="back" >
+        </form>
+    </el-dialog>
+
+    <el-dialog title="发件人" :visible.sync="senderSelDig">
+        <div class="layui-col-md12">
+            <div class="layui-inline" style="width: 200px">
+                <input type="text" class="layui-input" v-model="keyword1" placeholder="姓名/电话">
+            </div>
+            <div class="layui-inline">
+                <button type="button" @click="search1" class="layui-btn layui-btn-primary">查询</button>
+            </div>
+        </div>
+        <el-table :data="senderData" @row-click="selectSender">
+        <el-table-column property="name" label="姓名" width="100"></el-table-column>
+        <el-table-column property="tel" label="手机"></el-table-column>
+        </el-table>
+
+        <el-pagination style="margin-top: 10px"
+          background
+          layout="pager"
+          @current-change="handleCurrentChange1"
+          :total="pageCount">
+        </el-pagination>
+    </el-dialog>
+
+    <el-dialog title="添加发件人" :visible.sync="senderAddDig">        
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" id="name" lay-verify="required"  placeholder="必填" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号码</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="tel" id="tel" value="{$user.mobile}" required lay-verify="__mobile" placeholder="必填" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-primary" lay-submit lay-filter="go2" @click="saveSender">添加</button>
+                </div>                    
+            </div>
+        </form>
+    </el-dialog>
+</div>
+<script src="{:RES}/js/vue.min.js" type="text/javascript" ></script>
+<script src="{:RES}/element/index.js"></script>
+<script type="text/javascript">
+vm = new Vue({
+    el : "#app",
+    data : {    
+        info:[],
+        baoguoType:1,
+        bag:[],
+        goodsMoney:0,
+        total:0,
+        fund:0,
+        rmb:0,
+        point:0,
+        canCut:false,
+        cut:false,
+        cutPrice:0,
+
+        txt:'',
+        showList:false,
+        coupons: [],
+        thisCoupon : '',
+
+
+        address:'',
+        addressSelDig:false,
+        addressAddDig:false,
+        keyword:'',
+        page:1,
+        pageCount:0,
+        addressData:[],
+
+        sender:'',
+        keyword1:'',
+        senderSelDig:false,
+        senderAddDig:false,
+        senderData:[],
+
+        formData:{
+            token:'',
+            addressID:'',
+            senderID:'',
+            couponID:0,
+            cut:'',
+            intr:''
+        }
+    },
+    created : function(){
+        this.init();        
+    },
+    methods: {
+        init(){
+            var that = this;
+            that.cut = false;
+            that.baoguoType = 1;
+            let data = {
+                token : '{$user.token}',
+                ids : '{$ids}',
+            };
+            $.post('{:url("api/cart/order")}',data,function(res){
+                if (res.code == 1) {               
+                    if(res.body.address){
+                        that.address = res.body.address;
+                    }
+                    if(res.body.sender){
+                        that.sender = res.body.sender;
+                    }                    
+                    that.info = res.body.cart;
+                    that.bag = res.body.bag;
+                    that.rmb = res.body.rmb;
+                    that.goodsMoney = res.body.goodsMoney;
+                    that.total = res.body.total;
+                    that.fund = res.body.total;
+                    that.point = res.body.point;
+                    that.coupons = res.body.coupon;
+                    if(that.coupons.length>0){
+                        that.txt = that.coupons.length+'张可用';
+                    }else{
+                        that.txt = '无';
+                    }
+                    if(res.body.cutPrice>0){
+                        that.canCut = true;
+                        that.cutPrice = res.body.cutPrice;
+                    }
+                }else{
+                    layer.alert(res.desc,{icon:2});
+                }
+            },'json')
+        },
+
+        /*发件人 收件人*/
+        handleCurrentChange(v){
+            this.page = v;
+            this.getAddress();
+        },
+        search(){
+            this.page = 1;
+            this.getAddress();
+        },
+        openAddress(){
+            //选择收件人
+            this.addressSelDig = true;
+            this.getAddress();
+        },
+        getAddress(){
+            //选择收件人
+            var that = this;            
+            data = {token:'{$user.token}',page:that.page,keyword:that.keyword};
+            $.post("{:url('api/address/lists')}",data,function(res){
+                if (res.code==1) {
+                    that.addressData = res.body.data;
+                    that.pageCount = res.body.count;
+                }else{
+                    layer.alert(res.desc);
+                }
+            },'json');
+        },
+        selectAddress(row){
+            this.addressSelDig = false;
+            this.address = row;
+        },
+        openAddAddress(){
+            this.addressAddDig = true;            
+        },
+        saveAddress(){
+            var that = this;
+            layui.use('form', function(){
+                var form = layui.form;          
+                form.on('submit(go1)', function(data){
+                    var load = layer.load(2);                    
+                    $.ajax({
+                        url:'{:url('address/pub')}',
+                        method:'post',
+                        data:data.field,
+                        dataType:'JSON',
+                        success:function(res){
+                            layer.close(load);
+                            if(res.code==1){
+                                that.address = data.field;
+                                that.address.id = res.data.id;
+                                that.addressAddDig = false;
+                            }else{
+                                layer.alert(res.msg);
+                            }                            
+                        },
+                        error:function (data) {
+                            layer.close(load);
+                            layer.alert("服务器连接失败");
+                        }
+                    })
+                    return false;
+                });
+            });
+        },
+        handleCurrentChange1(v){
+            this.page = v;
+            this.getSender();
+        },
+        search1(){
+            this.page = 1;
+            this.getSender();
+        },
+        openSender(){
+            //选择收件人
+            this.senderSelDig = true;
+            this.getSender();
+        },
+        getSender(){
+            var that = this;            
+            data = {token:'{$user.token}',page:that.page,keyword:that.keyword1};
+            $.post("{:url('api/sender/lists')}",data,function(res){
+                if (res.code==1) {
+                    that.senderData = res.body.data; 
+                    that.pageCount = res.count; 
+                }else{
+                    layer.alert(res.desc);
+                }
+            },'json');
+        },
+        selectSender(row){
+            this.senderSelDig = false;
+            this.sender = row;
+        },
+        openAddSender(){
+            this.senderAddDig = true;            
+        },
+        saveSender(){
+            var that = this;
+            layui.use('form', function(){
+                var form = layui.form;          
+                form.on('submit(go2)', function(data){
+                    var load = layer.load(2);                    
+                    $.ajax({
+                        url:'{:url('sender/pub')}',
+                        method:'post',
+                        data:data.field,
+                        dataType:'JSON',
+                        success:function(res){
+                            layer.close(load);
+                            that.sender = data.field;
+                            that.sender.id = res.data.id;
+                            that.senderAddDig = false;
+                        },
+                        error:function (data) {
+                            layer.close(load);
+                            layer.alert("服务器连接失败");
+                        }
+                    })
+                    return false;
+                });
+            });
+        },
+        /* 发件人 收件人end*/
+        //////////////////////////////////
+        getBaoguo(value){            
+            var that = this;
+            that.baoguoType = value;     
+            let data = {
+                token : '{$user.token}',
+                ids : '{$ids}',
+                baoguoType : that.baoguoType,
+            };     
+            $.post('{:url("api/cart/baoguo")}',data,function(res){   
+                if (res.code == 1) {                 
+                    that.bag = res.body.bag;
+                    that.rmb = res.body.rmb;
+                    that.goodsMoney = res.body.goodsMoney;
+                    that.total = res.body.total;
+                }else{
+                    layer.alert(res.desc,{icon:2})
+                }
+            },"json");
+        },
+        onClickCut(){
+            if(this.thisCoupon){
+                layer.alert('使用优惠券，不能参与砍价',{icon:2});
+                return false;
+            }
+            this.cut = !this.cut;
+            if(this.cut){
+                this.fund = 0;
+            }else{
+                this.fund = this.total;
+            }
+        }, 
+        onSubmit(){
+
+        }
+    },
+    updated : function(){
+        var defaults = {
+            s1: 'provid',
+            s2: 'cityid',
+            s3: 'areaid',
+            v1: null,
+            v2: null,
+            v3: null
+        };
+        var $form;
+        var form;
+        layui.define(['form'], function () {
+            form = layui.form;
+            $form = $('form');
+            treeSelect(defaults);
+        });
+
+        function treeSelect(config) {
+            config.v1 = config.v1 ? config.v1 : '北京市';
+            config.v2 = config.v2 ? config.v2 : '北京市';
+            config.v3 = config.v3 ? config.v3 : '东城区';
+
+            $.each(threeSelectData.province_list, function (k, v) {
+                appendOptionTo($form.find('select[id=' + config.s1 + ']'), v, config.v1);
+            });
+
+            form.render();
+
+            cityEvent(config);
+
+            areaEvent(config);
+
+            form.on('select(' + config.s1 + ')', function (data) {
+                cityEvent(data);
+                form.on('select(' + config.s2 + ')', function (data) {
+                    areaEvent(data);
+                });
+            });
+
+            function cityEvent(data) {
+                $form.find('select[id=' + config.s2 + ']').html("");
+                config.v1 = data.value ? data.value : config.v1;
+                let provinceKey = getItemKey(config.v1,'province');
+                $.each(threeSelectData.city_list, function (k, v) {
+                    if (k.substring(0,2) == provinceKey.substring(0,2)) {          
+                        appendOptionTo($form.find('select[id=' + config.s2 + ']'), v, config.v2);
+                    }
+                });
+                form.render();
+                config.v2 = $('select[id=' + config.s2 + ']').val();
+                areaEvent(config);
+            }
+
+            function areaEvent(data) {
+                $form.find('select[id=' + config.s3 + ']').html("");
+                config.v2 = data.value ? data.value : config.v2;
+                let cityKey = getItemKey(config.v2,'city');
+                $.each(threeSelectData.county_list, function (k, v) {
+                    if (k.substring(0,4) == cityKey.substring(0,4)) {          
+                        appendOptionTo($form.find('select[id=' + config.s3 + ']'), v, config.v3);
+                    }
+                });
+                form.render();
+                form.on('select(' + config.s3 + ')', function (data) { });
+            }
+
+            function appendOptionTo($o , v , d) {
+                var $opt = $("<option>").text(v).val(v);
+                if (v == d) { $opt.attr("selected", "selected") }
+                $opt.appendTo($o);
+            }
+
+            function getItemKey(cityName,type){
+                let key = '';
+                let itemData;
+                if(type=='province'){
+                    itemData = threeSelectData.province_list;
+                }else if(type=='city'){
+                    itemData = threeSelectData.city_list
+                }else{
+                    itemData = threeSelectData.county_list
+                }
+                $.each(itemData, function (k, v) {            
+                    if (v == cityName) {
+                        key = k;
+                        return false;
+                    }
+                });
+                return key;
+            }
+        }
+    }
+})
+</script>
+<input type="file" id="uploadfile" hidden /> 
+<script src="{:RES}/js/area.js" type="text/javascript" charset="utf-8"></script>
+<script src="{:RES}/js/upload.js" type="text/javascript" charset="utf-8"></script>
+{include file="public:footer" /}
+</body>
+</html>

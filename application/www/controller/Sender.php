@@ -18,10 +18,10 @@ class Sender extends User
             $data = input('post.');
             $data['memberID'] = $this->user['id'];
             $res = model('Sender')->saveData( $data );
-            if ($res) {
+            if ($res['code']==1) {
                 $this->success('操作成功',url('sender/index'),['id'=>$res['msg']]);
             }else{
-                $this->error('操作失败');
+                $this->error($res['msg']);
             }
         }else{
             $id = input('param.id');

@@ -5,7 +5,7 @@
 		</div>
 
 		<div class="user-top-menu">
-			<div class="leftMenu">用户中心 <span><a href="/">返回首页</a></span></div>
+			<div class="leftMenu">{eq name="Request.controller" name="cart"}购物车{else/}用户中心{/eq} <span><a href="/">返回首页</a></span></div>
 			<div class="rightMenu">
 				<a href="{:url('login/signout')}">退出</a>
 			</div>

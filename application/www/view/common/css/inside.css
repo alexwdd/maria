@@ -89,3 +89,7 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .goodsContent .bd{padding: 10px; clear: both; overflow: hidden;}
 
 .myBtn{background: #FF0036}
+
+.leftBox{clear: both; overflow: hidden;border: 1px #dbdbdb solid;}
+.leftBox .hd{ border-bottom: 1px #dbdbdb solid; clear: both; overflow: hidden;}
+.leftBox .hd span{padding:10px; font-size:14px; float: left;background: #FF0036; color: #fff; display: block;}

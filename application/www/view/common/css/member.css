@@ -96,3 +96,32 @@ body{background: #f1f1f1}
 .product .name{font-size:16px; padding: 10px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;line-clamp: 2;-webkit-box-orient: vertical; height: 40px}
 .product .price{font-size:16px; text-align: center; padding: 10px; float: left;}
 .product .addBtn{ float: right; padding-right: 10px; padding-top: 10px}
+
+
+.actionBox{clear: both; overflow: hidden;}
+.actionBox .actionLeft{float: left;}
+.actionBox .actionLeft span{line-height: 44px; padding-right: 20px; cursor: pointer;}
+.actionBox .actionRight{float: right; text-align: right;}
+.numberAction{clear: both; text-align: center; margin:5px 0;}
+.numberAction span{display: inline-block; line-height: 20px;padding: 0 5px}
+.numberAction span.set{height:20px; width: 20px; border:1px #ccc solid; border-radius: 50%; text-align: center; padding: 0; background: #f1f1f1; cursor: pointer;}
+.numberAction span.set:hover{background:#FF0036;color: #fff;border:1px #FF0036 solid; }
+.radio{width: 12px; height: 12px; margin: auto; border-radius: 50%; border:1px #ccc solid; cursor: pointer;}
+.radio.active{background:#FF0036; border-color: #FF0036}
+
+.bagBox{clear: both; background: #fff; overflow: hidden; margin-top: 5px}
+.bagBox *{font-size: 12px;}
+.bagBox .line{background: url(../image/line.jpg); height: 4px; clear: both;}
+.bagBox .hd{line-height: 30px; clear: both; padding: 0 10px; overflow: hidden;}
+.bagBox .hd p{float: left; font-weight: bold; margin-right: 5px}
+.bagBox .hd i{display: block; float: left; background: #FF0036; width:16px; height:16px; border-radius: 50%; text-align: center; line-height:16px; color: #fff; font-size: 12px; font-style: normal; margin-top:7px; margin-right: 5px;}
+.bagBox .hd .tag{border-radius:9px; border-bottom-left-radius: 0; line-height: 16px; border:1px #EA830E solid; padding: 0 5px; float: left; font-size: 12px; margin-top: 7px; color: #EA830E}
+.bagBox .hd .tag1{color: #FF0036; border-color: #FF0036}
+.bagBox .hd span{float: right; color:#FF0036;}
+.bag{clear: both; overflow: hidden;}
+.bag li{clear: both; overflow: hidden; color: #666; padding:5px 10px}
+.bag li .goodsName{ float: left; width: 80%}
+.bag li .right{ float: right;}
+.bagBox .fd{text-align: right; line-height: 30px; padding-right: 10px; color:#999999;}
+.bagBox .fd span{color: #000; padding-left: 10px;}
+.cutBox{float: left;padding-top: 12px; margin-right: 10px}

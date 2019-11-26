@@ -102,12 +102,12 @@
                                 <select id="coupon">
                                     <option value="">领取优惠券</option>
                                     {volist name="coupon" id="vo"}
-                                    <option value="{$vo.id}">{$vo.name}</option>
+                                    <option value="{$vo.id}">{$vo.name}{notempty name="vo.endTime"}(已领取){/notempty}</option>
                                     {/volist}
                                 </select>
                             </div>
                             <div class="layui-input-inline">
-                                <button type="button" class="layui-btn myBtn">领取</button>
+                                <button type="button" class="layui-btn myBtn" id="couponBtn">领取</button>
                             </div>
                         </div>                        
                     </div>
@@ -148,6 +148,12 @@
     
     <div class="layui-row layui-col-space20">
         <div class="layui-col-md3">
+            <div class="leftBox">
+                <div class="hd"><span>推荐商品</span></div>
+                <div class="bd">
+                    
+                </div>
+            </div>
         </div>
 
         <div class="layui-col-md9">
@@ -199,6 +205,29 @@ $(function(){
                 icon:1,
                 content:'已加入收藏'
             });
+        },'json');
+    })
+
+    $("#couponBtn").click(function(){
+        if(globalUserId==0){
+            layer.alert("请先登录",{icon: 2});
+            return false;
+        }
+        var couponID = $("#coupon").val();
+        if(couponID==''){
+            layer.alert("请选择优惠券",{icon: 2});
+            return false;
+        }
+        $.post('{:url('member/doCoupon')}',{couponID:couponID},function(res){
+            if(res.code==1){
+                layer.open({
+                    type:0, 
+                    icon:1,
+                    content:'领取成功'
+                });
+            }else{
+                layer.alert(res.desc,{icon: 2});
+            }
         },'json');
     })
 })

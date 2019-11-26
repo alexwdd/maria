@@ -80,6 +80,7 @@ footer{overflow:hidden;margin-top:100px;width:100%;height:auto;background:#f7f7f
 .toolbar-item-weixin{background-position:0 -798px}
 .toolbar-item-weixin:hover{background-position:0 -860px}
 .toolbar-item-weixin .toolbar-layer{height:212px;background-position:0 0}
+.toolbar-item-weixin em{position:absolute; display:block; line-height:14px; font-size:12px; top:2px; right:10px; background: #fff;border-radius:7px; display: block; height: 14px; min-width: 14px; color:#FF0036; text-align: center;}
 .toolbar-item-feedback{background-position:0 -426px}
 .toolbar-item-feedback:hover{background-position:0 -488px}
 .toolbar-item-app{background-position:0 -550px}

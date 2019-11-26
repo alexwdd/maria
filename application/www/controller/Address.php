@@ -23,10 +23,10 @@ class Address extends User
             }
 
             $res = model('Address')->saveData( $data );
-            if ($res) {
+            if ($res['code']==1) {
                 $this->success('操作成功',url('address/index'),['id'=>$res['msg']]);
             }else{
-                $this->error('操作失败');
+                $this->error($res['msg']);
             }
         }else{
             $id = input('param.id');

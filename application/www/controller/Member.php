@@ -166,4 +166,11 @@ class Member extends User
             $this->redirect($_SERVER['HTTP_REFERER']);
         }
     }
+
+    public function doCoupon(){
+        $couponID = input('param.couponID');
+        $data = ['token'=>$this->user['token'],'couponID'=>$couponID];
+        $result = $this->https_post($this->api.'/api/account/doCoupon',$data);
+        echo $result;
+    }
 }
