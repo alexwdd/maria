@@ -153,25 +153,21 @@ $(function() {
 </span>
 <div class="three_fb">
 	<ul>
-		<li>
-			<light><img src="{:RES}/image/saoguang1.png"></light>
+		<li>			
 			<a href="liebiao_page.html">
+				<light><img src="{:RES}/image/saoguang1.png"></light>
 				<img src="{:RES}/image/1.jpg">
 			</a>
 		</li>
 		<li>
-			<light>
-				<img src="{:RES}/image/saoguang1.png">
-			</light>
 			<a href="liebiao_page.html">
+				<light><img src="{:RES}/image/saoguang1.png"></light>
 				<img src="{:RES}/image/3.jpg">
 			</a>
 		</li>
 		<li>
-			<light>
-				<img src="{:RES}/image/saoguang1.png">
-			</light>
 			<a href="liebiao_page.html">
+				<light><img src="{:RES}/image/saoguang1.png"></light>
 				<img src="{:RES}/image/2.jpg">
 			</a>
 		</li>
@@ -195,8 +191,9 @@ $(function() {
 		<ul>
 			{volist name="flash" id="vo"}
 			<li>
-				<a href="{:url('goods/detail','id='.$vo['goodsID'])}"><img src="{$vo.picname}"></a>
+				<a href="{:url('goods/detail','id='.$vo['goodsID'])}"><img src="{$vo.picname}">
 				<light1><img src="{:RES}/image/saoguang.png"></light1>
+				</a>
 				<div class="price">
 					<span>${$vo.price}</span>
 					<b style="text-decoration: line-through">${$vo.marketPrice}</b>
@@ -233,8 +230,9 @@ $(function() {
 		<ul>
 			{volist name="item.goods" id="vo"}
 			<li>
-				<a href="{:url('goods/detail','id='.$vo['id'])}"><img src="{$vo.picname}"></a>
+				<a href="{:url('goods/detail','id='.$vo['id'])}"><img src="{$vo.picname}">
 				<light1><img src="{:RES}/image/saoguang.png"></light1>
+				</a>
 				<div class="price">
 					<span>${$vo.price}</span>
 					<b style="text-decoration: line-through">${$vo.marketPrice}</b>

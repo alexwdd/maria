@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>领券中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+{include file="public:top" /}
+
+{include file="public:header" /}
+
+<!--导航-->
+<section class="dao_hang">
+	<nav>
+		<!--全部商品分类-->
+		<div class="important inCate">
+        {include file="public:cate" /}
+        </div>
+        
+		{include file="public:nav" /}
+	</nav>
+</section>
+
+<div class="guide">
+    <div class="main">
+        <span class="layui-breadcrumb">
+            <a href="{:url('index/index')}">首页</a>
+            <a><cite>领券中心</cite></a>
+        </span>
+    </div>
+</div>
+
+<div class="main" style="margin-top: 20px">
+	<div class="layui-row layui-col-space20">					
+	{volist name="list" id="vo" empty="$empty"}
+		<div class="layui-col-md3">
+			<div class="coupon">
+				<div class="couponInfo">
+                    <div class="money">
+                        <em>$</em>{$vo.dec}
+                    </div>
+                    <div class="desc">{$vo.desc}</div>                    
+                </div>
+                <p>{$vo.name}</p>
+                <p>有效期 {$vo.day} 天</p>
+                <div class="fd">   
+                	<span data='{$vo.intr}' class="intrBtn">使用说明</span>           
+                    <span data='{$vo.id}' class="getBtn">立即领取</span>                    
+                </div>
+            </div>
+		</div>
+	{/volist}
+</div>
+<script type="text/javascript">
+$(function(){
+	$(".intrBtn").click(function(){
+		layer.open({
+			type:1,
+			area:["400px","300px"],
+			title:'使用说明',
+			content:"<div style='padding:15px'>"+$(this).attr("data")+"</div>"
+		})
+	})
+
+	$(".getBtn").click(function(){
+		if(globalUserId==0){
+            layer.alert("请先登录",{icon: 2});
+            return false;
+        }
+        var couponID = $(this).attr("data");
+        if(couponID==''){
+            layer.alert("请选择优惠券",{icon: 2});
+            return false;
+        }
+        $.post('{:url('member/doCoupon')}',{couponID:couponID},function(res){
+            if(res.code==1){
+                layer.open({
+                    type:0, 
+                    icon:1,
+                    content:'领取成功'
+                });
+            }else{
+                layer.alert(res.desc,{icon: 2});
+            }
+        },'json');
+	})
+})
+</script>
+
+{include file="public:footer" /}
+</body>
+</html>

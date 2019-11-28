@@ -68,6 +68,7 @@ class Goods extends Common
             $this->error($result['desc']);
         }
         $this->assign('goods',$result['body']['goods']);
+        $this->assign('flashTime',$result['body']['flashTime']);
         $this->assign('filter_spec',$result['body']['filter_spec']);
         $this->assign('coupon',$result['body']['coupon']);
         $this->assign('spec_goods_price',json_encode($result['body']['spec']));

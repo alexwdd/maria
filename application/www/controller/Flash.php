@@ -6,6 +6,8 @@ use think\Cookie;
 class Flash extends Common
 {
     public function index(){
+        $config = tpCache('member');
+        $this->assign('config',$config);
         return view();
     }
 

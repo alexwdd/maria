@@ -77,8 +77,9 @@
 <script id="goodsTpl" type="text/html">
 {{# layui.each(d, function(index, vo){ }}
 <li>
-	<a href="/www/goods/detail/id/{{vo.id}}" target="_blank"><img src="{{vo.picname}}"></a>
+	<a href="/www/goods/detail/id/{{vo.id}}" target="_blank"><img src="{{vo.picname}}">
 	<light1><img src="{:RES}/image/saoguang.png"></light1>
+	</a>
 	<div class="price">
 		<span>${{vo.price}}</span>
 		<b style="text-decoration: line-through">${{vo.marketPrice}}</b>

@@ -37,15 +37,15 @@
 <div class="w1200">
 
     <div class="tab-title">
-        <a href="javascript:;" class="active tuang" data-type="tuangou">今日抢购</a>
-        <a href="javascript:;" data-content="yukao">明日预告</a>
+        <a href="javascript:;" class="active tuang" data-type="1">今日抢购</a>
+        <a href="javascript:;" data-type="2">明日预告</a>
     </div>
 
     <div class="timeBox">
-        <span>距结束：19:15:00</span>
+        <span class="settime" id="settime" endTime="0"></span>
     </div>
 
-    <div class="goodsList">
+    <div class="goodsList flashList">
         <ul id="result">            
         </ul>
         <div style="text-align: center;" id="loadding">
@@ -57,20 +57,36 @@
 <script id="goodsTpl" type="text/html">
 {{# layui.each(d, function(index, vo){ }}
 <li>
-    <a href="/www/goods/detail/id/{{vo.id}}" target="_blank"><img src="{{vo.picname}}"></a>
-    <light1><img src="{:RES}/image/saoguang.png"></light1>
+    <a href="/www/goods/detail/id/{{vo.goodsID}}" target="_blank">
+        <img src="{{vo.picname}}">
+        <light1><img src="{:RES}/image/saoguang.png"></light1>
+    </a>
     <div class="price">
         <span>${{vo.price}}</span>
         <b style="text-decoration: line-through">${{vo.marketPrice}}</b>
         <b>约￥{{vo.rmb}}</b>
     </div>
-    <a href="/www/goods/detail/id/{{vo.id}}" target="_blank">
-        <p>{{vo.name}}</p>
-        <div class="say">{{vo.say}}</div>
+    <a href="/www/goods/detail/id/{{vo.goodsID}}" target="_blank">
+        <p>{{vo.goodsName}}</p>
+        <div class="say layui-elip">{{vo.say}}</div>
+        <div class="per">
+            {{# if(vo.per==100){ }}
+            <span>已抢光</span>
+            {{# }else{ }}
+            <span>已售{{vo.per}}%</span>            
+            {{# } }}
+            <div class="jindu">                  
+                <div class="progress" style="width:{{vo.per}}%"></div>
+            </div>   
+        </div>
+
+        {{# if(vo.per==100){ }}
+        <div class="flashMask">已抢光</div>
+        {{# } }}
     </a>
     <div class="tag">
         <span class="layui-badge">推荐</span>
-    </div>              
+    </div>    
     <em>
         <a href="javascript:void(0)" class="add_fav" data-id="{{vo.id}}" data-url="{:url('goods/fav')}">收藏</a>
         <a href="javascript:void(0)" class="add_cart" data-id="{{vo.id}}" data-url="{:url('goods/addCart')}">加入购物车</a>
@@ -80,15 +96,11 @@
 </script>
 <script>
 var canGetData = true;
+var firstVisit = true;
 var data = {
     page : 1,
-    field : 'id',
-    order : 'desc',
     pagesize : 15,
-    baoyou : 0,
-    min:'',
-    max:'',
-    brandID : '{$brandID}'
+    type : 1
 }
 layui.use(['laytpl','form'], function(){
     var laytpl = layui.laytpl;
@@ -104,58 +116,19 @@ layui.use(['laytpl','form'], function(){
 
     getData();
 
-    $("#rCate a").click(function(){     
-        $("#rCate a").removeClass("this");
-        $(this).addClass("this");
-        data.brandID = $(this).attr("data-id");
-        data.page = 1;
-        $("#result").html('');
-        getData();
-    })
-
-    $(".qtab li").click(function(){     
-        if($(this).index()>0){  
-            if(data.order == 'desc' && $(this).hasClass("this")){
-                data.order = 'asc';
-                $(this).find('i').attr("class","layui-icon layui-icon-up");
-            }else{
-                data.order = 'desc';
-                $(this).find('i').attr("class","layui-icon layui-icon-down");
-            }
-        }   
-        $(".qtab li").removeClass("this");
-        $(this).addClass("this");
-        data.field = $(this).attr("data-type");
-        data.page = 1;
-        $("#result").html('');
-        getData();
-    })
-
-    form.on('checkbox(baoyou)', function(res){      
-        if(res.elem.checked){
-            data.baoyou = 1;
+    $(".tab-title a").click(function(){     
+        $(".tab-title a").removeClass("active");
+        $(this).addClass("active");
+        if($(this).attr("data-type")==2){
+            $(".timeBox").hide();
         }else{
-            data.baoyou = 0;
+            $(".timeBox").show();
         }
+        data.type = $(this).attr("data-type");
         data.page = 1;
         $("#result").html('');
         getData();
-    });
-
-    $("#clearPrice").click(function(){
-        $("#min").val('');
-        $("#max").val('');
     })
-
-    $("#sBtn").click(function(){
-        if($("#min").val()!='' && $("#max").val()!=''){
-            data.min = $("#min").val();
-            data.max = $("#max").val();
-            data.page = 1;
-            $("#result").html('');
-            getData();
-        }       
-    });
 
     function getData(){
         $("#loadding").show();
@@ -172,10 +145,61 @@ layui.use(['laytpl','form'], function(){
                 }else{
                     $('#result').append("<div class='empty'>没有了...</div>");
                 }
+
+                if(firstVisit){
+                    $("#settime").attr("endTime",res.body.flashTime);
+                    updateEndTime();//倒计时
+                    firstVisit = false;
+                }
             });
         },'json')
     };
 });
+
+function updateEndTime(){
+    var NowTime = new Date();
+    var time = NowTime.getTime(); 
+    $(".settime").each(function(I){
+        /*var endDate =this.getAttribute("endTime"); //结束时间字符串
+        //转换为时间日期类型
+        var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+        var endTime = endDate1.getTime(); //结束时间毫秒数
+        var lag = (endTime - time) / 1000; //当前时间和结束时间之间的秒数*/
+        var lag = parseInt(this.getAttribute("endTime"));
+        if(lag > 0){
+            var second = Math.floor(lag % 60);     
+            var minite = Math.floor((lag / 60) % 60);
+            var hour = Math.floor((lag / 3600) % 24);
+            var day = Math.floor((lag / 3600) / 24);
+            str = '距离结束：';
+            if (day>0){
+                str += day+"天";
+            }
+            if (hour>0){
+                if(hour<10){
+                    str += '0'+hour+"时";
+                }else{
+                    str += hour+"时";
+                }
+            }
+            if(minite<10){
+                str += '0'+minite+"分";
+            }else{
+                str += minite+"分";
+            }
+            if(second<10){
+                str += '0'+second+"秒";
+            }else{
+                str += second+"秒";
+            }
+            $(this).html(str);
+            this.setAttribute("endTime",(lag-1));
+        }else{
+            $(this).html("<span style='color:gray'>抢购尚未启动，时间每天抢购时间：{$config['flashTime']}</span>");
+        }
+    });
+    setTimeout("updateEndTime()",1000);
+}
 </script>
 
 {include file="public:footer" /}

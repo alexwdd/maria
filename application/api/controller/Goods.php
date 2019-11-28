@@ -415,6 +415,9 @@ class Goods extends Common {
             
             $result = $this->getGoodsDetail($list,$this->flash);
 
+            $config = tpCache("member");
+            $flashTime = checkFlashTime($config['flashTime']);
+            
             $list = $result['goods'];
             if($list['fid']>0){
                 $spec = [];
@@ -476,7 +479,7 @@ class Goods extends Common {
                 $pack[$key]['checked'] = false;
             }
 
-            returnJson(1,'success',['goods'=>$list,'cartNumber'=>$cartNumber,'fav'=>$fav,'coupon'=>$coupon,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
+            returnJson(1,'success',['goods'=>$list,'flashTime'=>$flashTime,'cartNumber'=>$cartNumber,'fav'=>$fav,'coupon'=>$coupon,'pack'=>$pack,'spec'=>$spec,'filter_spec'=>$filter_spec]);
         }
     }
 

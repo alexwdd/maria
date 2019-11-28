@@ -32,7 +32,8 @@
 
 .goodsList{clear: both; overflow: hidden; margin-top: 20px;}
 .goodsList ul{width:1300px}
-.goodsList ul li{position:relative;float:left;overflow:hidden;margin-right:10px;width:230px;height:300px;border:1px solid #ddd;background:rgba(255,255,255,.3); margin-bottom: 20px}
+.goodsList ul li{position:relative;float:left;overflow:hidden;margin-right:10px;width:230px;height:320px;border:1px solid #ddd;background:rgba(255,255,255,.3); margin-bottom: 20px}
+.flashList ul li{height: 340px;}
 .goodsList ul li img{display: block; width:230px; height: 230px}
 .goodsList ul li .price {display:block;width:220px;line-height:24px; margin: auto;}
 .goodsList ul li .price span{color:#FF0036;font-size:20px;}
@@ -40,18 +41,27 @@
 light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition:.8s}
 .goodsList ul li:hover light1{left:230px}
 .goodsList .tag{position:absolute;top:5px;left:5px;z-index:6000;}
-.goodsList ul li p{display:block;margin:0 auto;width:220px;color:#111;font-size:14px;line-height:20px}
+.goodsList ul li p{display:block;margin:0 auto;width:220px;color:#111;font-size:14px;line-height:18px;text-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical; height: 36px;}
 .goodsList ul li p:hover{color:#FF0036;text-decoration:underline}
 .goodsList ul li .say{font-size: 12px; clear: #999;margin:0 auto;width:220px;}
 .goodsList ul li em{position:absolute;top:-46px;left:0;z-index:999999;display:block;overflow:hidden;width:230px;height:44px;background:#FF0036;transition:.3s}
 .goodsList ul li:hover em{top:0}
 .goodsList ul li em a{float:left;display:block;margin-top:5px;margin-left:11px;padding-right:20px;padding-left:20px;width:56px;height:30px;border:1px solid #fff;color:#fff;text-align:center;font-size:12px;line-height:30px;transition:.3s}
 .goodsList ul li em a:hover{background:#333}
+.goodsList ul li .per{clear: both; padding: 5px;}
+.goodsList ul li .per span{font-size: 12px; text-align: right; display: block;}
+.goodsList ul li .per .jindu{height:4px; background: #dbdbdb; border-radius:2px; clear: both;}
+.goodsList ul li .per .jindu .progress{height: 4px; border-radius: 2px; background: #f60; float: left;}
+.goodsList ul li .flashMask{position: absolute; top: 0; left: 0; background: rgba(0,0,0,.2); width: 100%; height:230px; line-height: 230px; text-align: center; font-size:30px; font-weight: bold; color: #fff}
 .empty{text-align: center; color: #999; padding: 20px; clear: both;}
 
 .goodsInfo{box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15); clear: both; overflow: hidden; margin-bottom: 30px; background: #f2f2f2; margin-top: 20px}
 .goodsInfo .baseInfo{width:100%; clear: both; padding: 50px 20px 0 20px; box-sizing: border-box; }
 .goodsInfo .baseInfo h1{font-size: 30px;}
+.goodsInfo .miaosha{background: #FF0036; color: #fff; clear: both;line-height:36px; padding: 0 10px; overflow: hidden; margin-top: 10px}
+.goodsInfo .miaosha .mLeft{float: left;}
+.goodsInfo .miaosha .mRight{float: right;}
+.goodsInfo .miaosha .mRight span{background: #443b3b; padding: 2px; border-radius: 3px}
 .goodsInfo .baseInfo .say{margin-top: 10px;}
 .goodsInfo .baseInfo .xinghao{margin-top: 10px}
 .goodsInfo .baseInfo .intr{margin-top: 10px; color: #666; line-height: 150%}
@@ -87,6 +97,7 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .goodsContent .hd{ border-bottom: 1px #dbdbdb solid; clear: both; overflow: hidden;}
 .goodsContent .hd span{padding:10px; font-size:14px; float: left;background: #FF0036; color: #fff; display: block;}
 .goodsContent .bd{padding: 10px; clear: both; overflow: hidden;}
+.goodsContent .bd img{display: block; margin: auto;}
 
 .myBtn{background: #FF0036}
 
@@ -99,3 +110,13 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .tab-title a.active{color: #FF0036; border-bottom: 2px solid #FF0036;}
 .timeBox{text-align: center; padding-top: 20px}
 .timeBox span{ font-size: 16px;}
+
+.coupon{background-image: url(../image/couponBg.png); background-size:100% auto; clear: both; overflow: hidden; color: #fff;padding: 15px;}
+.coupon .couponInfo{clear: both; overflow: hidden; border-bottom: 1px #fff dashed; padding-bottom: 15px}
+.coupon .couponInfo .money{float: left; width: 40px; text-align: center; font-size: 30px; margin-right: 10px;}
+.coupon .couponInfo .money em{font-size: 14px;}
+.coupon .couponInfo .desc{float: left; padding-top: 15px}
+.coupon p{margin-top: 5px;}
+.coupon .fd{text-align: right;}
+.coupon .fd span{ border: 1px #e76b70 solid; padding: 2px 5px; cursor: pointer;transition: 0.3s;}
+.coupon .fd span:hover{border-color: #fff;}
