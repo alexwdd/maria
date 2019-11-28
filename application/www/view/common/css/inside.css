@@ -93,3 +93,9 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .leftBox{clear: both; overflow: hidden;border: 1px #dbdbdb solid;}
 .leftBox .hd{ border-bottom: 1px #dbdbdb solid; clear: both; overflow: hidden;}
 .leftBox .hd span{padding:10px; font-size:14px; float: left;background: #FF0036; color: #fff; display: block;}
+.tab-title{text-align: center; margin-top:20px;}
+.tab-title a{line-height:46px; color: #666666; font-size: 20px; display: inline-block;}
+.tab-title a.tuang{margin-right:50px;}
+.tab-title a.active{color: #FF0036; border-bottom: 2px solid #FF0036;}
+.timeBox{text-align: center; padding-top: 20px}
+.timeBox span{ font-size: 16px;}

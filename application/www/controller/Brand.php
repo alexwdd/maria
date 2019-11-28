@@ -19,4 +19,20 @@ class Brand extends Common
         $this->assign('list',$list);
 		return view();
 	}
+
+    public function lists(){
+        $brandID = input('param.brandID');
+        if($brandID=='' || !is_numeric($brandID)){
+            $this->error("参数错误");
+        }
+        $thisBrand = db('Brand')->where('id',$brandID)->find();
+        $this->assign('thisBrand',$thisBrand);
+
+        $brand = db('Brand')->field('id,name')->order('sort asc,py asc')->select();
+        
+        $this->assign('list',$list);
+        $this->assign('brandID',$brandID);
+        $this->assign('brand',$brand);
+        return view();
+    }
 }

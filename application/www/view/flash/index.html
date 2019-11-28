@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
-<title>{$thisBrand.name}-{:config('site.name')}</title>
+<title>限时抢购-{:config('site.name')}</title>
 <meta name="keywords" content="{:config('site.keyword')}">
 <meta name="description" content="{:config('site.content')}">
 {include file="public:cssjs" /}
@@ -29,40 +29,20 @@
     <div class="main">
         <span class="layui-breadcrumb">
             <a href="{:url('index/index')}">首页</a>
-            <a><cite>{$thisBrand.name}</cite></a>
+            <a><cite>限时抢购</cite></a>
         </span>
     </div>
 </div>
 
-<div class="main">
-    <div class="rule">
-        <div class="item">
-            <div class="hd">品牌：</div>
-            <div class="bd" id="rCate">
-                <a href="javascript:void(0)" data-id="" {empty name="sid"}class="this"{/empty}>全部</a>
-                {volist name="brand" id="vo"}
-                <a href="javascript:void(0)" data-id="{$vo.id}" {eq name="sid" value="$vo['id']"}class="this"{/eq}>{$vo.name}</a>
-                {/volist}
-            </div>
-        </div>
+<div class="w1200">
+
+    <div class="tab-title">
+        <a href="javascript:;" class="active tuang" data-type="tuangou">今日抢购</a>
+        <a href="javascript:;" data-content="yukao">明日预告</a>
     </div>
 
-    <div class="quick">
-        <div class="item qtab">
-            <li class="this" data-type="id">新品</li>
-            <li data-type="sellNumber">销量 <i class="layui-icon layui-icon-down"></i></li>
-            <li data-type="price">价格 <i class="layui-icon layui-icon-down"></i></li>
-        </div>
-        <div class="item layui-form">
-            <input lay-filter="baoyou" type="checkbox" title="包邮" lay-skin="primary"/>
-        </div>  
-        <div class="item">
-            <dd><input type="text" id="min" placeholder="$" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/></dd>
-            <dd>-</dd>
-            <dd><input type="text" id="max" placeholder="$" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/></dd>
-            <dd><button type="button" class="sBtn" id="sBtn">搜索</button></dd>
-            <dd><button type="button" id="clearPrice">清空</button></dd>
-        </div>  
+    <div class="timeBox">
+        <span>距结束：19:15:00</span>
     </div>
 
     <div class="goodsList">
@@ -180,7 +160,7 @@ layui.use(['laytpl','form'], function(){
     function getData(){
         $("#loadding").show();
         canGetData = false;
-        $.post("{:url('goods/ajax')}",data,function(res){   
+        $.post("{:url('flash/ajax')}",data,function(res){   
             $("#loadding").hide();      
             var getTpl = goodsTpl.innerHTML;
             var view = $('#result');

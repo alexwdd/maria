@@ -624,7 +624,7 @@ vm = new Vue({
             var that = this;            
             let data = {
                 token : '{$user.token}',
-                ids : {$ids},
+                ids : '{$ids}',
                 couponID : couponID
             };
             $.post('{:url("api/cart/order")}',data,function(res){

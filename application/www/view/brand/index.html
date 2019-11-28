@@ -30,7 +30,7 @@
 		<div class="hd">{$vo.name}</div>
 		<div class="bd">
 			{volist name="vo.child" id="item"}
-			<li><a href=""><img src="{$item.logo}"/></a></li>
+			<li><a href="{:url('brand/lists','brandID='.$item['id'])}"><img src="{$item.logo}"/></a></li>
 			{/volist}
 		</div>
 	</div>
