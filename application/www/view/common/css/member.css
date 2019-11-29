@@ -83,6 +83,7 @@ body{background: #f1f1f1}
 .goodsDetail li p{color: #999}
 .delIcon{cursor: pointer; float: right; width: 40px; text-align: center;}
 .delIcon i{font-size: 20px;}
+.orderCut{float: left; padding-right: 10px}
 
 .list{clear: both;}
 .list li{border-bottom:1px #f1f1f1 solid; clear: both; padding: 5px; overflow: hidden;}
@@ -124,4 +125,4 @@ body{background: #f1f1f1}
 .bag li .right{ float: right;}
 .bagBox .fd{text-align: right; line-height: 30px; padding-right: 10px; color:#999999;}
 .bagBox .fd span{color: #000; padding-left: 10px;}
-.cutBox{float: left;padding-top: 12px; margin-right: 10px}
+.cutBox{float: right; padding-top: 12px;}

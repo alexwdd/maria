@@ -22,6 +22,12 @@ class Goods extends Common
 		return view();
 	}
 
+    public function search(){
+        $keyword = input('param.keyword');
+        $this->assign('keyword',$keyword);
+        return view();
+    }
+
     public function ajax(){
         if(request()->isPost()){
             $data = input('post.');
@@ -72,6 +78,15 @@ class Goods extends Common
         $this->assign('filter_spec',$result['body']['filter_spec']);
         $this->assign('coupon',$result['body']['coupon']);
         $this->assign('spec_goods_price',json_encode($result['body']['spec']));
+
+        //推荐商品
+        unset($data);
+        $data['token'] = $this->user['token'];
+        $data['type'] = 1;
+        $data['pagesize'] = 10;
+        $result = $this->https_post($this->api.'/api/goods/push',$data);
+        $result = json_decode($result,true);
+        $this->assign('commonGoods',$result['body']['data']);
         return view();
     }
 }

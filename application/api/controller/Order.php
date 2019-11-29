@@ -186,10 +186,10 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $config = tpCache("member");
 
-            $lock =  'order_'.$this->user['id'];
+            /*$lock =  'order_'.$this->user['id'];
             if(!$this->lock(5,$lock,$this->user['id'])){
                 returnJson(0,'操作太频繁，稍后重试!');
-            }
+            }*/
 
             $baoguoType = input('post.baoguoType');
             if (!in_array($baoguoType,[1,2])) {

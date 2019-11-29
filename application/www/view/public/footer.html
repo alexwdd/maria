@@ -75,7 +75,7 @@
 <!--侧边栏-->
 <div class="toolbar">
 	<a href="{:url('cart/index')}" class="toolbar-item toolbar-item-weixin" style=" position:relative">
-		<em>0</em>		
+		<em id="rightCartNumber">0</em>		
 	</a>
 	<a href="###" class="toolbar-item toolbar-item-feedback"></a>
 	<a href="###" class="toolbar-item toolbar-item-app">
@@ -92,5 +92,10 @@ $(function () {
         $('body,html').animate({scrollTop:0},500);
         return false;
     });
+
+    $.get('{:url('index/cartNumber')}',function(res){
+    	$("#topCartNumber").html(res.number);
+        $("#rightCartNumber").html(res.number);
+    },'json')
 });
 </script>

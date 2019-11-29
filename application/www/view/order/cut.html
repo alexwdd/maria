@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+<style type="text/css">
+.order{background: #fff; width: 1000px; margin:100px auto; border:1px #dbdbdb solid; }
+.order .hd{text-align: center; font-size:24px; padding: 20px 0}
+.order .bd{clear: both; overflow: hidden; text-align: center;}
+</style>
+<body>
+{include file="public:userheader" /}
+
+<div class="w1200" style="margin-top: 30px; margin-bottom: 100px;">
+    <div class="order">
+        <div class="hd">邀请好友砍价</div>
+        
+        <div class="bd">关注我们的公众号或下载APP，进入个人中心，找到我的订单，分享给好友邀请砍价</div>
+    </div>
+</div>
+
+{include file="public:footer" /}
+</body>
+</html>

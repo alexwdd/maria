@@ -104,6 +104,13 @@ light1{position:absolute;top:0;left:-230px;z-index:6000;display:block;transition
 .leftBox{clear: both; overflow: hidden;border: 1px #dbdbdb solid;}
 .leftBox .hd{ border-bottom: 1px #dbdbdb solid; clear: both; overflow: hidden;}
 .leftBox .hd span{padding:10px; font-size:14px; float: left;background: #FF0036; color: #fff; display: block;}
+.leftBox .bd{clear: both; overflow: hidden;}
+.leftBox .bd li{clear: both; padding:20px; border-bottom: 1px #dbdbdb dotted; overflow: hidden;}
+.leftBox .bd li img{display: block; width: 80%; margin: auto; margin-bottom: 10px}
+.leftBox .bd li h1{font-size: 14px; color: #000; }
+.leftBox .bd li p{font-size: 12px; color: #999}
+.leftBox .bd li .price{color: #ff0036; font-weight: bold; padding:5px 0}
+.leftBox .bd li .price span{color: #999; text-decoration: line-through; padding-left: 10px; font-weight: normal;font-size: 12px}
 .tab-title{text-align: center; margin-top:20px;}
 .tab-title a{line-height:46px; color: #666666; font-size: 20px; display: inline-block;}
 .tab-title a.tuang{margin-right:50px;}

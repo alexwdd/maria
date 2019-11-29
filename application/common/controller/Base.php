@@ -447,7 +447,7 @@ class Base extends Controller {
     total 订单商品总金额
     */
     public function checkCoupon($coupon,$cart,$total){
-        if($total < $coupon['full']){
+        if($total < $coupon['full'] || $coupon['endTime']<time()){
             return false;
         }
         if($coupon['goodsID']!=''){

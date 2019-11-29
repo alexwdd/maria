@@ -204,7 +204,17 @@
             <div class="leftBox">
                 <div class="hd"><span>推荐商品</span></div>
                 <div class="bd">
-                    
+                    {volist name="commonGoods" id="vo"}
+                    <li>
+                        <a href="{:url('goods/detail','id='.$vo['id'])}">
+                            <img src="{$vo.picname}"/>
+                            <h1>{$vo.name}</h1>
+                            <p>{$vo.say}</p>
+                            <div class="price">${$vo.price}<span>${$vo.marketPrice}</span></div>      
+                            <p>约 ￥{$vo.rmb}</p>
+                        </a>
+                    </li>
+                    {/volist}
                 </div>
             </div>
         </div>

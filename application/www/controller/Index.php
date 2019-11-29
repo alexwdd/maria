@@ -82,4 +82,16 @@ class Index extends Common
         $this->assign('slide',$slide);
 		return view();
 	}
+
+    public function cartNumber(){
+        if($this->user['id']>0){
+            $data['token'] = $this->user['token'];
+            $result = $this->https_post($this->api.'/api/cart/getNumber',$data);
+            $result = json_decode($result,true);
+            $number = $result['body']['cartNumber'];
+        }else{
+            $number = 0;
+        }
+        return ['number'=>$number];
+    }
 }

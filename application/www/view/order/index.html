@@ -38,9 +38,17 @@
                         <div class="pull-left">
                             <span style="color: #000; font-weight: bold; margin-right:5px">{$vo.createTime|date="Y-m-d H:i:s",###}</span>
                             订单号: {$vo.order_no}
-
                         </div>
-                        <div class="pull-right">     
+                        <div class="pull-right">   
+                            {eq name="vo.isCut" value="1"}
+                                {eq name="vo.cutEndTime" value="0"}
+                                <div class="orderCut">砍价已结束</div>
+                                {else/}
+                                <div class="orderCut settime" endTime="{$vo.cutEndTime}">
+                                
+                                </div>
+                                {/eq}
+                            {/eq}
                             <?php
                             if($vo['endTime']>0 && $vo['status']==0){
                                 echo '等待付款';
@@ -104,7 +112,53 @@
         </div>
     </div>
 </div>
-
+<script>
+updateEndTime();
+function updateEndTime(){
+    var NowTime = new Date();
+    var time = NowTime.getTime(); 
+    $(".settime").each(function(I){
+        /*var endDate =this.getAttribute("endTime"); //结束时间字符串
+        //转换为时间日期类型
+        var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+        var endTime = endDate1.getTime(); //结束时间毫秒数
+        var lag = (endTime - time) / 1000; //当前时间和结束时间之间的秒数*/
+        var lag = parseInt(this.getAttribute("endTime"));
+        if(lag > 0){
+            var second = Math.floor(lag % 60);     
+            var minite = Math.floor((lag / 60) % 60);
+            var hour = Math.floor((lag / 3600) % 24);
+            var day = Math.floor((lag / 3600) / 24);
+            str = '距离结束：';
+            if (day>0){
+                str += day+"天";
+            }
+            if (hour>0){
+                if(hour<10){
+                    str += '0'+hour+"时";
+                }else{
+                    str += hour+"时";
+                }
+            }
+            if(minite<10){
+                str += '0'+minite+"分";
+            }else{
+                str += minite+"分";
+            }
+            if(second<10){
+                str += '0'+second+"秒";
+            }else{
+                str += second+"秒";
+            }
+            $(this).html(str);
+            this.setAttribute("endTime",(lag-1));
+        }else{
+            $(this).html("<span style='color:gray'>抢购尚未启动，时间每天抢购时间：{$config['flashTime']}</span>");
+        }
+    });
+    setTimeout("updateEndTime()",1000);
+}
+</script>
 {include file="public:footer" /}
 </body>
 </html>

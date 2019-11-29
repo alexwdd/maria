@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>{$keyword}-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<script src="{:RES}/js/jquery.fly.min.js"></script>
+<link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+.searchResult{text-align: center; padding: 15px 0; font-size: 20px}
+</style>
+<body>
+{include file="public:top" /}
+
+{include file="public:header" /}
+
+<!--导航-->
+<section class="dao_hang">
+	<nav>
+		<!--全部商品分类-->
+		<div class="important inCate">
+        {include file="public:cate" /}
+        </div>
+        
+		{include file="public:nav" /}
+	</nav>
+</section>
+
+<div class="guide">
+	<div class="main">
+	    <span class="layui-breadcrumb">
+	        <a href="{:url('index/index')}">首页</a>
+	        <a><cite>关键词：{$keyword}</cite></a>
+	    </span>
+    </div>
+</div>
+
+<div class="main">
+	
+	<div class="searchResult">搜索【{$keyword}】结果</div>
+
+	<div class="goodsList">
+		<ul id="result">			
+		</ul>
+		<div style="text-align: center;" id="loadding">
+			<i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop" style="font-size: 50px;color: #999"></i>
+		</div>
+	</div>
+</div>
+
+<script id="goodsTpl" type="text/html">
+{{# layui.each(d, function(index, vo){ }}
+<li>
+	<a href="/www/goods/detail/id/{{vo.id}}" target="_blank"><img src="{{vo.picname}}">
+	<light1><img src="{:RES}/image/saoguang.png"></light1>
+	</a>
+	<div class="price">
+		<span>${{vo.price}}</span>
+		<b style="text-decoration: line-through">${{vo.marketPrice}}</b>
+		<b>约￥{{vo.rmb}}</b>
+	</div>
+	<a href="/www/goods/detail/id/{{vo.id}}" target="_blank">
+		<p>{{vo.name}}</p>
+		<div class="say">{{vo.say}}</div>
+	</a>
+	<div class="tag">
+		<span class="layui-badge">推荐</span>
+	</div>				
+	<em>
+		<a href="javascript:void(0)" class="add_fav" data-id="{{vo.id}}" data-url="{:url('goods/fav')}">收藏</a>
+		<a href="javascript:void(0)" class="add_cart" data-id="{{vo.id}}" data-url="{:url('goods/addCart')}">加入购物车</a>
+	</em>
+</li>
+{{#  }); }}
+</script>
+<script>
+var canGetData = true;
+var data = {
+	page : 1,
+	field : 'id',
+	order : 'desc',
+	pagesize : 15,
+	keyword : '{$keyword}'
+}
+layui.use(['laytpl','form'], function(){
+	var laytpl = layui.laytpl;
+	var form = layui.form;
+	$(window).scroll(function(){
+        // 当滚动到最底部以上n像素时， 加载新内容
+        if ($(document).height() - $(this).scrollTop() - $(this).height()<300) {
+            if (canGetData) {
+                getData();  
+            }
+        }
+    });
+
+	getData();
+
+	function getData(){
+		$("#loadding").show();
+		canGetData = false;
+		$.post("{:url('goods/ajax')}",data,function(res){	
+			$("#loadding").hide();		
+			var getTpl = goodsTpl.innerHTML;
+			var view = $('#result');
+			laytpl(getTpl).render(res.body.data, function(html){		
+				view.append(html);	
+				if(res.body.next==1){
+					data.page++;	
+					canGetData = true;
+				}else{
+					$('#result').append("<div class='empty'>没有了...</div>");
+				}
+			});
+		},'json')
+	};
+});
+</script>
+
+{include file="public:footer" /}
+</body>
+</html>

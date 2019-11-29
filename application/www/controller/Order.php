@@ -4,7 +4,6 @@ use think\Request;
 
 class Order extends User
 {
-
 	public function index()
 	{
         $keyword = input('param.keyword');
@@ -39,7 +38,7 @@ class Order extends User
                 $map['status'] = 99;   
                 break;
         }
-        $config = tpCache('member');
+        //$config = tpCache('member');
         $map['memberID'] = $this->user['id'];
         $map['hide'] = 0;
         //查询数据
@@ -47,6 +46,7 @@ class Order extends User
 
             if($item['isCut']==1){
                 if($item['endTime']==0){
+                    $config = tpCache('member');
                     $cutEndTime = $item['createTime']+($config['hour']*3600)-time();
                     if($cutEndTime<0){
                         $cutEndTime=0;
@@ -161,5 +161,9 @@ class Order extends User
         $object = new \QRcode();
         $object->png($value, false, $errorCorrectionLevel, $matrixPointSize, 2);//不带Logo二维码的文件名
         //$filePath = "/".$turePath.'qrcodes.jpg';
+    }
+
+    public function cut(){       
+        return view();
     }
 }

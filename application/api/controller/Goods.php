@@ -251,7 +251,7 @@ class Goods extends Common {
             }
             
             foreach ($list as $key => $value) {                
-                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();   
+                $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where(['show'=>1,'id'=>$value['goodsID']])->find();   
 
                 unset($list[$key]['goodsID']);
                 $goods['picname'] = getThumb($goods["picname"],400,400);

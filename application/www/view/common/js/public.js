@@ -361,6 +361,7 @@ $(function() {
         $.post(addcar.attr("data-url"),{goodsID:addcar.attr("data-id")},function(res){
             if(res.code==1){
                 $("#topCartNumber").html(res.body.number);
+                $("#rightCartNumber").html(res.body.number);
                 flyer.fly({
                     start: {
                         left: event.pageX,

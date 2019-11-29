@@ -10,6 +10,18 @@
 			</div>
 
 			<div class="layui-form-item">
+                <label class="layui-form-label">公众号</label>
+                <div class="layui-inline">
+                    <img class="thumb" id="qrcode_src" src="{eq name="config.qrcode" value=""}{:RES}/image/image.jpg{else/}{$config.qrcode}{/eq}" />
+                    <input type="hidden" name="qrcode" id="qrcode" value="{$config.qrcode}"/>    
+                </div>
+                <div class="layui-inline">
+                    <button type="button" class="layui-btn" id="upload-single">上传二维码</button>
+                    <input type="button" value="删除" class="layui-btn layui-btn-small" onclick="delImage('qrcode')"/>
+                </div>
+            </div>
+
+			<div class="layui-form-item">
 				<label class="layui-form-label">网站APPID</label>
 				<div class="layui-input-block">
 					<input type="text" name="WEB_APPID" value="{$config.WEB_APPID}" class="layui-input">
@@ -73,8 +85,16 @@ layui.config({
     base: '{:RES}/' //静态资源所在路径
 }).extend({
     index: 'lib/index' //主入口模块
-}).use(['index'], function() {    
-    var $ = layui.$;
-
+}).use(['index','myupload'], function() {    
+    var $ = layui.$,
+        myupload = layui.myupload;
+    myupload.single({
+        elem : '#upload-single',
+        url : '{:url('upload/image')}',
+        ext:'jpg|png|gif|jpeg',
+        mime:'image/*',
+        size:5120,
+        tag : '#qrcode'
+    }); 
 })
 </script>
