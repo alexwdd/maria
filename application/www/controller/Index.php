@@ -39,14 +39,13 @@ class Index extends Common
         $this->assign('flash',$flash);
         $this->assign('flashTime',$flashTime);
 
-        //母婴
+        //奶粉
         unset($map);
         $naifen = db("GoodsCate")->field('id,path,name')->where('fid',1)->order('sort asc')->limit(8)->select();
         foreach ($naifen as $key => $value) {
         	unset($map);
-        	$map['comm'] = 1;
 	        $map['show'] = 1;
-	        $map['cid'] = $value['id'];
+	        $map['cid|cid1'] = $value['id'];
 	        $goods = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where($map)->order('sort desc,id desc')->limit(5)->select();
 	        foreach ($goods as $k => $val) {
 	            $goods[$k]['picname'] = getThumb($val["picname"],400,400);
@@ -55,6 +54,54 @@ class Index extends Common
 	        $naifen[$key]['goods'] = $goods;
         }
         $this->assign('naifen',$naifen);
+
+        //孕妈
+        unset($map);
+        $yunma = db("GoodsCate")->field('id,path,name')->where('fid',10)->order('sort asc')->limit(8)->select();
+        foreach ($yunma as $key => $value) {
+            unset($map);
+            $map['show'] = 1;
+            $map['cid|cid1'] = $value['id'];
+            $goods = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where($map)->order('sort desc,id desc')->limit(5)->select();
+            foreach ($goods as $k => $val) {
+                $goods[$k]['picname'] = getThumb($val["picname"],400,400);
+                $goods[$k]['rmb'] = round($val['price']*$this->rate,1);
+            }
+            $yunma[$key]['goods'] = $goods;
+        }
+        $this->assign('yunma',$yunma);
+
+        //中老年区
+        unset($map);
+        $laonian = db("GoodsCate")->field('id,path,name')->where('fid',4)->order('sort asc')->limit(8)->select();
+        foreach ($laonian as $key => $value) {
+            unset($map);
+            $map['show'] = 1;
+            $map['cid|cid1'] = $value['id'];
+            $goods = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where($map)->order('sort desc,id desc')->limit(5)->select();
+            foreach ($goods as $k => $val) {
+                $goods[$k]['picname'] = getThumb($val["picname"],400,400);
+                $goods[$k]['rmb'] = round($val['price']*$this->rate,1);
+            }
+            $laonian[$key]['goods'] = $goods;
+        }
+        $this->assign('laonian',$laonian);
+
+        //本周特价
+        unset($map);
+        $tejia = db("GoodsCate")->field('id,path,name')->where('fid',69)->order('sort asc')->limit(8)->select();
+        foreach ($tejia as $key => $value) {
+            unset($map);
+            $map['show'] = 1;
+            $map['cid|cid1'] = $value['id'];
+            $goods = db("Goods")->field('id,name,picname,say,price,marketPrice,comm')->where($map)->order('sort desc,id desc')->limit(5)->select();
+            foreach ($goods as $k => $val) {
+                $goods[$k]['picname'] = getThumb($val["picname"],400,400);
+                $goods[$k]['rmb'] = round($val['price']*$this->rate,1);
+            }
+            $tejia[$key]['goods'] = $goods;
+        }
+        $this->assign('tejia',$tejia);
 
         //推荐商品
         unset($map);

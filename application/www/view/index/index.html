@@ -174,7 +174,7 @@ $(function() {
 	</ul>
 </div>
 
-<!--应季商品-->
+<!--限时抢购-->
 <span class="as blessing_package pick-back-b">
     <a href="#" style=" color:#000">
         <h3 style="float:left" class="pick-back2">限时抢购</h3>
@@ -210,7 +210,7 @@ $(function() {
 	</div>
 </div>
 
-<!--母婴专区-->
+<!--婴儿奶粉-->
 <span class="as blessing_package pick-back-c">
     <a href="#" style=" color:#000">
         <h3 style="float:left" class="pick-back3">婴儿奶粉</h3>
@@ -227,6 +227,144 @@ $(function() {
 <div>
 	{volist name="naifen" id="item" key="j"}
 	<div class="currency f-2-lt0{$j}" {gt name="j" value="1"}style="display:none"{/gt}>
+		<ul>
+			{volist name="item.goods" id="vo"}
+			<li>
+				<a href="{:url('goods/detail','id='.$vo['id'])}"><img src="{$vo.picname}">
+				<light1><img src="{:RES}/image/saoguang.png"></light1>
+				</a>
+				<div class="price">
+					<span>${$vo.price}</span>
+					<b style="text-decoration: line-through">${$vo.marketPrice}</b>
+					<b>约￥{$vo.rmb}</b>
+				</div>
+				<a href="{:url('goods/detail','id='.$vo['id'])}">
+					<p>{$vo.name}</p>
+					<div class="say">{$vo.say}</div>
+				</a>
+				<div class="tag">
+					<span class="layui-badge">推荐</span>
+				</div>				
+				<em>
+					<a href="javascript:void(0)" class="add_fav" data-id="{$vo.id}" data-url="{:url('goods/fav')}">收藏</a>
+					<a href="javascript:void(0)" class="add_cart" data-id="{$vo.id}" data-url="{:url('goods/addCart')}">加入购物车</a>
+				</em>
+			</li>
+			{/volist}
+		</ul>
+	</div>
+	{/volist}
+</div>
+
+<!--孕妈专区-->
+<span class="as blessing_package pick-back-d">
+    <a href="#" style=" color:#000">
+        <h3 style="float:left" class="pick-back4">孕妈专区</h3>
+    </a>
+    <div class="detailed_navigation">
+        <ul>
+        	{volist name="yunma" id="vo" key="k"}
+            <li class="dog {eq name="k" value="1"}yadi{/eq}" dg-floor="3" dg-ct="lt0{$k}">{$vo.name}</li>
+            {/volist}
+        </ul>
+    </div>
+</span>
+
+<div>
+	{volist name="yunma" id="item" key="j"}
+	<div class="currency f-3-lt0{$j}" {gt name="j" value="1"}style="display:none"{/gt}>
+		<ul>
+			{volist name="item.goods" id="vo"}
+			<li>
+				<a href="{:url('goods/detail','id='.$vo['id'])}"><img src="{$vo.picname}">
+				<light1><img src="{:RES}/image/saoguang.png"></light1>
+				</a>
+				<div class="price">
+					<span>${$vo.price}</span>
+					<b style="text-decoration: line-through">${$vo.marketPrice}</b>
+					<b>约￥{$vo.rmb}</b>
+				</div>
+				<a href="{:url('goods/detail','id='.$vo['id'])}">
+					<p>{$vo.name}</p>
+					<div class="say">{$vo.say}</div>
+				</a>
+				<div class="tag">
+					<span class="layui-badge">推荐</span>
+				</div>				
+				<em>
+					<a href="javascript:void(0)" class="add_fav" data-id="{$vo.id}" data-url="{:url('goods/fav')}">收藏</a>
+					<a href="javascript:void(0)" class="add_cart" data-id="{$vo.id}" data-url="{:url('goods/addCart')}">加入购物车</a>
+				</em>
+			</li>
+			{/volist}
+		</ul>
+	</div>
+	{/volist}
+</div>
+
+<!--中老年区-->
+<span class="as blessing_package pick-back-e">
+    <a href="#" style=" color:#000">
+        <h3 style="float:left" class="pick-back5">中老年区</h3>
+    </a>
+    <div class="detailed_navigation">
+        <ul>
+        	{volist name="laonian" id="vo" key="k"}
+            <li class="dog {eq name="k" value="1"}yadi{/eq}" dg-floor="4" dg-ct="lt0{$k}">{$vo.name}</li>
+            {/volist}
+        </ul>
+    </div>
+</span>
+
+<div>
+	{volist name="laonian" id="item" key="j"}
+	<div class="currency f-4-lt0{$j}" {gt name="j" value="1"}style="display:none"{/gt}>
+		<ul>
+			{volist name="item.goods" id="vo"}
+			<li>
+				<a href="{:url('goods/detail','id='.$vo['id'])}"><img src="{$vo.picname}">
+				<light1><img src="{:RES}/image/saoguang.png"></light1>
+				</a>
+				<div class="price">
+					<span>${$vo.price}</span>
+					<b style="text-decoration: line-through">${$vo.marketPrice}</b>
+					<b>约￥{$vo.rmb}</b>
+				</div>
+				<a href="{:url('goods/detail','id='.$vo['id'])}">
+					<p>{$vo.name}</p>
+					<div class="say">{$vo.say}</div>
+				</a>
+				<div class="tag">
+					<span class="layui-badge">推荐</span>
+				</div>				
+				<em>
+					<a href="javascript:void(0)" class="add_fav" data-id="{$vo.id}" data-url="{:url('goods/fav')}">收藏</a>
+					<a href="javascript:void(0)" class="add_cart" data-id="{$vo.id}" data-url="{:url('goods/addCart')}">加入购物车</a>
+				</em>
+			</li>
+			{/volist}
+		</ul>
+	</div>
+	{/volist}
+</div>
+
+<!--本周特价-->
+<span class="as blessing_package pick-back-f">
+    <a href="#" style=" color:#000">
+        <h3 style="float:left" class="pick-back6">本周特价</h3>
+    </a>
+    <div class="detailed_navigation">
+        <ul>
+        	{volist name="tejia" id="vo" key="k"}
+            <li class="dog {eq name="k" value="1"}yadi{/eq}" dg-floor="5" dg-ct="lt0{$k}">{$vo.name}</li>
+            {/volist}
+        </ul>
+    </div>
+</span>
+
+<div>
+	{volist name="tejia" id="item" key="j"}
+	<div class="currency f-5-lt0{$j}" {gt name="j" value="1"}style="display:none"{/gt}>
 		<ul>
 			{volist name="item.goods" id="vo"}
 			<li>
