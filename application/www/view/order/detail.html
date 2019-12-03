@@ -19,63 +19,92 @@
     </div>
 
     <div class="rightBox">
-        <div class="layui-card">
-            <div class="layui-card-header">订单详情</div>
+    	<div class="layui-card">
+            <div class="layui-card-header">商品明细</div>
             <div class="layui-card-body">
-            	<div class="layui-row layui-col-space30">
-					<div class="layui-col-md5">
-						<div class="list">
-			            	<li>
-			                    <label>订单号</label>
-			                    <p>{$order.order_no}</p>
-			                </li>
-			                <li>
-			                    <label>下单时间</label>
-			                    <p>{$order.createTime}</p>
-			                </li>	
-			                <li>
-			                    <label>总金额</label>
-			                    <p>${$order.money}</p>
-			                </li>
-			                <li>
-			                    <label>支付方式</label>
-			                    <p>{$order.payType|getPayType}</p>
-			                </li>
-			                <li>
-			                    <label>备注</label>
-			                    <p>{$order.intr}</p>
-			                </li>
-			            </div>
-					</div>
-					<div class="layui-col-md7">
-						<table class="layui-table">
-		                    <colgroup>
-		                        <col width="100">  
-		                        <col>
-		                        <col width="80">                       
-		                        <col width="80">             
-		                    </colgroup>
-		                    <thead>
-		                    <tr style="background: #fff">
-		                      <th></th>
-		                      <th>名称</th>
-		                      <th>数量</th>
-		                      <th>数量</th>
-		                    </tr> 
-		                    </thead>   
-		                    <tbody>
-		                        {volist name="order.goods" id="vo"}
-		                        <tr>
-		                            <td><img src="{$vo.picname}" style="height: 50px"></td>
-		                            <td>{$vo.name}<p>{$vo.spec}</p></td>
-		                            <td>{$vo.price}</td>
-		                            <td>{$vo.number}</td>		                            
-		                        </tr>
-		                        {/volist}
-		                    </tbody>         
-		                </table>
-					</div>
-            	</div>
+            	<table class="layui-table" lay-size="sm">
+                    <colgroup>
+                        <col width="100">  
+                        <col>
+                        <col width="80">                       
+                        <col width="80">             
+                    </colgroup>
+                    <thead>
+                    <tr style="background: #fff">
+                      <th></th>
+                      <th>名称</th>
+                      <th>单价</th>
+                      <th>数量</th>
+                    </tr> 
+                    </thead>   
+                    <tbody>
+                        {volist name="order.goods" id="vo"}
+                        <tr>
+                            <td><img src="{$vo.picname}" style="height: 50px"></td>
+                            <td>{$vo.name}<p>{$vo.spec}</p></td>
+                            <td>{$vo.price}</td>
+                            <td>{$vo.number}</td>		                            
+                        </tr>
+                        {/volist}
+                    </tbody>         
+                </table>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-body">
+            	<div class="list">
+	            	<li>
+	                    <label>订单号</label>
+	                    <p>{$order.order_no}</p>
+	                </li>
+	                <li>
+	                    <label>下单时间</label>
+	                    <p>{$order.createTime}</p>
+	                </li>	
+	                <li>
+	                    <label>总金额</label>
+	                    <p>${$order.money}</p>
+	                </li>
+	                <li>
+	                    <label>砍价中</label>
+	                    <p>距结束：111111</p>
+	                </li>
+	                <li>
+	                    <label>支付方式</label>
+	                    <p>{$order.payType|getPayType}</p>
+	                </li>
+	                <li>
+	                    <label>备注</label>
+	                    <p>{$order.intr}</p>
+	                </li>
+	                <li>
+	                    <label>收件人</label>
+	                    <p>距结束：111111</p>
+	                </li>
+	                <li>
+	                    <label>寄件人</label>
+	                    <p>距结束：111111</p>
+	                </li>
+	                <li>
+	                    <label>不足1kg邮费差价</label>
+	                    <p>距结束：111111</p>
+	                </li>
+	                <li>
+	                    <label>寄件人</label>
+	                    <p>距结束：111111</p>
+	                </li>
+	                <li>
+	                    <label>寄件人</label>
+	                    <p>距结束：111111</p>
+	                </li>
+	            </div>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">包裹</div>
+            <div class="layui-card-body">
             </div>
         </div>
     </div>
