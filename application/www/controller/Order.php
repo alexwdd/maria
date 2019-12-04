@@ -87,6 +87,19 @@ class Order extends User
 		return view();
 	}
 
+    public function cutDetail(){
+        $order_no = input('param.order_no');
+        $data = ['token'=>$this->user['token'],'my'=>1,'order_no'=>$order_no];
+        $result = $this->https_post($this->api.'/api/order/cutDetail',$data);
+        $result = json_decode($result,true);
+        if($result['code']==0){
+            $this->error($result['desc']);
+        }
+        $this->assign('list',$result['body']);
+        $this->assign('number',count($result['body']['frient']));
+        return view();
+    }
+
     public function del(){
         $id = input('param.id');
         $data = ['token'=>$this->user['token'],'id'=>$id];
@@ -112,8 +125,85 @@ class Order extends User
         $data = ['token'=>$this->user['token'],'id'=>$id];
         $result = $this->https_post($this->api.'/api/order/detail',$data);
         $result = json_decode($result,true);
+        if($result['code']==0){
+            $this->error($result['desc']);
+        }
         $this->assign('order',$result['body']['order']);
         $this->assign('baoguo',$result['body']['baoguo']);
+        return view();
+    }
+
+    public function person(){
+        if (request()->isPost()) {
+            $front = input('post.front');
+            $back = input('post.back');
+            $id = input('post.id');
+            if ($id=='' || !is_numeric($id)) {
+                $this->error('参数错误');
+            }
+            if ($front=='' || $back=='') {
+                $this->error('请上传身份证正反面');
+            }
+
+            $data['id'] = $id;
+            //保存地址
+            if ($sn!='') {
+                $data['sn'] = $sn;
+            }
+            if ($front!='') {
+                $data['front'] = $front;
+            }
+            if ($back!='') {
+                $data['back'] = $back;
+            }
+            $data['token'] = $this->user['token'];
+
+            $result = $this->https_post($this->api.'/api/order/updatePersonCard',$data);
+            $result = json_decode($result,true);
+            if($result['code']==0){
+                $this->error($result['desc']);
+            }else{
+                $this->success("操作成功");
+            }
+        }else{
+            $id = input('param.id');
+            $map['id'] = $id;
+            
+            $map['memberID'] = $this->user['id'];
+            $list = db('Order')->where($map)->find();
+            if ($list) {
+                $this->assign('list',$list);
+                return view();
+            }else{
+                $this->error("没有该订单");
+            }
+        }
+    }
+
+    public function personview(){
+        $id = input('param.id');
+        $map['id'] = $id;
+        
+        $map['memberID'] = $this->user['id'];
+        $list = db('Order')->where($map)->find();
+        if ($list) {
+            $this->assign('list',$list);
+            return view();
+        }else{
+            $this->error("没有该订单");
+        }
+    }
+
+    public function wuliu(){
+        $No = input('param.No');
+        $data['No'] = $No;
+        $data['token'] = $this->user['token'];
+        $result = $this->https_post($this->api.'/api/order/progress',$data);
+        $result = json_decode($result,true);
+        if($result['code']==0){
+            $this->error($result['desc']);
+        }
+        $this->assign('list',$result['body']['data']);
         return view();
     }
 

@@ -7,6 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 {include file="public:cssjs" /}
 <link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.orderAction{float: right;}
+.orderAction *{ font-size: 12px}
+.orderAction #settime span{background: #443b3b; padding: 2px; border-radius: 3px; color: #fff}
+.orderAction .layui-btn{margin-left: 0}
+</style>
 </head>
 
 <body>
@@ -20,6 +26,67 @@
 
     <div class="rightBox">
         <div class="layui-card">
+            <div class="layui-card-header">
+                订单状态：{$order.statusStr}
+
+                <div class="orderAction">
+                {eq name="order.statusStr" value="砍价中"}
+                <span id="settime"></span>
+                <a href="{:url('order/cut')}" class="layui-btn layui-btn-normal layui-btn-sm">邀请好友砍价</a>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm showCut">查看砍价结果</button>
+                <script type="text/javascript">
+                var lag = {$order.cutEndTime};
+                $(function(){                        
+                    updateEndTime();
+                })    
+                function updateEndTime(){                        
+                    if(lag > 0){
+                        var second = Math.floor(lag % 60);     
+                        var minite = Math.floor((lag / 60) % 60);
+                        var hour = Math.floor((lag / 3600) % 24);
+                        var day = Math.floor((lag / 3600) / 24);
+                        str = '距离结束 ';
+                        if (day>0){
+                            str += "<span>"+day+"</span>天";
+                        }
+                        
+                        if(hour<10){
+                            str += '<span>0'+hour+'</span>';
+                        }else{
+                            str += '<span>'+hour+'</span>';
+                        }
+                     
+                        str += ' : ';
+                        if(minite<10){
+                            str += '<span>0'+minite+'</span>';
+                        }else{
+                            str += '<span>'+minite+'</span>';
+                        }
+                        str += ' : ';
+                        if(second<10){
+                            str += '<span>0'+second+'</span>';
+                        }else{
+                            str += '<span>'+second+'</span>';
+                        }
+                        $("#settime").html(str);
+                        lag--;
+                        setTimeout("updateEndTime()",1000);
+                    }else{
+                        $("#settime").html('砍价已结束');
+                    }
+                }
+                </script>
+                {/eq}
+
+                {eq name="order.status" value="0"}
+                <a href="javascript:void" data-url="{:url('api/order/del')}" class="layui-btn layui-btn-primary layui-btn-sm delBtn">取消订单</a>
+                <a href="{:url('order/pay','order_no='.$vo['order_no'])}" class="layui-btn layui-btn-danger layui-btn-sm">马上付款</a>
+                {/eq}
+                <?php if(in_array($order['status'],[3,99])){ ?>
+                <a href="javascript:void" data-url="{:url('api/order/hide')}" class="layui-btn layui-btn-danger layui-btn-sm delBtn">删除订单</a>
+                <?php } ?>
+                </div>
+            </div>
             <div class="layui-card-body">
                 <div class="list">
                     <li>
@@ -31,48 +98,69 @@
                         <p>{$order.createTime}</p>
                     </li>
                     <li>
-                        <label>砍价中</label>
-                        <p>距结束：111111</p>
-                    </li>
-                    <li>
                         <label>支付状态</label>
-                        <p>{$order.payType|getPayType}</p>
+                        {eq name="order.status" value="0"}
+                        <p>{$order.statusStr}</p>
+                        {else/}
+                        <p>{$order.status}</p>
+                        {/eq}
                     </li>
+
+                    {gt name="order.fund" value="0"}
                     <li>
                         <label>返利基金</label>
                         <p>${$order.fund}</p>
                     </li> 
+                    {/gt}
+
+                    {gt name="order.point" value="0"}
                     <li>
                         <label>积分</label>
                         <p>{$order.point}</p>
-                    </li> 
+                    </li>
+                    {/gt}
+
                     <li>
                         <label>备注</label>
                         <p>{$order.intr|default="无"}</p>
                     </li> 
+
                     <li>
                         <label>商品金额</label>
                         <p>${$order.goodsMoney}</p>
-                    </li>                 
+                    </li>    
+
+                    {gt name="order.payment" value="0"}
                     <li>
                         <label>不足1kg邮费差价</label>
                         <p>{$order.payment}</p>
                     </li>
+                    {/gt}
+
+                    {gt name="order.discount" value="0"}
                     <li>
                         <label>优惠券</label>
                         <p>-${$order.discount}</p>
                     </li>
+                    {/gt}
+                    
+                    {gt name="order.cutMoney" value="0"}
                     <li>
                         <label>砍价</label>
-                        <p>-${$order.discount}</p>
+                        <p>-${$order.cutMoney}</p>
                     </li>
+                    {/gt}
+                    
+                    {gt name="order.wallet" value="0"}
                     <li>
-                        <label>返利余额</label>
+                        <label>返利余额抵扣</label>
                         <p>-${$order.wallet}</p>
                     </li>
+                    {/gt}
+
                     <li>
                         <label>实付金额</label>
-                        <p>${$order.money}</p>
+                        <p style="font-weight: bold; color: #000">${$order.money}</p>
                     </li>
                 </div>
             </div>
@@ -82,6 +170,10 @@
             <div class="layui-card-header">收/寄件人</div>
             <div class="layui-card-body">
                 <div class="list">
+                    <li>
+                        <label>寄件人</label>
+                        <p>{$order.sender} {$order.senderTel}</p>
+                    </li>
                     <li>
                         <label>收件人</label>
                         <p>{$order.name} {$order.tel}</p>
@@ -98,17 +190,13 @@
                         <label>身份证</label>
                         <p class="personImg">
                             {empty name="order.front"}
-                            <a href="javascript:void(0)" onclick="openModel ('{:url('order/person',array('id'=>$vo['id']))}','上传身份证','1000px','80%')" class="layui-btn layui-btn-danger layui-btn-xs layui-btn-fluid">上传身份证</a>
+                            <a href="javascript:void(0)" class="layui-btn layui-btn-danger layui-btn-xs upBtn">上传身份证</a>
                             {else/}
                             <a href="{$order.front}" target="_blank"><img src="{$order.front}"></a>
                             <a href="{$order.back}" target="_blank"><img src="{$order.back}"></a>
                             {/empty}
                         </p>
-                    </li>
-                    <li>
-                        <label>寄件人</label>
-                        <p>{$order.sender} {$order.senderTel}</p>
-                    </li>
+                    </li>                    
                 </div>
             </div>
         </div>
@@ -116,40 +204,46 @@
         <div class="layui-card">
             <div class="layui-card-header">包裹列表</div>
             <div class="layui-card-body">
-                <div class="bagBox" v-for="(vo,index) in baoguo" style="margin-top:5px">
+                {volist name="baoguo" id="vo" key="index"}
+                <div class="bagBox" style="margin-top:5px">
                     <div class="line"></div>
                     <div class="hd">
                         <p>包裹</p>
-                        <i>{{index+1}}</i>
-                        <div class="tag" v-if="vo.weight<1">不足1KG</div>
-                        <div class="tag tag1" v-else="">包邮</div>
-                        <span v-if="vo.payment>0">+AU${{vo.payment}}</span>
+                        <i>{$index+1}</i>
+                        {lt name="vo.weight" value="1"}
+                        <div class="tag">不足1KG</div>
+                        {else/}
+                        <div class="tag tag1">包邮</div>
+                        {/lt}
+                        {eq name="vo.payment" value="0"}
+                        <span>+${$vo.payment}</span>
+                        {/eq}
                     </div>
                     <div class="bag">
-                        <li v-for="f in vo.goods">
-                            <div class="goodsName">{{f.name}}</div>
-                            <div class="right">x{{f.number}}</div>
+                        {volist name="vo.goods" id="f"}
+                        <li>
+                            <div class="goodsName">{$f.name}</div>
+                            <div class="right">x{$f.number}</div>
                         </li>
+                        {/volist}
                     </div>
+
                     <div class="fd">
-                        <div class="left">订单号:{{info.order_no}}</div>
-                        <div class="right">总重量:约{{vo.weight}}KG <span>共{{vo.number}}件</span></div>
+                        <p>总重量:约{$vo.weight}KG <span>共{$vo.number}件</span></p>
+                        {notempty name="$vo.kdNo"}
+                        <p>
+                        快递单号：{$vo.kdNo}              
+                        <?php if(in_array($vo['type'],[15,16,17])){ ?>
+                        <a href="{:config('site.url'.$vo['type'])}" target="_blank" class="layui-badge layui-bg-green">物流查询</a>
+                        <?php }else{ ?>
+                        <a href="javascript:void(0)" data-url="{:url('order/wuliu','No='.$vo['kdNo'])}" class="layui-badge layui-bg-blue wlBtn">物流查询</a>
+                        </span>
+                        <?php } ?>
+                        </p>
+                        {/notempty}
                     </div>
-                    <template v-if="vo.kdNo!='' && info.status>0">
-                    <div class="arrow"></div>
-                    <div class="kuaidi">
-                        <div class="title">
-                            <p><van-icon name="logistics"/>{{vo.kuaidi}}</p>
-                            <router-link :to="{name:'orderProgress',params:{No:vo.kdNo}}">
-                            <span><van-button plain type="default" size="small" round>查看快递</van-button></span>
-                            </router-link>
-                        </div>
-                        <div class="content">
-                            <li v-for="img in vo.image" @click="showImagePreview(vo.image)"><img :src="img"/></li>
-                        </div>
-                    </div>
-                    </template>
                 </div>
+                {/volist}
             </div>
         </div>
 
@@ -184,15 +278,60 @@
                 </table>
             </div>
         </div>        
-
-        <div class="layui-card">
-            <div class="layui-card-header">包裹</div>
-            <div class="layui-card-body">
-            </div>
-        </div>
     </div>
 </div>
+<script type="text/javascript">
+$(function(){
+    $(".showCut").click(function(){
+        layer.open({
+            type: 2,
+            title: '砍价结果',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['700px', '80%'],
+            content: '{:url('order/cutDetail','order_no='.$order['order_no'])}' //iframe的url
+        }); 
+    })
 
+    $(".wlBtn").click(function(){
+        var url = $(this).attr("data-url");
+        layer.open({
+            type: 2,
+            title: '物流查询',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['700px', '80%'],
+            content: url
+        }); 
+    })
+
+    $(".upBtn").click(function(){
+        layer.open({
+            type: 2,
+            title: '上传身份证',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['700px', '400px'],
+            content: '{:url('order/person',array('id'=>$order['id']))}' //iframe的url
+        }); 
+    });
+
+    $(".delBtn").click(function(){
+        var url = $(this).attr("data-url");
+        layer.confirm('确定吗？', {
+            btn: ['确定','放弃'] //按钮
+        }, function(){
+            $.post(url,{token:'{$user.token}',id:{$order.id}},function(res){
+                if(res.code==1){
+                    window.history.go(-1);
+                }else{
+                    layer.alert(res.desc)
+                }
+            },'json');
+        });
+    })
+})
+</script>
 {include file="public:footer" /}
 </body>
 </html>

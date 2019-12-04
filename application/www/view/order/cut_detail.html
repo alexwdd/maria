@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="layui-row" style="margin: 5px">
+    <div class="moneyBox">
+        <li>
+            <p>当前价 AU$<span>{$list.data.total}</span></p>
+            <div class="rmb">约￥{$list.data.rmb}</div>
+        </li>
+
+        <li style="text-align:right">
+            <p>可砍至 AU$<span>{$list.data.minGoodsMoney}</span></p>
+            <div class="rmb">约￥{$list.data.minRmb}</div>
+        </li>
+    </div>
+
+    <div style="padding:10px;padding-top:0px; background:#fff"><van-progress :percentage="progress" color="#F2493C"/></div>
+
+    <div class="friend">
+        <div class="hd">已有 {$number} 位好友助力</div>
+        <div class="bd">
+            {volist name="list.friend" id="vo"}
+            <div class="user"><img src="{$vo.headimg}"/><p>${$vo.money}</p></div>
+            {/volist}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

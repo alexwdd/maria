@@ -76,7 +76,7 @@ body{background: #f1f1f1}
 .orderBox .bd{clear: both; display: flex;} 
 .orderBox .bd .item{ padding: 10px; flex: 1; border-right: 1px #f1f1f1 solid}
 .orderBox .bd .price{ padding: 10px; width: 70px; text-align: center; border-right: 1px #f1f1f1 solid}
-.orderBox .bd .action{ padding: 10px; width:80px; text-align: center;}
+.orderBox .bd .action{ padding: 10px; width:80px; text-align: right;}
 .goodsDetail{clear: both; overflow: hidden;}
 .goodsDetail li{float: left; margin-right: 10px; line-height: 20px}
 .goodsDetail li img{height: 50px; display: block;}
