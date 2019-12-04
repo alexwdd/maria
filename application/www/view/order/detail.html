@@ -19,6 +19,140 @@
     </div>
 
     <div class="rightBox">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="list">
+                    <li>
+                        <label>订单号</label>
+                        <p>{$order.order_no}</p>
+                    </li>
+                    <li>
+                        <label>下单时间</label>
+                        <p>{$order.createTime}</p>
+                    </li>
+                    <li>
+                        <label>砍价中</label>
+                        <p>距结束：111111</p>
+                    </li>
+                    <li>
+                        <label>支付状态</label>
+                        <p>{$order.payType|getPayType}</p>
+                    </li>
+                    <li>
+                        <label>返利基金</label>
+                        <p>${$order.fund}</p>
+                    </li> 
+                    <li>
+                        <label>积分</label>
+                        <p>{$order.point}</p>
+                    </li> 
+                    <li>
+                        <label>备注</label>
+                        <p>{$order.intr|default="无"}</p>
+                    </li> 
+                    <li>
+                        <label>商品金额</label>
+                        <p>${$order.goodsMoney}</p>
+                    </li>                 
+                    <li>
+                        <label>不足1kg邮费差价</label>
+                        <p>{$order.payment}</p>
+                    </li>
+                    <li>
+                        <label>优惠券</label>
+                        <p>-${$order.discount}</p>
+                    </li>
+                    <li>
+                        <label>砍价</label>
+                        <p>-${$order.discount}</p>
+                    </li>
+                    <li>
+                        <label>返利余额</label>
+                        <p>-${$order.wallet}</p>
+                    </li>
+                    <li>
+                        <label>实付金额</label>
+                        <p>${$order.money}</p>
+                    </li>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">收/寄件人</div>
+            <div class="layui-card-body">
+                <div class="list">
+                    <li>
+                        <label>收件人</label>
+                        <p>{$order.name} {$order.tel}</p>
+                    </li>
+                    <li>
+                        <label>收件地址</label>
+                        <p>{$order.province} {$order.city} {$order.county} {$order.addressDetail}</p>
+                    </li>
+                    <li>
+                        <label>身份证号码</label>
+                        <p>{$order.sn|default="无"}</p>
+                    </li>
+                    <li>
+                        <label>身份证</label>
+                        <p class="personImg">
+                            {empty name="order.front"}
+                            <a href="javascript:void(0)" onclick="openModel ('{:url('order/person',array('id'=>$vo['id']))}','上传身份证','1000px','80%')" class="layui-btn layui-btn-danger layui-btn-xs layui-btn-fluid">上传身份证</a>
+                            {else/}
+                            <a href="{$order.front}" target="_blank"><img src="{$order.front}"></a>
+                            <a href="{$order.back}" target="_blank"><img src="{$order.back}"></a>
+                            {/empty}
+                        </p>
+                    </li>
+                    <li>
+                        <label>寄件人</label>
+                        <p>{$order.sender} {$order.senderTel}</p>
+                    </li>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">包裹列表</div>
+            <div class="layui-card-body">
+                <div class="bagBox" v-for="(vo,index) in baoguo" style="margin-top:5px">
+                    <div class="line"></div>
+                    <div class="hd">
+                        <p>包裹</p>
+                        <i>{{index+1}}</i>
+                        <div class="tag" v-if="vo.weight<1">不足1KG</div>
+                        <div class="tag tag1" v-else="">包邮</div>
+                        <span v-if="vo.payment>0">+AU${{vo.payment}}</span>
+                    </div>
+                    <div class="bag">
+                        <li v-for="f in vo.goods">
+                            <div class="goodsName">{{f.name}}</div>
+                            <div class="right">x{{f.number}}</div>
+                        </li>
+                    </div>
+                    <div class="fd">
+                        <div class="left">订单号:{{info.order_no}}</div>
+                        <div class="right">总重量:约{{vo.weight}}KG <span>共{{vo.number}}件</span></div>
+                    </div>
+                    <template v-if="vo.kdNo!='' && info.status>0">
+                    <div class="arrow"></div>
+                    <div class="kuaidi">
+                        <div class="title">
+                            <p><van-icon name="logistics"/>{{vo.kuaidi}}</p>
+                            <router-link :to="{name:'orderProgress',params:{No:vo.kdNo}}">
+                            <span><van-button plain type="default" size="small" round>查看快递</van-button></span>
+                            </router-link>
+                        </div>
+                        <div class="content">
+                            <li v-for="img in vo.image" @click="showImagePreview(vo.image)"><img :src="img"/></li>
+                        </div>
+                    </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
     	<div class="layui-card">
             <div class="layui-card-header">商品明细</div>
             <div class="layui-card-body">
@@ -49,58 +183,7 @@
                     </tbody>         
                 </table>
             </div>
-        </div>
-
-        <div class="layui-card">
-            <div class="layui-card-body">
-            	<div class="list">
-	            	<li>
-	                    <label>订单号</label>
-	                    <p>{$order.order_no}</p>
-	                </li>
-	                <li>
-	                    <label>下单时间</label>
-	                    <p>{$order.createTime}</p>
-	                </li>	
-	                <li>
-	                    <label>总金额</label>
-	                    <p>${$order.money}</p>
-	                </li>
-	                <li>
-	                    <label>砍价中</label>
-	                    <p>距结束：111111</p>
-	                </li>
-	                <li>
-	                    <label>支付方式</label>
-	                    <p>{$order.payType|getPayType}</p>
-	                </li>
-	                <li>
-	                    <label>备注</label>
-	                    <p>{$order.intr}</p>
-	                </li>
-	                <li>
-	                    <label>收件人</label>
-	                    <p>距结束：111111</p>
-	                </li>
-	                <li>
-	                    <label>寄件人</label>
-	                    <p>距结束：111111</p>
-	                </li>
-	                <li>
-	                    <label>不足1kg邮费差价</label>
-	                    <p>距结束：111111</p>
-	                </li>
-	                <li>
-	                    <label>寄件人</label>
-	                    <p>距结束：111111</p>
-	                </li>
-	                <li>
-	                    <label>寄件人</label>
-	                    <p>距结束：111111</p>
-	                </li>
-	            </div>
-            </div>
-        </div>
+        </div>        
 
         <div class="layui-card">
             <div class="layui-card-header">包裹</div>
