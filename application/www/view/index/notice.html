@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>网站公告-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/inside.css" rel="stylesheet" type="text/css" />
+<style>
+.notice{clear: both; overflow: hidden;}
+.notice li{border-bottom: 1px #dbdbdb dotted; clear: both; padding: 10px 0}
+.notice li span{float: right; font-size: 12px; color: #999}
+</style>
+</head>
+<body>
+{include file="public:top" /}
+
+{include file="public:header" /}
+
+<!--导航-->
+<section class="dao_hang">
+    <nav>
+        <!--全部商品分类-->
+        <div class="important inCate">
+        {include file="public:cate" /}
+        </div>
+        
+        {include file="public:nav" /}
+    </nav>
+</section>
+
+<div class="guide">
+    <div class="main">
+        <span class="layui-breadcrumb">
+            <a href="{:url('index/index')}">首页</a>
+            <a><cite>网站公告</cite></a>
+        </span>
+    </div>
+</div>
+
+<div class="w1200" style="margin-top: 20px">
+    <div class="notice">
+    {volist name="list" id="vo"}
+    <li>
+        <a href="javascript:void(0)" data-url="{:url('index/view','id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a>
+        <span>{$vo.createTime|date="Y-m-d",###}</span>
+    </li>
+    {/volist}
+    </div>
+    {$page}
+</div>
+<script>
+$(function(){
+    $(".notice a").click(function(){
+        var url = $(this).attr("data-url");
+        var title = $(this).attr("title");
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: true,
+            shade: 0.8,
+            area: ['700px', '80%'],
+            content: url
+        }); 
+    })
+})
+</script>
+{include file="public:footer" /}
+</body>
+</html>

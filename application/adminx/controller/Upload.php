@@ -9,8 +9,8 @@ class Upload extends Admin{
 
  	#图片上传
  	public function image(){
- 		$water = input('get.water',1);
- 		$thumb = input('get.thumb',1);
+ 		$water = input('param.water',1);
+ 		$thumb = input('param.thumb',1);
  		$resault = $this->_saveimage("images",$water,$thumb);
  		if (input('get.from')=='editor') {
  			$data = ['location'=>$resault['data']['url']];
@@ -47,9 +47,11 @@ class Upload extends Admin{
 				$fname = config('UPLOAD_PATH').$dir.'/'.$fname;
 			}
 
-			$image = \think\Image::open('.'.$fname);
-			// 按照原图的比例生成一个最大为150*150的缩略图并保存为thumb.png
-			$image->thumb(config('IMAGE_MAX_WIDTH'), config('IMAGE_MAX_HEIGHT'))->save('.'.$fname);
+			if($thumb){
+				$image = \think\Image::open('.'.$fname);
+				// 按照原图的比例生成一个最大为150*150的缩略图并保存为thumb.png
+				$image->thumb(config('IMAGE_MAX_WIDTH'), config('IMAGE_MAX_HEIGHT'))->save('.'.$fname);
+			}
 			
 			$result = array(
 				'url' => $fname,   //保存后的文件路径

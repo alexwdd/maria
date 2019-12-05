@@ -9,12 +9,26 @@ class Index extends Common
 			$this->redirect('http://m.aumaria.com');
 		}
 
-		$token = '265cb04a5898e15d24dc11c5955cbbd9bc06591b';
+		/*$token = '265cb04a5898e15d24dc11c5955cbbd9bc06591b';
 		$cryptStr = $token.','.request()->ip();
         $flag = think_encrypt($cryptStr,config('DATA_CRYPT_KEY'));
-        \think\Cookie::set('flag', $flag, ['prefix'=>'www','expire'=>86400]);
+        \think\Cookie::set('flag', $flag, ['prefix'=>'www','expire'=>86400]);*/
 
+        //广告
+        $banner = db("Ad")->field('name,picname,url,goodsID')->where('cid',14)->order('sort asc,id desc')->select();
+        $ad1 = db("Ad")->field('name,picname,url,goodsID')->where('cid',15)->limit(1)->order('sort asc,id desc')->select();
+        $ad2 = db("Ad")->field('name,picname,url,goodsID')->where('cid',16)->limit(3)->order('sort asc,id desc')->select();
+        $this->assign('banner',$banner);
+        $this->assign('ad1',$ad1);
+        $this->assign('ad2',$ad2);
         
+        //公告
+        unset($map);
+        $map['cid'] = 7;
+        $map['del'] = 0;
+        $map['status'] = 1;
+        $notice = db("Article")->field('id,title')->where($map)->order('sort asc,id desc')->limit(7)->select();
+        $this->assign('notice',$notice);
 
         //今日抢购
         $flash = [];
@@ -140,5 +154,30 @@ class Index extends Common
             $number = 0;
         }
         return ['number'=>$number];
+    }
+
+    public function notice(){        
+        $map['cid'] = 7;
+        $map['del'] = 0;
+        $map['status'] = 1;
+        //查询数据
+        $list = db('Article')->where($map)->order('id desc')->paginate(10,false,['query'=>request()->param()]);
+        $page = $list->render();
+        $this->assign('list',$list);  
+        $this->assign('page',$page);  
+        return view();
+    }
+
+    public function view(){
+        $id = input('param.id');
+        $map['id'] = $id;
+        $map['status'] = 1;
+        $map['del'] = 0;
+        $list = db("Article")->where($map)->find();
+        if(!$list){
+            $this->error("信息不存在");
+        }
+        $this->assign('list',$list);
+        return view();
     }
 }

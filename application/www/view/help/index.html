@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>用户中心-{:config('site.name')}</title>
+<meta name="keywords" content="{:config('site.keyword')}">
+<meta name="description" content="{:config('site.content')}">
+{include file="public:cssjs" /}
+<link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="user-header">
+    <div class="w1200">
+        <div class="user-logo">
+            <img src="{:RES}/image/logo.png">
+        </div>
+
+        <div class="user-top-menu">
+            <div class="leftMenu">帮助中心 <span><a href="/">返回首页</a></span></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="user-box">
+    <div class="helpLeft">
+        <div class="hd"><i class="layui-icon">&#xe60b;</i> 使用帮助</div>
+        <div class="layui-collapse">
+            {volist name="help" id="vo"}
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title my-colla-title">{$vo.name}</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="helpMenu">
+                        {volist name="vo.article" id="f"}
+                        <a href="{:url('help/index','id='.$f['id'])}">{$f.title}</a>
+                        {/volist}
+                    </div>
+                </div>
+            </div>
+            {/volist}           
+        </div>
+    </div>
+
+    <div class="helpRight">
+        <div class="layui-card">
+            <div class="layui-card-header">{$article.title}</div>
+            <div class="layui-card-body">
+                <div class="content">{$article.content|htmlspecialchars_decode=###}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+{include file="public:footer" /}
+</body>
+</html>

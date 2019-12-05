@@ -96,7 +96,7 @@ class Order extends User
             $this->error($result['desc']);
         }
         $this->assign('list',$result['body']);
-        $this->assign('number',count($result['body']['frient']));
+        $this->assign('number',count($result['body']['friend']));
         return view();
     }
 

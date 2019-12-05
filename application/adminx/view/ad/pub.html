@@ -85,7 +85,7 @@ layui.config({
     $("html").css({"background":"#fff"});
     myupload.single({
         elem : '#upload-single',
-        url : '{:url('upload/image')}',
+        url : '{:url('upload/image','thumb=0')}',
         ext:'jpg|png|gif|jpeg',
         mime:'image/*',
         size:5120,

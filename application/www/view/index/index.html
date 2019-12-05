@@ -17,36 +17,36 @@
 	<nav>
 		<!--右下侧广告-->
 		<div class="advertisement" style="top:42px;">
-			<h4>最新公告</h4>
+			<h4>最新公告<a href="{:url('index/notice')}">更多</a></h4>
 			<div class="notice_new">
-				<p>
-					<a href="#">来部红色手机，颜值亮爆朋友圈</a>
-				</p>
-				<p>
-					<a href="#">荣耀V10高配版 6GB+64GB 魅丽红 移动联通电信4G手机</a>
-				</p>
-				<p>
-					<a href="#">真正香饽饽，时髦的全面屏手机大团战</a>
-				</p>
-				<p>
-					<a href="#">女生新宠vivo X20梦幻粉，八大配色随你选</a>
-				</p>
-				<p>
-					<a href="#">除了低价，我们还能给你更多专业的购机指导</a>
-				</p>
-				<p>
-					<a href="#">给你三千元，你可以买到什么配置的手机？</a>
-				</p>
-				<p>
-					<a href="#">作为游戏爱好者，怎么能少一款游戏笔记本呢？</a>
-				</p>
+				{volist name="notice" id="vo"}
+				<p><a href="javascript:void(0)" data-url="{:url('index/view','id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
+				{/volist}
 			</div>
-			<a href="#">
+			<script>
+			$(function(){
+				$(".notice_new a").click(function(){
+					var url = $(this).attr("data-url");
+					var title = $(this).attr("title");
+			        layer.open({
+			            type: 2,
+			            title: title,
+			            shadeClose: true,
+			            shade: 0.8,
+			            area: ['700px', '80%'],
+			            content: url
+			        }); 
+				})
+			})
+			</script>
+			{volist name="ad1" id="vo"}
+			<a href="{$vo.url}" target="_blank">
 				<div class="notice_img">
-					<img src="{:RES}/image/activity.jpg" class="img1">
-					<img src="{:RES}/image/activity.jpg" class="img2">
+					<img src="{$vo.picname}" class="img1">
+					<img src="{$vo.picname}" class="img2">
 				</div>
 			</a>
+			{/volist}
 		</div>
 
 		<div class="important indexCate">
@@ -60,26 +60,13 @@
 <!--banner-->
 <div id="banner_tabs" class="flexslider">
 	<ul class="slides">
+		{volist name="banner" id="vo"}
 		<li>
-			<a title="" target="_blank" href="#">
-				<img width="1920" height="500" alt="" style="background:#e1211e url({:RES}/image/ba1.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
+			<a title="" target="_blank" href="{$vo.url}">
+				<img style="background:url({$vo.picname}) no-repeat center; background-size: cover;">
 			</a>
 		</li>
-		<li>
-			<a title="" href="#">
-				<img width="1920" height="500" alt="" style="background:#900 url({:RES}/image/ba2.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
-			</a>
-		</li>
-		<li>
-			<a title="" target="_blank" href="#">
-				<img width="1920" height="500" alt="" style="background:#e1211e url({:RES}/image/ba1.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
-			</a>
-		</li>
-		<li>
-			<a title="" href="#">
-				<img width="1920" height="500" alt="" style="background:#900 url({:RES}/image/ba2.jpg) no-repeat center;" src="{:RES}/image/alpha.png">
-			</a>
-		</li>
+		{/volist}
 	</ul>
 	<ul class="flex-direction-nav">
 		<li>
@@ -90,18 +77,11 @@
 		</li>
 	</ul>
 	<ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
-		<li class="active">
-			<a>1</a>
+		{volist name="banner" id="vo" key="adk"}
+		<li {eq name="adk" value="1"}class="active"{/eq}>
+			<a>{$adk}</a>
 		</li>
-		<li>
-			<a>2</a>
-		</li>
-		<li>
-			<a>2</a>
-		</li>
-		<li>
-			<a>2</a>
-		</li>
+		{/volist}
 	</ol>
 </div>
 <script src="{:RES}/js/slider.js"></script>
@@ -153,24 +133,14 @@ $(function() {
 </span>
 <div class="three_fb">
 	<ul>
+		{volist name="ad2" id="vo"}
 		<li>			
-			<a href="liebiao_page.html">
+			<a href="{$vo.url}">
 				<light><img src="{:RES}/image/saoguang1.png"></light>
-				<img src="{:RES}/image/1.jpg">
+				<img src="{$vo.picname}">
 			</a>
 		</li>
-		<li>
-			<a href="liebiao_page.html">
-				<light><img src="{:RES}/image/saoguang1.png"></light>
-				<img src="{:RES}/image/3.jpg">
-			</a>
-		</li>
-		<li>
-			<a href="liebiao_page.html">
-				<light><img src="{:RES}/image/saoguang1.png"></light>
-				<img src="{:RES}/image/2.jpg">
-			</a>
-		</li>
+		{/volist}
 	</ul>
 </div>
 

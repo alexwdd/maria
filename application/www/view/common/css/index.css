@@ -1,5 +1,6 @@
 .advertisement{position:absolute;top:-480px;right:0;z-index:3000;width:250px;height:500px;background:#fff;opacity:0}
 .advertisement h4{margin:0 auto;width:230px;border-bottom:1px dashed #ccc;color:#333;font-weight:100;font-size:14px;line-height:50px}
+.advertisement h4 a{float: right; font-size: 12px;}
 .notice_new{margin:0 auto;width:230px;height:220px}
 .notice_new a{display:block;overflow:hidden;width:100%;color:#666;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:30px;transition:.6s}
 .notice_new p{display:block;overflow:hidden;margin:0 auto;width:230px;height:30px;perspective:1200px}

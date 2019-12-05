@@ -8,23 +8,39 @@
 <meta name="description" content="{:config('site.content')}">
 {include file="public:cssjs" /}
 <link href="{:RES}/css/member.css" rel="stylesheet" type="text/css" />
+<style>
+.moneyBox{background: #fff; clear: both; overflow: hidden; padding: 15px;}
+.moneyBox li{float: left; width: 50%; font-size: 12px;}
+.moneyBox li p span{font-size: 18px; font-weight: bold}
+.moneyBox li .rmb{color: #999}
+.friend{clear: both; background: #fff; overflow: hidden;}
+.friend .hd{text-align: center; font-size: 12px; color: #999}
+.friend .bd{clear: both; padding-bottom: 10px;}
+.user{width: 60px; font-size: 12px; float: left;}
+.user img{display: block; border-radius: 50%; width: 40px; height: 40px; margin: auto}
+.user p{color:#F2493C; text-align: center; margin-top: 5px;}
+</style>
 </head>
-<body>
+<body style="background: #fff">
 
-<div class="layui-row" style="margin: 5px">
+<div class="layui-row">
     <div class="moneyBox">
         <li>
-            <p>当前价 AU$<span>{$list.data.total}</span></p>
+            <p>当前价 $<span>{$list.data.total}</span></p>
             <div class="rmb">约￥{$list.data.rmb}</div>
         </li>
 
         <li style="text-align:right">
-            <p>可砍至 AU$<span>{$list.data.minGoodsMoney}</span></p>
+            <p>可砍至 $<span>{$list.data.minGoodsMoney}</span></p>
             <div class="rmb">约￥{$list.data.minRmb}</div>
         </li>
     </div>
-
-    <div style="padding:10px;padding-top:0px; background:#fff"><van-progress :percentage="progress" color="#F2493C"/></div>
+    
+    <div style="padding: 10px">
+        <div class="layui-progress">
+            <div class="layui-progress-bar layui-bg-orange" lay-percent="{$list.progress}%"></div>
+        </div>
+    </div>
 
     <div class="friend">
         <div class="hd">已有 {$number} 位好友助力</div>

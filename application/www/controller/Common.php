@@ -40,6 +40,26 @@ class Common extends Base {
             db("Goods")->whereOr($where)->setField('flash',0);
         }
 
+        if(cache('help')){
+            $help = cache('help');
+        }else{
+            $help = db("Category")->where('fid',8)->order('sort asc,id asc')->select();
+            foreach ($help as $key => $value) {
+                unset($map);
+                $map['cid'] = $value['id'];
+                $map['status'] = 1;
+                $map['del'] = 0;
+                $help[$key]['article'] = db("Article")->field('id,title')->where($map)->order('sort asc,id asc')->select();
+            }            
+        }
+        $this->assign('help',$help);
+
+        if(cache('link')){
+            $link = cache('link');
+        }else{
+            $link = db("Link")->order('sort asc,id asc')->select();                    
+        }
+        $this->assign('link',$link);
 
         if (!Cookie::get('flag','www')) {
             $user = ['id'=>0];
