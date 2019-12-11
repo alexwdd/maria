@@ -43,12 +43,12 @@ class Base extends Controller {
             if ($value['type']==2) {
                 $buyPoint += $value['money'];
             }
-            if ($value['type']==3) {
+            /*if ($value['type']==3) {
                 $inMoney += $value['money'];
             } 
             if ($value['type']==4) {
                 $outMoney += $value['money'];
-            }  
+            }*/  
             if ($value['type']==5) {
                 $inFund += $value['money'];
             }  

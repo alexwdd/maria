@@ -1,0 +1,46 @@
+后台节点增加礼物
+增加gift表
+会员充值去掉
+
+-- phpMyAdmin SQL Dump
+-- version phpStudy 2014
+-- http://www.phpmyadmin.net
+--
+-- 主机: localhost
+-- 生成日期: 2019 年 12 月 11 日 09:20
+-- 服务器版本: 5.5.53
+-- PHP 版本: 5.4.45
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- 数据库: `maria`
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `pm_gift`
+--
+
+CREATE TABLE IF NOT EXISTS `pm_gift` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `picname` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `point` int(11) NOT NULL,
+  `money` int(11) NOT NULL,
+  `createTime` int(11) NOT NULL,
+  `updateTime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `pm_gift`
+--
+
+INSERT INTO `pm_gift` (`id`, `name`, `picname`, `content`, `point`, `money`, `createTime`, `updateTime`) VALUES
+(1, '礼物1', '/uploads/images/20191211/06b5e4fbc757adc7bd6f0364d0acb4fa.png', '<p>123123123</p>\n<p>123123</p>', 10, 100, 1576027848, 1576027848),
+(2, '礼物2', '/uploads/images/20191211/06b5e4fbc757adc7bd6f0364d0acb4fa.png', '<p>123123123</p>', 20, 100, 1576027871, 1576027871),
+(3, '礼物3', '/uploads/images/20191211/06b5e4fbc757adc7bd6f0364d0acb4fa.png', '', 50, 1000, 1576027887, 1576027887);

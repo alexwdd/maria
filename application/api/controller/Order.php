@@ -252,11 +252,11 @@ class Order extends Auth {
                 $point += $goods['point'] * $value['trueNumber'];
             } 
 
-            $senderID = input('post.senderID');
+            /*$senderID = input('post.senderID');
             $sender = db("Sender")->where(['id'=>$senderID,'memberID'=>$this->user['id']])->find();
             if(!$sender){
                 returnJson(0,'发件人错误');
-            }
+            }*/
 
             $addressID = input('post.addressID');
             $address = db("Address")->where(['id'=>$addressID,'memberID'=>$this->user['id']])->find();
@@ -317,6 +317,7 @@ class Order extends Auth {
             }else{
                 $data['fund'] = $total;
             }
+
             $data['total'] = $total;
             $data['money'] = $total;
             $data['wellet'] = 0;
@@ -337,8 +338,8 @@ class Order extends Auth {
             $data['city'] = $address['city'];
             $data['county'] = $address['county'];
             $data['addressDetail'] = $address['addressDetail'];
-            $data['sender'] = $sender['name'];
-            $data['senderTel'] = $sender['tel'];
+            $data['sender'] = $config['sender'];
+            $data['senderTel'] = $config['senderTel'];
             $data['intr'] = input('post.intr'); 
 
             $res = model('Order')->add( $data );
@@ -644,31 +645,31 @@ class Order extends Auth {
                 returnJson(0,'订单不存在');
             }
 
-            if($list['wallet']>0){
+            /*if($list['wallet']>0){
                 $url = $this->getOmiUrl($list);
                 returnJson(1,'success',['url'=>$url]);
-            }
+            }*/
 
             $list['rate'] = $this->getRate();
             $list['rmb'] = round($list['total']*$this->rate,1);
-            $fina = $this->getUserMoney($this->user['id']);
+            /*$fina = $this->getUserMoney($this->user['id']);
             if($fina['money']>=$list['total']){
                 $type = 2;
             }else{
                 $type = 1;
-            }
+            }*/
 
-            $payMoney = $list['total'] - $fina['money'];
-            if($payMoney<0){
+            $payMoney = $list['total'];
+            /*if($payMoney<0){
                 $payMoney = 0;
-            }
+            }*/
             $rmb = round($payMoney*$this->rate,1);
             returnJson(1,'success',[
                 'data'=>$list,
                 'payMoney'=>number_format($payMoney,1),
                 'rmb'=>$rmb,
-                'wallet'=>$fina['money'],
-                'type'=>$type
+                //'wallet'=>$fina['money'],
+                //'type'=>$type
             ]);
         }
     }
@@ -678,11 +679,13 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $order_no = input('post.order_no');
-            $payType = input('post.type');
+            /*$payType = input('post.type');
 
             if (!in_array($payType,[1,2])) {
                 returnJson(0,'支付方式错误');
-            }
+            }*/
+
+            $payType = 1;
 
             $map['order_no'] = $order_no;            
             $map['memberID'] = $this->user['id'];
@@ -697,7 +700,7 @@ class Order extends Auth {
                 returnJson(1,'success',['url'=>$url]);
             }
 
-            $fina = $this->getUserMoney($this->user['id']);
+            /*$fina = $this->getUserMoney($this->user['id']);
             if ($fina['money']>=$list['total']) {
                 $data['payType'] = 2;
                 $data['wallet'] = $list['total'];
@@ -707,14 +710,18 @@ class Order extends Auth {
                 $data['payType'] = 1;
                 $data['money'] = $list['total'] - $fina['money'];
                 $data['wallet'] = $fina['money'];  
-            }
+            }*/
+
+            $data['payType'] = 1;
+            $data['money'] = $list['total'];
+            $data['wallet'] = 0; 
 
             if($list['endTime']==0){
                 $data['endTime'] = time();
             }
 
             if ($data['wallet']>0) {
-                $finance = model('Finance');
+                /*$finance = model('Finance');
                 $finance->startTrans();
                 $fdata = array(
                     'type' => 4,
@@ -728,8 +735,6 @@ class Order extends Auth {
                     'extend1' => $list['id'],
                     'createTime' => time()
                 ); 
-
-                //db('Finance')->insert($fdata);
                 $res = $finance->insert( $fdata );
                 if ($res) {
                     $orderModel = model('Order');      
@@ -738,7 +743,6 @@ class Order extends Auth {
                     if ($result) {  
                         $orderModel->commit();
                         $finance->commit();  
-                        //file_put_contents("pay".date("Y-m-d",time()).".txt", date ( "Y-m-d H:i:s" ) . "  "."订单" .$list['order_no']. "，总金额".$list['total']."，用户余额".$this->user['money']."，扣余额".$data['wallet']."，应付".$data['money']."\r\n", FILE_APPEND);
                     }else{
                         $orderModel->rollBack();    
                         $finance->rollBack();  
@@ -748,7 +752,7 @@ class Order extends Auth {
                     $orderModel->rollBack();    
                     $finance->rollBack();  
                     returnJson(0,'操作失败'); 
-                }
+                }*/
             }else{                
                 $result = db("Order")->where('id',$list['id'])->update($data);
                 if (!$result) {  
@@ -756,7 +760,7 @@ class Order extends Auth {
                 }
             }
 
-            if ($data['payStatus']==1) {
+            /*if ($data['payStatus']==1) {
                 db('OrderBaoguo')->where('orderID',$list['id'])->setField('status',1);
                 //减库存
                 $detail = db("OrderDetail")->where('orderID',$list['id'])->select();
@@ -765,11 +769,11 @@ class Order extends Auth {
                     db("Goods")->where('id',$value['goodsID'])->setDec("stock",$value['number']);
                 }
                 returnJson(1,'支付成功，等待商家配货');
-            }else{
+            }else{*/
                 $list['money'] = $data['money'];
                 $url = $this->getOmiUrl($list);
                 returnJson(1,'success',['url'=>$url]);
-            }         
+            //}         
         }
     }
 

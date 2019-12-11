@@ -262,7 +262,7 @@ class Cart extends Auth {
 
             $map['memberID'] = $this->user['id'];
             $address = db('Address')->where($map)->order('def desc , id desc')->find();
-            $sender = db('Sender')->where($map)->order('id desc')->find();
+            //$sender = db('Sender')->where($map)->order('id desc')->find();
 
             unset($map);
             $map['memberID'] = $this->user['id'];
@@ -342,7 +342,7 @@ class Cart extends Auth {
             returnJson(1,'success',[
                 'cutPrice'=>$cutPrice,
                 'address'=>$address,
-                'sender'=>$sender,
+                //'sender'=>$sender,
                 'point'=>$point,
                 'goodsMoney'=>$goodsMoney,
                 'total'=>$total,

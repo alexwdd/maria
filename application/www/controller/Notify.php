@@ -90,8 +90,8 @@ class Notify extends Base {
             ); 
             db("Finance")->insert( $jdata );
     	}
-    	if($order['fund']>0){
-    		$fdata = array(
+        if($order['fund']>0){
+            $fdata = array(
                 'type' => 5,
                 'money' => $order['fund'],
                 'memberID' => $order['memberID'],  
@@ -99,11 +99,11 @@ class Notify extends Base {
                 'oldMoney'=>$fina['fund'],
                 'newMoney'=>$fina['fund']+$order['fund'],
                 'admin' => 2,
-                'msg' => '购买商品，获得$'.$order['fund'].'返利基金',
+                'msg' => '购买商品，累计消费增加$'.$order['fund'].'元',
                 'extend1' => $order['id'],
                 'createTime' => time()
             ); 
             db("Finance")->insert( $fdata );
-    	}
+        }
     }
 }

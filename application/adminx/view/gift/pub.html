@@ -1,0 +1,85 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" value="{$list.name}" lay-verType="tips" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-inline" style="width:400px">
+            <input type="text" id="picname" name="picname" value="{$list.picname}" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn" id="upload-single">上传图片</button>
+            <i class="layui-icon showImage" tag="picname">&#xe64a;</i>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">积分</label>
+        <div class="layui-input-inline">
+            <input type="text" name="point" value="{$list.point}" lay-verType="tips" autocomplete="off" class="layui-input"/>
+        </div>
+        <label class="layui-form-label">累计消费</label>
+        <div class="layui-input-inline">
+            <input type="text" name="money" value="{$list.money}" lay-verType="tips" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea name="content" id="container" lay-verify="content">{$list.content}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('gift/pub')}">
+    </div>
+    <input type="hidden" name="id" value="{$list.id}">
+</div>
+<script src="{:RES}/tinymce/tinymce.min.js"></script>
+<script>
+layui.config({
+    base: '{:RES}/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index','myupload','tinymce'], function() {    
+    var $ = layui.$,
+        myupload = layui.myupload,
+        tinyConfig = layui.tinymce;
+
+    $("html").css({"background":"#fff"});
+    tinymce.init(tinyConfig);
+
+    $("#lay-common-submit").click(function(){
+        $("#container").val(tinyMCE.activeEditor.getContent());
+    })
+
+    $(".showImage").click(function(){
+        let o = $("#"+$(this).attr("tag"));
+        if(o.val()!=''){
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: ['80%','80%'],
+                shadeClose: true,
+                content: '<img src="'+o.val()+'" style="max-width:100%"/>'
+            });
+        }
+    })
+
+    myupload.single({
+        elem : '#upload-single',
+        url : '{:url('upload/image')}',
+        ext:'jpg|png|gif|jpeg',
+        mime:'image/*',
+        size:5120,
+        tag : '#picname'
+    });    
+})
+</script>

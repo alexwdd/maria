@@ -26,6 +26,17 @@
             </div>
 
             <div class="layui-form-item">
+                <label class="layui-form-label">发件人</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="sender" value="{$config.sender}" lay-verify="required" class="layui-input">
+                </div>
+                <label class="layui-form-label">发件人电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="senderTel" value="{$config.senderTel}" lay-verify="required" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
                 <label class="layui-form-label">抢购时间</label>
                 <div class="layui-input-inline">
                     <input type="text" name="flashTime" value="{$config.flashTime}" class="layui-input">
@@ -61,7 +72,7 @@
                 <div class="layui-form-mid layui-word-aux">新用户访问后奖励积分</div>
             </div>
 
-            <div class="layui-form-item">
+            <!-- <div class="layui-form-item">
                 <label class="layui-form-label">1澳元=</label>
                 <div class="layui-input-inline">
                     <input type="text" name="buy" value="{$config.buy}" lay-verify="required" class="layui-input">
@@ -117,7 +128,7 @@
                 <div class="layui-form-mid layui-word-aux">%</div>
             </div>
 
-            <!-- <div class="layui-form-item">
+            <div class="layui-form-item">
                 <label class="layui-form-label">达到</label>
                 <div class="layui-input-inline">
                     <input type="text" name="jifen5" value="{$config.jifen5}" lay-verify="required" class="layui-input">
