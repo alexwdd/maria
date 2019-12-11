@@ -107,6 +107,46 @@ function getFundBack($point){
     return ['bar'=>$bar,'next'=>$next,'nextBar'=>$nextBar];
 }
 
+function getGiftBack($fina,$gift){
+    foreach ($gift as $key => $value) {
+        if($fina['point']<$value['point']){
+            if($value[$key+1]){
+                $next = $value[$key+1];
+            }else{
+                $next = $value;
+            }
+            $money = $next['money'] - $fina['fund'];
+            if($money<0){
+                $money = 0;
+            }
+            $max = $next['point'];
+            $bar = ($fina['point'] / $next['point'])*100;
+            if($bar>100){
+                $bar = 100;
+            }
+
+            if($fina['point']>=$gift[0]['point'] && $fina['fund']>=$gift[0]['money']){
+                $flag = 1;
+            }else{
+                $flag = 0;
+            }
+            return ['max'=>$max,'bar'=>$bar,'money'=>$money,'flag'=>$flag];
+        }
+    }
+
+    $next = end($gift);
+    $money = $next['money'] - $fina['fund'];
+    if($money<0){
+        $money = 0;
+    }
+    if($fina['point']>=$gift[0]['point'] && $fina['fund']>=$gift[0]['money']){
+        $flag = 1;
+    }else{
+        $flag = 0;
+    }
+    return ['max'=>$next['point'],'bar'=>100,'money'=>$money,'flag'=>$flag];
+}
+
 //获取支付方式
 function getPayType($v){
     if ($v==1) {

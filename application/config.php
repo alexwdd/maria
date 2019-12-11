@@ -351,9 +351,9 @@ return [
         //3 => array('name'=>'余额充值'),
         //4 => array('name'=>'余额购物'),
         5 => array('name'=>'累计消费'),
-        6 => array('name'=>'消费清零'),
+        6 => array('name'=>'累计消费兑换'),
         //7 => array('name'=>'基金返利'),
-        8 => array('name'=>'积分清零'),
+        8 => array('name'=>'购物积分兑换'),
         9 => array('name'=>'奖励积分'),
     ),
 ];

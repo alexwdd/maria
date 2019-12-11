@@ -42,10 +42,10 @@ class Account extends Auth {
             $order6 = db("Order")->where($map)->count();
 
             $fina = $this->getUserMoney($this->user['id']);
+            $gift = db("Gift")->field('point,money')->order('point asc')->select();
+            $result = getGiftBack($fina,$gift);
 
-            $result = getFundBack($fina['point']);     
-            $config = tpCache('member');
-
+            /*$config = tpCache('member');
             $last_mont_first_date = date('Y-m-1',strtotime('last month'));
             $last_mont_end_date = date('Y-m-d',strtotime(date('Y-m-1').'-1 day'));
             unset($map);
@@ -55,7 +55,7 @@ class Account extends Auth {
             $lastMonth = db("Finance")->where($map)->sum("money");
 
             $result['fanli'] = round(($fina['fund']*$result['bar'])/100,2);
-            $result['baifenbi'] = ($find['point']/12000)*100;
+            $result['baifenbi'] = ($find['point']/12000)*100;*/
 
             //为您推荐 
             $obj = db('GoodsPush');
@@ -75,7 +75,7 @@ class Account extends Auth {
                 'goods'=>$list,
                 'fina'=>$fina,
                 'jifen'=>$result,
-                'lastMonth'=>[
+                /*'lastMonth'=>[
                     'money'=>$lastMonth,
                     'rmb'=>round($lastMonth*$this->rate,1)
                 ],
@@ -85,7 +85,7 @@ class Account extends Auth {
                     ['jifen'=>$config['jifen3'],'bar'=>$config['back3']],
                     ['jifen'=>$config['jifen4'],'bar'=>$config['back4']],
                     ['jifen'=>$config['jifen5'],'bar'=>$config['back5']],
-                ],
+                ],*/
                 'order'=>[
                     'nopay'=>$order1,
                     'share'=>$order2,
