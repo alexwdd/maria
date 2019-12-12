@@ -1,5 +1,6 @@
 后台节点增加礼物
 增加gift表
+增加giftOrder表
 会员充值去掉
 
 -- phpMyAdmin SQL Dump

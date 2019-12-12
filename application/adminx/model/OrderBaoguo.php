@@ -29,7 +29,7 @@ class OrderBaoguo extends Admin
             $map['print'] = $print;
         }
         if ($keyword!='') {
-            $map['name|sender'] = $keyword;
+            $map['name|tel'] = $keyword;
         }
         if ($order_no!='') {
             $map['order_no'] = $order_no;

@@ -6,7 +6,9 @@ class Chongzhi extends Admin {
 	#列表
 	public function index() {
 		if (request()->isPost()) {
-			$result = model('Finance')->getList(3);
+            $map['type'] = array('in',[5,9]);
+            $map['admin'] = 1;
+			$result = model('Finance')->getList($map);
 			echo json_encode($result);
     	}else{
 	    	return view();
@@ -18,6 +20,7 @@ class Chongzhi extends Admin {
         if(request()->isPost()){
             $data['money'] = input('post.money');
             $account = input('post.account');
+            $type = input('post.type');
 
             $user = db('Member');
             $map['id'] = $account;
@@ -26,12 +29,22 @@ class Chongzhi extends Admin {
             if (!$rs) {
                 $this->error('会员不存在！');
             }
+
+            if(!in_array($type, [5,9])){
+                $this->error("类型错误");
+            }
+
+            if($type==5){
+                $msg = '管理员为你累计购物钱包充值'.$data['money'].'元';
+            }else{
+                $msg = '管理员为你积分钱包充值'.$data['money'].'点';
+            }
             
-            $data['type'] = 3;
+            $data['type'] = $type;
             $data['memberID'] = $rs['id'];
             $data['doID'] = $this->admin['id'];
             $data['admin'] = 1;
-            $data['msg'] = '账户充值'.$data['money'].'元';
+            $data['msg'] = $msg;
             $data['createTime'] = time();
             
             $result = db("Finance")->insert($data);

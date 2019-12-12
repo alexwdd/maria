@@ -1,0 +1,101 @@
+<style type="text/css">
+.face{float: left; margin-right: 15px}
+.face img{height: 80px; display: block;}
+.face a{display: block; width: 100%; margin-top: 5px}
+</style>
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">礼物</label>
+        <div class="layui-form-mid">{$list.giftName}</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-form-mid">{$list.name}</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话</label>
+        <div class="layui-form-mid">{$list.tel}</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-form-mid">{$list.province}{$list.city}{$list.county}{$list.addressDetail}</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证号</label>
+        <div class="layui-form-mid">{$list.sn|default='无'}</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证</label>
+        <div class="layui-input-block">
+            <div class="face">
+                {empty name="list.front"}
+                <img src="{:RES}/image/sn1.png">
+                {else/}
+                <img src="{$list.front}">
+                <a href="{:url('order/image')}?img={$list.front}" class="layui-btn layui-btn-sm">下载</a>
+                {/empty}
+            </div>
+            <div class="face">
+                {empty name="list.back"}
+                <img src="{:RES}/image/sn2.png">
+                {else/}
+                <img src="{$list.back}" />
+                <a href="{:url('order/image')}?img={$list.back}" class="layui-btn layui-btn-sm">下载</a>
+                {/empty}
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">物流名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="express" lay-verify="required" value="{$list.express}" class="layui-input">
+        </div>
+    </div>  
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">运单号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="kdNo" name="kdNo" lay-verify="required" value="{$list.kdNo}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="status" value="1" title="已发货" {php}if($list['status']=='1')echo 'checked';{/php}>
+            <input type="radio" name="status" value="0" title="待发货" {php}if($list['status']=='0')echo 'checked';{/php}>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="lay-common-submit" id="lay-common-submit" value="确认添加" iframe="1" url="{:url('gift/info')}">
+    </div>
+    <input type="hidden" name="id" value="{$list.id}">
+</div>
+<script>
+layui.config({
+    base: '{:RES}/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index','myupload'], function() {    
+    var $ = layui.$,
+        myupload = layui.myupload;
+    $("html").css({"background":"#fff"});
+    myupload.single({
+        elem : '#upload-single',
+        url : '{:url('upload/image')}',
+        ext:'jpg|png|gif|jpeg',
+        mime:'image/*',
+        size:5120,
+        tag : '#picname'
+    });    
+})
+</script>

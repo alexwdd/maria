@@ -73,7 +73,7 @@ class Login extends Common {
                             'doID' =>  $user['id'],
                             'oldMoney'=>0,
                             'newMoney'=>$config['register'],
-                            'admin' => 1,
+                            'admin' => 0,
                             'msg' => '新用户注册，赠送'.$config['register'].'积分。',
                             'extend1'=>0,
                             'createTime' => time()

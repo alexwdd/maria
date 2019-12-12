@@ -7,6 +7,11 @@ class Member extends Admin {
 	public function index() {
 		if (request()->isPost()) {
 			$result = model('Member')->getList();
+			foreach ($result['data'] as $key => $value) {
+                $fina = $this->getUserMoney($value['id']);
+                $result['data'][$key]['point'] = $fina['point'];
+                $result['data'][$key]['fund'] = $fina['fund'];
+            }
 			echo json_encode($result);
     	}else{
 	    	return view();

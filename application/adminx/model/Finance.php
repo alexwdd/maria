@@ -16,7 +16,7 @@ class Finance extends Admin
     }
 
     //获取列表
-    public function getList($moneyType=null){        
+    public function getList($map=null){        
         $pageNum = input('post.page',1);
         $pageSize = input('post.limit',config('page.size'));
         $field = input('post.field','id');
@@ -32,10 +32,6 @@ class Finance extends Admin
             $startDate = $date[0];
             $endDate = $date[1];
             $map['createTime'] = array('between',array(strtotime($startDate),strtotime($endDate)+86399));
-        }
-
-        if($moneyType){
-            $map['type'] = $moneyType;
         }
 
         if ($type!='') {

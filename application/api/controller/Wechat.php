@@ -84,7 +84,7 @@ class Wechat extends Common {
                                 'doID' =>  $father['id'],
                                 'oldMoney'=>$fina['point'],
                                 'newMoney'=>$fina['point']+$config['shareStore'],
-                                'admin' => 1,
+                                'admin' => 0,
                                 'msg' => '成功分享商城，奖励'.$config['shareStore'].'积分。',
                                 'extend1'=>0,
                                 'createTime' => time()

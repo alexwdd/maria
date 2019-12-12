@@ -353,7 +353,7 @@ return [
         5 => array('name'=>'累计消费'),
         6 => array('name'=>'累计消费兑换'),
         //7 => array('name'=>'基金返利'),
-        8 => array('name'=>'购物积分兑换'),
+        8 => array('name'=>'积分兑换'),
         9 => array('name'=>'奖励积分'),
     ),
 ];

@@ -105,23 +105,250 @@ class Account extends Auth {
 
             $fina = $this->getUserMoney($this->user['id']);
 
-            $result = getFundBack($fina['point']);     
-            $config = tpCache('member');
-            $result['fanli'] = round(($fina['fund']*$result['bar']/100),2);
-            $result['baifenbi'] = ($find['point']/12000)*100;
-
+            $gift = db("Gift")->field('id,point,money')->order('point asc')->select();
+            $result = getGiftBack($fina,$gift);
+            $result['baifenbi'] = ($fina['point']/($gift[0]['point']*4)*100);
             returnJson(1,'success',[
+                'gift'=>$gift,
                 'fina'=>$fina,
                 'jifen'=>$result, 
-                'userID'=>$this->user['id'], 
-                'config'=>[
-                    ['jifen'=>$config['jifen1'],'bar'=>$config['back1']],
-                    ['jifen'=>$config['jifen2'],'bar'=>$config['back2']],
-                    ['jifen'=>$config['jifen3'],'bar'=>$config['back3']],
-                    ['jifen'=>$config['jifen4'],'bar'=>$config['back4']],
-                    ['jifen'=>$config['jifen5'],'bar'=>$config['back5']],
-                ]
+                'userID'=>$this->user['id']
             ]);
+        }
+    }
+
+    public function getGift(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $giftID = input('post.giftID');
+            if($giftID=='' || !is_numeric($giftID)){
+                returnJson(0,'参数错误');
+            }
+            $gift = db("Gift")->where('id',$giftID)->find();
+            if(!$gift){
+                returnJson(0,'不存在的礼物');
+            }
+
+            $gift['picname'] = getRealUrl($gift['picname']);
+
+            $fina = $this->getUserMoney($this->user['id']);
+            if($gift['point']>$fina['point']){
+                returnJson(0,'您的积分不足');
+            }
+            if($gift['money']>$fina['fund']){
+                returnJson(0,'您还需要消费'.($gift['money']-$fina['fund']).'元才可以兑换');
+            }
+
+            $map['memberID'] = $this->user['id'];
+            $address = db('Address')->where($map)->order('def desc , id desc')->find();
+
+            returnJson(1,'success',[
+                'gift'=>$gift,
+                'address'=>$address,
+                'fina'=>$fina,
+            ]);
+        }
+    }
+
+    public function doGift(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $giftID = input('post.giftID');            
+
+            if($giftID=='' || !is_numeric($giftID)){
+                returnJson(0,'参数错误');
+            }
+            $gift = db("Gift")->where('id',$giftID)->find();
+            if(!$gift){
+                returnJson(0,'不存在的礼物');
+            }
+
+            $gift['picname'] = getRealUrl($gift['picname']);
+
+            $fina = $this->getUserMoney($this->user['id']);
+            if($gift['point']>$fina['point']){
+                returnJson(0,'您的积分不足');
+            }
+            if($gift['money']>$fina['fund']){
+                returnJson(0,'您还需要消费'.($gift['money']-$fina['fund']).'元才可以兑换');
+            }
+
+            $addressID = input('post.addressID');
+            $address = db("Address")->where(['id'=>$addressID,'memberID'=>$this->user['id']])->find();
+            if(!$address){
+                returnJson(0,'收件人错误');
+            }
+
+            $data['memberID'] = $this->user['id'];
+            $data['giftID'] = $gift['id'];
+            $data['point'] = $gift['point'];
+            $data['fund'] = $gift['money'];
+            $data['giftName'] = $gift['name'];           
+            $data['picname'] = $gift['picname'];           
+            $data['addressID'] = $addressID;
+            $data['name'] = $address['name'];
+            $data['tel'] = $address['tel'];
+            $data['sn'] = $address['sn'];
+            $data['front'] = $address['front'];
+            $data['back'] = $address['back'];
+            $data['province'] = $address['province'];
+            $data['city'] = $address['city'];
+            $data['county'] = $address['county'];
+            $data['addressDetail'] = $address['addressDetail'];
+            $data['kdNo'] = '';
+            $data['express'] = '';
+            $data['status'] = 0;
+            $data['remark'] = '';
+            $data['createTime'] = time();
+            $res = db("GiftOrder")->insert($data);
+            if($res){
+                $pdata = array(
+                    'type' => 8,
+                    'money' => $gift['point'],
+                    'memberID' => $this->user['id'],  
+                    'doID' => $this->user['id'],
+                    'oldMoney'=>$fina['point'],
+                    'newMoney'=>$fina['point']-$gift['point'],
+                    'admin' => 2,
+                    'msg' => '兑换礼品【'.$gift['name'].'】，使用'.$gift['point'].'积分',
+                    'extend1' => 0,
+                    'createTime' => time()
+                );
+                $fdata = array(
+                    'type' => 6,
+                    'money' => $gift['money'],
+                    'memberID' => $this->user['id'],  
+                    'doID' => $this->user['id'],
+                    'oldMoney'=>$fina['fund'],
+                    'newMoney'=>$fina['fund']-$gift['money'],
+                    'admin' => 2,
+                    'msg' => '兑换礼品【'.$gift['name'].'】，使用累计消费'.$gift['money'].'元',
+                    'extend1' => 0,
+                    'createTime' => time()
+                ); 
+
+                db('Finance')->insertAll([$pdata,$fdata]);
+                returnJson(1,'兑换成功，客服人员会马上进行处理');
+            }else{
+                returnJson(0,'兑换失败');
+            }
+        }
+    }
+
+    public function gift(){
+        if (request()->isPost()) { 
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $page = input('post.page/d',1);
+            $pagesize = input('post.pagesize',10);
+            $firstRow = $pagesize*($page-1); 
+
+            $map['memberID'] = $this->user['id'];
+            $obj = db('GiftOrder');
+            $count = $obj->where($map)->count();
+            $totalPage = ceil($count/$pagesize);
+            if ($page < $totalPage) {
+                $next = 1;
+            }else{
+                $next = 0;
+            }
+            $list = $obj->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
+            foreach ($list as $key => $value) {
+                $list[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
+            }
+            returnJson(1,'success',['next'=>$next,'data'=>$list]);
+        }
+    }
+
+    //订单详情
+    public function giftDetail(){
+        if (request()->isPost()) {
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $config = tpCache('member');
+
+            $id = input('post.id');
+            if ($id=='') {
+                returnJson(0,'参数错误');
+            }
+            $map['id'] = $id;
+            $map['memberID'] = $this->user['id'];
+            $list = db('GiftOrder')->where( $map )->find();
+            if ($list) {                
+                if($list['front']=='' || $list['back']==''){
+                    $list['upload'] = 0;
+                }else{
+                    $list['upload'] = 1;
+                }
+                $list['front']=getRealUrl($list['front']);
+                $list['back']=getRealUrl($list['back']);   
+                $list['createTime'] = date("Y-m-d H:i:s",$list['createTime']);    
+                returnJson(1,'success',[
+                    'order'=>$list
+                ]); 
+            }else{
+                returnJson(0,'信息不存在');
+            }
+        }
+    }
+
+    public function updatePersonCard(){
+        if (request()->isPost()) {
+            //if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $id = input('post.id');
+            $front = input('post.front');
+            $back = input('post.back');
+            if ($id=='') {
+                returnJson(0,'参数错误');
+            }
+            if ($front=='' && $back=='') {
+                returnJson(0,'请选择身份证照片');
+            }
+
+            $map['id'] = $id;
+            $map['memberID'] = $this->user['id'];
+            $list = db("GiftOrder")->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单不存在');
+            }
+
+            if($front!='' && strstr($front, 'base64')){
+                $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
+                $fileName = createNonceStr();
+                $frontUrl = $this->base64ToImg($path,$fileName,$front);
+            }else{
+                $frontUrl = $front;
+            }
+            
+            if($back!='' && strstr($back, 'base64')){
+                $path = config('UPLOAD_PATH').'sn/'.$this->user['id'].'/';
+                $fileName = createNonceStr();
+                $backUrl = $this->base64ToImg($path,$fileName,$back);
+            }else{
+                $backUrl = $back;
+            }
+            
+            if($frontUrl != ''){
+                $data['front'] = $frontUrl;
+            }
+
+            if($backUrl != ''){
+                $data['back'] = $backUrl;
+            }
+
+            unset($map);
+            $map['addressID'] = $list['addressID'];
+            $map['status'] = 0;
+            $res = db("GiftOrder")->where($map)->update($data);
+
+            if($res){
+                $frontUrl = getRealUrl($frontUrl);
+                $backUrl = getRealUrl($backUrl);
+
+                returnJson(1,'success',['front'=>$frontUrl,'back'=>$backUrl]);
+            }else{
+                returnJson(0,'照片保存失败');
+            }
         }
     }
 
@@ -251,7 +478,7 @@ class Account extends Auth {
                     'doID' =>  $this->user['id'],
                     'oldMoney'=>$fina['point'],
                     'newMoney'=>$fina['point']+$config['diggPoint'],
-                    'admin' => 1,
+                    'admin' => 0,
                     'msg' => $this->user['nickname'].'为您点赞，获得'.$config['diggPoint'].'积分。',
                     'extend1'=>0,
                     'createTime' => time()
@@ -515,7 +742,7 @@ class Account extends Auth {
                         'doID' =>  $this->user['id'],
                         'oldMoney'=>$fina['point'],
                         'newMoney'=>$fina['point']+$config['sign'],
-                        'admin' => 1,
+                        'admin' => 0,
                         'msg' => date("m-d").'签到，奖励'.$config['sign'].'积分。',
                         'extend1'=>0,
                         'createTime' => time()
@@ -591,7 +818,7 @@ class Account extends Auth {
                         'money' => $config['sign'],
                         'memberID' => $this->user['id'],     
                         'doID' =>  $this->user['id'],
-                        'admin' => 1,
+                        'admin' => 0,
                         'msg' => date("m-d").'签到，奖励'.$config['sign'].'积分。',
                         'extend1'=>0,
                         'createTime' => time()
