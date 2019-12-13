@@ -42,7 +42,10 @@ class Account extends Auth {
             $order6 = db("Order")->where($map)->count();
 
             $fina = $this->getUserMoney($this->user['id']);
-            $gift = db("Gift")->field('point,money')->order('point asc')->select();
+            $gift = db("Gift")->field('point,money,picname')->order('point asc')->select();
+            foreach ($gift as $key => $value) {
+                $gift[$key]['picname'] = getRealUrl($value['picname']);
+            }
             $result = getGiftBack($fina,$gift);
 
             /*$config = tpCache('member');
@@ -105,7 +108,10 @@ class Account extends Auth {
 
             $fina = $this->getUserMoney($this->user['id']);
 
-            $gift = db("Gift")->field('id,point,money')->order('point asc')->select();
+            $gift = db("Gift")->field('id,point,money,picname')->order('point asc')->select();
+            foreach ($gift as $key => $value) {
+                $gift[$key]['picname'] = getRealUrl($value['picname']);
+            }
             $result = getGiftBack($fina,$gift);
             $result['baifenbi'] = ($fina['point']/($gift[0]['point']*4)*100);
             returnJson(1,'success',[

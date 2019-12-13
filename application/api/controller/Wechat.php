@@ -38,6 +38,7 @@ class Wechat extends Common {
 
             $request = Request::instance();
             $data['nickname'] = $wxname;
+            $data['code'] = rand(10000000, 99999999);
             $data['openid'] = $openid;    
             $data['headimg'] = $wxface;
             $data['disable'] = 0;

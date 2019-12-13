@@ -130,7 +130,7 @@ function getGiftBack($fina,$gift){
             }else{
                 $flag = 0;
             }
-            return ['max'=>$max,'bar'=>$bar,'money'=>$money,'flag'=>$flag];
+            return ['max'=>$max,'picname'=>$next['picname'],'bar'=>$bar,'money'=>$money,'flag'=>$flag];
         }
     }
 
@@ -144,7 +144,7 @@ function getGiftBack($fina,$gift){
     }else{
         $flag = 0;
     }
-    return ['max'=>$next['point'],'bar'=>100,'money'=>$money,'flag'=>$flag];
+    return ['max'=>$next['point'],'picname'=>$next['picname'],'bar'=>100,'money'=>$money,'flag'=>$flag];
 }
 
 //获取支付方式

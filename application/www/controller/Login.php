@@ -44,6 +44,7 @@ class Login extends Common
         $data['nickname'] = $wxname;
         $data['openid'] = $openid;    
         $data['headimg'] = $wxface;
+        $data['code'] = rand(10000000, 99999999);
         $data['disable'] = 0;
         $data['createTime'] = time();
         $data['createIP'] = $request->ip();

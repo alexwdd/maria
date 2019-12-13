@@ -24,6 +24,7 @@ class Login extends Common {
             $data['openid'] = input('post.openid');
             $data['nickname'] = input('post.nickname');
             $data['headimg'] = input('post.headimg');
+            $data['code'] = rand(10000000, 99999999);
 
             if($data['openid']==''){
                 returnJson(0,'缺少openid');
