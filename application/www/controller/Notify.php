@@ -59,6 +59,8 @@ class Notify extends Base {
                         	}                        	
                         }
                         $this->saveJiangjin($list);
+                        //优惠券奖励
+                        $this->saveCoupon($list);
                         echo 'success';               
                     }
                 }else{
@@ -104,6 +106,40 @@ class Notify extends Base {
                 'createTime' => time()
             ); 
             db("Finance")->insert( $fdata );
+        }
+    }
+
+    public function saveCoupon($order){
+        if($order['couponID']>0){
+            $fromID = db("CouponLog")->where('id',$order['couponID'])->value("fromID");
+            if($fromID>0){
+                $config = tpCache("member");
+                unset($map);
+                $map['id'] = $config['myCouponID'];
+                $list = db('Coupon')->where($map)->find();
+                if(!$list){
+                    die;
+                }
+                $user = db("Member")->where('id',$fromID)->find();
+                $data = [
+                    'memberID'=>$user['id'],
+                    'nickname'=>$user['nickname'],
+                    'couponID'=>$config['myCouponID'],
+                    'code'=>$this->getCouponNo(),
+                    'name'=>$list['name'],
+                    'desc'=>$list['desc'],
+                    'full'=>$list['full'],
+                    'dec'=>$list['dec'],
+                    'intr'=>$list['intr'],
+                    'goodsID'=>$list['goodsID'],
+                    'fromID' =>0,
+                    'status'=>0,
+                    'useTime'=>0,
+                    'endTime'=>time()+86400*$list['day'],
+                    'createTime'=>time(),
+                ];
+                $res = db("CouponLog")->insert($data);
+            }
         }
     }
 }

@@ -1050,6 +1050,10 @@ class Account extends Auth {
             $couponID = input('post.couponID');
             $code = input('post.code');
 
+            if(strlen($code)==8){
+                $this->shareCoupon($code);
+            }
+
             if ($couponID!='' || is_numeric($couponID)) {
                 //$map['status'] = 1;
                 $map['id'] = $couponID;
@@ -1120,6 +1124,61 @@ class Account extends Auth {
             }else{
                 returnJson(0,'领取失败');
             }       
+        }
+    }
+
+    //分享优惠券
+    public function shareCoupon($code){
+        $map['code'] = $code;
+        $map['id'] = array('neq',$this->user['id']);
+        $from = db("Member")->where($map)->find();
+        if (!$from) {
+            returnJson(0,'无效的优惠券码');
+        }
+
+        unset($map);
+        $map['code'] = $code;
+        $map['memberID'] = $this->user['id'];
+        $map['fromID'] = $from['id'];
+        $count = db("CouponShare")->where($map)->count();
+        if($count>0){
+            returnJson(0,'不能重复领取');
+        }
+
+        $config = tpCache("member");
+        unset($map);
+        $map['id'] = $config['couponID'];
+        $list = db('Coupon')->where($map)->find();
+        if(!$list){
+            returnJson(0,'优惠券不存在');
+        }
+        $data = [
+            'memberID'=>$this->user['id'],
+            'nickname'=>$this->user['nickname'],
+            'couponID'=>$config['couponID'],
+            'code'=>$this->getCouponNo(),
+            'name'=>$list['name'],
+            'desc'=>$list['desc'],
+            'full'=>$list['full'],
+            'dec'=>$list['dec'],
+            'intr'=>$list['intr'],
+            'goodsID'=>$list['goodsID'],
+            'fromID' =>$from['id'],
+            'status'=>0,
+            'useTime'=>0,
+            'endTime'=>time()+86400*$list['day'],
+            'createTime'=>time(),
+        ];
+        $res = db("CouponLog")->insert($data);
+        if ($res) {
+            $update['memberID'] = $this->user['id'];
+            $update['fromID'] = $from['id'];
+            $update['code'] = $code;
+            $update['createTime'] = time();
+            db("CouponShare")->insert($update);
+            returnJson(1,'success',['endTime'=>date("Y-m-d H:i:s",$data['endTime'])]);
+        }else{
+            returnJson(0,'领取失败');
         }
     }
 }
