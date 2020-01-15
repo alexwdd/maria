@@ -186,10 +186,10 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
             $config = tpCache("member");
 
-            /*$lock =  'order_'.$this->user['id'];
+            $lock =  'order_'.$this->user['id'];
             if(!$this->lock(5,$lock,$this->user['id'])){
                 returnJson(0,'操作太频繁，稍后重试!');
-            }*/
+            }
 
             $baoguoType = input('post.baoguoType');
             if (!in_array($baoguoType,[1,2])) {
@@ -341,6 +341,9 @@ class Order extends Auth {
             $data['sender'] = $config['sender'];
             $data['senderTel'] = $config['senderTel'];
             $data['intr'] = input('post.intr'); 
+            $data['print'] = 0;
+            $data['hide'] = 0;
+            $data['cancel'] = 0;
 
             $res = model('Order')->add( $data );
             if ($res['code']==1) {
@@ -364,6 +367,11 @@ class Order extends Auth {
                     $detail['addressDetail'] = $data['addressDetail'];
                     $detail['sender'] = $data['sender'];
                     $detail['senderTel'] = $data['senderTel'];
+                    $detail['eimg'] = '';
+                    $detail['image'] = '';
+                    $detail['flag'] = 0;
+                    $detail['print'] = 0;
+                    $detail['cancel'] = 0;
                     $detail['createTime'] = time();          
                     $detail['status'] = 0;              
                     $detail['snStatus'] = 0;
@@ -632,7 +640,8 @@ class Order extends Auth {
     public function pay(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
-            $order_no = input('post.order_no');
+            $order_no = input('post.order_no');            
+
             if($order_no==''){
                 returnJson(0,'参数错误');
             }
@@ -679,13 +688,49 @@ class Order extends Auth {
             if(!checkFormDate()){returnJson(0,'ERROR');}
 
             $order_no = input('post.order_no');
-            /*$payType = input('post.type');
+            $payType = input('post.type');
 
             if (!in_array($payType,[1,2])) {
                 returnJson(0,'支付方式错误');
-            }*/
+            }
 
-            $payType = 1;
+            $map['order_no'] = $order_no;            
+            $map['memberID'] = $this->user['id'];
+            $map['payStatus'] = 0;
+            $list = db('Order')->where($map)->find();
+            if(!$list){
+                returnJson(0,'订单不存在');
+            }
+
+            $data['payType'] = $payType;
+            $data['money'] = $list['total'];
+
+            if($list['endTime']==0){
+                $data['endTime'] = time();
+            }
+                   
+            $result = db("Order")->where('id',$list['id'])->update($data);
+
+            $list['money'] = $data['money'];
+            if($payType==1){//微信支付
+                $url = url('mobile/weixin/pay',array('order_no'=>$list['order_no']));
+            }else{
+
+            }
+            returnJson(1,'success',['url'=>$url]);       
+        }
+    }
+
+    /*public function doPay(){
+        if (request()->isPost()) {
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+
+            $order_no = input('post.order_no');
+            $payType = input('post.type');
+
+            if (!in_array($payType,[1,2])) {
+                returnJson(0,'支付方式错误');
+            }
 
             $map['order_no'] = $order_no;            
             $map['memberID'] = $this->user['id'];
@@ -700,7 +745,7 @@ class Order extends Auth {
                 returnJson(1,'success',['url'=>$url]);
             }
 
-            /*$fina = $this->getUserMoney($this->user['id']);
+            $fina = $this->getUserMoney($this->user['id']);
             if ($fina['money']>=$list['total']) {
                 $data['payType'] = 2;
                 $data['wallet'] = $list['total'];
@@ -710,7 +755,7 @@ class Order extends Auth {
                 $data['payType'] = 1;
                 $data['money'] = $list['total'] - $fina['money'];
                 $data['wallet'] = $fina['money'];  
-            }*/
+            }
 
             $data['payType'] = 1;
             $data['money'] = $list['total'];
@@ -721,7 +766,7 @@ class Order extends Auth {
             }
 
             if ($data['wallet']>0) {
-                /*$finance = model('Finance');
+                $finance = model('Finance');
                 $finance->startTrans();
                 $fdata = array(
                     'type' => 4,
@@ -752,7 +797,7 @@ class Order extends Auth {
                     $orderModel->rollBack();    
                     $finance->rollBack();  
                     returnJson(0,'操作失败'); 
-                }*/
+                }
             }else{                
                 $result = db("Order")->where('id',$list['id'])->update($data);
                 if (!$result) {  
@@ -760,7 +805,7 @@ class Order extends Auth {
                 }
             }
 
-            /*if ($data['payStatus']==1) {
+            if ($data['payStatus']==1) {
                 db('OrderBaoguo')->where('orderID',$list['id'])->setField('status',1);
                 //减库存
                 $detail = db("OrderDetail")->where('orderID',$list['id'])->select();
@@ -769,13 +814,13 @@ class Order extends Auth {
                     db("Goods")->where('id',$value['goodsID'])->setDec("stock",$value['number']);
                 }
                 returnJson(1,'支付成功，等待商家配货');
-            }else{*/
+            }else{
                 $list['money'] = $data['money'];
                 $url = $this->getOmiUrl($list);
                 returnJson(1,'success',['url'=>$url]);
-            //}         
+            }         
         }
-    }
+    }*/
 
     public function getOmiUrl($order){
         $config = tpCache("omi");

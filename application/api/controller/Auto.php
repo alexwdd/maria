@@ -7,7 +7,7 @@ class Auto extends Base {
 
     public function _initialize(){
         parent::_initialize();        
-    }    
+    }
 
     public function delete(){
         $config = tpCache('member');

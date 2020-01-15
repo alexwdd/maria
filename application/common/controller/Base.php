@@ -579,7 +579,7 @@ class Base extends Controller {
             'port'      => '6379',//你redis的端口号，可以在配置文件设置其他的
             'password'  => '', //这里是你redis配置的密码，如果没有则留空
             'timeout'   => 3600 //缓存时间
-        ];
+        ];     
         cache($options);
         if(!cache($key)){
             cache($key, $expire, $expire);
