@@ -14,6 +14,7 @@ class Account extends Auth {
             $user['wechat'] = $this->user['wechat'];
             $user['sn'] = $this->user['sn'];
             $user['id'] = $this->user['id'];
+            $user['code'] = $this->user['code'];
 
             $map['memberID'] = $this->user['id'];
             $map['status'] = 0;
