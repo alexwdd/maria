@@ -713,7 +713,7 @@ class Order extends Auth {
 
             $list['money'] = $data['money'];
             if($payType==1){//微信支付
-                $url = url('mobile/weixin/pay',array('order_no'=>$list['order_no']));
+                $url = config('site.domain').url('mobile/weixin/pay',array('order_no'=>$list['order_no']));
             }else{
 
             }

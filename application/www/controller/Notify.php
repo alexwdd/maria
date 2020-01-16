@@ -9,6 +9,10 @@ class Notify extends Base {
         parent::_initialize();
     }
 
+    public function wxnotify(){
+        echo 'aaa';
+    }
+
 	public function ominotify(){
 		header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");

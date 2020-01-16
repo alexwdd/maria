@@ -21,10 +21,11 @@ class Weixin extends Base
             $con = json_decode($con,true);              
             $openid = $con['openid'];
         }
+        
         require_once EXTEND_PATH.'weixinpay/WxPayPubHelper.class.php';
         //使用jsapi接口
         $jsApi = new \JsApi_pub($config['APP_ID'],$config['MCH_ID'],$config['MCH_KEY'],$config['APP_SECRET']); 
-
+        
         //获取订单信息  
         $order_no = input('param.order_no');
         if ($order_no=='') {die;}
@@ -33,9 +34,9 @@ class Weixin extends Base
         $list = db('Order')->where($map)->find();
         if (!$list) {
             $this->error('订单不存在，或已支付');
-        }
+        }      
         $this->assign('list',$list);
-        
+  
         //=========步骤2：使用统一支付接口，获取prepay_id============
         //使用统一支付接口
         $unifiedOrder = new \UnifiedOrder_pub($config['APP_ID'],$config['MCH_ID'],$config['MCH_KEY'],$config['APP_SECRET']);    
@@ -48,18 +49,17 @@ class Weixin extends Base
         $unifiedOrder->setParameter("notify_url",'http://'.$_SERVER['HTTP_HOST'].'/wxpay/notice.php');
         $unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
 
-
         $prepay_id = $unifiedOrder->getPrepayId();
 
         //=========步骤3：使用jsapi调起支付============
         $jsApi->setPrepayId($prepay_id);
         $jsApiParameters = $jsApi->getParameters();
         $this->assign('jsApiParameters',$jsApiParameters);
-        $returnUrl = 'http://'.$_SERVER['HTTP_HOST'].'/www/pay/ok/order_no/'.$order_no.'.html';
+        $returnUrl = 'http://m.aumaria.com/pay/return/'.$list['order_no'];
         $this->assign('returnUrl',$returnUrl);
 
-        $returnFailUrl = 'http://'.$_SERVER['HTTP_HOST'].'/www/pay/fail/order_no/'.$order_no.'.html';
-        $this->assign('returnFailUrl',$returnFailUrl);
+        $returnFailUrl = 'http://m.aumaria.com/pay/return/'.$list['order_no'];
+        $this->assign('returnFailUrl',$returnFailUrl);  
         return view();
     } 
 

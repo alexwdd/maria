@@ -31,6 +31,7 @@ class Auto extends Base {
 
     //创建运单
     public function createOrder(){
+        die;
         $map['kdNo'] = '';
         $map['kuaidi'] = array('neq','');
         $map['type'] = array('not in',[15,16,17]);
@@ -42,6 +43,7 @@ class Auto extends Base {
 
     //创建电子单
     public function createOrderPng(){
+        die;
         /*$content = date('Y-m-d H:i:s')." 创建运单图片\r\n";
         $file = 'auto.log';
         file_put_contents($file, $content,FILE_APPEND);*/
@@ -65,6 +67,7 @@ class Auto extends Base {
 
     //上传身份证
     public function uploadPersonPhoto(){
+        die;
         /*$content = date('Y-m-d H:i:s')." 上传身份证\r\n";
         $file = 'auto.log';
         file_put_contents($file, $content,FILE_APPEND);*/
