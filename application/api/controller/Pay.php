@@ -81,22 +81,21 @@ class Pay extends Auth {
 
     //微信下单
     public function wxPub($order){
-        $config = config("weixin");
+        $config = tpCache("weixin");
         require_once EXTEND_PATH.'weixinpay/WxPayPubHelper.class.php';
         //=========步骤2：使用统一支付接口，获取prepay_id============
         //使用统一支付接口
-        $unifiedOrder = new \UnifiedOrder_pub($config['APP_ID'],$config['MCH_ID'],$config['MCH_KEY']);
-        $jsApi = new \JsApi_pub($config['APP_ID'],$config['MCH_ID'],$config['MCH_KEY']); 
+        $unifiedOrder = new \UnifiedOrder_pub($config['OPEN_APP_ID'],$config['MCH_ID'],$config['MCH_KEY']);
+        $jsApi = new \JsApi_pub($config['OPEN_APP_ID'],$config['MCH_ID'],$config['MCH_KEY']); 
 
-        $unifiedOrder->setParameter("body",'手机充值');//商品描述
+        $unifiedOrder->setParameter("body",'在线支付');//商品描述
         //自定义订单号，此处仅作举例
         $unifiedOrder->setParameter("out_trade_no",$order['order_no']);//商户订单号 
-        //$unifiedOrder->setParameter("total_fee",$order['rmb']*100);//总金额
+        //$unifiedOrder->setParameter("total_fee",$order['money']*100);//总金额
         $unifiedOrder->setParameter("total_fee",1);//总金额
-        $unifiedOrder->setParameter("notify_url",config('site.domain').'/v1/chongzhi/wxnotify/');//通知地址 
+        $unifiedOrder->setParameter("notify_url",'http://'.$_SERVER['HTTP_HOST'].'/wxpay/notice.php');//通知地址 
         $unifiedOrder->setParameter("trade_type","APP");//交易类型
         $unifiedOrder->setParameter("spbill_create_ip",request()->ip());//客户端IP
-
         $prepay_id = $unifiedOrder->getPrepayId();
 
         $jsApi->setPrepayId($prepay_id);

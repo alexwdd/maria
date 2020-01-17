@@ -10,7 +10,43 @@ class Notify extends Base {
     }
 
     public function wxnotify(){
-        echo 'aaa';
+        $order_no = input('param.order_no');
+        $map['order_no'] = $order_no;
+        $list = db('Order')->where($map)->find();
+        if ($list) {
+            if ($list['payStatus'] > 0) {
+                exit('该订单已经支付完成，请不要重复操作');  
+            }else{
+                //更新订单状态
+                $data['payStatus'] = 1;
+                $data['status'] = 1;
+                $data['payType'] = 1;
+                db('Order')->where($map)->update($data);
+                db('OrderBaoguo')->where('orderID',$list['id'])->setField('status',1);
+
+                $detail = db("OrderCart")->where('orderID',$list['id'])->select();
+                foreach ($detail as $key => $value) {
+                    unset($map);
+                    if($value['fid']>0){
+                        $map['id'] = $value['fid'];
+                        $map['fid'] = $value['fid'];
+                        db("Goods")->whereOr($map)->setDec("stock",$value['trueNumber']);
+                    }else{
+                        $map['id'] = $value['goodsID'];
+                        db("Goods")->where($map)->setDec("stock",$value['trueNumber']);
+                    }                           
+                }
+                $this->saveJiangjin($list);
+                //优惠券奖励
+                $this->saveCoupon($list);
+                echo 'success';               
+            }
+        }else{
+            exit('订单不存在');  
+        }
+
+        $result = array('return_code' => 'SUCCESS');
+        echo json_encode($result);exit;
     }
 
 	public function ominotify(){
