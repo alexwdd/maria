@@ -1,8 +1,9 @@
 <?php
 namespace app\api\controller;
+use app\common\controller\Base;
 use think\Request;
 
-class Login extends Common {
+class Login extends Base {
 
     public function _initialize(){
         parent::_initialize();
