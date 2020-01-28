@@ -24,6 +24,7 @@ class Member extends Validate
     protected $scene = [
         'add' => ['mobile', 'password'],
         'wechat' => ['openid'],
+        'mobile' => ['mobile'],
         'login' =>  ['account','password','checkcode'],
         'password' =>  ['password','oldpwd'],
         'getpwd' =>  ['password','payPassword','checkcode'],
