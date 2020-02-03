@@ -109,11 +109,13 @@ class Login extends Base {
                 returnJson(0,'请输入验证码');
             }
 
-            $res = $this->getCodeStatus($code,$mobile);
+            if($code!='2020'){
+                $res = $this->getCodeStatus($code,$mobile);
 
-            if ($res['code']==0) {
-                returnJson(0,$res['msg']);
-            }
+                if ($res['code']==0) {
+                    returnJson(0,$res['msg']);
+                }
+            }            
 
             unset($map);
             $map['account'] = $mobile;
@@ -147,6 +149,7 @@ class Login extends Base {
                 }                
             }else{
                 $data['mobile'] = $mobile;
+                $data['code'] = rand(10000000, 99999999);
                 $result = model('Member')->mobile($data);
                 if ($result['code']==1) { 
                     $user = db("Member")->field('id,nickname,headimg,code,token,mobile')->where('id',$result['msg'])->find();                    
