@@ -1,11 +1,38 @@
 增加goodsCateid表
+--
+-- 表的结构 `pm_goods_cateid`
+--
+
 CREATE TABLE `pm_goods_cateid` (
   `id` int(11) NOT NULL,
-  `goodsID` int(11) DEFAULT NULL,
-  `cateID` int(11) DEFAULT NULL,
-  `cateName` varchar(50) DEFAULT NULL,
-  `catePath` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `goodsID` int(11) NOT NULL,
+  `bigID` int(11) NOT NULL,
+  `cateID` int(11) NOT NULL,
+  `cateName` varchar(50) NOT NULL,
+  `catePath` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `pm_goods_cateid`
+--
+ALTER TABLE `pm_goods_cateid`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `pm_goods_cateid`
+--
+ALTER TABLE `pm_goods_cateid`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 
 flash表删除cid
 goodsPush删除cid

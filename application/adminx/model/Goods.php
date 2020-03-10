@@ -185,6 +185,10 @@ class Goods extends Admin
         foreach ($cate as $key => $value) {
             $arr = explode("|", $value);        
             $temp['goodsID'] = $goods_id;
+
+            $tt = explode("-", $arr[2]);
+
+            $temp['bigID'] = $tt[1];
             $temp['cateID'] = $arr[0];
             $temp['cateName'] = $arr[1];
             $temp['catePath'] = $arr[2];

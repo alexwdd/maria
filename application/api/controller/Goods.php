@@ -29,6 +29,9 @@ class Goods extends Common {
                 returnJson(0,'参数错误');
             }
 
+            $where['catePath'] = ['like',$path.'%'];
+            $ids = db("GoodsCateid")->where($where)->column('goodsID');            
+            
             $thisCate = db('GoodsCate')->field('id,name')->where('path',$path)->find();
             if(!$thisCate){
                 returnJson(0,'分类不存在');
@@ -36,7 +39,7 @@ class Goods extends Common {
 
             $cate = db('GoodsCate')->field('id,name')->where('fid',$thisCate['id'])->order('sort asc,id desc')->select();
             foreach ($cate as $key => $value) {
-                $map['cid|cid1'] = $value['id'];
+                $map['id'] = ['in',$ids];
                 $map['show'] = 1;
                 $goods = db("Goods")->where($map)->field('id,name,picname,say,price,marketPrice,comm,empty,tehui,flash,baoyou')->order('sort desc,id desc')->select();
                 foreach ($goods as $k => $val) {
@@ -176,12 +179,16 @@ class Goods extends Common {
                 $map['brandID'] = $brandID;
                 $brand = db("Brand")->where('id',$brandID)->find();
             }
-            if($cid!=''){
-                $map['cid|cid1'] = $cid;
+            if($cid!=''){    
+                $where['cateID'] = $cid;
+                $ids = db("GoodsCateid")->where($where)->column('goodsID');
+                $map['id'] = ['in',$ids];
                 $cate = db("GoodsCate")->field('id,path,name')->where('id',$cid)->find();
             }
             if($path!=''){
-                $map['path|path1'] = array('like',$path.'%');
+                $where['catePath'] = ['like',$path.'%'];
+                $ids = db("GoodsCateid")->where($where)->column('goodsID');
+                $map['id'] = ['in',$ids];
                 $cate = db("GoodsCate")->field('id,path,name')->where('path',$path)->find();
             }
             if($cate){
@@ -229,10 +236,11 @@ class Goods extends Common {
             if(!in_array($type,[1,2,3])){
                 returnJson(0,'type参数错误');
             }
-            $map['cateID'] = $type;
-
+            $map['cateID'] = $type;  
             if($cid!=''){
-                $map['cid'] = $cid;
+                $where['bigID'] = $cid;
+                $ids = db("GoodsCateid")->where($where)->column('goodsID');
+                $map['goodsID'] = ['in',$ids];
             }
 
             $obj = db('GoodsPush');
@@ -244,11 +252,11 @@ class Goods extends Common {
                 $next = 0;
             }
             $list = $obj->field('goodsID')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
-            if($list){
+            /*if($list){
                 $cateID = $obj->where($map)->group('cid')->column("cid");
                 $where['id'] = array('in',$cateID);
                 $cate = db('GoodsCate')->field('id,path,name')->where($where)->select();
-            }
+            }*/
             
             foreach ($list as $key => $value) {                
                 $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where(['show'=>1,'id'=>$value['goodsID']])->find();   
@@ -259,6 +267,14 @@ class Goods extends Common {
                 $goods['rmb'] = round($goods['price']*$this->rate,1);
                 $list[$key] = $goods;
             }
+
+            //获取大类
+            $allIds = db("GoodsPush")->where('cateID',$type)->column("goodsID");
+            unset($map);
+            $map['goodsID'] = ['in',$allIds];
+            $cateID = db('GoodsCateid')->where($map)->group('bigID')->column("bigID");         
+            $cate = db('GoodsCate')->field('id,path,name')->whereIn('id',$cateID)->select();
+
             returnJson(1,'success',['next'=>$next,'data'=>$list,'cate'=>$cate]);
         }
     }
@@ -283,7 +299,8 @@ class Goods extends Common {
                 returnJson(0,'type参数错误');
             }
             if($cid!=''){
-                $map['cid'] = $cid;
+                $ids = db("GoodsCateid")->where('bigID',$cid)->column('goodsID');
+                $map['goodsID'] = ['in',$ids];
             }
 
             $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y')); 
@@ -305,11 +322,6 @@ class Goods extends Common {
                 $next = 0;
             }
             $list = $obj->field('goodsID,goodsName,price,spec,pack,number')->where($map)->limit($firstRow.','.$pagesize)->order('id desc')->select();
-            if($list){
-                $cateID = $obj->where($map)->group('cid')->column("cid");
-                $where['id'] = array('in',$cateID);
-                $cate = db('GoodsCate')->field('id,path,name')->where($where)->select();
-            }
             
             foreach ($list as $key => $value) {                
                 $goods = db("Goods")->field('id,name,picname,price,say,marketPrice,comm,empty,tehui,flash,baoyou')->where('id',$value['goodsID'])->find();             
@@ -330,6 +342,13 @@ class Goods extends Common {
                 unset($list[$key]['pack']);
                 unset($list[$key]['number']);
             }
+
+            //获取大类
+            $allIds = db("Flash")->where($map)->column("goodsID");
+            unset($map);
+            $map['goodsID'] = ['in',$allIds];
+            $cateID = db('GoodsCateid')->where($map)->group('bigID')->column("bigID");         
+            $cate = db('GoodsCate')->field('id,path,name')->whereIn('id',$cateID)->select();
 
             $flashTime = checkFlashTime($config['flashTime']);
             returnJson(1,'success',['next'=>$next,'data'=>$list,'flashTime'=>$flashTime,'cate'=>$cate]);
@@ -385,7 +404,7 @@ class Goods extends Common {
             }
             $map['id'] = $goodsID;
             $map['show'] = 1;
-            $list = db('Goods')->field('id,fid,cid,name,picname,image,price,marketPrice,weight,point,number,content,say,endDate,intr')->where($map)->find();
+            $list = db('Goods')->field('id,fid,name,picname,image,price,marketPrice,weight,point,number,content,say,endDate,intr')->where($map)->find();
             if (!$list) {
                 returnJson(0,'不存在的商品');
             }
@@ -403,6 +422,8 @@ class Goods extends Common {
             }
             $list['picname'] = getThumb($list['picname'],200,200); 
             $list['picname'] = getRealUrl($list['picname']); 
+            $list['cid'] = db("GoodsCateid")->where('goodsID',$list['id'])->column('cateID');
+            $list['cid'] = implode(",",$list['cid']);
        
             //参数规格
             if($list['fid']>0){
