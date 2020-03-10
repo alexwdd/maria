@@ -1,7 +1,4 @@
 增加goodsCateid表
---
--- 表的结构 `pm_goods_cateid`
---
 
 CREATE TABLE `pm_goods_cateid` (
   `id` int(11) NOT NULL,
