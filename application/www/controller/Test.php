@@ -1,11 +1,13 @@
 <?php
 namespace app\www\controller;
 use app\common\controller\Base;
+use think\Db;
 
 class Test extends Base {
 
 	public function index()
 	{
+        die;
         $list = db("Goods")->select();
         foreach ($list as $key => $value) {
             $cate = db("GoodsCate")->where('id',$value['cid'])->find();
@@ -31,4 +33,17 @@ class Test extends Base {
             }
         }
 	}
+
+    public function sql(){
+        /*$res = db('Goods')
+        ->where('id','IN',function($query){
+            $query->table('pm_goods_cateid')->where('bigID',1)->field('goodsID');
+        })
+        ->limit(10)->select();*/
+        
+        $ids = db("GoodsCateid")->where('bigID',1)->column('goodsID');
+        $map['id'] = ['in',$ids];
+        $res = db("Goods")->where($map)->limit(10)->select();
+        dump($res);
+    }
 }
