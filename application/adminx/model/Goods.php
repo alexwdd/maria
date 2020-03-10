@@ -84,7 +84,9 @@ class Goods extends Admin
         $goods_id  = input('goods_id');
 
         if($path!=''){
-            $map['path'] = array('like', $path.'%');
+            $where['catePath'] = array('like', $path.'%');
+            $ids = db("GoodsCateid")->where($where)->column('goodsID');
+            $map['id'] = ['in',$ids];
         }
         if($keyword!=''){
             $map['name|short|keyword'] = array('like', '%'.$keyword.'%');
@@ -176,7 +178,27 @@ class Goods extends Admin
      * 自定义的一个函数 用于数据保存后做的相应处理操作, 使用时手动调用
      * @param int $goods_id 商品id
      */
-    public function afterSave($goods_id){         
+    public function afterSave($goods_id){
+        //处理分类
+        $cate = input('cate/a');  
+        $ids = [];
+        foreach ($cate as $key => $value) {
+            $arr = explode("|", $value);        
+            $temp['goodsID'] = $goods_id;
+            $temp['cateID'] = $arr[0];
+            $temp['cateName'] = $arr[1];
+            $temp['catePath'] = $arr[2];
+            $old = db("GoodsCateid")->where('goodsID',$goods_id)->where('cateID',$arr[0])->find();            
+            if(!$old){
+                db("GoodsCateid")->insert($temp); 
+            }
+            array_push($ids, $arr[0]);
+            unset($temp);
+        }
+        db('GoodsCateid')->where('goodsID',$goods_id)->whereNotIn('cateID',$ids)->delete();
+        
+
+
         // 商品规格价钱处理
         $goods_item = input('item/a');
         $eidt_goods_id = input('goods_id',0);

@@ -1,0 +1,48 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list">
+    {volist name="list" id="vo"}
+    <dl class="action">
+        <dt>{$vo.name}</dt>
+        <dd>
+        {volist name="vo['children']" id="f"}        
+        <li>
+        <input lay-skin="primary" lay-filter="access" type="checkbox" name="mod[]" value="{$f.id}|{$f.name}|{$f.path}" {php}if(in_array($f['id'],$ids)) echo 'checked';{/php} title="{$f.name}"/> 
+        </li>        
+        {/volist}    
+        </dd>
+    </dl>
+    {/volist}
+
+    <div class="layui-form-item" style="text-align: right; padding-right:10px">
+        <input class="layui-btn layui-btn-sm layui-btn-normal" type="button" id="selectBtn" value="确认">
+    </div>    
+</div>
+<script>
+layui.config({
+    base: '{:RES}/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index'], function() {    
+    var $ = layui.$;
+    $("html").css({"background":"#fff"});
+    
+    var index = parent.layer.getFrameIndex(window.name);
+    var item = [];
+    $("#selectBtn").click(function(){
+        $("input[type=checkbox]:checked").each(function(){
+            item.push($(this).val());  
+        })
+        if(item.length==0){
+            layer.alert("请选择分类");
+            return false;
+        }
+
+        var _html = ''
+        for (var i = 0; i < item.length; i++) {
+            let arr = item[i].split("|");
+            _html +='<li data-id="'+arr[0]+'">'+arr[1]+'<span class="layui-icon layui-icon-close"></span><input type="hidden" name="cate[]" value="'+item[i]+'"/></li>'
+        }
+        parent.layui.$(".cateList").html(_html);
+        parent.layer.close(index);
+    })
+})
+</script>

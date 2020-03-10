@@ -8,12 +8,12 @@ class Goods extends Admin
     {
         if (request()->isPost()) {
             $result       = model('Goods')->getList();
-            $cateArr      = db('GoodsCate')->column('id,name');
+            //$cateArr      = db('GoodsCate')->column('id,name');
             $brandArr      = db('Brand')->column('id,name');
             foreach ($result['data'] as $key => $value) {
-                if (isset($cateArr[$value['cid']])) {
+                /*if (isset($cateArr[$value['cid']])) {
                     $result['data'][$key]['cate'] = $cateArr[$value['cid']];
-                }
+                }*/
                 if (isset($brandArr[$value['brandID']])) {
                     $result['data'][$key]['brand'] = $brandArr[$value['brandID']];
                 }
@@ -41,7 +41,7 @@ class Goods extends Admin
                     $goods_id = $data['id'];
                 }else{
                     $goods_id = $goods->getLastInsID();
-                }                
+                } 
                 $goods->afterSave($goods_id);
 
                 //删除抢购
@@ -53,12 +53,12 @@ class Goods extends Admin
             }
             return $result;
         }else{
-            $cate = model("GoodsCate")->getCate();
+            /*$cate = model("GoodsCate")->getCate();
             foreach ($cate as $key => $value) {
                 $count               = count(explode('-', $value['path'])) - 3;
                 $cate[$key]['count'] = $count;
             }
-            $this->assign('cate', $cate);
+            $this->assign('cate', $cate);*/
 
             $linkGoods = [];
             $id = input('get.id');
@@ -77,6 +77,10 @@ class Goods extends Admin
                     $image = [];
                 }
                 $this->assign('image', $image);
+
+                //商品分类
+                $cate = db("GoodsCateid")->where('goodsID',$id)->select();
+                $this->assign('cate',$cate);
 
                 //套餐
                 $pack = db("Goods")->where('fid',$id)->select();
@@ -114,6 +118,44 @@ class Goods extends Admin
         }
     }
 
+    public function category(){
+        $list = db("GoodsCate")->where('fid',0)->order('sort asc')->select();
+        foreach ($list as $key => $value) {
+            $list[$key]['children'] = db("GoodsCate")->where('fid',$value['id'])->select();
+        }
+
+        $ids = input('get.ids');
+        $ids = explode("-", $ids);
+
+        $this->assign('list',$list);
+        $this->assign('ids',$ids);
+        return view();
+    }
+
+    public function changeStatus() {
+        $id = explode(",",input('post.id'));
+        $show = input('param.show');
+        if (count($id)==0) {
+            $this->error('请选择要操作的数据');
+        }else{
+            $map['id'] = ['in',$id];
+            $res = db('Goods')->where($map)->setField('show',$show);
+            if($res){
+                //删除抢购
+                if($show==0){
+                    unset($map);
+                    $map['goodsID'] = ['in',$id];
+                    db("Flash")->where($map)->delete();
+                    db("GoodsPush")->where($map)->delete();
+                    cache('flash', NULL);
+                }
+                $this->success("操作成功");
+            }else{
+                $this->error('操作失败');
+            }
+        }
+    }
+
     public function getPack(){
         $res = $this->fetch();        
         echo $res;
@@ -139,6 +181,7 @@ class Goods extends Admin
             db("GoodsSpecPrice")->whereIn('goods_id', $id)->delete(); //商品属性
             db('GoodsPush')->whereIn('goodsID', $id)->delete();
             db('Flash')->whereIn('goodsID', $id)->delete();
+            db('GoodsCateid')->whereIn('goodsID', $id)->delete();
             $this->success("操作成功");
         }
     }
@@ -166,7 +209,7 @@ class Goods extends Admin
                             'goodsID'=>$v,
                             'goodsName'=>$goods['name'],
                             'cateID'=>$cateID,
-                            'cid'=>$temp[1],
+                            //'cid'=>$temp[1],
                             'updateTime'=>time()
                         ];
                         $db->insert($data);

@@ -1,3 +1,11 @@
-couponShare
+增加goodsCateid表
+CREATE TABLE `pm_goods_cateid` (
+  `id` int(11) NOT NULL,
+  `goodsID` int(11) DEFAULT NULL,
+  `cateID` int(11) DEFAULT NULL,
+  `cateName` varchar(50) DEFAULT NULL,
+  `catePath` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
-coupon fromID
+flash表删除cid
+goodsPush删除cid
