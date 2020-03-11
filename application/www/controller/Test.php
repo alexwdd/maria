@@ -7,8 +7,7 @@ class Test extends Base {
 
 	public function index()
 	{
-        die;
-        $list = db("Goods")->select();
+        $list = db("Goods")->order('id asc')->select();
         foreach ($list as $key => $value) {
             $cate = db("GoodsCate")->where('id',$value['cid'])->find();
             if($cate){
@@ -30,7 +29,7 @@ class Test extends Base {
                     $temp['catePath'] = $cate['path'];
                     db("GoodsCateid")->insert($temp); 
                 }
-            }
+            }  
         }
 	}
 
