@@ -124,6 +124,8 @@ class Account extends Auth {
         }
     }
 
+
+
     public function getGift(){
         if (request()->isPost()) { 
             if(!checkFormDate()){returnJson(0,'ERROR');}
@@ -690,7 +692,61 @@ class Account extends Auth {
         }       
     }
 
-    //我的收藏
+    public function fina(){
+        if(request()->isPost()){
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $fina = $this->getUserMoney($this->user['id']);
+            returnJson(1,'success',['fina'=>$fina]);
+        }
+    }
+
+    public function pointDetail(){
+        if(request()->isPost()){
+            if(!checkFormDate()){returnJson(0,'ERROR');}
+            $page = input('post.page/d',1);
+            $type = input('post.type');
+            $pagesize = input('post.pagesize',5);
+
+            $firstRow = $pagesize*($page-1);
+            $nowMonth = date("Y-m").'-01';
+            $start = date('Y-m', strtotime("$nowMonth -".$firstRow." month")).'-01'; 
+            
+            $data = [];
+            for ($i=0; $i < $pagesize; $i++) {                 
+                $end = date('Y-m-d H:i:s', strtotime("$start +1 month -1 second"));
+
+                $map['createTime'] = array('between',array(strtotime($start),strtotime($end)));
+                $map['type'] = ['in',[1,2,8,9]];
+                $map['memberID'] = $this->user['id'];
+                $child = db('Finance')->where($map)->select();
+                $total = 0;
+                foreach ($child as $key => $value) {
+                    $child[$key]['createTime'] = date("Y-m-d H:i:s",$value['createTime']);
+                    $child[$key]['typeName'] = getMoneyType($value['type']);
+                    if($value['type']==8){
+                        $total -= $value['money'];
+                    }else{
+                        $total += $value['money'];
+                    }
+                }
+
+                array_push($data,[
+                    'month'=>date("m月",strtotime($start)),
+                    'total'=>$total,
+                    'child'=>$child,
+                ]);
+
+                $start = date('Y-m', strtotime("$start -1 month")).'-01';
+            }
+            if($page>4){
+                $next = 0;
+            }else{
+                $next = 1;
+            }
+            returnJson(1,'success',['next'=>$next,'data'=>$data]);
+        }
+    }
+
     public function finance(){
         if(request()->isPost()){
             if(!checkFormDate()){returnJson(0,'ERROR');}
